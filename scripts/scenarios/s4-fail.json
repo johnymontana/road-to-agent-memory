@@ -1,0 +1,13 @@
+{
+  "name": "s4-fail",
+  "module": 4,
+  "description": "Deliberately failed trace: a $400 refund on the Pro plan exceeds the $250 no-approval limit — issue_refund rejects it. Failures are first-class memory.",
+  "sessions": [
+    {
+      "id": "s4-b",
+      "messages": [
+        "This is Maya Chen (maya.chen@northwind.example). Our team also got billed $400 for spot capacity we never used on Acme Cloud Compute. Just refund the whole thing please."
+      ]
+    }
+  ]
+}

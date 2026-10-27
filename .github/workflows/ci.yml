@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Weekly re-verification: the behavioral lane re-runs against live services so a
+    # NAMS deploy or OpenAI model re-point invalidates assumptions in CI, not on stage.
+    - cron: "0 7 * * 1"
+
+env:
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - run: uv sync --frozen
+      - run: uv run ruff check .
+      - run: uv run pytest tests/ -m "not behavioral" -x -q
+      - run: uv lock --check
+      - run: npm --prefix web ci && npm --prefix web run build
+
+  devcontainer:
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.modified, '.devcontainer') || github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the devcontainer
+        run: |
+          npm install -g @devcontainers/cli
+          devcontainer build --workspace-folder . --image-name workshop-devcontainer-ci
+
+  behavioral:
+    # P3: the workshop's real test lane — scenarios vs golden snapshots against
+    # ephemeral Neo4j. Runs weekly + on manual dispatch (spends LLM tokens).
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --frozen
+      - run: docker run -d --name neo4j -p 7687:7687 -e NEO4J_AUTH=neo4j/testpassword neo4j:5.26
+      - run: sleep 20
+      - env:
+          RUN_BEHAVIORAL: "1"
+          NEO4J_URI: bolt://localhost:7687
+          NEO4J_USERNAME: neo4j
+          NEO4J_PASSWORD: testpassword
+        run: uv run pytest tests/test_behavioral.py -q

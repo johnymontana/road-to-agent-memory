@@ -1,0 +1,65 @@
+// Road to Agent Memory — GitHub Codespaces configuration (ADR 003: Codespaces-first)
+// Docs: https://containers.dev/implementors/json_reference/
+{
+  "name": "Road to Agent Memory (Neo4j workshop)",
+
+  // Custom image: Python 3.12 + sqlite3 + uv (see Dockerfile).
+  // Node.js arrives via a devcontainer Feature below.
+  "build": { "dockerfile": "Dockerfile" },
+
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "lts" }
+  },
+
+  // Default attendees to a 4-core / 8 GB machine (vs. the 2-core default) —
+  // headroom for FastAPI + Vite + synchronous memory writes per chat turn.
+  // Codespaces auto-selects the smallest machine type meeting these numbers.
+  "hostRequirements": { "cpus": 4, "memory": "8gb" },
+
+  // Frontend opens in a browser tab automatically; the backend forwards quietly.
+  "forwardPorts": [5173, 8000],
+  "portsAttributes": {
+    "5173": {
+      "label": "SupportBot UI (chat / graph / trace)",
+      "onAutoForward": "openBrowserOnce"
+    },
+    "8000": {
+      "label": "FastAPI backend",
+      "onAutoForward": "silent"
+    }
+  },
+  "otherPortsAttributes": { "onAutoForward": "silent" },
+
+  // Non-secret defaults. Secrets NEVER live here — attendees provide keys via
+  // their personal Codespaces secrets (OPENAI_API_KEY, repo-scoped) or .env.
+  "containerEnv": {
+    "NEO4J_DATABASE": "neo4j",
+    "UV_LINK_MODE": "copy"
+  },
+
+  // Heavy, user-independent setup — captured by GitHub Codespaces PREBUILDS,
+  // so attendees never wait for it. Keep dependency installs here, not in
+  // postCreateCommand (prebuilds run only onCreate/updateContent).
+  "onCreateCommand": "bash .devcontainer/on-create.sh",
+
+  // Re-run on content refresh so prebuild updates re-resolve the lockfile.
+  "updateContentCommand": "uv sync --frozen && npm --prefix web ci",
+
+  // User-scoped, fast steps only: .env scaffolding + welcome banner.
+  // Personal Codespaces secrets (OPENAI_API_KEY) are visible from here onward.
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "charliermarsh.ruff",
+        "tamasfe.even-better-toml",
+        "dbaeumer.vscode-eslint"
+      ]
+    },
+    "codespaces": {
+      "openFiles": [".env", "README.md"]
+    }
+  }
+}

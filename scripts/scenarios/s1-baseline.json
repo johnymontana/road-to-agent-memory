@@ -1,0 +1,24 @@
+{
+  "name": "s1-baseline",
+  "module": 1,
+  "description": "Billing-issue ticket, stateless agent. The customer never states their email until asked directly — and a second session shows zero continuity.",
+  "sessions": [
+    {
+      "id": "s1-a",
+      "messages": [
+        "Hi — I think I was double-charged for my Acme Cloud Compute subscription this month. Can you check?",
+        "I'm on the Pro plan, if that helps. The charge was $49, twice, on the same day.",
+        "My email is maya.chen@northwind.example.",
+        "While you're at it — is the Billing API having issues today? Our webhook deliveries look delayed."
+      ]
+    },
+    {
+      "id": "s1-b",
+      "comment": "The customer 'returns' in a new chat. Watch the agent ask who they are again.",
+      "messages": [
+        "Hi, it's me again — about that double charge from earlier. Any update?",
+        "I'm Maya Chen, from Northwind Robotics. We talked about the duplicate $49 charge for Acme Cloud Compute."
+      ]
+    }
+  ]
+}

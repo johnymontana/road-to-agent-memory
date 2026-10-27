@@ -1,0 +1,16 @@
+{
+  "name": "s3-ontology",
+  "module": 3,
+  "description": "Entity-rich dialogue for the extraction before/after beat (used for both s3-default and s3-ontology). Exercises every ontology entity type, the Acme Cloud / AcmeCloud alias pair, the WORKS_AT/SUBSCRIBES_TO/USES patterns twice (support >= 2), and a scripted preference.",
+  "sessions": [
+    {
+      "id": "s3-a",
+      "messages": [
+        "Hi, I'm Maya Chen — I work at Northwind Robotics, and we're on the Pro plan. The Billing API charged us twice for Acme Cloud Compute again.",
+        "Ravi Shah also works at Northwind Robotics and he's on the Pro plan too — he reported the same duplicate-charge incident yesterday.",
+        "We use Acme Cloud Compute and the Acme Cloud Billing API in production. Honestly AcmeCloud has been great otherwise.",
+        "One more thing: I prefer email over phone for support follow-ups."
+      ]
+    }
+  ]
+}

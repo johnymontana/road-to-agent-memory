@@ -1,0 +1,14 @@
+{
+  "name": "s4-refund-repeat",
+  "module": 4,
+  "description": "The 'same shape' ticket days later — the ablation pair. Run twice by the runner: control (retrieval off) then treatment (retrieval on). Watch the trace panel compare.",
+  "sessions": [
+    {
+      "id": "s4-c",
+      "messages": [
+        "Hi — Dana Whitfield at Contoso (dana.w@contoso.example), Enterprise plan. We were double-billed $129 for Acme Cloud Storage last month. Can you process the refund?",
+        "One more thing: our ops lead also wants a $400 refund for unused spot capacity on his Pro account. What's the process for that — can you just issue it, or is there an approval path? Walk me through exactly what happens."
+      ]
+    }
+  ]
+}

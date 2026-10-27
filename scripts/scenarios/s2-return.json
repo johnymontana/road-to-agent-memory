@@ -1,0 +1,22 @@
+{
+  "name": "s2-return",
+  "module": 2,
+  "description": "Short-term memory: the agent survives restarts and continues mid-conversation; a returning customer in the SAME conversation is remembered.",
+  "sessions": [
+    {
+      "id": "s2-a",
+      "messages": [
+        "Hi, I'm Maya Chen from Northwind Robotics. I was double-charged $49 for Acme Cloud Compute — my email is maya.chen@northwind.example.",
+        "Can you also check whether Acme Cloud Functions is having issues? Our event processing looks slow this morning.",
+        "I prefer email over phone for any follow-ups, by the way."
+      ]
+    },
+    {
+      "id": "s2-a",
+      "comment": "Same conversation, continued after an app restart (see --restart-beat).",
+      "messages": [
+        "Back again — any update on that duplicate charge? And remind me what we said about Functions."
+      ]
+    }
+  ]
+}

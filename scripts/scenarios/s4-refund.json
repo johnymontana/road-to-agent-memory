@@ -1,0 +1,13 @@
+{
+  "name": "s4-refund",
+  "module": 4,
+  "description": "First refund ticket — inside the Pro plan's no-approval limit, so issue_refund succeeds and the trace records the canonical procedure (lookup_account → fetch_policy → issue_refund).",
+  "sessions": [
+    {
+      "id": "s4-a",
+      "messages": [
+        "Hi, Maya Chen again (maya.chen@northwind.example). That duplicate $49 Acme Cloud Compute charge was never refunded — can you issue the refund now? It's within my Pro plan terms."
+      ]
+    }
+  ]
+}

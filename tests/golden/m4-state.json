@@ -1,0 +1,46 @@
+{
+  "scenario": "m4-state",
+  "module": 4,
+  "generated_by": "scripts/capture_golden.py \u2014 regenerate at each module's Phase 3 exit",
+  "exact": {
+    "labels_present": [
+      "Company",
+      "Conversation",
+      "Customer",
+      "Entity",
+      "Event",
+      "Incident",
+      "Location",
+      "Message",
+      "Object",
+      "Organization",
+      "Person",
+      "Plan",
+      "Product",
+      "ReasoningStep",
+      "ReasoningTrace",
+      "SchemaMigration",
+      "Tool",
+      "ToolCall"
+    ],
+    "relationship_types": [
+      "FIRST_MESSAGE",
+      "HAS_MESSAGE",
+      "HAS_STEP",
+      "INSTANCE_OF",
+      "MENTIONS",
+      "NEXT_MESSAGE",
+      "RELATED_TO",
+      "SAME_AS",
+      "USES_TOOL"
+    ],
+    "trace_count": 9,
+    "failed_trace_count": 1
+  },
+  "aspirational": {
+    "entity_count_range": [
+      26,
+      32
+    ]
+  }
+}

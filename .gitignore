@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+data/acme_cloud.db
+node_modules/
+web/node_modules/
+web/dist/
+.tutorial-state/
+.pytest_cache/
+.ruff_cache/
+playwright-report/
+artifacts/screenshots/
+.DS_Store

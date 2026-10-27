@@ -1,0 +1,15 @@
+{
+  "scenario": "m3-state",
+  "module": 3,
+  "generated_by": "observed at the module-3 boundary of the clean-room run (s2-return + s3-default + s3-ontology) — regenerate via scripts/capture_golden.py after any change",
+  "exact": {
+    "labels_present": ["Company", "Conversation", "Customer", "Entity", "Event", "Incident", "Message", "Object", "Organization", "Person", "Plan", "Product"],
+    "relationship_types": ["FIRST_MESSAGE", "HAS_MESSAGE", "MENTIONS", "NEXT_MESSAGE", "RELATED_TO"],
+    "trace_count": 0,
+    "failed_trace_count": 0,
+    "notes": "All five ontology entity types (Customer, Organization, Product, Plan, Incident) present; typed RELATED_TO edges limited to declared ontology patterns (WORKS_AT, USES, SUBSCRIBES_TO, REPORTED, AFFECTS); USES should reach support=2 (stated twice in the scenario). No reasoning labels at this boundary."
+  },
+  "aspirational": {
+    "entity_count_range": [6, 14]
+  }
+}

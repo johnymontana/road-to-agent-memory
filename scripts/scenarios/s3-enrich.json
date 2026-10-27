@@ -1,0 +1,13 @@
+{
+  "name": "s3-enrich",
+  "module": 3,
+  "description": "Stretch beat: mentions a real third party (Stripe) so Wikipedia enrichment lands on the extracted Organization entity.",
+  "sessions": [
+    {
+      "id": "s3-b",
+      "messages": [
+        "We pipe Acme Cloud Billing API webhooks into Stripe for our payments flow. Is Stripe showing any issues on your side? Our invoices from Acme Cloud aren't reconciling with Stripe payouts."
+      ]
+    }
+  ]
+}

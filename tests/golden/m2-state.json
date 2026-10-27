@@ -1,0 +1,15 @@
+{
+  "scenario": "m2-state",
+  "module": 2,
+  "generated_by": "observed at the module-2 boundary of the clean-room run (s2-return) — regenerate via scripts/capture_golden.py after any change",
+  "exact": {
+    "labels_present": ["Conversation", "Message"],
+    "relationship_types": ["FIRST_MESSAGE", "HAS_MESSAGE", "NEXT_MESSAGE"],
+    "trace_count": 0,
+    "failed_trace_count": 0,
+    "notes": "Module 2 runs with extraction disabled — the graph must contain ONLY short-term structures. Any Entity/ReasoningTrace label here is a regression."
+  },
+  "aspirational": {
+    "entity_count_range": [0, 0]
+  }
+}
