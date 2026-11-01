@@ -19,12 +19,12 @@ sys.path.insert(0, str(ROOT))
 async def main(path: str) -> None:
     from neo4j_agent_memory import MemoryClient, load_ontology
 
-    from lib.memory import build_settings
     from lib.settings import get_settings
+    from module_3.app.memory import build_settings
 
     s = get_settings()
     doc = load_ontology(path)
-    async with MemoryClient(build_settings(s, 3)) as client:
+    async with MemoryClient(build_settings(s)) as client:
         version = await client.ontology.create(doc.domain.name, doc, validation_mode="permissive")
         await client.ontology.activate(version.id)
         print(f"Ontology '{doc.domain.name}' stored and activated (version {version.id}).")
@@ -34,4 +34,5 @@ async def main(path: str) -> None:
 
 
 if __name__ == "__main__":
-    asyncio.run(main(sys.argv[1] if len(sys.argv) > 1 else str(ROOT / "ontology/acme_cloud.yaml")))
+    default = ROOT / "module_3" / "ontology" / "acme_cloud.yaml"
+    asyncio.run(main(sys.argv[1] if len(sys.argv) > 1 else str(default)))

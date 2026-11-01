@@ -1,5 +1,9 @@
 # Module 4 — Reasoning Memory
 
+Code-reading map: [module_4/README.md](../../module_4/README.md). Start with
+[`module_4/app/agent.py`](../../module_4/app/agent.py); the full agent is local to this lesson.
+
+
 Modules 2–3 remembered *what was said* and *what is true*. This module remembers *what
 the agent did* — every step, every tool call, every outcome — so it can recall
 procedures instead of re-deriving them.
@@ -38,7 +42,7 @@ procedures instead of re-deriving them.
 
 ## Answer key
 
-1. The trace reads like a story: the task (a refund request) → a chain of `AgentStep` nodes, each with its `ToolCall` (`lookup_account`, then `fetch_policy("refund")`, then `issue_refund`) → an outcome node (success). It's the agent's own execution, stored as a graph you can query like any other data.
+1. The trace reads like a story: the task (a refund request) → a chain of `ReasoningStep` nodes, each with its `ToolCall` (`lookup_account`, then `fetch_policy("refund")`, then `issue_refund`) → an outcome node (success). It's the agent's own execution, stored as a graph you can query like any other data.
 2. Similar-task retrieval returns yesterday's successful refund trace, and the agent primes on it: it follows the same tool order, skips the re-derivation (and the dead ends), and acts with more confidence — visible in the side-by-side control/treatment run as fewer steps and fewer tokens.
 3. "Have you handled a ticket like this before?" Short-term memory knows what was said and long-term memory knows what is true — but only reasoning memory makes past *procedures* retrievable.
 4. The failed trace shows an over-limit refund attempt that `issue_refund` rejected after the policy check. The next agent can retrieve this failure and check the limit *before* attempting the write. Failures as first-class memory means the agent learns what not to do — a lesson, not a lost log line.

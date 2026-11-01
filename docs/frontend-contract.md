@@ -55,6 +55,6 @@ Runs the continuity eval-question set against the current agent; returns:
 ## Conventions
 - Node `labels` drive graph-panel coloring via the memory-type palette:
   short-term (Conversation/Message) `#B2F2BB` / long-term (Entity*) `#FFEC99` /
-  reasoning (ReasoningTrace/AgentStep/ToolCall) `#D0BFFF` / skills (Skill*) `#6366F1`.
+  reasoning (ReasoningTrace/ReasoningStep/ToolCall) `#D0BFFF` / skills (Skill*) `#6366F1`.
 - Chat is synchronous request/response (no websockets in v1); the trace panel renders
   `tool_calls` from the latest response; the graph panel refetches after each reply.

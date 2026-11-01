@@ -20,17 +20,15 @@ async def main() -> None:
     from neo4j_agent_memory.integrations.pydantic_ai import record_agent_trace
     from pydantic_ai import Agent
 
-    from lib.memory import open_memory
     from lib.settings import get_settings
+    from module_4.app.memory import open_memory
 
     settings = get_settings()
-    async with open_memory(settings, 4) as memory:
+    async with open_memory(settings) as memory:
         assert memory is not None
 
         # A real agent run on the built-in test model (free, deterministic).
-        agent = Agent("test", output_type=str, tools=[
-            lambda: "Pro plan, refund limit $250"
-        ])
+        agent = Agent("test", output_type=str, tools=[lambda: "Pro plan, refund limit $250"])
         result = await agent.run("process the refund")
 
         print("== record_agent_trace ==")
@@ -53,8 +51,7 @@ async def main() -> None:
 
         print("\n== graph shape (AgentStep / ToolCall / TOUCHED) ==")
         rows = await memory.query.cypher(
-            "MATCH (n) RETURN labels(n) AS labels, count(*) AS n "
-            "ORDER BY n DESC"
+            "MATCH (n) RETURN labels(n) AS labels, count(*) AS n ORDER BY n DESC"
         )
         for row in rows:
             print(f"  {row['labels']}: {row['n']}")

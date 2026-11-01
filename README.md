@@ -42,16 +42,52 @@ Per-module guides with tiered exploration questions and answer keys:
 ## Repo layout
 
 ```
-module_1/ … module_5/   # the app at each stage — diff folders to see memory land (ADR 004)
-lib/                    # shared machinery (tools, memory wiring, hydration, graph API)
+module_1/ … module_5/   # complete agent snapshots + a code-reading README per stage
+lib/                    # shared SQL, settings, HTTP transport, graph serialization, dispatch
 web/                    # React + NVL frontend (chat / graph / trace panels)
 scripts/              # scenario runner, seeders, eval, NAMS scripts (driven by make targets)
-ontology/             # acme_cloud.yaml (custom ontology) + default-poleo.yaml (before/after beat)
-tests/                # command-surface, seed, golden-graph snapshots, behavioral lane
+module_3/ontology/    # local ontology variants (also copied into modules 4 and 5)
+tests/                # module agents, runners, HTTP, NAMS choreography, live rehearsal
 slides/               # instructor deck (Marp) + Excalidraw diagram sources
 docs/                 # glossary, module guides, pre-work, run-of-show, teardown, ADRs
 artifacts/            # pre-distilled skill fallback (module 5)
 ```
+
+## Read and compare the agents
+
+Each lesson owns its complete implementation: start at [module 1](module_1/README.md),
+then [module 2](module_2/README.md), [module 3](module_3/README.md),
+[module 4](module_4/README.md), and [module 5](module_5/README.md).
+Prompts, tools, memory wiring and orchestration are local; duplication is deliberate.
+
+```bash
+diff -ru module_2/app module_3/app
+```
+
+Run commands from the repo root. At a stage transition, Ctrl+C the server, run
+`make dev MODULE=N`, and reload the browser. Run `make eval MODULE=N` explicitly.
+`make module-N` replays selected scenarios; it neither switches the server nor
+restores a full checkpoint. Scenario output is in the terminal; browser chat/trace
+only show browser requests. Reload or change the graph filter after a terminal run.
+
+Module 5's hosted workflows live under `module_5/workflows/`; the root scripts retain
+stable Make targets. The fresh agent is `module_5/app/fresh_agent.py`. Use
+`make s5-fresh-agent WITH_SKILL=fallback` when live NAMS distillation is unavailable.
+
+## Verify
+
+```bash
+uv run pytest tests/ -m "not behavioral" -q
+RUN_BEHAVIORAL=1 uv run pytest tests/test_behavioral.py -v
+```
+
+The second command uses configured Neo4j and OpenAI services, writes uniquely named
+workshop conversations, and uses temporary SQLite data. It never resets the graph.
+NAMS lifecycle parity needs a separate configured-workspace rehearsal; offline HTTP
+contract tests do not verify the hosted deployment.
+
+See the [module evaluation report](docs/module-evaluation.md) for the verified
+behavior of each stage and the remaining live-service checks.
 
 ## Status
 

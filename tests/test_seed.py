@@ -18,8 +18,13 @@ def seeded_db(tmp_path: Path) -> sqlite3.Connection:
 
     seed = importlib.import_module("scripts.seed_sqlite")
     importlib.reload(seed)
-    seed.main()
-    return dbx.connect(ROOT / "data" / "acme_cloud.db")
+    original = seed.DB_PATH
+    seed.DB_PATH = tmp_path / "acme_cloud.db"
+    try:
+        seed.main()
+        return dbx.connect(seed.DB_PATH)
+    finally:
+        seed.DB_PATH = original
 
 
 def test_all_tables_seeded(tmp_path):

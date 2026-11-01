@@ -28,7 +28,7 @@ Neo4j, graphs, or PydanticAI. Linked from every module README.
 - <a id="short-term-memory"></a>**Short-term memory** — The stored record of the current conversation (the messages, in order) so the agent survives restarts and continues mid-chat.
 - <a id="long-term-memory"></a>**Long-term memory** — The facts and entities distilled from conversations — who the customer is, their plan, their preferences — that persist across sessions.
 - <a id="reasoning-memory"></a>**Reasoning memory** — Records of *how* the agent solved past tasks (steps, tool calls, outcomes) so it can recall procedures, not just facts.
-- <a id="ontology"></a>**Ontology** — A written definition of what kinds of things and relationships exist in your domain (here, `ontology/acme_cloud.yaml`) — a schema that extraction must follow.
+- <a id="ontology"></a>**Ontology** — A written definition of what kinds of things and relationships exist in your domain (here, `module_3/ontology/acme_cloud.yaml`) — a schema that extraction must follow.
 - <a id="poleo"></a>**POLE+O** — The memory library's built-in generic ontology (Person, Organization, Location, Event, + Object), which this workshop replaces with an Acme Cloud–specific one.
 - <a id="entity-extraction"></a>**Entity extraction** — Automatically finding the people, companies, products, etc. mentioned in a conversation and adding them to the graph as typed nodes.
 - <a id="entity-resolution"></a>**Entity resolution** — Recognizing that two mentions ("Acme Cloud" and "AcmeCloud") are the same thing and merging them into one node.

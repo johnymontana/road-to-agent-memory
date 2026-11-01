@@ -9,6 +9,9 @@ M1 15 · M2 25 · M3 40 · buffer 5 · M4 25 · M5 20 · Wrap 5.
 - The instructor never leaves the podium to fix an attendee's machine — helpers own
   environment issues (see *Triage policy* below).
 - At every module boundary, run the folder-transition script **verbatim** (below).
+- Run eval as `make eval MODULE=N`; scenario commands write to AuraDB but print their
+  chat/tool results in the terminal. Reload or change the graph filter afterward.
+- Code walkthroughs start at `module_N/app/agent.py`, then local `tools.py` and memory files.
 
 ---
 
@@ -54,7 +57,7 @@ M1 15 · M2 25 · M3 40 · buffer 5 · M4 25 · M5 20 · Wrap 5.
 |---|---|---|---|---|---|
 | 0:55–1:02 | Concept | Entities vs. messages; D-08 ontology-driven extraction; D-10 hybrid pipeline — "structure from the LLM, facts from SQLite" (the design-principle slide) | Listen | — | Merge D-08/D-10 into one walkthrough |
 | 1:02–1:10 | Before/after | `make s3-default` (generic POLE+O soup) then `make s3-ontology` (typed bloom) on the *same* scenario. This is the module's money shot — protect it | Run both; compare graphs (core Q2) | `make s3-default`, `make s3-ontology` | Never cut the before/after; cut concept slides instead |
-| 1:10–1:18 | Ontology tour | Walk `ontology/acme_cloud.yaml`: annotation-guideline descriptions with negative cases, typed relationships, aliases. Instructor-led Q5 (rewrite a description without negative cases, re-run, watch false positives) | Follow along | — | Demo the negative-case edit only, skip the re-run (narrate the expected diff) |
+| 1:10–1:18 | Ontology tour | Walk `module_3/ontology/acme_cloud.yaml`: annotation-guideline descriptions with negative cases, typed relationships, aliases. Instructor-led Q5 (rewrite a description without negative cases, re-run, watch false positives) | Follow along | — | Demo the negative-case edit only, skip the re-run (narrate the expected diff) |
 | 1:18–1:25 | Hydration & provenance | Click a `Customer` node: property provenance (core Q3); `:MENTIONS` walk-back (core Q1); instructor-led Q7 hydration upsert (plan upgraded in SQLite between runs) | Core questions 1, 3, 4 | — | Pick *one* of Q5/Q7 to demo live, not both |
 | 1:25–1:30 | Strict vs. permissive + enrichment | Instructor-led Q6 (strict mode drops undeclared types). Show the **pre-warmed Stripe node** in passing — "Wikipedia enrichment; stretch material, screenshot in the README" — and move on | Listen | (`make s3-enrich` only if well ahead) | Enrichment is stretch — never run it on the critical path |
 | 1:30–1:35 | Eval checkpoint + buffer | `make eval` — the scorecard flips its first long-term answers green | Run `make eval` | `make eval` | — |
@@ -116,7 +119,7 @@ is the next droppable section.
 
 - **NAMS signup or service issues at module 5** → switch to the fallback kit in
   `artifacts/`: play the pre-recorded distillation video, and have attendees run
-  `make s5-fallback` (loads the pre-distilled SKILL.md + exported skill subgraph from
+  `make s5-fresh-agent WITH_SKILL=fallback` (loads the pre-distilled SKILL.md + exported skill subgraph from
   `artifacts/pre-distilled-skill/`). The payoff — fresh agent loading a skill —
   survives a full NAMS outage. Announce it matter-of-factly: "NAMS is early access;
   this is the same artifact, pre-baked."

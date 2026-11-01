@@ -1,5 +1,4 @@
-"""FastAPI app factory — every module_N/app/main.py calls create_app(N).
-Endpoints implement docs/frontend-contract.md."""
+"""Shared HTTP transport; every lesson supplies its own complete agent factory."""
 
 from __future__ import annotations
 
@@ -10,10 +9,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from .chat import ChatService
-from .graph import bolt_graph, nams_graph
-from .memory import open_memory
+from .graph import bolt_graph
 from .settings import get_settings
+from .workshop import AgentFactory
 
 
 class ChatRequest(BaseModel):
@@ -21,18 +19,17 @@ class ChatRequest(BaseModel):
     session_id: str | None = None
 
 
-def create_app(module: int) -> FastAPI:
+def create_app(agent_factory: AgentFactory, *, title: str, nams_graph_reader=None) -> FastAPI:
     settings = get_settings()
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        ontology = settings.ontology_path if module >= 3 else None
-        async with open_memory(settings, module, ontology_path=ontology) as memory:
-            app.state.memory = memory
-            app.state.chat = ChatService(settings, module, memory)
+        async with agent_factory(settings) as chat:
+            app.state.memory = chat.memory
+            app.state.chat = chat
             yield
 
-    app = FastAPI(title=f"SupportBot — module {module}", lifespan=lifespan)
+    app = FastAPI(title=title, lifespan=lifespan)
     app.add_middleware(
         CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"]
     )
@@ -41,7 +38,7 @@ def create_app(module: int) -> FastAPI:
     async def health() -> dict[str, Any]:
         return {
             "status": "ok",
-            "module": module,
+            "module": app.state.chat.module,
             "memory_layers": app.state.chat.memory_layers,
         }
 
@@ -57,7 +54,9 @@ def create_app(module: int) -> FastAPI:
 
     @app.get("/api/graph/nams")
     async def graph_nams() -> dict[str, Any]:
-        return await nams_graph(settings)
+        if nams_graph_reader is None:
+            return {"nodes": [], "relationships": [], "unavailable": True}
+        return await nams_graph_reader(settings)
 
     @app.get("/api/eval")
     async def eval_endpoint() -> dict[str, Any]:

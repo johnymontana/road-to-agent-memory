@@ -19,18 +19,17 @@ REASONING_LABELS = ["ReasoningTrace", "ReasoningStep", "ToolCall"]
 
 
 async def main(name: str) -> None:
-    from lib.memory import open_memory
     from lib.settings import get_settings
+    from lib.workshop import open_agent
 
     settings = get_settings()
-    async with open_memory(settings, 4) as memory:
+    async with open_agent(4, settings) as agent:
+        memory = agent.memory
         assert memory is not None
         labels = await memory.query.cypher(
             "MATCH (n) UNWIND labels(n) AS l RETURN DISTINCT l AS label ORDER BY l"
         )
-        entity_count = (
-            await memory.query.cypher("MATCH (e:Entity) RETURN count(e) AS n")
-        )[0]["n"]
+        entity_count = (await memory.query.cypher("MATCH (e:Entity) RETURN count(e) AS n"))[0]["n"]
         rel_types = await memory.query.cypher(
             "MATCH ()-[r]->() RETURN DISTINCT type(r) AS t ORDER BY t"
         )
@@ -60,8 +59,7 @@ async def main(name: str) -> None:
     print(f"wrote {path}")
     print(f"  labels: {snapshot['exact']['labels_present']}")
     print(f"  relationships: {snapshot['exact']['relationship_types']}")
-    print(f"  entities: {entity_count} (±3), traces: {traces['n']} "
-          f"({traces['failed']} failed)")
+    print(f"  entities: {entity_count} (±3), traces: {traces['n']} ({traces['failed']} failed)")
 
 
 if __name__ == "__main__":

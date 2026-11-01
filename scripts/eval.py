@@ -58,8 +58,8 @@ async def run_eval(chat) -> dict:
     # Session A: primed with a real exchange — q2 tests short-term recall of it.
     session_a = f"eval-a-{chat.module}"
     await chat.chat(PRIME_MESSAGE, session_id=session_a)
-    # Session B: FRESH, no identifiers — tools and short-term memory cannot
-    # answer identity questions here; only long-term/reasoning memory can.
+    # Session B is fresh. Bolt can retrieve cross-session relevant messages;
+    # these keyword checks illustrate recall, not causal isolation of layers.
     session_b = f"eval-b-{chat.module}"
     for q in EVAL_QUESTIONS:
         session = session_a if q["id"] == "q2" else session_b
@@ -74,17 +74,14 @@ async def main() -> None:
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--module", type=int, default=1)
+    parser.add_argument("--module", type=int, choices=range(1, 6), default=1)
     args = parser.parse_args()
 
-    from lib.chat import ChatService
-    from lib.memory import open_memory
     from lib.settings import get_settings
+    from lib.workshop import open_agent
 
     settings = get_settings()
-    ontology = settings.ontology_path if args.module >= 3 else None
-    async with open_memory(settings, args.module, ontology_path=ontology) as memory:
-        chat = ChatService(settings, args.module, memory)
+    async with open_agent(args.module, settings) as chat:
         outcome = await run_eval(chat)
 
     expected = sum(1 for q in EVAL_QUESTIONS if q["expected_from_module"] <= args.module)
@@ -93,12 +90,16 @@ async def main() -> None:
     print("─" * 60)
     for q in outcome["questions"]:
         mark = "✅" if q["answered"] else "❌"
-        print(f"  {mark} [{q['id']}] (expected from module {q['expected_from_module']}) "
-              f"{q['question'][:60]}…")
+        print(
+            f"  {mark} [{q['id']}] (expected from module {q['expected_from_module']}) "
+            f"{q['question'][:60]}…"
+        )
         print(f"      → {q['answer'][:140]}")
     print("─" * 60)
-    print(f"  {answered}/{len(EVAL_QUESTIONS)} answered · "
-          f"expected ≥{expected} at module {args.module}")
+    print(
+        f"  {answered}/{len(EVAL_QUESTIONS)} answered · "
+        f"expected ≥{expected} at module {args.module}"
+    )
 
 
 if __name__ == "__main__":

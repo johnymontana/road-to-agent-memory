@@ -16,22 +16,21 @@ SESSION = "spike-02-03"
 
 
 async def main() -> None:
-    from lib.memory import open_memory
     from lib.settings import get_settings
+    from module_2.app.memory import open_memory
 
     settings = get_settings()
-    async with open_memory(settings, 2) as memory:
+    async with open_memory(settings) as memory:
         assert memory is not None
         print("== SPIKE 0.3: add_message return shape ==")
         msg = await memory.short_term.add_message(
-            SESSION, "user",
+            SESSION,
+            "user",
             "Hi, I'm Maya Chen from Northwind Robotics, on the Pro plan. "
             "We use Acme Cloud Compute and were double-charged $49.",
         )
         print(f"type: {type(msg).__name__}")
-        fields = (
-            msg.model_dump() if hasattr(msg, "model_dump") else vars(msg)
-        )
+        fields = msg.model_dump() if hasattr(msg, "model_dump") else vars(msg)
         print(f"fields: {sorted(fields.keys())}")
         print(f"id available: {getattr(msg, 'id', None) is not None}")
 

@@ -22,6 +22,8 @@ theme: default
 - An eval scoreboard that proves each layer landed
 - A ~20-minute path to add the same memory to your own agent on Monday
 
+![diagram](../slides/diagrams/d02-three-memory-types.svg)
+
 <!-- notes: Setting expectations honestly: nobody is typing out an app from scratch today. You'll run scripted scenarios via make targets, explore the graph they produce, and answer guided questions — the learning is in the exploring. If you fell behind at any point, `make module-N` is the one-command catch-up lane. [glossary: agent] -->
 
 ---
@@ -40,7 +42,7 @@ theme: default
 
 # The workshop arc
 
-![diagram](../slides/diagrams/d03-workshop-arc.png)
+![diagram](../slides/diagrams/d03-workshop-arc.svg)
 
 - Every module: **demonstrate a failure → add one memory layer → re-run the same scenario**
 - Scripted scenario beats are `make` targets — deterministic, no live typing
@@ -53,7 +55,7 @@ theme: default
 
 # Module 0 — Your environment
 
-![diagram](../slides/diagrams/d04-environment-map.png)
+![diagram](../slides/diagrams/d04-environment-map.svg)
 
 - **Codespaces-first**: the README badge opens a prebuilt 4-core / 8 GB devcontainer
 - Your Codespace talks to: your AuraDB (Bolt), OpenAI, and (module 5) NAMS
@@ -89,7 +91,7 @@ theme: default
 
 # Module 1 — Two stores, two jobs
 
-![diagram](../slides/diagrams/d01-two-stores.png)
+![diagram](../slides/diagrams/d01-two-stores.svg)
 
 - **SQLite is the system of record** — accounts, catalog, policies: what the agent *acts on*
 - **Neo4j is the memory** — conversations, entities, traces: what the agent *learned while acting*
@@ -115,7 +117,7 @@ theme: default
 
 # Module 1 — The failure: statelessness
 
-![diagram](../slides/diagrams/d05-statelessness.png)
+![diagram](../slides/diagrams/d05-statelessness.svg)
 
 - Customer reports an issue, "returns" in a new chat → the agent asks who they are again
 - Restart the app mid-conversation → context gone
@@ -162,7 +164,7 @@ theme: default
 
 # Module 2 — Message chains in the graph
 
-![diagram](../slides/diagrams/d06-message-chains.png)
+![diagram](../slides/diagrams/d06-message-chains.svg)
 
 - Each `:Message` node carries role, timestamp, embedding, metadata
 - Messages link sequentially within a conversation — the NVL panel shows chains appear live
@@ -175,7 +177,7 @@ theme: default
 
 # Module 2 — Context assembly
 
-![diagram](../slides/diagrams/d07-context-assembly.png)
+![diagram](../slides/diagrams/d07-context-assembly.svg)
 
 - `get_context` → assembled into dynamic instructions → the model call
 - Three tiers: **reflections / observations / recent messages**
@@ -235,7 +237,7 @@ theme: default
 
 # Module 3 — Ontology-driven extraction
 
-![diagram](../slides/diagrams/d08-ontology-extraction.png)
+![diagram](../slides/diagrams/d08-ontology-extraction.svg)
 
 - `ontology/acme_cloud.yaml`: entity types, typed relationships, aliases, constraints
 - The ontology is rendered **into the LLM extraction prompt** — descriptions are annotation guidelines, negative cases included
@@ -261,7 +263,7 @@ theme: default
 
 # Module 3 — The hybrid pipeline (the design-principle slide)
 
-![diagram](../slides/diagrams/d10-hybrid-pipeline.png)
+![diagram](../slides/diagrams/d10-hybrid-pipeline.svg)
 
 - **LLM → structure**: entity spans, types, typed relations — nothing else
 - **SQLite → grounded facts (hydration)**: email, plan, signup date — every fact from the system of record
@@ -274,7 +276,7 @@ theme: default
 
 # Module 3 — Entity resolution & aliases
 
-![diagram](../slides/diagrams/d11-entity-resolution.png)
+![diagram](../slides/diagrams/d11-entity-resolution.svg)
 
 - The customer says "AcmeCloud" after earlier saying "Acme Cloud" — one node, not two
 - Aliases are declared in the ontology; resolution is evidence you can see in the graph
@@ -344,7 +346,7 @@ theme: default
 
 # Module 4 — Similar-task retrieval
 
-![diagram](../slides/diagrams/d13-similar-task-retrieval.png)
+![diagram](../slides/diagrams/d13-similar-task-retrieval.svg)
 
 - A new ticket embeds near yesterday's trace — retrieval finds the matching procedure
 - Retrieved traces prime the agent: tool order, steps skipped, confidence
@@ -427,7 +429,7 @@ theme: default
 
 # Module 5 — The governance loop: drift, made concrete
 
-![diagram](../slides/diagrams/d15-governance-loop.png)
+![diagram](../slides/diagrams/d15-governance-loop.svg)
 
 - Live demo: `make policy-change` — flips the refund limit in **SQLite** → governance flags… **nothing**
 - The honest boundary: governance watches the **memory graph**, not your system of record
@@ -488,7 +490,7 @@ theme: default
 
 # Wrap — Bolt vs. NAMS: when to choose which
 
-![diagram](../slides/diagrams/d18-bolt-vs-nams.png)
+![diagram](../slides/diagrams/d18-bolt-vs-nams.svg)
 
 - **Bolt (modules 1–4):** your AuraDB, client-side extraction, you operate it — the open-source path
 - **NAMS (module 5):** managed service, server-side extraction, distillation + governance — Labs preview

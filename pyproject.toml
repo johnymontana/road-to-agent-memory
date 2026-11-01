@@ -40,5 +40,5 @@ select = ["E", "F", "I", "UP", "B"]
 asyncio_mode = "auto"
 testpaths = ["tests"]
 markers = [
-    "behavioral: live-service scenario tests (golden-graph lane; RUN_BEHAVIORAL=1)",
+    "behavioral: live module-agent and graph-invariant tests (RUN_BEHAVIORAL=1)",
 ]

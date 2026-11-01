@@ -1,5 +1,9 @@
 # Module 1 — The Stateless Agent
 
+Code-reading map: [module_1/README.md](../../module_1/README.md). Start with
+[`module_1/app/agent.py`](../../module_1/app/agent.py); the full agent is local to this lesson.
+
+
 Meet the baseline: a capable support agent with a rich tool set — and the memory of a
 goldfish. This module shows the failure everything else fixes.
 
@@ -15,7 +19,7 @@ goldfish. This module shows the failure everything else fixes.
 | Command | What it does |
 |---|---|
 | `make s1-baseline` | Runs scenario 1 (a billing issue) against the stateless agent — watch it handle the ticket, then watch it forget everything. |
-| `make eval` | Runs the fixed continuity eval-question set and prints the scorecard — this is the baseline every later module improves on. |
+| `make eval MODULE=1` | Runs the fixed continuity eval-question set and prints the scorecard — this is the baseline every later module improves on. |
 
 ## Explore
 

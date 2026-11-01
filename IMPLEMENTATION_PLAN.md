@@ -114,7 +114,7 @@ creds), and `make dev` shows the three panels.
    `subscriptions`, `policies`, `service_status`, `refunds`. Seed must make every tool
    return meaningful results on first use (module 1 design note) and include the
    refund-limit row that `issue_refund` validates against (module 4's failed trace).
-2. **Ontology** (`ontology/acme_cloud.yaml` + `ontology/default-poleo.yaml`):
+2. **Ontology** (`module_3/ontology/acme_cloud.yaml` + `module_3/ontology/default-poleo.yaml`):
    entity types (Customer, Organization, Product, Plan, Feature, Incident) with
    annotation-guideline descriptions *including negative cases*; typed relationships
    (WORKS_AT, SUBSCRIBES_TO, USES, REPORTED, AFFECTS, PART_OF, INCLUDES) with one
@@ -227,7 +227,7 @@ Graph panel rendering lights up with each memory layer.*
   seed — the boundary is taught, not discovered.
 - **Fallback artifact (B2):** check a *pre-distilled* SKILL.md + exported skill
   subgraph JSON into the repo (`artifacts/pre-distilled-skill/`), loadable via
-  `make s5-fallback`, so the payoff survives a NAMS outage.
+  `make s5-fresh-agent WITH_SKILL=fallback`, so the payoff survives a NAMS outage.
 
 **Exit (Phase 3):** `make module-1` … `make module-5` each reproduce their module's
 full beat sequence from a clean AuraDB; **each module's exit includes validating the

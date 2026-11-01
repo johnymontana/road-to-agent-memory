@@ -16,7 +16,6 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
-import os
 import sys
 from pathlib import Path
 
@@ -28,16 +27,13 @@ SCENARIOS = ROOT / "scripts" / "scenarios"
 TURN_PAUSE_S = 1.0  # pace OpenAI calls — whole-room bursts are the risk (ADR 001)
 
 
-async def run_sessions(scenario: dict, module: int, sessions: list[dict]) -> None:
-    from lib.chat import ChatService
-    from lib.memory import open_memory
+async def run_sessions(scenario: dict, module: int, sessions: list[dict], **options) -> None:
     from lib.settings import get_settings
+    from lib.workshop import open_agent
 
     get_settings.cache_clear()
     settings = get_settings()
-    ontology = settings.ontology_path if module >= 3 else None
-    async with open_memory(settings, module, ontology_path=ontology) as memory:
-        chat = ChatService(settings, module, memory)
+    async with open_agent(module, settings, **options) as chat:
         for session in sessions:
             session_id = f"{scenario['name']}-{session['id']}"
             if session.get("comment"):
@@ -47,8 +43,10 @@ async def run_sessions(scenario: dict, module: int, sessions: list[dict]) -> Non
                 result = await chat.chat(text, session_id=session_id)
                 print(f"    supportbot: {result['reply']}")
                 for call in result["tool_calls"]:
-                    print(f"    ↳ tool {call['name']}({json.dumps(call['input'])}) "
-                          f"→ {call['duration_ms']}ms")
+                    print(
+                        f"    ↳ tool {call['name']}({json.dumps(call['input'])}) "
+                        f"→ {call['duration_ms']}ms"
+                    )
                 used = result["context"]["summary"]
                 print(f"    ◆ memory used: {used or 'none (stateless)'}")
                 await asyncio.sleep(TURN_PAUSE_S)
@@ -57,7 +55,7 @@ async def run_sessions(scenario: dict, module: int, sessions: list[dict]) -> Non
 async def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("name", help="scenario name (scripts/scenarios/<name>.json)")
-    parser.add_argument("--module", type=int, required=True)
+    parser.add_argument("--module", type=int, choices=range(1, 6), required=True)
     parser.add_argument("--restart-beat", action="store_true")
     parser.add_argument("--ablation", action="store_true")
     args = parser.parse_args()
@@ -71,28 +69,31 @@ async def main() -> None:
     print(f"=== {args.name} (module {args.module}) ===")
     print(scenario["description"])
 
+    options = {}
     if args.name == "s3-default":
-        os.environ["ONTOLOGY"] = "default-poleo"
+        options["ontology"] = "default-poleo"
     elif args.name == "s3-ontology":
-        os.environ["ONTOLOGY"] = "acme_cloud"
+        options["ontology"] = "acme_cloud"
 
     if args.ablation:
+        if args.module not in (4, 5):
+            parser.error("--ablation requires module 4 or 5")
         for mode in ("off", "on"):
-            os.environ["AGENT_REASONING_RETRIEVAL"] = mode
+            options["reasoning_retrieval"] = mode == "on"
             print(f"\n--- ablation run: reasoning retrieval {mode.upper()} ---")
-            await run_sessions(scenario, args.module, scenario["sessions"])
+            await run_sessions(scenario, args.module, scenario["sessions"], **options)
         return
 
     if args.restart_beat:
         first, rest = scenario["sessions"][0], scenario["sessions"][1:]
         head = {**first, "messages": first["messages"][:2]}
         tail = {**first, "messages": first["messages"][2:]}
-        await run_sessions(scenario, args.module, [head])
-        print("\n  ── APP RESTARTS (new process, same database) ──")
-        await run_sessions(scenario, args.module, [tail, *rest])
+        await run_sessions(scenario, args.module, [head], **options)
+        print("\n  ── APP STATE RECREATED (new agent/client, same process and database) ──")
+        await run_sessions(scenario, args.module, [tail, *rest], **options)
         return
 
-    await run_sessions(scenario, args.module, scenario["sessions"])
+    await run_sessions(scenario, args.module, scenario["sessions"], **options)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,9 @@
 # Module 5 — Skill Distillation on NAMS
 
+Code-reading map: [module_5/README.md](../../module_5/README.md). Start with
+[`module_5/app/agent.py`](../../module_5/app/agent.py); the full agent is local to this lesson.
+
+
 The payoff: turn one agent's accumulated experience into a portable, versioned
 *skill* — then hand it to a fresh agent that has never seen any of the history, and
 watch it resolve the ticket cold.
@@ -62,11 +66,10 @@ From the repo root, run:
 make module-5
 ```
 
-That replays this module's beats in order (check, seed, distill, fresh-agent payoff,
-drift loop) and reproduces the room's current state. If your dev server is still
+That replays this module's beats in order (check, seed, distill and fresh-agent payoff) and reproduces the room's current state. If your dev server is still
 running an older stage, stop it first with `Ctrl+C`, then restart with
 `make dev MODULE=5`. If NAMS itself is unreachable, ask a helper for the fallback path
-(`make s5-fallback` loads the pre-distilled skill from `artifacts/pre-distilled-skill/`).
+(`make s5-fresh-agent WITH_SKILL=fallback` loads the pre-distilled skill from `artifacts/pre-distilled-skill/`).
 
 ## Glossary
 

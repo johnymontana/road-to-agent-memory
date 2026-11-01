@@ -5,6 +5,7 @@
 # `make help` is generated from the SPEC below — CI verifies they agree.
 
 MODULE ?= 1
+WITH_SKILL ?= on
 ROOT := $(shell pwd)
 
 # ── Canonical target spec (single source of truth — keep in sync with the outline) ──
@@ -31,7 +32,7 @@ help: ## Show this command surface
 	@echo "                s4-fail | s5-fresh-agent"
 	@echo "  NAMS (M5)   : make nams-check | nams-seed | nams-distill | nams-drift |"
 	@echo "                policy-change | nams-redistill"
-	@echo "  Utilities   : make eval | reset-memory | clean"
+	@echo "  Utilities   : make eval [MODULE=N] | reset-memory | clean"
 
 # ── Setup & env ────────────────────────────────────────────────────────────────
 setup: ## Install locked Python deps (uv sync) + frontend deps (npm ci)
@@ -60,7 +61,7 @@ module-2: ## Module 2 — short-term memory beats
 	$(MAKE) s2-return
 
 module-3: ## Module 3 — long-term memory beats
-	uv run scripts/activate_ontology.py ontology/acme_cloud.yaml
+	uv run scripts/activate_ontology.py module_3/ontology/acme_cloud.yaml
 	$(MAKE) s3-default
 	$(MAKE) s3-ontology
 

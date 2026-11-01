@@ -339,7 +339,7 @@ traces, tool calls, and entities that justify each step.
 - Per-module README: concepts, **the `make` targets to run**, the guided exploration questions above, expected NVL screenshots
 - `data/acme_cloud.db` + `scripts/seed_sqlite.py` — embedded SQLite system of record (customers, organizations, products, features, plans, subscriptions, policies, service_status, refunds) with deterministic seed data; auto-seeded on app boot if missing (`make seed` re-seeds)
 - `app/tools/` — SQLite-backed agent tools (`lookup_account`, `search_product_catalog`, `fetch_policy`, `check_service_status`, `issue_refund`) using parameterized SQL via stdlib `sqlite3`
-- `ontology/acme_cloud.yaml` — the custom Acme Cloud ontology (entity types, typed relationships, aliases, constraints); a `default-poleo` variant for the module 3 before/after beat
+- `module_3/ontology/acme_cloud.yaml` — the custom Acme Cloud ontology (entity types, typed relationships, aliases, constraints); a `default-poleo` variant for the module 3 before/after beat
 - `app/memory/hydrate.py` — post-extraction property hydration hook: maps extracted entities to SQLite rows and upserts grounded properties (`email`, `plan`, `plan_tier`, `description`, … — all facts, including categoricals) via `add_entity` MERGE semantics
 - Enrichment config (Wikimedia, background, ORGANIZATION-only allowlist) baked into the module 3 settings
 - `scripts/run_scenario.py` — deterministic canned conversations per scenario (short, turn-bounded messages), invoked by the scenario make targets via `uv run`

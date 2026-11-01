@@ -1,0 +1,27 @@
+# Default-template stand-in for the module 3 before/after teaching beat.
+# Deliberately minimal: generic POLE+O entity types, no typed relationships,
+# no aliases — so `make s3-default` produces loosely labeled, unconnected nodes
+# to contrast with `make s3-ontology`.
+domain:
+  id: generic-poleo
+  name: generic-poleo
+  description: Generic POLE+O extraction with no domain vocabulary.
+
+entity_types:
+  - label: Person
+    pole_type: PERSON
+    description: A person.
+  - label: Organization
+    pole_type: ORGANIZATION
+    description: An organization.
+  - label: Location
+    pole_type: LOCATION
+    description: A place.
+  - label: Event
+    pole_type: EVENT
+    description: An event.
+  - label: Object
+    pole_type: OBJECT
+    description: A thing.
+
+relationships: []

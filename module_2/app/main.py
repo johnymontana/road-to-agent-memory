@@ -1,21 +1,15 @@
-"""SupportBot — module 2 entry point.
+"""Run module 2: make dev MODULE=2. Agent construction is local to this folder."""
 
-The per-module diff is the workshop: compare this file across module folders
-(diff module_2/app/main.py module_3/app/main.py) to see each memory layer land.
-"""
-
-import os
 import sys
 from pathlib import Path
 
-# Repo root on sys.path so `lib` resolves when run as a script or module.
-sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
-
-os.environ.setdefault("MODULE", "2")
+# Support both python -m module_2.app.main and direct script execution.
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from lib.app_factory import create_app  # noqa: E402
+from module_2.app.agent import open_agent  # noqa: E402
 
-app = create_app(module=2)
+app = create_app(open_agent, title="SupportBot — module 2")
 
 if __name__ == "__main__":
     import uvicorn

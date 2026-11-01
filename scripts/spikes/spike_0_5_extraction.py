@@ -21,11 +21,11 @@ MESSAGE = (
 
 
 async def main() -> None:
-    from lib.memory import open_memory
     from lib.settings import get_settings
+    from module_3.app.memory import open_memory
 
     settings = get_settings()
-    async with open_memory(settings, 3, ontology_path=settings.ontology_path) as memory:
+    async with open_memory(settings, ontology="acme_cloud") as memory:
         assert memory is not None
         print("== SPIKE 0.5: LLM extraction + acme_cloud ontology ==")
         print(f"ontology resolved: {memory.ontology_document.domain.name}")
@@ -52,10 +52,15 @@ async def main() -> None:
         )
         print(f"typed relations: {len(rels)}")
         for r in rels:
-            print(f"  {r['src']} -[{r['type']}]-> {r['tgt']} "
-                  f"(support={r['support']}, conf={r['conf']:.2f})")
-        undeclared = [r for r in rels if r["type"] not in
-                      {"WORKS_AT", "SUBSCRIBES_TO", "USES", "REPORTED", "AFFECTS"}]
+            print(
+                f"  {r['src']} -[{r['type']}]-> {r['tgt']} "
+                f"(support={r['support']}, conf={r['conf']:.2f})"
+            )
+        undeclared = [
+            r
+            for r in rels
+            if r["type"] not in {"WORKS_AT", "SUBSCRIBES_TO", "USES", "REPORTED", "AFFECTS"}
+        ]
         print(f"undeclared (should-be-dropped) relations: {len(undeclared)}")
         mentions = await memory.query.cypher(
             "MATCH (m:Message)-[:MENTIONS]->(e:Entity) RETURN count(*) AS n"

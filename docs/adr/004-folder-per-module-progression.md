@@ -1,89 +1,92 @@
-# ADR 004: Folder-per-module progression (self-contained `module_N/` directories)
+# ADR 004: Complete agent snapshots in each workshop module
 
-- **Status:** Accepted
-- **Date:** 2026-10-27
-- **Context:** How attendees move through the five modules during the live workshop
-
-## Context
-
-Attendees progress through five stages of the same application (stateless → short-term
-→ long-term → reasoning → distillation). The original outline specified **git branches
-per module** (`module-1` … `module-5`); the adversarial review flagged this as an
-operational landmine (REVIEW_FEEDBACK G1: each `git checkout` in a live room is a 3–8
-minute synchronization event — dev-server restarts, `.env` survival, dependency diffs —
-×4 switches, unbudgeted; H9: branches also quietly expose that the memory layers were
-always present, switched on by config).
-
-ADR 002's alternative (feature flags on a single branch driven by `make module-N`)
-removes the checkout hazard but hides the code evolution — attendees can't see *what
-changed* between stages, which is the workshop's subject matter (review item 16 from
-the Designer: "branch-per-module delivery hides the very diffs the workshop is about").
-
-Requirements:
-
-1. No live git checkouts (G1)
-2. The per-stage code deltas must be **visible and diffable** — watching the code gain
-   a memory layer is the workshop (Designer 16)
-3. State (Aura graph, `.env`, venv, SQLite DB) must carry across stages untouched
-4. A fallen-behind attendee must reach the room's current stage with one command (G7)
+- **Status:** Accepted; implementation clarified 2026-11-01
+- **Original decision:** 2026-10-27
+- **Context:** Participants need to read and compare each stage's complete agent.
 
 ## Decision
 
-**One directory per module, each fully self-contained:**
+Every `module_N/` owns its agent construction, instructions, business-tool
+definitions, chat orchestration, and the memory behavior introduced by that stage.
+This duplication is intentional. No lesson imports or inherits another lesson's
+agent, and no shared implementation enables features by comparing module numbers.
 
+| Stage | Local implementation |
+| --- | --- |
+| 1 | Stateless agent and five business tools |
+| 2 | Conversation/message persistence and short-term context |
+| 3 | Local ontology variants, LLM extraction, memory tools and SQL-grounded hydration |
+| 4 | Similar-task retrieval and recorded executions, including tool rejections |
+| 5 | Complete reasoning-enabled support agent plus a separate fresh skill-consuming agent and NAMS workflows |
+
+`app/agent.py` is the reading entry point in every folder. `app/tools.py` is also
+local: registering and implementing tools is part of understanding an agent.
+`app/memory.py` appears in module 2; `memory_tools.py`, `hydrate.py`, and local
+`ontology/` files appear in module 3. Module 5 owns `app/fresh_agent.py` and
+`workflows/{check,seed,distill,drift}.py`.
+
+Each folder has a README with a reading order, commands, verification steps, and a
+summary of the change from the previous lesson. For example:
+
+```bash
+diff -ru module_2/app module_3/app
 ```
-module_1/   # stateless agent — full app code
-module_2/   # + short-term memory
-module_3/   # + ontology, LLM extraction, hydration, enrichment
-module_4/   # + reasoning memory
-module_5/   # + NAMS distillation client
-```
 
-- Each folder contains the complete app code for its stage — attendees open the folder
-  and run it; progression is `cd module_3`, never `git checkout`.
-- **Shared state lives at the repo root**: one `.env` (all folders read it), one uv
-  venv (`uv sync` once), one `data/acme_cloud.db`, one AuraDB — so memory accumulates
-  continuously across folders, which *is* the arc.
-- `make module-N` runs that module's beats from its folder (the catch-up lane), and
-  `make dev MODULE=3` boots a specific stage — both resolved from the **root Makefile**
-  (amended 2026-10-27, plan-review P1: there is one root Makefile using a `MODULE`
-  variable for path resolution; module folders contain **no** per-folder Makefiles,
-  so the shared root `.env`/`data/`/venv paths never depend on cwd).
-- `diff -r module_2/ module_3/` is a first-class teaching artifact — the per-module
-  README points at the specific files that gained memory wiring.
+## Shared infrastructure and state
 
-## Alternatives considered
+The React frontend, root Makefile, dependency locks, configuration/credentials,
+SQLite schema and query helpers, graph serialization, and HTTP transport remain
+shared. They implement infrastructure, not agent prompts or memory policy.
 
-| | Verdict |
-|---|---|
-| **Git branches per module** (original outline) | Rejected — 3–8 min live sync per switch (G1); `.env`/venv/dep breakage risk; progression-by-checkout hides nothing but breaks everything |
-| **Feature flags + `make module-N` on one branch** (ADR 002 draft) | Rejected — safe but hides the code deltas that are the workshop's content (Designer 16); flags also mean all five stages' code paths ship live in one binary, enlarging the bug surface |
-| **Branches + persistent worktree for env/state** | Rejected — more moving parts than folders, still teaches git mechanics instead of memory |
+One root `.env`, virtual environment, `data/acme_cloud.db`, and participant AuraDB
+carry across stages. Run all Make commands from the repository root. To switch:
+Ctrl+C the old server, `make dev MODULE=N`, then reload the browser. No branch
+checkout or directory change is required.
 
-## Consequences
+`make module-N` replays the selected beats for that stage. It does not switch the
+server, reconstruct every previous stage, clear memory, or restore a checkpoint.
+Scenario playback runs an independent agent in-process; it prints chat/tool output
+in the terminal and writes to the shared memory database. The browser graph needs
+reloading or a filter change to observe those writes.
 
-**Positive:**
-- Zero git operations during the live session (G1 eliminated).
-- Code evolution is a first-class, diffable artifact — the "progressive" arc is real.
-- Root-level shared state means the memory graph grows continuously across modules —
-  the narrative and the database agree.
-- Catch-up is one command (`make module-N`, run from anywhere via the root Makefile) —
-  no branch archaeology (G7).
-- Simple for Codespaces: folders are just folders.
+## Interface used by workshop tooling
 
-**Negative / accepted risks:**
-- **Copy drift during development** — five copies of the app diverge unintentionally.
-  Mitigation: folders are built sequentially (each derived from the previous), shared
-  libraries extracted to a root `lib/` where truly identical, and CI diff-checks the
-  intended deltas between adjacent folders.
-- **Repo size** — five app copies; acceptable (frontend `node_modules` are not
-  duplicated — the root venv/`npm ci` serve all folders).
-- The Makefile must resolve paths per module folder (owned in Phase 1 of
-  IMPLEMENTATION_PLAN.md).
+Each lesson exposes `open_agent(settings, ...)`, an async context manager owning its
+agent and connection lifetime. The agent supplies `chat(message, session_id)`,
+`module`, `memory_layers`, and its memory handle for graph inspection. Chat keeps
+the existing frontend response shape.
 
-## Related
+`lib/workshop.py` validates and dispatches the module requested by CLI tools.
+The HTTP entry point imports its local factory directly. HTTP, scenarios and eval
+therefore exercise the same lesson implementation. Shared dispatch contains no
+agent behavior. Root NAMS scripts are compatibility CLI wrappers around module 5.
 
-- WORKSHOP_OUTLINE.md — Repo Plan
-- IMPLEMENTATION_PLAN.md — Phase 1.6, Decision D1 (resolved: this ADR)
-- ADR 002 — uv + Makefile tooling (module targets operate on folders)
-- REVIEW_FEEDBACK.md — items G1, G7, H9, Designer-16
+Ontology selection belongs to modules 3–5. `acme_cloud` and `default-poleo` load local
+files; `active` opts into the version stored in AuraDB. A file explicitly overrides
+the active database version. Module 4's retrieval toggle is an experimental control,
+not a progression switch; turning it off disables both automatic and tool-based
+reasoning retrieval while recording continues.
+
+## Alternatives and trade-offs
+
+A single shared agent with stage flags minimized code duplication but hid the
+workshop's subject behind conditionals. Inheritance from previous stages would also
+force participants to leave their lesson to reconstruct the complete implementation.
+Runtime generation and symlinked agent files have the same teaching problem.
+
+The accepted cost is maintaining explicit copies of prompts, tools and memory code.
+Preserve consistent organization and formatting across copies so diffs show the
+concept being added. Test each stage's behavior; do not require all copies to remain
+identical, since their differences are the teaching material.
+
+## Verification
+
+Offline tests run real PydanticAI agent loops with deterministic model and memory
+adapters, verify tool-backed SQL behavior and hydration, exercise the HTTP routes,
+and check scenario/eval dispatch. Tests also guard against cross-lesson imports and
+calls into removed shared agent implementations.
+
+Live rehearsal is opt-in, uses temporary SQLite data and unique conversation IDs,
+and never resets existing graph data. The NAMS seed/lifecycle needs its own
+configured-workspace verification; mocked HTTP choreography is not evidence of
+hosted-service parity.

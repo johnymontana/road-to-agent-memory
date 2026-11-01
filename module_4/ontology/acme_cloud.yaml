@@ -1,0 +1,89 @@
+# Acme Cloud support-desk ontology (module 3, custom-ontology run).
+# One document drives the LLM extraction prompt AND relation validation on ingest.
+# Descriptions are annotation guidelines for the extractor: positive case first,
+# then negative cases ("Not ...") — they are what stops a label absorbing everything.
+domain:
+  id: acme-cloud-support
+  name: acme-cloud-support
+  description: >-
+    Customer support for Acme Cloud, a fictional SaaS platform: the customers who
+    report problems, the products and plans involved, and the incidents raised.
+
+entity_types:
+  - label: Customer
+    pole_type: PERSON
+    subtype: CUSTOMER
+    description: >-
+      A named individual who reports a problem or asks for help. Not the support
+      engineer who answers, and not a company.
+    aliases:
+      Maya Chen: ["Maya", "Maya C."]
+      Dana Whitfield: ["Dana", "Dana W.", "D. Whitfield"]
+      Ravi Shah: ["Ravi"]
+
+  - label: Organization
+    pole_type: ORGANIZATION
+    subtype: COMPANY
+    description: >-
+      A named company or institution — the customer's employer or a third-party
+      vendor. Not a product it sells and not an industry.
+    aliases:
+      Acme Cloud: ["AcmeCloud", "Acme"]
+      Northwind Robotics: ["Northwind"]
+      Contoso Ltd: ["Contoso"]
+
+  - label: Product
+    pole_type: OBJECT
+    subtype: PRODUCT
+    description: >-
+      A named software product or service Acme Cloud ships (e.g. Acme Cloud Compute,
+      Acme Cloud Billing API). Not a component inside it, and not a generic category
+      ("the database", "the API" alone are not Products).
+    aliases:
+      Acme Cloud Compute: ["Compute"]
+      Acme Cloud Billing API: ["Billing API"]
+      Acme Cloud Functions: ["Functions"]
+      Acme Cloud Storage: ["Storage"]
+
+  - label: Plan
+    pole_type: OBJECT
+    subtype: PLAN
+    description: >-
+      A named subscription tier — Free, Pro, or Enterprise. Not a price, and not the
+      product itself.
+
+  - label: Incident
+    pole_type: EVENT
+    subtype: INCIDENT
+    description: >-
+      A specific reported failure, outage, or billing problem — a ticket, identified
+      by an id or a distinct description. Not a recurring class of problem, and not
+      a bare date.
+
+relationships:
+  - type: WORKS_AT
+    source: Customer
+    target: Organization
+    description: The customer is employed by this organization (current employer only).
+    unique_source: true
+
+  - type: SUBSCRIBES_TO
+    source: Customer
+    target: Plan
+    description: The customer's account is on this subscription plan.
+    unique_source: true
+
+  - type: USES
+    source: Customer
+    target: Product
+    description: The customer runs or has deployed this product.
+
+  - type: REPORTED
+    source: Customer
+    target: Incident
+    description: The customer raised this incident.
+
+  - type: AFFECTS
+    source: Incident
+    target: Product
+    description: The incident degrades or breaks this product.

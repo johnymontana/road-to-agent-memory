@@ -4,9 +4,10 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
   schedule:
-    # Weekly re-verification: the behavioral lane re-runs against live services so a
-    # NAMS deploy or OpenAI model re-point invalidates assumptions in CI, not on stage.
+    # Weekly re-verification catches OpenAI or memory-library changes through
+    # the live agent rehearsal.
     - cron: "0 7 * * 1"
 
 env:
@@ -38,7 +39,7 @@ jobs:
           devcontainer build --workspace-folder . --image-name workshop-devcontainer-ci
 
   behavioral:
-    # P3: the workshop's real test lane — scenarios vs golden snapshots against
+    # Live lesson agents and graph invariants against
     # ephemeral Neo4j. Runs weekly + on manual dispatch (spends LLM tokens).
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
