@@ -1,0 +1,20 @@
+
+> road-to-agent-memory-web@1.0.0 build
+> vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 561 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                        0.41 kB │ gzip:   0.27 kB
+dist/assets/HierarchicalLayout.worker-C5lTk-AI.js    159.15 kB
+dist/assets/CoseBilkentLayout.worker-BhgoYVHw.js     520.40 kB
+dist/assets/index-cwbdMlVC.css                         9.83 kB │ gzip:   2.61 kB
+dist/assets/index-ChtlIeRF.js                      2,051.60 kB │ gzip: 602.12 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 3.04s

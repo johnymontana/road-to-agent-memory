@@ -1,0 +1,6 @@
+{
+  "model_run_raised": true,
+  "recorded_trace_count": 0,
+  "completed_trace_count": 0,
+  "scope": "offline real ChatService with failed model seam"
+}

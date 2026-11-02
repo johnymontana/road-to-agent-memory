@@ -1,0 +1,160 @@
+{
+  "id": "c022e39c57694856a3a0b106738d0252",
+  "title": "s4-refund",
+  "module": 4,
+  "namespace": "replay-c022e39c57694856a3a0b106738d0252",
+  "pid": 4430,
+  "append": false,
+  "turns": [
+    {
+      "message": "Maya Chen, maya.chen@northwind.example. Please refund the duplicate $49 Compute charge.",
+      "namespace": "replay-c022e39c57694856a3a0b106738d0252",
+      "result": {
+        "reply": "Issued refund #1: $49.00 for Maya Chen (maya.chen@northwind.example, Pro). Incident: maya-duplicate-compute. This incident cannot be refunded twice.",
+        "session_id": "replay-c022e39c57694856a3a0b106738d0252:s4-refund-s4-refund-0",
+        "request_id": "60e46b712a024962a86ed3b6f16df0c2",
+        "tool_calls": [
+          {
+            "name": "issue_refund",
+            "input": {
+              "customer_email": "maya.chen@northwind.example",
+              "amount": 49.0,
+              "reason": "Duplicate Compute charge"
+            },
+            "sql": "SELECT b.id, b.amount, b.description,\n        c.email, c.name AS customer, p.name AS plan, p.refund_limit\n        FROM billing_cases b JOIN customers c ON c.id=b.customer_id\n        JOIN plans p ON p.id=c.plan_id ORDER BY b.id\nBEGIN \nINSERT OR IGNORE INTO refunds\n        (customer_id,amount,reason,status,created_at,incident_id)\n        SELECT customer_id,49.0,'Duplicate Compute charge', 'issued',datetime('now'),id FROM billing_cases WHERE id='maya-duplicate-compute'\nSELECT changes()\nSELECT id FROM refunds WHERE incident_id='maya-duplicate-compute'\nCOMMIT",
+            "output": {
+              "customer": "Maya Chen",
+              "customer_email": "maya.chen@northwind.example",
+              "plan": "Pro",
+              "no_approval_limit": 250.0,
+              "incident_id": "maya-duplicate-compute",
+              "amount": 49.0,
+              "source": "sqlite:plans",
+              "status": "issued",
+              "refund_id": 1
+            },
+            "duration_ms": 1.0
+          }
+        ],
+        "status": "completed",
+        "execution_status": "succeeded",
+        "business_status": "issued",
+        "warnings": [],
+        "timing": {
+          "context_seconds": 28.669,
+          "model_seconds": 2.55,
+          "input_tokens": 2428,
+          "output_tokens": 72,
+          "total_seconds": 44.607
+        },
+        "context": {
+          "used_memory": true,
+          "summary": "grounded_entity, reasoning_trace",
+          "evidence": [
+            {
+              "id": "3356b7f1-34e0-499c-bc6e-43b2c434fd39",
+              "name": "Maya",
+              "type": "PERSON",
+              "description": "Maya Chen \u2014 Pro plan customer at Northwind Robotics, signed up 2025-03-14.",
+              "email": "maya.chen@northwind.example",
+              "plan": "Pro",
+              "signup_date": "2025-03-14",
+              "preferred_contact": "email",
+              "organization": "Northwind Robotics",
+              "refund_limit": null,
+              "source": "sqlite:customers",
+              "score": 0.6837746500968933,
+              "works_at": null,
+              "path": "grounded_entity"
+            },
+            {
+              "id": "b4528965-e1fa-45d7-bc7f-f0f67e1f8753",
+              "name": "Acme Cloud Compute",
+              "type": "OBJECT",
+              "description": "Autoscaling container compute for production workloads.",
+              "email": null,
+              "plan": null,
+              "signup_date": null,
+              "preferred_contact": null,
+              "organization": null,
+              "refund_limit": null,
+              "source": "sqlite:products",
+              "score": 0.6710754632949829,
+              "works_at": null,
+              "path": "grounded_entity"
+            },
+            {
+              "id": "6dd634bb-2e40-4a2f-9797-1f77407603f5",
+              "path": "reasoning_trace",
+              "score": 1.0
+            }
+          ],
+          "hydrated": [
+            "Acme Cloud Compute",
+            "Maya"
+          ],
+          "written_layers": [
+            "short_term",
+            "long_term",
+            "reasoning"
+          ]
+        }
+      }
+    }
+  ],
+  "protocol": "Actual lesson agent; explicit per-turn action authorization.",
+  "status": "completed",
+  "graph": {
+    "nodes": [
+      {
+        "id": "turn-0",
+        "labels": [
+          "Message"
+        ],
+        "properties": {
+          "content": "Maya Chen, maya.chen@northwind.example. Please refund the duplicate $49 Compute charge.",
+          "reply": "Issued refund #1: $49.00 for Maya Chen (maya.chen@northwind.example, Pro). Incident: maya-duplicate-compute. This incident cannot be refunded twice.",
+          "source": "measured replay output",
+          "namespace": "replay-c022e39c57694856a3a0b106738d0252"
+        }
+      },
+      {
+        "id": "turn-0-tool-0",
+        "labels": [
+          "ToolCall"
+        ],
+        "properties": {
+          "name": "issue_refund",
+          "input": {
+            "customer_email": "maya.chen@northwind.example",
+            "amount": 49.0,
+            "reason": "Duplicate Compute charge"
+          },
+          "sql": "SELECT b.id, b.amount, b.description,\n        c.email, c.name AS customer, p.name AS plan, p.refund_limit\n        FROM billing_cases b JOIN customers c ON c.id=b.customer_id\n        JOIN plans p ON p.id=c.plan_id ORDER BY b.id\nBEGIN \nINSERT OR IGNORE INTO refunds\n        (customer_id,amount,reason,status,created_at,incident_id)\n        SELECT customer_id,49.0,'Duplicate Compute charge', 'issued',datetime('now'),id FROM billing_cases WHERE id='maya-duplicate-compute'\nSELECT changes()\nSELECT id FROM refunds WHERE incident_id='maya-duplicate-compute'\nCOMMIT",
+          "output": {
+            "customer": "Maya Chen",
+            "customer_email": "maya.chen@northwind.example",
+            "plan": "Pro",
+            "no_approval_limit": 250.0,
+            "incident_id": "maya-duplicate-compute",
+            "amount": 49.0,
+            "source": "sqlite:plans",
+            "status": "issued",
+            "refund_id": 1
+          },
+          "duration_ms": 1.0
+        }
+      }
+    ],
+    "relationships": [
+      {
+        "id": "turn-0-tool-0-edge",
+        "from": "turn-0",
+        "to": "turn-0-tool-0",
+        "type": "EXECUTED",
+        "properties": {}
+      }
+    ],
+    "truncated": false
+  }
+}

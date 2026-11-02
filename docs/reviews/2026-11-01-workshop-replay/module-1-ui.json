@@ -1,0 +1,18 @@
+{
+  "module": 1,
+  "errors": [],
+  "turns": [
+    {
+      "prompt": "Hi, I'm Maya Chen, maya.chen@northwind.example. Please look up my account and tell me my plan.",
+      "reply": "Hi Maya, your account is under the **Pro** plan, which costs $49 per month. If you need further assistance, just let me know!",
+      "seconds": 6.04
+    },
+    {
+      "prompt": "What's my email address, which I just gave you?",
+      "reply": "I don't have access to your email address unless you provide it again. Could you please share it?",
+      "seconds": 2.27
+    }
+  ],
+  "eval": "\u274c\nDo you remember the customer from Northwind Robotics? What's their name and email?\nI can't access specific customer details or remember individual accounts. If you need help with a specific inquiry, please provide an email address, and I can look up the account for you.\nmodule 2\n\u274c\nWhat did we discuss earlier in this conversation?\nI'm unable to access previous conversations. However, I'm here to help you with any questions regarding billing, products, service status, or refunds. What do you need assistance with today?\nmodule 2\n\u274c\nI'm the Northwind Robotics customer on the Pro plan \u2014 what else do you know about my account, like how long I've been a customer?\nI couldn't find an account associated with that email. Please double-check the email address or provide the correct one so I can assist you further.\nmodule 3\n\u274c\nLast week a customer asked you for a large refund on a Pro plan that you couldn't approve \u2014 what exactly did you tell them?\nI'm unable to provide specific past interactions or details shared in previous conversations. However, if you need help regarding refund policies or any other inquiries, please let me know!\nmodule 4",
+  "mobile_document_width": 390
+}

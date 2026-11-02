@@ -1,0 +1,44 @@
+Eval scorecard — module 1
+────────────────────────────────────────────────────────────
+  ❌ [q1] (expected from module 2) Do you remember the customer from Northwind Robotics? What's…
+      → I’m unable to disclose specific customer information such as names or emails. However, I can help you with any questions or issues related t
+  ❌ [q2] (expected from module 2) What did we discuss earlier in this conversation?…
+      → I don't have access to previous conversation details. How can I assist you today?
+  ❌ [q3] (expected from module 3) I'm the Northwind Robotics customer on the Pro plan — what e…
+      → I couldn't find an account for Northwind Robotics. Could you please confirm the email address associated with your account?
+  ❌ [q4] (expected from module 4) Last week a customer asked you for a large refund on a Pro p…
+      → I can't provide previous specific conversations, but usually in such cases, I would explain the refund policy related to the Pro plan, inclu
+────────────────────────────────────────────────────────────
+  0/4 answered · expected ≥0 at module 1
+
+
+Eval scorecard — module 2
+────────────────────────────────────────────────────────────
+  ✅ [q1] (expected from module 2) Do you remember the customer from Northwind Robotics? What's…
+      → The customer from Northwind Robotics is Maya Chen, and her email is maya.chen@northwind.example.
+  ✅ [q2] (expected from module 2) What did we discuss earlier in this conversation?…
+      → Earlier, you reported a double charge of $49 for Acme Cloud Compute, and mentioned that Acme Cloud Functions was degraded this morning. I pr
+  ✅ [q3] (expected from module 3) I'm the Northwind Robotics customer on the Pro plan — what e…
+      → You've been a customer since March 14, 2025. You're on the Pro plan for Northwind Robotics, which costs $49 per month, and your refund limit
+  ✅ [q4] (expected from module 4) Last week a customer asked you for a large refund on a Pro p…
+      → I informed the customer that their requested refund exceeded the approved limit for the Pro plan. I explained that refunds over that limit r
+────────────────────────────────────────────────────────────
+  4/4 answered · expected ≥2 at module 2
+
+
+Eval scorecard — module 3
+────────────────────────────────────────────────────────────
+  ❌ [q1] (expected from module 2) Do you remember the customer from Northwind Robotics? What's…
+      → I couldn't find the specific name or email for the customer from Northwind Robotics. If you have a specific email in mind, I can look up mor
+  ✅ [q2] (expected from module 2) What did we discuss earlier in this conversation?…
+      → Earlier, we discussed a double charge of **$49** for Acme Cloud Compute, which I've refunded. We also talked about a degradation issue with 
+  ❌ [q3] (expected from module 3) I'm the Northwind Robotics customer on the Pro plan — what e…
+      → It seems I couldn't retrieve specific details about your account, including how long you've been a customer. If you could provide the email 
+  ❌ [q4] (expected from module 4) Last week a customer asked you for a large refund on a Pro p…
+      → I informed the customer that refunds up to the Pro plan's no-approval limit of $250 are granted immediately for charges within the last 30 d
+────────────────────────────────────────────────────────────
+  1/4 answered · expected ≥3 at module 3
+
+
+make eval MODULE=4
+Failed before scorecard: ServiceUnavailable in post-answer hydration.

@@ -1,60 +1,76 @@
-"""Agent-facing memory tools, including their visible tool-call evidence."""
+"""Local memory tools expose grounded fields and actual stored preference receipts."""
 
 from __future__ import annotations
 
+import json
 import time
 
-from neo4j_agent_memory import MemoryClient
 from pydantic_ai import RunContext
 
+from .context import search_entities, search_messages, search_preferences
 from .tools import ToolDeps, _record
 
 
-def create_memory_tools(memory: MemoryClient) -> list:
+def create_memory_tools(memory):
     async def search_memory(ctx: RunContext[ToolDeps], query: str) -> str:
-        """Search persistent conversations, grounded customer facts, and preferences.
+        """Search scoped statements, customer facts and employer relationships. Cite IDs."""
+        start = time.monotonic()
+        d = ctx.deps
+        embedding = await d.embedder.embed(query)
+        messages = await search_messages(
+            memory, query, embedding, d.namespace, exclude_id=d.current_message_id
+        )
+        entities = await search_entities(memory, query, embedding, d.namespace, d.account_email)
+        preferences = await search_preferences(memory, d.account_email, d.namespace)
+        data = {"messages": messages, "entities": entities, "preferences": preferences}
 
-        Call this first when a returning customer asks about themselves or history.
-        """
-        started = time.monotonic()
-        lines = []
-        for message in await memory.short_term.search_messages(query, limit=5):
-            role = getattr(message.role, "value", message.role)
-            lines.append(f"[{role}] {message.content}")
-        for entity in await memory.long_term.search_entities(query, limit=5):
-            lines.append(f"[ENTITY] {entity.name}: {entity.description or ''}")
-        for preference in await memory.long_term.search_preferences(query, limit=5):
-            lines.append(f"[PREFERENCE:{preference.category}] {preference.preference}")
-        out = "\n".join(lines) or "No relevant memories found."
-        return _record(ctx, "search_memory", {"query": query}, None, started, out)
+        return _record(
+            ctx, "search_memory", {"query": query}, None, start, json.dumps(data, default=str)
+        )
 
     async def save_preference(
         ctx: RunContext[ToolDeps], category: str, preference: str, context: str | None = None
     ) -> str:
-        """Save a support preference, such as email rather than phone follow-ups."""
-        started = time.monotonic()
-        await memory.long_term.add_preference(category, preference, context=context)
+        """Save a preference for the explicitly selected customer, never the whole workspace."""
+        start = time.monotonic()
+        d = ctx.deps
+        if not d.account_email:
+            out = {
+                "status": "needs_customer",
+                "reason": "Select a customer before saving preferences",
+            }
+        else:
+            scoped = f"{d.namespace}:{d.account_email}:{category}"
+            saved = await memory.long_term.add_preference(
+                scoped,
+                preference,
+                context=context,
+                user_identifier=f"{d.namespace}:{d.account_email}",
+            )
+            out = {
+                "status": "stored",
+                "id": str(saved.id),
+                "category": saved.category,
+                "preference": saved.preference,
+                "context": saved.context,
+                "deduplicated": bool(saved.metadata.get("deduplicated", False)),
+            }
         return _record(
             ctx,
             "save_preference",
             {"category": category, "preference": preference, "context": context},
             None,
-            started,
-            f"Saved preference: {preference} (category: {category})",
+            start,
+            json.dumps(out),
         )
 
     async def recall_preferences(ctx: RunContext[ToolDeps], topic: str) -> str:
-        """Recall preferences relevant to a support topic."""
-        started = time.monotonic()
-        preferences = await memory.long_term.search_preferences(topic, limit=10)
-        out = "\n".join(f"[{p.category}] {p.preference}" for p in preferences)
+        """Recall only the selected customer's preferences, including applicability context."""
+        start = time.monotonic()
+        d = ctx.deps
+        rows = await search_preferences(memory, d.account_email, d.namespace)
         return _record(
-            ctx,
-            "recall_preferences",
-            {"topic": topic},
-            None,
-            started,
-            out or "No preferences found for this topic.",
+            ctx, "recall_preferences", {"topic": topic}, None, start, json.dumps(rows, default=str)
         )
 
     return [search_memory, save_preference, recall_preferences]

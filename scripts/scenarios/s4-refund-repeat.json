@@ -1,13 +1,22 @@
 {
   "name": "s4-refund-repeat",
   "module": 4,
-  "description": "The 'same shape' ticket days later — the ablation pair. Run twice by the runner: control (retrieval off) then treatment (retrieval on). Watch the trace panel compare.",
+  "description": "Explicit case authorization; no identity inherited between turns.",
   "sessions": [
     {
-      "id": "s4-c",
+      "id": "s4-refund-repeat-0",
       "messages": [
-        "Hi — Dana Whitfield at Contoso (dana.w@contoso.example), Enterprise plan. We were double-billed $129 for Acme Cloud Storage last month. Can you process the refund?",
-        "One more thing: our ops lead also wants a $400 refund for unused spot capacity on his Pro account. What's the process for that — can you just issue it, or is there an approval path? Walk me through exactly what happens."
+        {
+          "message": "Dana Whitfield at Contoso, dana.w@contoso.example. Refund my duplicate $129 Storage charge.",
+          "account_email": "dana.w@contoso.example",
+          "incident_id": "dana-duplicate-storage",
+          "authorize_refund": true
+        },
+        {
+          "message": "Our ops lead wants $400 back on his Pro account. What is the current limit and approval process? Do not act on my account.",
+          "policy_plan": "Pro",
+          "authorize_refund": false
+        }
       ]
     }
   ]

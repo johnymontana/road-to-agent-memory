@@ -1,0 +1,6 @@
+{
+  "example": "MemoryClient(backend=\"bolt\")",
+  "result": "TypeError",
+  "message": "MemoryClient.__init__() got an unexpected keyword argument 'backend'",
+  "scope": "constructor only; no external connection"
+}

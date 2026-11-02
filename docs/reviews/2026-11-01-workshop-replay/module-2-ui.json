@@ -1,0 +1,50 @@
+{
+  "errors": [],
+  "console_errors": [
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+  ],
+  "http_errors": [
+    {
+      "url": "http://localhost:5173/api/graph?layer=all",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:5173/api/graph?layer=all",
+      "status": 500
+    }
+  ],
+  "graph_checks": [
+    {
+      "layer": "all",
+      "status": 500,
+      "body": "Internal Server Error"
+    },
+    {
+      "layer": "short_term",
+      "status": 500,
+      "body": "Internal Server Error"
+    },
+    {
+      "layer": "long_term",
+      "status": 500,
+      "body": "Internal Server Error"
+    },
+    {
+      "layer": "reasoning",
+      "status": 500,
+      "body": "Internal Server Error"
+    }
+  ],
+  "health": {
+    "status": "ok",
+    "module": 2,
+    "memory_layers": [
+      "short_term"
+    ]
+  },
+  "visible_error": [
+    "GET /api/graph?layer=all failed: 500 Internal Server Error\u00d7"
+  ],
+  "synthetic_graph_canvas_count": 2
+}

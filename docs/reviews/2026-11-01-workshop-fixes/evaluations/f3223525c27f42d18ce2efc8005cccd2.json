@@ -1,0 +1,90 @@
+{
+  "id": "f3223525c27f42d18ce2efc8005cccd2",
+  "module": 1,
+  "status": "completed",
+  "questions": [
+    {
+      "id": "q1",
+      "question": "What name and email did the customer Maya Evalf3223525c2 provide? Return ONLY JSON with fields name, email, source_ids (array of evidence IDs); use null for unknown fields.",
+      "expected_from_module": 2,
+      "answered": false,
+      "checks": [
+        "name: pass",
+        "email: fail",
+        "verified source ID: fail"
+      ],
+      "sources": [],
+      "answer": "```json\n{\n  \"name\": \"Maya Evalf3223525c2\",\n  \"email\": null,\n  \"source_ids\": []\n}\n```",
+      "warnings": [],
+      "timing": {
+        "context_seconds": 0.003,
+        "model_seconds": 1.577,
+        "input_tokens": 368,
+        "output_tokens": 34,
+        "total_seconds": 1.58
+      }
+    },
+    {
+      "id": "q2",
+      "question": "What is my exact verification phrase from this conversation? Return ONLY JSON with fields verification_phrase, source_ids (array of evidence IDs); use null for unknown fields.",
+      "expected_from_module": 2,
+      "answered": false,
+      "checks": [
+        "verification_phrase: fail",
+        "verified source ID: fail"
+      ],
+      "sources": [],
+      "answer": "```json\n{\n  \"verification_phrase\": null,\n  \"source_ids\": []\n}\n```",
+      "warnings": [],
+      "timing": {
+        "context_seconds": 0.0,
+        "model_seconds": 0.777,
+        "input_tokens": 360,
+        "output_tokens": 20,
+        "total_seconds": 0.778
+      }
+    },
+    {
+      "id": "q3",
+      "question": "What is the grounded signup date for Maya Evalf3223525c2? Return ONLY JSON with fields signup_date, source_ids (array of evidence IDs); use null for unknown fields.",
+      "expected_from_module": 3,
+      "answered": false,
+      "checks": [
+        "signup_date: fail",
+        "verified source ID: fail"
+      ],
+      "sources": [],
+      "answer": "```json\n{\n  \"signup_date\": null,\n  \"source_ids\": []\n}\n```",
+      "warnings": [],
+      "timing": {
+        "context_seconds": 0.0,
+        "model_seconds": 0.905,
+        "input_tokens": 366,
+        "output_tokens": 20,
+        "total_seconds": 0.905
+      }
+    },
+    {
+      "id": "q4",
+      "question": "Recall the recorded approval decision efc8005ccc. What is the exact refusal quote? Return ONLY JSON with fields refusal_quote, source_ids (array of evidence IDs); use null for unknown fields.",
+      "expected_from_module": 4,
+      "answered": false,
+      "checks": [
+        "refusal_quote: fail",
+        "verified source ID: fail"
+      ],
+      "sources": [],
+      "answer": "```json\n{\n  \"refusal_quote\": \"Refund execution authorized for this turn: False.\",\n  \"source_ids\": [\"efc8005ccc\"]\n}\n```",
+      "warnings": [],
+      "timing": {
+        "context_seconds": 0.001,
+        "model_seconds": 0.915,
+        "input_tokens": 368,
+        "output_tokens": 35,
+        "total_seconds": 0.915
+      }
+    }
+  ],
+  "protocol": "Controlled seeded retrieval; no business tools; extraction verified separately.",
+  "namespace": "eval-f3223525c27f42d18ce2efc8005cccd2"
+}

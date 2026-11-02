@@ -1,0 +1,29 @@
+Opening module 1 · process 3888 · namespace replay-0043880ab2c744f197d979692aefe0f2
+Ready in 0.5s
+[s1-baseline-0] customer: Hi, Maya Chen here (maya.chen@northwind.example). Look up my Acme Cloud account.
+                 pydantic-ai v2.62.0 • Python 3.12.12
+      / \
+     /   \       model: openai:gpt-4o-mini • tools: 5 • capabilities: 0
+   /___.___\
+  /    |    \    observability: off — see every model and tool call live, with cost
+/      |      \    set it up free with Pydantic Logfire: uvx logfire-cli wizard --task pydantic-ai
+`---.._|_..---'    or use any OpenTelemetry backend: https://pydantic.dev/docs/ai/logfire/#otel
+
+                 goes away once observability is on — or PYDANTIC_AI_NO_BANNER=1
+SupportBot: I've found your Acme Cloud account details:
+
+- **Name:** Maya Chen
+- **Email:** maya.chen@northwind.example
+- **Organization:** Northwind Robotics
+- **Plan:** Pro
+- **Monthly Price:** $49.00
+- **Refund Limit:** $250.00
+- **Refunds Issued:** None
+
+Is there anything specific you would like assistance with?
+Tools: [('lookup_account', None)]
+Timing: {'context_seconds': 0.001, 'model_seconds': 2.91, 'input_tokens': 1159, 'output_tokens': 105, 'total_seconds': 2.91} Warnings: []
+[s1-baseline-0] customer: What email did I just give you? Do not look it up; say unknown if it is absent.
+SupportBot: Unknown.
+Tools: []
+Timing: {'context_seconds': 0.001, 'model_seconds': 0.939, 'input_tokens': 530, 'output_tokens': 4, 'total_seconds': 0.94} Warnings: []

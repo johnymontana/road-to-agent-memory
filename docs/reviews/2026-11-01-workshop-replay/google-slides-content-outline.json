@@ -1,0 +1,369 @@
+{
+  "presentationId": "1qBsciAQf7s3BUdQleJJ39-4RDKAoqqoVfodPDDg63z8",
+  "title": "Road to Actionable Knowledge & Agent Memory 2026",
+  "revisionId": "QDmoL4ElpcYHAA",
+  "source": "https://docs.google.com/presentation/d/1qBsciAQf7s3BUdQleJJ39-4RDKAoqqoVfodPDDg63z8/edit",
+  "scope": "Slides 1–45: introduction and modules 0–4 only; content outline, not rendered visual QA",
+  "slides": [
+    {
+      "slideNumber": 1,
+      "objectId": "ram_slide_001",
+      "title": "Road to",
+      "text": "Road to\nAgent Memory\n\nFrom stateless chatbot to an agent that learns\nNeo4j Labs workshop · 2.5 hours · live\nneo4j-agent-memory + your own AuraDB\nAcme Cloud · fictional SaaS support desk",
+      "pageElementCount": 2,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 2,
+      "objectId": "ram_design_002",
+      "title": "What you’ll leave with",
+      "text": "What you’ll leave with\n\nA running app\n\nA memory model\n\nEvidence\n\nA complete full-stack support agent on your AuraDB.\n\nShort-term, long-term and reasoning memory in one graph.\n\nGuided graph exploration and an eval scoreboard at each layer.\n\nA Monday path\n\nAdd the same memory to your own agent in about 20 minutes.\n\nIntroduction\n\nRun-and-explore workshop: run the app, inspect its graph and answer guided questions.",
+      "pageElementCount": 12,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 3,
+      "objectId": "ram_slide_003",
+      "title": "Three memory types, one knowledge graph",
+      "text": "Three memory types, one knowledge graph\n\nIntroduction\n\nShort-term\nconversations & messages\n\nReasoning\ntraces, tool calls, outcomes\n\nNeo4j\none knowledge graph\n\nLong-term\nentities · preferences · facts\n\nevery layer lives in the same graph — connections are the point",
+      "pageElementCount": 8,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 4,
+      "objectId": "ram_slide_004",
+      "title": "Agenda (150 min + buffer)",
+      "text": "Agenda (150 min + buffer)\n\nSetup\n15 min\n\n0\n\nLong-term memory\n40 min\n\n3\n\nStateless agent\n15 min\n\n1\n\nReasoning memory\n25 min\n\n4\n\nShort-term memory\n25 min\n\n2\n\nSkill distillation\n20 min\n\n5\n\nWrap + Monday-morning path · 5 min",
+      "pageElementCount": 15,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 5,
+      "objectId": "ram_design_005",
+      "title": "The workshop arc",
+      "text": "The workshop arc\n\nExpose a failure\nStart with what the current agent cannot remember.\n\nAdd one memory layer\nUse deterministic make targets; no live app coding.\n\nRe-run the same scenario\nAsk the same eval questions and inspect the graph.\n\nIntroduction\n\nThe memory-layer colors recur throughout the workshop.",
+      "pageElementCount": 7,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 6,
+      "objectId": "ram_slide_006",
+      "title": "Failure → memory layer → fix",
+      "text": "Failure → memory layer → fix\n\nIntroduction\n\n1 · Stateless\nasks who you are\n— again\n\n2 · Short-term\nsurvives restarts\n\n3 · Long-term\nknows the customer\n\n4 · Reasoning\nreuses past solutions\n\n5 · Distillation\nexperience → skill\n\nsame eval questions at every step — watch the scoreboard go green",
+      "pageElementCount": 9,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 7,
+      "objectId": "ram_design_007",
+      "title": "Your",
+      "text": "Your\nenvironment\n\nCodespaces-first: prebuilt 4-core / 8 GB devcontainer.\nConnect your AuraDB, OpenAI and—at module 5—NAMS.\nAuraDB credentials in .env; OpenAI key in a personal Codespaces secret.\nFallback: local clone + VS Code Dev Containers, using the same .devcontainer/.\n\nModule 0\n\nOne workspace.\nYour database.\n\nModule 0",
+      "pageElementCount": 6,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 8,
+      "objectId": "ram_slide_008",
+      "title": "Workshop environment",
+      "text": "Workshop environment\n\nModule 0\n\nGitHub Codespace\n(prebuilt)\nFastAPI :8000  ·  Vite :5173\nuv env · scenarios · scripts\n\nAuraDB\n(Neo4j)\nyour instance + key\n\nOpenAI\nchat · embeddings · extraction\n\nNAMS\n(hosted memory)\nmodule 5 · nams_ key\n\nbolt\n\nAPI key\n\nREST\n\n.env (Aura creds) · Codespaces secret (OpenAI)",
+      "pageElementCount": 11,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 9,
+      "objectId": "ram_design_009",
+      "title": "Credential checklist",
+      "text": "Credential checklist\n\nAuraDB\n\nOpenAI\n\nNAMS\n\nSet your AuraDB URI, username and password in .env.\n\nOPENAI_API_KEY arrives from a personal Codespaces secret.\n\nNAMS_API_KEY is needed only in module 5.\n\nPre-work\n\n.env is scaffolded from .env.example. See the pre-work email for missing setup.\n\nModule 0",
+      "pageElementCount": 11,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 10,
+      "objectId": "ram_design_010",
+      "title": "Smoke test, live",
+      "text": "Smoke test, live\n\nModule 0 · Live demo\n\nVerify env vars, AuraDB, OpenAI and the SQLite seed.\n\nFastAPI + Vite start together; the UI opens on port 5173.\n\nTour chat, graph and trace. A make target is always the next step.\n\nRun\n\nWatch for\n\nmake check\n\nmake dev",
+      "pageElementCount": 7,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 11,
+      "objectId": "ram_design_011",
+      "title": "System of record",
+      "text": "System of record\n\nSQLite\n\nAccounts, catalog and policies: what the agent acts on.\n\nBusiness records stay here.\n\nMemory\n\nNeo4j\n\nConversations, entities and traces: what the agent learned while acting.\n\nRemember this boundary for module 5’s drift beat.\n\nModule 1 · Two stores, two jobs",
+      "pageElementCount": 6,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 12,
+      "objectId": "ram_slide_012",
+      "title": "Two stores, two jobs",
+      "text": "Two stores, two jobs\n\nModule 1\n\nSQLite\nSystem of record\ncustomers · products · policies\n\nNeo4j\nMemory\nwhat the agent learned\n\nfacts\n\nconvo\n\nentities\n\ntraces\n\nSupportBot\nPydanticAI agent + tools\n\nSQL queries (tools)\n\nmemory reads / writes\n\nwhat the agent ACTS ON\n\nwhat the agent LEARNED",
+      "pageElementCount": 14,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 13,
+      "objectId": "ram_design_013",
+      "title": "Meet the agent",
+      "text": "Meet the agent\n\nModule 1\n\nAcme Cloud support desk.\n\nPydanticAI + FastAPI backend; React + NVL frontend.\n\nParameterized SQL against acme_cloud.db:\n\nlookup_account\nsearch_product_catalog\nfetch_policy\ncheck_service_status\nissue_refund\n\nThe agent is competent from the first message.\n\nRefunds validate against policy and write to refunds.\n\nTool names mirror the module 3 ontology.\n\nAgent stack\n\nBusiness tools\n\nThe memory boundary",
+      "pageElementCount": 9,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 14,
+      "objectId": "ram_design_014",
+      "title": "The failure:",
+      "text": "The failure:\nstatelessness\n\nA customer returns in a new chat, and the agent asks who they are again.\nRestart mid-conversation: context is gone.\nIdentical sessions have no bridge.\nThis is an architectural failure; another business tool cannot fix it.\n\nModule 1\n\n“Who are\nyou again?”\n\nModule 1",
+      "pageElementCount": 6,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 15,
+      "objectId": "ram_slide_015",
+      "title": "Stateless sessions have no bridge",
+      "text": "Stateless sessions have no bridge\n\nModule 1\n\nSession A\n“double-charged $49”\nagent learns: name, plan, charge\n\nSession B\n“it's me again…”\nagent asks: who are you?\n\nthe process exits → everything the agent learned is gone",
+      "pageElementCount": 6,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 16,
+      "objectId": "ram_design_016",
+      "title": "The stateless baseline",
+      "text": "The stateless baseline\n\nModule 1 · Live demo\n\nWatch the agent ask who you are again.\n\nInspect the trace panel: which SQL ran, and what did the agent learn?\n\nWhere does that learning go when the process exits?\n\nRun\n\nWatch for\n\nmake s1-baseline\n\nStart a fresh chat as the same customer",
+      "pageElementCount": 7,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 17,
+      "objectId": "ram_design_017",
+      "title": "The eval baseline",
+      "text": "The eval baseline\n\nIdentity\n\nConversation\n\nAccount\n\n“Do you know who I am?”\n\n“What did we discuss last time?”\n\n“What do you know about my account?”\n\nProcedure\n\n“Have you handled a ticket like this before?”\n\nModule 1\n\nmake eval · Keep these four questions fixed as each new memory layer lands.",
+      "pageElementCount": 12,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 18,
+      "objectId": "ram_design_018",
+      "title": "Short-term",
+      "text": "Short-term\nmemory\n\nConversations and messages become :Conversation → :Message chains.\nShort-term means conversation-scoped, not temporary: it survives restarts.\nMemoryClient uses Bolt against your AuraDB.\nWrite with add_message; retrieve with get_context and inject into PydanticAI dynamic instructions.\n\nModule 2\n\nRemembers\nwhat was said\n\nModule 2",
+      "pageElementCount": 6,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 19,
+      "objectId": "ram_design_019",
+      "title": "Message chains in the graph",
+      "text": "Message chains in the graph\n\nInspect a message\nRole, timestamp, embedding and metadata live on :Message nodes.\n\nFollow the chain\nMessages link sequentially within a conversation; watch NVL update live.\n\nVerify the claim\nThe graph panel is your microscope: memory you can point at.\n\nModule 2",
+      "pageElementCount": 6,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 20,
+      "objectId": "ram_slide_020",
+      "title": "Conversation memory survives restarts",
+      "text": "Conversation memory survives restarts\n\nModule 2\n\nConversation\nsession id\n\nMessage 1\n(user)\n\nMessage 2\n(assistant)\n\nMessage 3\n(user)\n\nMessage 4\n(assistant)\n\nHAS_MESSAGE\n\nNEXT\n\nNEXT\n\nNEXT\n\nrestart the app → the chain is still there → the agent continues",
+      "pageElementCount": 13,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 21,
+      "objectId": "ram_design_021",
+      "title": "Context assembly",
+      "text": "Context assembly\n\nModule 2\n\nOne tier of the assembled context.\n\nExplore what distinguishes it from observations and recent messages.\n\nAnother tier, retrieved as part of the agent’s relevant past.\n\nUse the exploration brief to probe its role.\n\nget_context assembles memory on every request.\n\nInject it into dynamic instructions before the model call.\n\nReflections\n\nObservations\n\nRecent messages\n\nSearch with a paraphrase: which path answered—vector or text?",
+      "pageElementCount": 10,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 22,
+      "objectId": "ram_slide_022",
+      "title": "Per-turn context assembly",
+      "text": "Per-turn context assembly\n\nModule 2\n\ncustomer\nmessage\n\nstore message\n(add_message)\n\nget_context()\nrecent + relevant\n\ninstructions =\nbase + memory\n\nmodel call",
+      "pageElementCount": 8,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 23,
+      "objectId": "ram_design_023",
+      "title": "The returning customer",
+      "text": "The returning customer\n\nModule 2 · Live demo\n\nThe customer returns in a new chat; watch which context carries over.\n\nFind the new conversation in the graph and compare it with the old one.\n\nWhich eval questions flipped?\n\nRun\n\nWatch for\n\nmake s2-return\n\nmake eval",
+      "pageElementCount": 7,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 24,
+      "objectId": "ram_design_024",
+      "title": "The restart beat",
+      "text": "The restart beat\n\nRestart the process.\nKeep the memory.\n\nmake s2-restart\n\nKill the app mid-conversation, then restart it. Trace exactly which conversation and message records preserve context.",
+      "pageElementCount": 5,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 25,
+      "objectId": "ram_design_025",
+      "title": "Exploration brief",
+      "text": "Exploration brief\n\nFind your conversation\nHow are messages linked? What properties does a :Message carry?\n\nTrace the restart\nWhich exact records made survival possible?\n\nSearch with a paraphrase\nDid vector search or text search answer?\n\n1\n\n2\n\n3\n\nModule 2\n\nCore questions first. Stretch + answer key: module 2 README · Catch up: make module-2",
+      "pageElementCount": 10,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 26,
+      "objectId": "ram_design_026",
+      "title": "Long-term",
+      "text": "Long-term\nmemory\n\nMessages record what was said; entities represent who and what it was about.\nRemember the customer’s plan, products and preferences across conversations.\nCustom ontology; LLM extraction at temperature 0 (ADR 001).\nAdd save_preference, recall_preferences and search_memory.\n40 minutes: the deepest module of the day.\n\nModule 3\n\nRemembers\nwho and what\n\nModule 3",
+      "pageElementCount": 6,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 27,
+      "objectId": "ram_design_027",
+      "title": "Ontology-driven extraction",
+      "text": "Ontology-driven extraction\n\nModule 3\n\nontology/acme_cloud.yaml declares entity types, typed relationships, aliases and constraints.\n\nEntity descriptions become annotation guidelines in the LLM extraction prompt, including negative cases.\n\nRelations outside the ontology are dropped at ingest.\n\nOne YAML document drives both extraction and validation.\n\nValidate it yourself:\nneo4j-agent-memory\nontology validate\n\nDefine the domain\n\nConstrain the output",
+      "pageElementCount": 7,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 28,
+      "objectId": "ram_slide_028",
+      "title": "Ontology-driven extraction",
+      "text": "Ontology-driven extraction\n\nModule 3\n\nacme_cloud.yaml\nentity types · relations · aliases\n\nextraction\nprompt\n\nrelation\nvalidation\n\nLLM\nextractor\n\nCustomer\nMaya Chen\n\nProduct\nAcme Cloud…\n\nrendered into\n\nvalidated against\n\nforbidden ↓ dropped",
+      "pageElementCount": 12,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 29,
+      "objectId": "ram_design_029",
+      "title": "Default POLE+O",
+      "text": "Default POLE+O\n\nmake s3-default\n\nLoosely labeled nodes, bare properties and no typed relations.\n\nAcme Cloud ontology\n\nmake s3-ontology\n\nPrecise labels and typed edges.\n\nSame input, model and temperature. Only the ontology changes.\n\nModule 3 · Before / after",
+      "pageElementCount": 6,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 30,
+      "objectId": "ram_slide_030",
+      "title": "Default vs. custom ontology",
+      "text": "Default vs. custom ontology\n\nModule 3\n\nDefault POLE+O\n\nAcme Cloud ontology\n\nPERSON\n\nORGANIZATION\n\nOBJECT\n\nCustomer\n\nPlan\n\nIncident\n\nProduct\n\nSUBSCRIBES_TO\n\nREPORTED\n\nAFFECTS\n\nSame scenario, model and temperature. Only the ontology changes.",
+      "pageElementCount": 16,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 31,
+      "objectId": "ram_design_031",
+      "title": "The hybrid pipeline",
+      "text": "The hybrid pipeline\n\nModule 3\n\nEntity spans, types and typed relations.\n\nThe LLM supplies structure, not invented attributes.\n\nHydration supplies email, plan and signup date.\n\nEvery business fact comes from the system of record.\n\nAsync enrichment adds public knowledge about real third parties, such as Stripe.\n\nLLM → structure\n\nSQLite → facts\n\nWikipedia → knowledge\n\nStructure from the LLM. Facts from grounded sources.",
+      "pageElementCount": 10,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 32,
+      "objectId": "ram_slide_032",
+      "title": "The hybrid pipeline",
+      "text": "The hybrid pipeline\n\nModule 3\n\nLLM extractor\nstructure\n\nSQLite\ngrounded facts\n\nWikipedia\nexternal knowledge\n\nCustomer: Maya Chen\ntype · subtype · relations  (LLM)\nemail · plan · signup_date  (SQLite)\nenriched_description · wikipedia_url\n\nhydration upserts: facts from the system of record, provenance kept per property",
+      "pageElementCount": 8,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 33,
+      "objectId": "ram_design_033",
+      "title": "Entity resolution and aliases",
+      "text": "Entity resolution and aliases\n\nResolve aliases\n“AcmeCloud” and “Acme Cloud” resolve to one node through ontology aliases.\n\nUpdate in place\nadd_entity MERGEs on (name, type); hydration updates rather than duplicates.\n\nInspect the evidence\nTyped edges carry support, confidence and source_message_ids. Find support ≥ 2.\n\nModule 3",
+      "pageElementCount": 6,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 34,
+      "objectId": "ram_slide_034",
+      "title": "One real-world entity, many surface forms",
+      "text": "One real-world entity, many surface forms\n\nModule 3\n\n“Acme Cloud”\nmessage 3\n\n“AcmeCloud”\nmessage 12\n\nentity\nresolution\n\nOrganization\nAcme Cloud\naliases: AcmeCloud, Acme\n\ndeclared aliases + embedding similarity → one node, not two",
+      "pageElementCount": 8,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 35,
+      "objectId": "ram_design_035",
+      "title": "Watch the graph bloom",
+      "text": "Watch the graph bloom\n\nModule 3 · Live demo\n\nCompare extraction on the same scenario, before and after the ontology.\n\nClick a Customer: find hydrated email and plan, labeled by source.\n\nInspect the Stripe node’s Wikipedia enrichment.\n\nRun\n\nWatch for\n\nmake s3-default\n\nmake s3-ontology\n\nmake s3-enrich  (pre-warmed stretch)",
+      "pageElementCount": 7,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 36,
+      "objectId": "ram_design_036",
+      "title": "Under the hood",
+      "text": "Under the hood\n\nModule 3\n\nPost-extraction hook:\nCustomer → lookup_account → add_entity\n\nUpsert description and attributes such as email, plan and signup_date.\n\nAll properties come from SQLite, including plan_tier and severity.\n\nEnrichmentConfig + Wikimedia provider.\n\nORGANIZATION-only allowlist; background and cached.\n\nThe schema drops LLM-supplied attributes by design: invented facts are the failure mode.\n\nHydration\n\nEnrichment",
+      "pageElementCount": 7,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 37,
+      "objectId": "ram_design_037",
+      "title": "Exploration brief",
+      "text": "Exploration brief\n\nModule 3\n\nQ1: provenance via :MENTIONS\n\nQ2: default vs. custom graph\n\nQ9: Customer property sources\n\nQ13: what changed since module 2?\n\nQ3: negative-case descriptions\n\nQ7: strict vs. permissive validation\n\nQ12: hydration upsert after a plan change\n\nExplore the remaining questions.\n\nThe answer key is in the module 3 README.\n\nAllow 15+ minutes for exploration.\n\nCore · everyone\n\nInstructor-led\n\nStretch\n\n40-minute module · Catch up: make module-3",
+      "pageElementCount": 10,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 38,
+      "objectId": "ram_design_038",
+      "title": "Reasoning",
+      "text": "Reasoning\nmemory\n\nTasks, steps, tool calls and outcomes capture the agent’s own execution.\nrecord_agent_trace consumes a PydanticAI AgentRunResult; record every run.\nRetrieve similar past traces to prime familiar tasks.\nFailures are first-class memory: a rejected refund teaches too.\n\nModule 4\n\nRemembers\nhow it acted\n\nModule 4",
+      "pageElementCount": 6,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 39,
+      "objectId": "ram_design_039",
+      "title": "Anatomy of a trace",
+      "text": "Anatomy of a trace\n\nExecution\nAgentStep → ToolCall chains end in a success or failure outcome.\n\nDependencies\nTOUCHED links to entities the decision depended on; compare with MENTIONS.\n\nEvidence\nTool inputs and outputs retain actual SQL and policy text—material for distillation.\n\nModule 4",
+      "pageElementCount": 6,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 40,
+      "objectId": "ram_slide_040",
+      "title": "Anatomy of a trace",
+      "text": "Anatomy of a trace\n\nModule 4\n\nTask\n\nAgentStep\n\nToolCall\n\nOutcome\n\nPolicy entity\n\nCustomer message\n\nTOUCHED\n\nMENTIONS\n\nRecord successful and failed runs\n\nTool-call inputs and outputs retain the SQL and policy text behind the decision.",
+      "pageElementCount": 13,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 41,
+      "objectId": "ram_design_041",
+      "title": "Similar-task retrieval",
+      "text": "Similar-task retrieval\n\nModule 4\n\nA new ticket embeds near yesterday’s trace.\n\nFind the matching procedure.\n\nPast traces guide tool order, steps skipped and confidence.\n\nRun an ablation: the same ticket with retrieval off, then on.\n\nInspect the behavioral difference in the trace panel.\n\nRetrieve\n\nPrime\n\nCompare",
+      "pageElementCount": 9,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 42,
+      "objectId": "ram_slide_042",
+      "title": "Similar-task retrieval",
+      "text": "Similar-task retrieval\n\nModule 4\n\nnew ticket\n“double-billed $129”\n\nyesterday's trace\n(same shape)\ntask → steps → outcome: success\n\nyesterday's failed trace\n($400, over limit)\ntask → steps → outcome: rejected\n\nprimed agent\nprocedure from memory\n\nsimilar-task retrieval\n\nablation: same ticket with retrieval OFF vs ON — the delta is the proof",
+      "pageElementCount": 9,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 43,
+      "objectId": "ram_design_043",
+      "title": "The refund, twice",
+      "text": "The refund, twice\n\nModule 4 · Live demo\n\nFirst refund: record the procedure. Repeat ticket: compare control and treatment.\n\nlookup_account → fetch_policy(\"refund\") → issue_refund\n\nAn over-limit refund is rejected. Keep that failed trace for governance.\n\nRun\n\nWatch for\n\nmake s4-refund\n\nmake s4-refund-repeat\n\nmake s4-fail",
+      "pageElementCount": 7,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 44,
+      "objectId": "ram_design_044",
+      "title": "“Why did you issue",
+      "text": "“Why did you issue\nthat refund?”\n\nOutcome → steps → tool calls → policy result → customer message\n\nReasoning memory makes the decision an auditable story.",
+      "pageElementCount": 4,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 45,
+      "objectId": "ram_design_045",
+      "title": "Exploration brief",
+      "text": "Exploration brief\n\nReconstruct a trace\nIdentify the task, tool order and outcome.\n\nCompare retrieval\nWhat changed: tool order, skipped steps or confidence?\n\nLearn from failure\nFind the failed trace. What went wrong, and how could the next agent avoid it?\n\n1\n\n2\n\n3\n\nModule 4\n\nStretch: TOUCHED vs. MENTIONS + provenance walk · make module-4 · Trim here if time is tight",
+      "pageElementCount": 10,
+      "tableCount": 0
+    }
+  ]
+}

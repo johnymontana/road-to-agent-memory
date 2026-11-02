@@ -1,0 +1,44 @@
+Opening module 2 · process 3892 · namespace replay-02949505b0ac4d019091ac857da2662e
+Ready in 37.4s
+[s2-return-0] customer: Remember that I am Maya Chen, maya.chen@northwind.example, at Northwind Robotics. My ticket phrase is violet comet.
+                 pydantic-ai v2.62.0 • Python 3.12.12
+      / \
+     /   \       model: openai:gpt-4o-mini • tools: 5 • capabilities: 0
+   /___.___\
+  /    |    \    observability: off — see every model and tool call live, with cost
+/      |      \    set it up free with Pydantic Logfire: uvx logfire-cli wizard --task pydantic-ai
+`---.._|_..---'    or use any OpenTelemetry backend: https://pydantic.dev/docs/ai/logfire/#otel
+
+                 goes away once observability is on — or PYDANTIC_AI_NO_BANNER=1
+SupportBot: I found your account, Maya Chen, with Northwind Robotics. You have a Pro plan with a monthly price of $49. Your refund limit is $250, and there are no refunds recorded yet.
+
+How can I assist you today?
+Tools: [('lookup_account', None)]
+Timing: {'context_seconds': 7.29, 'model_seconds': 2.151, 'input_tokens': 1169, 'output_tokens': 72, 'total_seconds': 11.852} Warnings: []
+[s2-return-0] customer: What name, email, and ticket phrase did I give you?
+SupportBot: You provided the name Maya Chen, the email maya.chen@northwind.example, and the ticket phrase "violet comet."
+Tools: []
+Timing: {'context_seconds': 6.512, 'model_seconds': 1.114, 'input_tokens': 819, 'output_tokens': 28, 'total_seconds': 9.958} Warnings: []
+[s2-return-0] customer: After restarting this process, what ticket phrase did I give you?
+SupportBot: You provided the ticket phrase "violet comet."
+Tools: []
+Timing: {'context_seconds': 6.376, 'model_seconds': 1.196, 'input_tokens': 1053, 'output_tokens': 12, 'total_seconds': 9.926} Warnings: []
+[s2-return-0] customer: Please look up my account and refund history; do not issue a new refund.
+SupportBot: Your account details are as follows:
+
+- **Name:** Maya Chen
+- **Email:** maya.chen@northwind.example
+- **Organization:** Northwind Robotics
+- **Plan:** Pro (Monthly Price: $49)
+- **Refund Limit:** $250
+- **Refund History:** No refunds recorded yet.
+
+Your refund policy states that refunds up to $250 are granted immediately for charges within the last 30 days, while amounts above that require escalated approval.
+
+How else can I assist you today?
+Tools: [('lookup_account', None), ('fetch_policy', None)]
+Timing: {'context_seconds': 7.545, 'model_seconds': 3.005, 'input_tokens': 2751, 'output_tokens': 157, 'total_seconds': 13.013} Warnings: []
+[s2-return-1] customer: Which ticket phrase did Maya Chen give us? Cite the retrieved message ID.
+SupportBot: Maya Chen provided the ticket phrase "violet comet." This information is from evidence ID 9853ce75-a98c-4ac2-acaa-56bd52c2c293.
+Tools: []
+Timing: {'context_seconds': 7.065, 'model_seconds': 1.549, 'input_tokens': 967, 'output_tokens': 43, 'total_seconds': 11.059} Warnings: []

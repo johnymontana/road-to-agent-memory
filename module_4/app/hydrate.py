@@ -20,6 +20,7 @@ from lib import db as dbx
 
 MENTIONED_ENTITIES_CYPHER = """
 MATCH (c:Conversation {session_id: $session_id})-[:HAS_MESSAGE]->(m:Message)
+WHERE $message_id IS NULL OR m.id=$message_id
 MATCH (m)-[:MENTIONS]->(e:Entity)
 RETURN DISTINCT e.name AS name, e.type AS type, e.subtype AS subtype, e.aliases AS aliases
 """
@@ -102,33 +103,48 @@ def _lookup_hydration(db_path, name: str) -> dict[str, Any] | None:
     return None
 
 
-async def _apply_flat_attributes(s, name: str, etype: str, attributes: dict) -> None:
+async def _apply_flat_attributes(
+    s, name: str, etype: str, attributes: dict, *, writer=None
+) -> None:
     """Write hydrated facts as first-class node properties via our own driver
     (the memory client's public Cypher surface is read-only)."""
-    driver = AsyncGraphDatabase.driver(s.neo4j_uri, auth=(s.neo4j_username, s.neo4j_password))
-    try:
+    if writer is not None:
+
+        async def write(tx):
+            await (
+                await tx.run(
+                    SET_FLAT_ATTRIBUTES_CYPHER,
+                    {"name": name, "type": etype, "attributes": attributes},
+                )
+            ).consume()
+
+        await writer.execute_write(write)
+        return
+    async with AsyncGraphDatabase.driver(
+        s.neo4j_uri,
+        auth=(s.neo4j_username, s.neo4j_password),
+        connection_timeout=10,
+        max_transaction_retry_time=5,
+    ) as driver:
         async with driver.session(database=s.neo4j_database) as session:
-            await session.run(
-                SET_FLAT_ATTRIBUTES_CYPHER,
-                {"name": name, "type": etype, "attributes": attributes},
-            )
-    finally:
-        await driver.close()
+            await _apply_flat_attributes(s, name, etype, attributes, writer=session)
 
 
 async def hydrate_session_entities(
-    client: MemoryClient, session_id: str, db_path, settings=None
+    client: MemoryClient, session_id: str, db_path, settings=None, *, message_id=None, writer=None
 ) -> list[str]:
     """Upsert grounded properties onto every entity mentioned in this session.
 
-    Third-party organizations without SQLite records are passed through the public
-    upsert to queue optional Wikimedia enrichment. Message extraction itself does
-    not enqueue enrichment in the installed library. These are not hydrated facts.
+    Only compatible POLE types receive facts. Unknown names stay unhydrated.
+    Wikimedia is opt-in through the explicit enrichment workflow.
 
     Returns the names of hydrated entities (for logging/tests). `settings` is
     required for the flat-attribute write path (driver credentials).
     """
-    rows = await client.query.cypher(MENTIONED_ENTITIES_CYPHER, {"session_id": session_id})
+    rows = await client.query.cypher(
+        MENTIONED_ENTITIES_CYPHER,
+        {"session_id": session_id, "message_id": str(message_id) if message_id else None},
+    )
     hydrated: list[str] = []
     for row in rows:
         # Resolution may keep an older short name ("Maya") and retain the
@@ -138,31 +154,36 @@ async def hydrate_session_entities(
         matches = [
             facts for name in candidates if (facts := _lookup_hydration(db_path, name)) is not None
         ]
+        expected = {
+            "sqlite:customers": "PERSON",
+            "sqlite:products": "OBJECT",
+            "sqlite:plans": "OBJECT",
+            "sqlite:organizations": "ORGANIZATION",
+        }
+        if matches and any(
+            expected[m["attributes"]["hydrated_from"]] != row["type"] for m in matches
+        ):
+            continue
         facts = matches[0] if matches and all(m == matches[0] for m in matches) else None
         if facts is None:
-            if row["type"] == "ORGANIZATION":
-                # Extraction stores entities directly; the public upsert queues
-                # background enrichment for public vendors such as Stripe.
-                await client.long_term.add_entity(
-                    row["name"],
-                    row["type"],
-                    subtype=row.get("subtype"),
-                    resolve=False,
-                    deduplicate=False,
-                    enrich=True,
-                )
-            continue
+            continue  # Third-party enrichment is an explicit optional workflow.
         # 1. Public upsert: refreshes the grounded description.
         await client.long_term.add_entity(
             row["name"],
             row["type"],
             subtype=row.get("subtype"),
             description=facts["description"],
-            resolve=False,  # the node already exists; hydrate it directly
+            resolve=False,
+            deduplicate=False,
+            generate_embedding=False,
+            enrich=False,
+            attributes=facts["attributes"],  # New nodes and flat properties share provenance.
         )
         # 2. Flat properties (upstream add_entity does not write attributes on
         #    the ON MATCH path — see docs/verification-log.md, spike 0.5).
         if settings is not None:
-            await _apply_flat_attributes(settings, row["name"], row["type"], facts["attributes"])
+            await _apply_flat_attributes(
+                settings, row["name"], row["type"], facts["attributes"], writer=writer
+            )
         hydrated.append(row["name"])
     return hydrated

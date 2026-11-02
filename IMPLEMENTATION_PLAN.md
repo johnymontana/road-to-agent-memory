@@ -1,3 +1,5 @@
+> Delivery contract updated 2026-11-01: see [fix verification](docs/workshop-fixes-2026-11-01.md) and [run sheet](docs/run-of-show.md). Historical build phases below are not current acceptance evidence.
+
 # Road to Agent Memory — Implementation Plan
 
 > Derived from: `WORKSHOP_OUTLINE.md` (v1) · `docs/adr/001`–`003` · `REVIEW_FEEDBACK.md`
@@ -199,9 +201,8 @@ Graph panel rendering lights up with each memory layer.*
   (`support`/`confidence` visible), `:MENTIONS` links.
 
 ### 3.4 Module 4 — Reasoning memory
-- `record_agent_trace` on `AgentRunResult`; trace subgraph rendering (`AgentStep →
-  ToolCall` chains, `:TOUCHED` edges, outcome nodes); failed-trace styling (red
-  outcome node).
+- `record_agent_trace` on `AgentRunResult`; trace subgraph rendering (`ReasoningTrace → ReasoningStep → ToolCall` chains, explicit `:TOUCHED` and
+  `INITIATED_BY` edges; outcome is a trace property. Record exceptions as well as replies.
 - Similar-task retrieval priming the agent — *final shape decided by spike 0.4* (F7).
 - **Ablation demo (C1):** `make s4-refund-repeat` runs the same ticket twice —
   once with retrieval off (control) and once on (treatment) — with the trace panel
@@ -276,7 +277,7 @@ transitions and framing — demos carry the workshop.*
 | D-09 | **POLE+O vs. custom ontology before/after** — two mini-graphs side by side | M3 |
 | D-10 | **The hybrid pipeline** — three sources (LLM structure / SQLite facts / Wikipedia externals) converging on one entity node with provenance-colored properties | M3 |
 | D-11 | **Entity resolution** — alias beat: "AcmeCloud" → one node; SAME_AS review edge | M3 |
-| D-12 | **Reasoning trace anatomy** — task → AgentSteps → ToolCalls → outcome; `:TOUCHED` vs `:MENTIONS` contrast | M4 |
+| D-12 | **Reasoning trace anatomy** — ReasoningTrace → ReasoningStep → ToolCall; outcome is a trace property; `:TOUCHED` vs `:MENTIONS` contrast | M4 |
 | D-13 | **Similar-task retrieval** — new ticket embeds near yesterday's trace; ablation callout (control vs treatment) | M4 |
 | D-14 | **Distillation pipeline** — traces+entities+observations → SKILL.md + skill subgraph with `GROUNDED_IN` edges; grounding/coverage scores | M5 |
 | D-15 | **Governance loop** — skill goes stale when grounding changes → re-distill (shape finalized after spike 0.6) | M5 |
@@ -295,7 +296,7 @@ transitions and framing — demos carry the workshop.*
 | M3 | 8 | Concept (entities vs. messages); D-08; D-09; D-10 (three sources — the design-principle slide: *structure from LLM, facts from SQLite*); D-11; live before/after; exploration brief (core questions only — 40-min module per D5) |
 | M4 | 6 | Concept (the agent's own execution as memory); D-12; D-13; live ablation demo; exploration brief |
 | M5 | 6 | D-14 distillation; **seam narration slide (D2)**: Aura vs. NAMS workspace boundary; D-16 payoff; live fresh-agent run; D-15 governance (delete-entity drift beat — D4); Labs/early-access disclosure (H7); exploration brief |
-| Wrap | 4 | Eval scoreboard re-run (full board green — H6); D-17 one-graph recap; D-18 Bolt vs. NAMS; "Monday morning" path (add memory to your own agent in 20 min) + teardown + resources |
+| Wrap | 4 | Eval scoreboard re-run (controlled exact-fact/source-ID checks; no guaranteed green progression); D-17 one-graph recap; D-18 Bolt vs. NAMS; "Monday morning" path (add memory to your own agent in 20 min) + teardown + resources |
 
 - Every concept term on a slide links its one-sentence glossary definition in speaker
   notes (D2); slides reference make targets verbatim so slides and terminal agree.
@@ -363,7 +364,7 @@ alongside the golden-graph snapshots (2.7).
 |---|---|---|
 | D1 | Module progression mechanics | **Folder-per-module** — `module_1/`…`module_5/` self-contained full code; shared root `.env`/venv/SQLite; `make module-N` per folder. ADR 004. Replaces branch-per-module (G1) and feature flags |
 | D2 | Module 5 memory continuity | **Pre-seeded NAMS snapshot stands** (original choice); module 5 slides explicitly narrate the Aura→NAMS seam so attendees understand the boundary (B3 mitigation) |
-| D3 | Enrichment prominence | **Keep, demoted to stretch** — instructor shows one pre-warmed Stripe node in passing; exploration steps live in module 3 README as stretch with screenshot fallback (H5 resolved, G9 risk off the critical path) |
+| D3 | Enrichment prominence | **Keep, demoted to stretch** — instructor shows one explicit cached Wikimedia provider-status replay in passing; exploration steps live in module 3 README as stretch with screenshot fallback (H5 resolved, G9 risk off the critical path) |
 | D4 | Drift beat | **Delete-entity beat** — `make policy-change` (SQLite) first shows governance's blind spot (it watches the memory graph, not the system of record), then `make nams-drift` deletes the refund-policy entity so `GROUNDED_IN` claims lose their sources and drift flags. Stretch variant: mark a grounding `issue_refund` tool call failed. Spike 0.6 still verifies live behavior before content is written |
 | D5 | Clock | **Workshop extends to 2.5 hours** — M0 15 / M1 15 / M2 25 / M3 40 / M4 25 / M5 20 / Wrap 5 + 5-min buffer = 150. Module 3 re-scoped: enrichment stretch (D3), questions tiered (core 1, 2, 9, 13; instructor-demoed 3, 7, 12; rest stretch) |
 

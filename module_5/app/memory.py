@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -22,16 +21,16 @@ def build_settings(settings: AppSettings) -> MemorySettings:
             "username": settings.neo4j_username,
             "password": settings.neo4j_password,
             "database": settings.neo4j_database,
+            "connection_timeout": 10,
+            "max_transaction_retry_time": 5,
         },
         llm=f"openai/{settings.openai_model}",
         embedding=f"openai/{settings.embedding_model}",
         extraction={"extractor_type": "llm"},
-        enrichment={
-            "enabled": True,
-            "providers": ["wikimedia"],
-            "entity_types": ["ORGANIZATION"],
-        },
-        schema_config=SchemaConfig(use_active_ontology=True),
+        enrichment={"enabled": False},  # Explicit, cached optional workflow only.
+        schema_config=SchemaConfig(
+            use_active_ontology=True, validation_mode=settings.validation_mode
+        ),
     )
 
 
@@ -42,11 +41,17 @@ async def open_memory(settings: AppSettings, *, ontology: str | None = None):
     An explicit file wins over the active database version. Default/custom
     comparisons pass a selection per invocation, without changing global state.
     """
-    selection = ontology or os.environ.get("ONTOLOGY", "acme_cloud")
+    selection = ontology or settings.ontology
     document = None
     if selection != "active":
         if selection not in ("acme_cloud", "default-poleo"):
             raise ValueError("ontology must be acme_cloud, default-poleo, or active")
         document = load_ontology(str(ONTOLOGY_DIR / f"{selection}.yaml"))
+    source = (
+        "database active ontology"
+        if selection == "active"
+        else str(ONTOLOGY_DIR / f"{selection}.yaml")
+    )
+    print(f"Module 5 ontology source: {source}; validation={settings.validation_mode}", flush=True)
     async with MemoryClient(build_settings(settings), ontology=document) as memory:
         yield memory

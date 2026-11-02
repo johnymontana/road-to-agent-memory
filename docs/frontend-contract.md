@@ -1,60 +1,39 @@
-# Frontend ↔ Backend API Contract
+# Frontend and backend contract
 
-The shared frontend (`web/`) talks to whichever module backend is running
-(`make dev MODULE=N`, default 1). Backend serves on **:8000**, Vite dev server on
-**:5173** (proxy `/api` → `:8000`).
+`make dev MODULE=N` serves the selected local agent on :8000 and Vite on :5173.
+Health polling recovers from startup delays; the launcher prints Ready only when
+both HTTP surfaces respond. There is no module selector in the URL query string.
 
-All responses JSON. The frontend never holds secrets; NAMS calls are proxied
-through the backend (`/api/graph/nams`), never called directly from the browser.
+| Route | Contract |
+| --- | --- |
+| GET /api/health | status, module and active memory_layers. Startup capability checks are in make check. |
+| POST /api/chat | message, session_id, request_id, account_email, incident_id, authorize_refund, policy_plan. Only operator-selected case metadata authorizes a write. |
+| GET /api/accounts, /api/cases | Current SQL identities and billing cases for explicit selection. |
+| GET /api/operations/{request_id} | Saved local operation response; inspect before retrying uncertain completion. |
+| GET /api/graph | layer=all/short_term/long_term/reasoning; optional session_id. Explicit JSON-safe Neo4j maps; bounded newest subset; embeddings omitted; truncated flag. |
+| GET /api/replays | Saved immutable CLI/extraction/enrichment artifacts plus their conversation IDs for live graph scope. |
+| GET /api/replays/{id} | Actual measured replay plus an NVL graph projection; extraction snapshots identify fixed-transcript provenance. |
+| POST /api/eval | Optional id; starts one isolated evaluation, returns 202 and its ID. Reusing the ID reads the existing operation. |
+| GET /api/eval | Saved evaluation list only, no model calls or business writes. |
+| GET /api/eval/{id} | Running/partial/final results, rubric checks, source IDs, timings and errors. |
+| GET /api/graph/nams | Existing module-5-only hosted graph proxy; unchanged by this non-NAMS work. |
 
-## Endpoints
+Chat responses contain reply, canonical session_id, request_id, tool_calls, status,
+execution_status, business_status, warnings, timing and context. Tool calls retain
+actual executed SQL (with bound values rendered by SQLite's trace callback), input,
+output and duration; memory tools have sql=null. The reject-only server policy check
+has origin=server_validation, distinct from a model-selected tool.
 
-### `GET /api/health`
-```json
-{ "status": "ok", "module": 3, "memory_layers": ["short_term", "long_term"] }
-```
-`memory_layers` lists which layers are active in the running module (drives UI badges).
+context.evidence lists source IDs and paths: recent_conversation, semantic_message,
+grounded_entity, customer_preference or reasoning_trace. context.hydrated records
+pre-answer grounding; written_layers identifies writes separately. A response may
+be degraded when persistence/retrieval is unavailable even when a business action
+already completed. Receipts preserve the result. Incident uniqueness prevents a
+second refund regardless of request retry ID.
 
-### `POST /api/chat`
-Request: `{ "message": "string", "session_id": "string | null" }`
-
-Response:
-```json
-{
-  "reply": "string",
-  "session_id": "string",
-  "tool_calls": [
-    { "name": "lookup_account", "input": {"customer_email": "..."}, "output": {...}, "sql": "SELECT ...", "duration_ms": 12 }
-  ],
-  "context": { "used_memory": true, "summary": "what was injected (short-term/long-term/reasoning), null in module 1" }
-}
-```
-`sql` is the actual parameterized SQL string the tool executed (trace panel shows it).
-
-### `GET /api/graph`
-Graph state from the attendee's AuraDB (Bolt side), mapped for NVL:
-```json
-{
-  "nodes": [ { "id": "string", "labels": ["Message"], "properties": { "content": "...", "...": "..." } } ],
-  "relationships": [ { "id": "string", "from": "nodeId", "to": "nodeId", "type": "MENTIONS", "properties": {} } ]
-}
-```
-Query params: `?layer=all|short_term|long_term|reasoning` (default `all`).
-
-### `GET /api/graph/nams`  (module 5 only)
-Same NVL shape, sourced from the NAMS workspace via REST (skill subgraph incl.
-`Skill`/`SkillVersion`/`SkillStep` nodes and `GROUNDED_IN` edges). Returns
-`{ "nodes": [], "relationships": [], "unavailable": true }` when NAMS is not configured.
-
-### `GET /api/eval`
-Runs the continuity eval-question set against the current agent; returns:
-```json
-{ "questions": [ { "id": "q1", "question": "...", "expected_from_module": 2, "answered": true, "answer": "..." } ] }
-```
-
-## Conventions
-- Node `labels` drive graph-panel coloring via the memory-type palette:
-  short-term (Conversation/Message) `#B2F2BB` / long-term (Entity*) `#FFEC99` /
-  reasoning (ReasoningTrace/ReasoningStep/ToolCall) `#D0BFFF` / skills (Skill*) `#6366F1`.
-- Chat is synchronous request/response (no websockets in v1); the trace panel renders
-  `tool_calls` from the latest response; the graph panel refetches after each reply.
+NVL shape: nodes[{id,labels,properties}], relationships[{id,from,to,type,properties}],
+truncated, session_id. Relationship endpoints are in the returned induced subgraph.
+Current conversation, All stored memory, saved output projections and Live memory
+for each replay conversation are explicit choices.
+Keyboard node inspection complements pan/zoom/drag. Browser conversation history
+is stored per module in localStorage; it is not automatically synchronized to CLI runs.

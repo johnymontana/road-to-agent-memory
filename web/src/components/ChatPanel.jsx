@@ -5,6 +5,10 @@ function layerColor(key) {
   return LAYER_LABELS.find((l) => l.key === key) ?? null
 }
 
+function FormattedReply({ text }) {
+  return String(text).split('\n').map((line, index) => <div key={index}>{line.split(/(\*\*[^*]+\*\*)/g).map((piece, n) => piece.startsWith('**') ? <strong key={n}>{piece.slice(2, -2)}</strong> : piece)}{!line && <br />}</div>)
+}
+
 export default function ChatPanel({ messages, onSend, sending, health }) {
   const [input, setInput] = useState('')
   const listRef = useRef(null)
@@ -63,7 +67,7 @@ export default function ChatPanel({ messages, onSend, sending, health }) {
         {messages.map((m, i) => (
           <div key={i} className={`bubble-row ${m.role === 'user' ? 'from-user' : 'from-agent'}`}>
             <div className={`bubble ${m.role === 'user' ? 'bubble-user' : 'bubble-agent'}`}>
-              {m.content}
+              <FormattedReply text={m.content} />
             </div>
           </div>
         ))}
@@ -77,7 +81,9 @@ export default function ChatPanel({ messages, onSend, sending, health }) {
       </div>
 
       <div className="chat-input-row">
+        <label className="composer-label" htmlFor="chat-message">Message to SupportBot</label>
         <input
+          id="chat-message"
           className="chat-input"
           type="text"
           placeholder="Type a message and press Enter…"

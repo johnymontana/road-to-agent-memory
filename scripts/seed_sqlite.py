@@ -8,10 +8,14 @@ Idempotent: drops and recreates all tables on each run.
 
 from __future__ import annotations
 
+import os
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path(__file__).resolve().parent.parent / "data" / "acme_cloud.db"
+DB_PATH = (
+    Path(os.environ.get("DATA_DIR", Path(__file__).resolve().parent.parent / "data"))
+    / "acme_cloud.db"
+)
 
 SCHEMA = """
 CREATE TABLE organizations (
@@ -75,17 +79,45 @@ CUSTOMERS = [
 ]
 
 PRODUCTS = [
-    ("Acme Cloud Compute", "ACC-100", "Autoscaling container compute for production workloads.", "compute"),
-    ("Acme Cloud Storage", "ACS-200", "Object storage with lifecycle policies and CDN edge caching.", "storage"),
-    ("Acme Cloud Functions", "ACF-300", "Event-driven serverless functions with sub-second cold starts.", "compute"),
-    ("Acme Cloud Billing API", "ACB-400", "Usage metering, invoicing, and payment-webhook APIs.", "platform"),
+    (
+        "Acme Cloud Compute",
+        "ACC-100",
+        "Autoscaling container compute for production workloads.",
+        "compute",
+    ),
+    (
+        "Acme Cloud Storage",
+        "ACS-200",
+        "Object storage with lifecycle policies and CDN edge caching.",
+        "storage",
+    ),
+    (
+        "Acme Cloud Functions",
+        "ACF-300",
+        "Event-driven serverless functions with sub-second cold starts.",
+        "compute",
+    ),
+    (
+        "Acme Cloud Billing API",
+        "ACB-400",
+        "Usage metering, invoicing, and payment-webhook APIs.",
+        "platform",
+    ),
 ]
 
 FEATURES = [
     ("Acme Cloud Compute", "Autoscaling", "Horizontal autoscaling based on CPU/RPS targets."),
     ("Acme Cloud Compute", "Spot Capacity", "Discounted preemptible capacity for batch jobs."),
-    ("Acme Cloud Billing API", "Payment Webhooks", "Outbound webhooks for invoice and payment events."),
-    ("Acme Cloud Billing API", "Usage Metering", "Per-minute usage metering with export to CSV/JSON."),
+    (
+        "Acme Cloud Billing API",
+        "Payment Webhooks",
+        "Outbound webhooks for invoice and payment events.",
+    ),
+    (
+        "Acme Cloud Billing API",
+        "Usage Metering",
+        "Per-minute usage metering with export to CSV/JSON.",
+    ),
     ("Acme Cloud Storage", "Lifecycle Policies", "Automatic archival and expiry rules per bucket."),
 ]
 
@@ -133,7 +165,12 @@ POLICIES = [
 SERVICE_STATUS = [
     ("Acme Cloud Compute", "operational", "All regions nominal.", "2026-10-27T08:00:00Z"),
     ("Acme Cloud Storage", "operational", "All regions nominal.", "2026-10-27T08:00:00Z"),
-    ("Acme Cloud Functions", "degraded", "Elevated cold-start latency in us-east-1.", "2026-10-27T07:42:00Z"),
+    (
+        "Acme Cloud Functions",
+        "degraded",
+        "Elevated cold-start latency in us-east-1.",
+        "2026-10-27T07:42:00Z",
+    ),
     ("Acme Cloud Billing API", "operational", "Webhook delivery nominal.", "2026-10-27T08:00:00Z"),
     ("Stripe", "operational", "Third-party payments integration nominal.", "2026-10-27T08:00:00Z"),
 ]
@@ -186,11 +223,26 @@ def main() -> None:
         conn.commit()
     finally:
         conn.close()
+    import sys
+
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from lib.db import ensure_case_schema
+
+    with sqlite3.connect(DB_PATH) as migration:
+        ensure_case_schema(migration)
     counts = sqlite3.connect(DB_PATH)
     summary = {
         t: counts.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
-        for t in ("customers", "organizations", "products", "features", "plans",
-                  "subscriptions", "policies", "service_status")
+        for t in (
+            "customers",
+            "organizations",
+            "products",
+            "features",
+            "plans",
+            "subscriptions",
+            "policies",
+            "service_status",
+        )
     }
     counts.close()
     print(f"Seeded {DB_PATH}")

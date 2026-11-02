@@ -30,7 +30,10 @@ async def main(path: str) -> None:
         print(f"Ontology '{doc.domain.name}' stored and activated (version {version.id}).")
         print("Entity types:", ", ".join(e.label for e in doc.entity_types))
         print("Relationships:", ", ".join(sorted({r.type for r in doc.relationships})))
-    print("\nRestart the app (make dev MODULE=3) — the ontology resolves at connect time.")
+    print(
+        "\nSelect ONTOLOGY=active, then restart make dev MODULE=3. Local "
+        "YAML is the default override."
+    )
 
 
 if __name__ == "__main__":

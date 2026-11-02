@@ -29,7 +29,7 @@ distillation on the Neo4j Agent Memory Service (NAMS).
 | Module | Story | Commands |
 |---|---|---|
 | 0 — Setup | Boot the app, meet the two stores | `make check` · `make dev` |
-| 1 — The Stateless Agent | The agent forgets everything | `make s1-baseline` · `make eval` |
+| 1 — The Stateless Agent | The agent forgets everything | `make s1-baseline` · `make eval MODULE=1` |
 | 2 — Short-Term Memory | It survives restarts now | `make s2-return` · `make s2-restart` |
 | 3 — Long-Term Memory | It knows *who the customer is* | `make s3-default` → `make s3-ontology` |
 | 4 — Reasoning Memory | It remembers *how it solved this before* | `make s4-refund` · `make s4-refund-repeat` |
@@ -93,3 +93,20 @@ behavior of each stage and the remaining live-service checks.
 
 Workshop materials for a Neo4j Labs project — experimental, community-supported, no
 SLAs. See [docs/teardown.md](docs/teardown.md) for post-workshop cleanup.
+
+
+## Verified workshop workflow
+
+See [the run sheet](docs/run-of-show.md) and [fix verification](docs/workshop-fixes-2026-11-01.md).
+CLI runs save immutable artifacts under `DATA_DIR/replays`; choose **Saved replay**
+in the graph view after Refresh graph. Browser chat has separate session controls
+and preserves all turn evidence. Refunds require an explicit customer, billing case
+and per-message authorization; current SQL policy and incident uniqueness guard
+all stages. Eval runs use private SQL, namespaced memory and disabled business tools.
+The scorecard checks seeded facts and source IDs; it does not grade all agent behavior.
+
+`make s2-restart` launches two distinct Python processes. The module 3 comparison is
+extractor-only on one fixed transcript. Optional Wikimedia reports cached source
+status and never supplies live service health. Run the local instructor recipes
+with `uv run scripts/instructor.py strict` and `uv run scripts/instructor.py plan`.
+The pinned API take-home example is `uv run scripts/monday_memory.py`.

@@ -15,8 +15,8 @@ own AuraDB. Nothing to memorize yet — this module is about seeing the machine 
 | Command | What it does |
 |---|---|
 | `make setup` | Installs the exact pinned Python dependencies via `uv sync` (already done for you in a prebuilt Codespace). |
-| `make check` | Smoke test: env vars present, AuraDB reachable, OpenAI key valid, SQLite seeded — everything green means you're ready. |
-| `make dev` | Starts the FastAPI backend and the Vite frontend together; the UI opens in a browser tab automatically (port 5173). |
+| `make check` | Smoke test: env vars present, AuraDB reachable, configured chat/embedding inference, SQLite schema/data, memory startup and graph serialization. Optional services are reported separately. |
+| `make dev` | Starts the FastAPI backend and the Vite frontend together; waits for readiness; open port 5173. The browser retries while the backend starts. |
 
 If you're continuing from pre-work, your only real jobs are: add your AuraDB
 credentials to `.env`, run `make check`, then `make dev`.
@@ -39,8 +39,8 @@ credentials to `.env`, run `make check`, then `make dev`.
 ## Answer key
 
 1. **Empty, by design.** Nothing has been written to your AuraDB yet — all the seed data lives app-side in SQLite, and Neo4j only starts filling in once the agent stores memories (from module 2 onward). Something appears the moment the app saves a conversation, message, or entity to the graph.
-2. Nine tables: `customers`, `organizations`, `products`, `features`, `plans`, `subscriptions`, `policies`, `service_status`, and `refunds`. This is Acme Cloud's *system of record* — the business data the agent acts on. Every agent tool in module 1 reads from (or, for refunds, writes to) these tables.
-3. Browser → Vite dev server (port 5173) → `/api` proxy → FastAPI backend (port 8000) → the PydanticAI agent → OpenAI → any tool calls against SQLite → the reply streams back, with the tool calls shown in the trace panel. The graph panel refetches from AuraDB after each reply.
+2. Ten tables, including `billing_cases`: `customers`, `organizations`, `products`, `features`, `plans`, `subscriptions`, `policies`, `service_status`, and `refunds`. This is Acme Cloud's *system of record* — the business data the agent acts on. Every agent tool in module 1 reads from (or, for refunds, writes to) these tables.
+3. Browser → Vite dev server (port 5173) → `/api` proxy → FastAPI backend (port 8000) → the PydanticAI agent → OpenAI → any tool calls against SQLite → a complete JSON reply returns, with the tool calls shown in the trace panel. The graph panel refetches from AuraDB after each reply.
 4. From the model's system prompt plus live tool lookups — nothing else. The limits: it only knows what it looks up *right now*, nothing persists between conversations, and it can never learn from experience. That gap is exactly what the rest of the workshop fills.
 
 ## If you fell behind
@@ -51,7 +51,7 @@ From the repo root, run:
 make module-0
 ```
 
-That runs this module's beats in order (install, seed, smoke test). Then run
+That runs the readiness check; run `make setup` separately if dependencies or seed data are missing. Then run
 `make check` — if every line is green, you're caught up. If anything is red, raise a
 hand: a helper will triage while the room moves on.
 

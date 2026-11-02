@@ -22,9 +22,9 @@ def main() -> None:
 
     s = get_settings()
     with connect(s.db_path) as conn:
-        before = conn.execute(
-            "SELECT refund_limit FROM plans WHERE name = 'Pro'"
-        ).fetchone()["refund_limit"]
+        before = conn.execute("SELECT refund_limit FROM plans WHERE name = 'Pro'").fetchone()[
+            "refund_limit"
+        ]
         new_limit = 150.0 if before >= 250.0 else 250.0
         conn.execute("UPDATE plans SET refund_limit = ? WHERE name = 'Pro'", (new_limit,))
         conn.execute(

@@ -27,9 +27,7 @@ def main() -> int:
         print("Aborted.")
         return 1
     with GraphDatabase.driver(s.neo4j_uri, auth=(s.neo4j_username, s.neo4j_password)) as driver:
-        driver.execute_query(
-            "MATCH (n) DETACH DELETE n", database_=s.neo4j_database
-        )
+        driver.execute_query("MATCH (n) DETACH DELETE n", database_=s.neo4j_database)
     print("Memory graph wiped. Re-run make module-N to rebuild state.")
     return 0
 

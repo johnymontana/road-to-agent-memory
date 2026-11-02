@@ -117,36 +117,31 @@ theme: default
 
 # Module 1 — The failure: statelessness
 
-![diagram](../slides/diagrams/d05-statelessness.svg)
+- Every model run starts without prior messages—even inside the same visible chat.
+- Use one self-contained account lookup, then ask for the email without a lookup.
+- SQL knowledge is available through tools; previous dialogue is not model memory.
 
-- Customer reports an issue, "returns" in a new chat → the agent asks who they are again
-- Restart the app mid-conversation → context gone
-- Every session starts from zero; two identical sessions have no bridge between them
-- Nothing in the tool set can fix this — the failure is architectural, not a missing tool
-
-<!-- notes: Here's the failure mode in its natural habitat. The scenario scripts are engineered so the tools *can't* rescue the agent — the customer never states their email until a memory layer exists to remember it. When you watch this, pay attention to how much the agent learned during the conversation and where exactly that learning goes when the chat ends. [glossary: agent] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
 # Module 1 — Live demo: the stateless baseline
 
-- Live demo: `make s1-baseline` — the billing-issue scenario, run end to end
-- Then "return" in a new chat as the same customer — watch the agent ask who you are
-- Watch the trace panel: what SQL ran against SQLite? What did the agent learn?
-- Where does that learning go when the process exits?
+- Run `make s1-baseline`.
+- Refresh graph and choose Saved replay to inspect CLI results.
+- Browser chat has its own conversation and retained turn history.
 
-<!-- notes: Run `make s1-baseline` and let it play out, then start a fresh chat and come back as the same customer. The trace panel shows every tool call with its SQL — the agent clearly *did* things. But ask it what it learned and the answer is nothing: the learning evaporated with the session. [glossary: trace] [glossary: tool] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
 # Module 1 — The eval baseline
 
-- Live demo: `make eval` — prints the continuity scorecard (from here on, every module)
-- Four fixed questions asked at every module: *"Do you know who I am? / What did we discuss last time? / What do you know about my account? / Have you handled a ticket like this before?"*
-- Each question becomes answerable at exactly one module boundary
-- Today's arc, in one picture: turning this board green
+- Run `make eval MODULE=1`.
+- Four controlled fixtures: exact identity, unique phrase, grounded date, recorded reply.
+- Private SQL, unique memory, no business tools; exact facts and source IDs required.
 
-<!-- notes: This scorecard is the workshop's continuity thread. Right now the board is mostly red — the stateless agent can't answer any of these, and it *shouldn't* be able to. Each question was chosen so it becomes answerable at exactly one module, so the scorecard tells you which memory layer unlocked which capability. Keep this output in mind at wrap time. -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
@@ -177,36 +172,31 @@ theme: default
 
 # Module 2 — Context assembly
 
-![diagram](../slides/diagrams/d07-context-assembly.svg)
+- Local `build_context`: newest ten prior conversation messages plus scoped semantic user messages.
+- Exclude the current turn, repeated questions and duplicate statements.
+- Inspect evidence IDs and recent_conversation / semantic_message paths. Bolt does not provide hosted reflections/observations here.
 
-- `get_context` → assembled into dynamic instructions → the model call
-- Three tiers: **reflections / observations / recent messages**
-- Message search: ask with a paraphrase — which path answered, vector or text?
-- The agent now assembles its own relevant past, per request
-
-<!-- notes: Retrieval isn't just "the last N messages." There's a tiered context model — reflections, observations, recent messages — and your exploration questions ask you to figure out what distinguishes them and when each matters for a support agent. The paraphrase search question is the fun one: say something in different words and work out which search path found it. [glossary: PydanticAI] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
 # Module 2 — Live demo: the returning customer
 
-- Live demo: `make s2-return` — the customer returns in a **new chat**
-- The agent continues where it left off — no "who are you?"
-- Find the new conversation in the graph panel; how does it relate to the old one?
-- Run the eval questions — which ones flipped?
+- `make s2-return` first continues the same session, then compares a new one.
+- Choose Saved replay; browser chat remains separate.
+- Run `make eval MODULE=2`; explain retrieved sources.
 
-<!-- notes: Same customer, brand-new chat session — and this time the agent picks up the thread. Notice what crossed over from the previous conversation and what didn't; that boundary is the whole point of module 3 coming up. Re-run `make eval` if you want the scorecard delta right now. [glossary: agent] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
 # Module 2 — The restart beat
 
-- Live demo: `make s2-restart` — the app is **killed mid-conversation**, then restarted
-- What does the agent still know? Be precise: which records made that possible?
-- Trace the answer in the graph panel, node by node
-- This is the beat that makes "short-term ≠ temporary" concrete
+- `make s2-restart` launches two separate Python processes using one session and namespace.
+- Inspect the saved process IDs and recovered unique phrase.
+- This command does not kill the browser backend.
 
-<!-- notes: This is the theatrical beat of module 2: we kill the process in the middle of a conversation and bring it back. The agent survives because the memory never lived in the process — it lived in your AuraDB. When you answer the exploration question, name the actual records: which conversation, which messages. [glossary: Neo4j/AuraDB] [glossary: trace] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
@@ -237,40 +227,32 @@ theme: default
 
 # Module 3 — Ontology-driven extraction
 
-![diagram](../slides/diagrams/d08-ontology-extraction.svg)
+- Edit `module_3/ontology/acme_cloud.yaml`: types, relations, aliases and annotation descriptions.
+- The app drops invalid relations in both modes; strict also drops undeclared entity types.
+- Run `uv run scripts/instructor.py strict` for the explicit drop/raise validator recipe.
 
-- `ontology/acme_cloud.yaml`: entity types, typed relationships, aliases, constraints
-- The ontology is rendered **into the LLM extraction prompt** — descriptions are annotation guidelines, negative cases included
-- Relations the ontology doesn't permit are **dropped at ingest**
-- Validate it yourself: `neo4j-agent-memory ontology validate`
-
-<!-- notes: One YAML document does two jobs: it drives what the LLM looks for, and it validates what comes back. Read the entity-type descriptions during exploration — they're written like annotation guidelines, including negative cases like "not the support engineer who answers," and they're rendered verbatim into the prompt. Extraction runs at temperature 0 with structured outputs, so the whole room sees the same graph. [glossary: ontology] [glossary: extraction] [glossary: POLE+O] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
 # Module 3 — Before / after: default vs. custom ontology
 
-<!-- SCREENSHOT PLACEHOLDER: m3-before-after — captured via scripts/capture_screenshots.py -->
+- `make s3-default` and `make s3-ontology` use the same fixed transcript.
+- Independent extractor calls; no chat history, SQL hydration or shared graph inputs.
+- Compare transcript hashes, types and edges in Saved replay snapshots. Temperature zero does not guarantee identical output.
 
-- `make s3-default`: the default POLE+O template — loosely labeled nodes, no typed relations, bare properties
-- `make s3-ontology`: the same scenario with the Acme Cloud ontology — typed edges, precise labels
-- Same input, same model, same temperature — the *ontology* is the only difference
-- Which graph would you rather build a support workflow on?
-
-<!-- notes: This before/after is the concrete proof that ontology-driven extraction matters. Generic extraction gives you *a* graph; the custom ontology gives you *your* graph — Customer, Product, Plan, Incident, with typed edges like REPORTED and SUBSCRIBES_TO. Hold the two side by side and the value sells itself. [glossary: ontology] [glossary: POLE+O] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
 # Module 3 — The hybrid pipeline (the design-principle slide)
 
-![diagram](../slides/diagrams/d10-hybrid-pipeline.svg)
+- LLM supplies entity spans, types and relations.
+- SQLite supplies Customer email, plan and signup_date through type-safe hydration.
+- Optional Wikimedia supplies public Organization facts, with visible provider status.
+- Company knowledge is not current operational status.
 
-- **LLM → structure**: entity spans, types, typed relations — nothing else
-- **SQLite → grounded facts (hydration)**: email, plan, signup date — every fact from the system of record
-- **Wikipedia → external knowledge (enrichment)**: real third parties like Stripe, async
-- **Structure from the LLM — facts never from the LLM**
-
-<!-- notes: This is the module's centerpiece. The LLM could *infer* an email or plan tier — and it would sometimes be wrong, which is how you get hallucinated facts in a support workflow. So the stock EntityPayload drops attributes and description by design; a hydration hook re-writes the entity with real SQLite data via add_entity upserts, and enrichment adds public knowledge about real organizations. Each source does only what it's actually good at. [glossary: hydration] [glossary: enrichment] [glossary: extraction] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
@@ -289,106 +271,95 @@ theme: default
 
 # Module 3 — Live demo: watch the graph bloom
 
-- Live demo: `make s3-default` — baseline extraction with default POLE+O types
-- Live demo: `make s3-ontology` — the same scenario, custom ontology active
-- Click a `Customer` node: hydrated properties (email, plan) labeled by **source** in the details panel
-- Stretch beat (shown pre-warmed): the `Stripe` node with its Wikipedia enrichment — `make s3-enrich`
+- Compare each immutable extraction snapshot through Saved replay.
+- In browser chat introduce Maya; inspect MENTIONS and SQL-grounded fields.
+- `make s3-enrich` is optional; continue if the provider is unavailable.
 
-<!-- notes: Run both scenarios back to back and watch the NVL panel: the second run blooms with typed entities and edges, plus :MENTIONS edges back to the exact messages that created them. I'll show the enriched Stripe node in passing — enrichment is async and rate-limited, so it's a stretch beat with a screenshot fallback, not a critical-path demo. [glossary: enrichment] [glossary: hydration] [glossary: provenance] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
 # Module 3 — Under the hood: hydration & enrichment
 
-- Post-extraction hook: extracted `Customer` → `lookup_account` → `add_entity(description=…, attributes={email, plan, signup_date, …})`
-- *All* properties come from SQLite — including categoricals like `plan_tier` and `severity`
-- Enrichment: `EnrichmentConfig`, Wikimedia provider, ORGANIZATION-only allowlist, background + cached
-- Why this discipline? LLM-invented facts are the failure mode; the schema's dropped `attributes` field tells you how the library's authors think about it
+- Current-message extraction → pooled SQL hydration → context → answer.
+- Skip incompatible types and ambiguous aliases; expose structured grounded facts and IDs.
+- Explicit Wikimedia workflow: one-week success cache, five-minute error cache; no fictional-company background lookup.
+- A 403 is unavailable, not a reason to wait for properties.
 
-<!-- notes: For those who want the machinery: hydration is a post-extraction hook that calls the same SQLite tools the agent uses and upserts grounded properties — so a plan upgrade in SQLite shows up on the entity on the next run, while name, type, and provenance edges stay put. Enrichment is the opposite direction: public knowledge about real third parties, written asynchronously. [glossary: hydration] [glossary: enrichment] [glossary: provenance] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
 # Module 3 — Exploration brief (40-min module, tiered)
 
-- **Core (everyone):** Q1 provenance via `:MENTIONS` · Q2 default vs. custom graph compare · Q9 property sources on a `Customer` node · Q13 what changed vs. module 2
-- **Instructor-demoed live:** Q3 negative-case descriptions · Q7 strict vs. permissive validation · Q12 hydration upsert on a plan change
-- **Stretch:** the rest — answer key in the module 3 README
-- Fell behind? `make module-3`
+- Core Q1 source MENTIONS; Q2 fixed snapshots; Q3 Customer sources; Q4 changes since module 2.
+- Instructor Q5 negative descriptions; Q6 strict recipe; Q7 private plan-upgrade and rollback.
+- Stretch: save and recall a customer-scoped preference; inspect the actual receipt.
 
-<!-- notes: Fifteen-plus minutes of exploration. The four core questions take you from provenance to property sources to the eval-question delta; I'll demo the config-edit questions live so nobody has to break their working setup. The strict-vs-permissive question is worth watching — it decides what happens when the LLM emits an entity type the ontology doesn't declare. [glossary: provenance] [glossary: ontology] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
 # Module 4 — Concept: reasoning memory
 
-- The agent's **own execution** becomes memory: tasks, steps, tool calls, outcomes
-- `record_agent_trace` consumes a PydanticAI `AgentRunResult` — every run recorded
-- Similar past traces retrieved to prime the agent on familiar tasks
-- **Failures are first-class memory** — a rejected refund teaches as much as an approved one
+- Record actual execution: task, steps, tool calls, exact reply and outcome.
+- Open before execution; complete on success or exception.
+- A declined business request differs from a failed execution. Prior procedures are examples, not current policy.
 
-<!-- notes: Modules 2 and 3 remembered what was said and who was involved. Module 4 remembers what the agent *did* — the procedure, not just the facts. The payoff: a ticket identical in shape to one solved yesterday shouldn't require re-deriving the procedure from scratch. And note the philosophy: failed runs are recorded too, deliberately. [glossary: trace] [glossary: PydanticAI] [glossary: tool] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
 # Module 4 — Anatomy of a trace
 
-<!-- SCREENSHOT PLACEHOLDER: m4-trace — captured via scripts/capture_screenshots.py -->
+- ReasoningTrace → HAS_STEP → ReasoningStep → USES_TOOL → ToolCall → INSTANCE_OF → Tool.
+- Outcome and exact reply are trace properties, not a separate Outcome node.
+- Trace INITIATED_BY Message; Step TOUCHED case Customer and Plan.
+- Tool receipts show actual SQL, including validation reads and performed writes.
 
-- `AgentStep → ToolCall` chains, ending in an outcome node (success/failure, styled red)
-- `:TOUCHED` edges → the entities the agent's decision depended on
-- `:TOUCHED` vs `:MENTIONS` — dependency vs. mention; find both and compare
-- Tool-call inputs/outputs carry the actual SQL and policy text — tomorrow's distillation material
-
-<!-- notes: Pick a completed trace in the graph and reconstruct the story: what was the task, which tools ran in what order, what was the outcome? The :TOUCHED edges are the subtle part — they record which entities the decision depended on, which is different from merely mentioning them. Keep that distinction; module 5 builds on it. [glossary: trace] [glossary: provenance] [glossary: tool] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
 # Module 4 — Similar-task retrieval
 
-![diagram](../slides/diagrams/d13-similar-task-retrieval.svg)
+- Retrieve bounded full steps, tool inputs/results and the exact stored outcome with IDs.
+- Current SQL policy governs every action in both branches.
+- The ablation uses identical private SQL copies, separate message scopes and one frozen corpus; branch recording is disabled.
+- Measure evidence, safety, calls, tokens and timing. Better results are not guaranteed.
 
-- A new ticket embeds near yesterday's trace — retrieval finds the matching procedure
-- Retrieved traces prime the agent: tool order, steps skipped, confidence
-- The proof is an **ablation**: the same ticket run with retrieval off (control) vs. on (treatment)
-- The trace panel shows the behavioral difference side by side
-
-<!-- notes: Claims about memory helping are cheap; this module proves it with an ablation. The same refund ticket runs twice — once with retrieval disabled as the control, once with it on as the treatment — and you watch the agent's behavior differ: fewer steps, the right tool order, no flailing. That's what "the agent remembers how it solved it" actually means. [glossary: agent] [glossary: trace] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
 # Module 4 — Live demo: the refund, twice
 
-- Live demo: `make s4-refund` — first refund ticket; the trace is recorded
-- Live demo: `make s4-refund-repeat` — the same-shape ticket: control run, then treatment run
-- Watch: `lookup_account` → `fetch_policy("refund")` → `issue_refund` — recalled, not re-derived
-- Live demo: `make s4-fail` — an over-limit refund that `issue_refund` rejects: the failed trace
+- `make s4-refund`; `make s4-fail`; `make s4-refund-repeat`.
+- Confirm account, case and action per turn. SQL validates identity, amount, policy and uniqueness.
+- The reject-only server guard records an over-limit case without issuing or escalating it.
+- Inspect actual tools; a three-call chain is illustrative, not guaranteed.
 
-<!-- notes: Three beats. First the original refund, recorded as a trace. Then days later, the same-shape ticket — and we run it with retrieval off and on so the difference is undeniable. Finally the deliberate failure: a refund over the policy limit, rejected by the tool. That failed trace is not a bug in the demo — it's the setup for governance in module 5. [glossary: trace] [glossary: tool] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
 # Module 4 — The provenance question
 
-- Ask the agent: **"Why did you issue that refund?"**
-- Trace the answer: final outcome → steps → tool calls → the `fetch_policy` result the decision relied on → the customer's original message
-- This is the eval question modules 2–3 couldn't answer
-- Reasoning memory turns "the agent did a thing" into an auditable story
+- Why did you issue that refund?
+- Trace → INITIATED_BY → message; Step → TOUCHED → Customer / Plan.
+- Inspect the operation receipt, exact SQL and current policy. This is an execution record.
 
-<!-- notes: This is my favorite question of the day. Before reasoning memory, the agent's behavior was a black box; now every outcome walks back through steps and tool calls to the policy text that justified it and the message that started it. For a support org, that's not a nice-to-have — it's the audit trail. [glossary: provenance] [glossary: trace] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
 # Module 4 — Exploration brief
 
-- Core questions:
-  1. Reconstruct a completed trace: task, tool order, outcome
-  2. What did similar-task retrieval change — tool order, steps skipped, confidence?
-  3. Find the *failed* trace — what went wrong, and how does the next agent avoid it?
-- Stretch: the `:TOUCHED` vs `:MENTIONS` deep-dive; the full provenance walk — module 4 README
-- Fell behind? `make module-4` · *(this module's exploration is the designated trim zone)*
+- Reconstruct actual steps, tools and business result.
+- Compare retrieved evidence and measured behavior; identical outcomes are possible.
+- Distinguish declined policy outcome, model exception and degraded persistence. Inspect warnings and receipts before retrying.
 
-<!-- notes: If we're tight on time this is where we compress — the core three questions carry the concepts. The failed trace question matters most for what's coming: what does it mean that failures are first-class memory? Hold that thought for twenty minutes. [glossary: trace] [glossary: provenance] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
@@ -466,12 +437,11 @@ theme: default
 
 # Wrap — The eval scoreboard, re-run
 
-- Live demo: `make eval` — the same four questions, one last time
-- The board is green: each question became answerable at exactly one module boundary
-- *"Do you know who I am?"* → long-term memory · *"What did we discuss?"* → short-term
-- *"Have you handled a ticket like this before?"* → reasoning memory → distilled skill
+- Run `make eval MODULE=N` explicitly.
+- Exact name/email and phrase: seeded messages. Signup date: grounded fixture. Exact reply: trace fixture.
+- Private SQL, unique memory, no business tools. Inspect source IDs; this is a retrieval probe, not an end-to-end quality grade.
 
-<!-- notes: Full circle. The scorecard that was red in module 1 is green now, and the attribution is clean: each memory layer unlocked exactly the questions it was designed to. If you take one picture today, take this one — it's the argument for layered memory in a single image. -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->
 
 ---
 
@@ -503,10 +473,9 @@ theme: default
 
 # Wrap — Your Monday morning path (~20 min)
 
-- `pip install neo4j-agent-memory` (or `uv add`) into your agent's project
-- Create a `MemoryClient` pointed at your database (`backend="bolt"`)
-- Call `add_message` on each conversation turn
-- Inject `get_context` into your agent's instructions — you have short-term memory
-- Teardown: `docs/teardown.md` · Resources: **neo4j.com/labs/agent-memory** · GraphAcademy **Context Graphs** course · **github.com/neo4j-labs/agent-memory**
+- Use the pinned `neo4j-agent-memory[pydantic-ai,openai]` environment and set Bolt/OpenAI credentials.
+- Construct `MemoryClient(MemorySettings(...))`.
+- Run `uv run scripts/monday_memory.py` to connect, write and retrieve.
+- Inject retrieved context into your agent instructions before the next model call.
 
-<!-- notes: The whole workshop distilled into four steps you can do before your coffee gets cold on Monday — install, connect, write messages, read context back. Everything beyond that — ontologies, hydration, traces — layers on the same client the same way you saw today. Thank you for spending the afternoon with us; the repo, the glossary, and the module READMEs are yours to keep. [glossary: ontology] [glossary: hydration] [glossary: trace] -->
+<!-- notes: Follow docs/run-of-show.md and the corresponding participant guide. Show measured evidence; do not promise a particular model response. -->

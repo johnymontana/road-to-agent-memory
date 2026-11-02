@@ -1,62 +1,55 @@
-# Module 1 — The Stateless Agent
+# Module 1 — Per-turn stateless baseline
 
-Code-reading map: [module_1/README.md](../../module_1/README.md). Start with
-[`module_1/app/agent.py`](../../module_1/app/agent.py); the full agent is local to this lesson.
+Start commands from the repository root. Keep `make dev MODULE=1` in one
+terminal and run the lesson commands in another. Before switching modules, stop
+the server with Ctrl+C, launch the next module, and reload the browser.
 
+Browser chat has a visible conversation ID, New conversation and Resume controls.
+It preserves turn history locally across reloads; clearing browser storage removes
+that local history. Neo4j memory remains persistent. Terminal commands print their
+own dialogue, tools and timing. Use **Refresh graph → Saved replay** to inspect their
+immutable output projection; choose **Live memory** for the replay's persisted
+Neo4j message/entity/trace links. CLI runs do not append turns to browser chat. Choose Current
+conversation for browser evidence, or All stored memory deliberately.
 
-Meet the baseline: a capable support agent with a rich tool set — and the memory of a
-goldfish. This module shows the failure everything else fixes.
+Refund actions require a selected Customer and Billing case plus **Authorize selected
+refund for this message**. Confirmation resets after each turn. The server checks
+case identity, amount, current SQL plan limit and incident uniqueness. Asking for
+an update reads refund history. A request ID returns its saved operation receipt on
+retry; replaying a billing case cannot create a second refund. No escalation tool
+exists. Status values are seeded examples with timestamps, never a live monitoring feed.
 
-## What you'll learn
+Run `make eval MODULE=1` explicitly. The evaluation lab starts only on POST/action;
+opening or reopening it reads results. Each run uses private SQL, unique memory
+fixtures and disabled business tools. Exact facts and source IDs are checked. This
+is a controlled retrieval probe, not an end-to-end support-quality score or a promise
+of monotonic improvement. A dependency error preserves completed questions.
 
-- What an agent actually is: an LLM plus tools it can call, wired together with PydanticAI.
-- How the five SQLite-backed tools make the agent *competent* from the first message.
-- Why competence isn't continuity: a new chat starts from zero, and a restart loses everything.
-- The workshop's core framing: **SQLite is the system of record; Neo4j is the memory.**
-
-## Run it
-
-| Command | What it does |
-|---|---|
-| `make s1-baseline` | Runs scenario 1 (a billing issue) against the stateless agent — watch it handle the ticket, then watch it forget everything. |
-| `make eval MODULE=1` | Runs the fixed continuity eval-question set and prints the scorecard — this is the baseline every later module improves on. |
-
-## Explore
-
-**Core**
-
-1. Ask the agent the eval questions. Which can it answer? Which fail, and why?
-2. Watch a tool call in the trace panel: what SQL ran against SQLite? What did the agent "learn" during the call — and where does that learning go when the process exits?
-
-**Instructor-led**
-
-3. Inspect the SQLite schema directly. Which tables back which tools? If the agent looks up the same account five times in one conversation, how many SQL queries run — and what would it take to avoid that?
-
-**Stretch**
-
-4. Run the same ticket twice. Does the agent's procedure differ? What does that cost (tokens, latency, consistency)?
-5. If two customers describe the same outage, does the agent connect them? What would it need in order to?
-
-## Answer key
-
-1. It can answer anything that needs a *live* lookup — account details, catalog questions, policy quotes — because the tools work fine. It fails every continuity question ("Do you know who I am?", "What did we discuss last time?") because nothing is stored between chats: each conversation starts with an empty slate.
-2. The trace panel shows the actual parameterized SQL each tool ran (e.g. `lookup_account`'s `SELECT` joining customers, organizations, subscriptions, plans). Everything the agent "learned" — the tool results, its reasoning — lives only in the process's in-memory chat state, and vanishes completely when the process exits.
-3. `customers`/`organizations`/`subscriptions`/`plans` back `lookup_account`; `products`/`features` back `search_product_catalog`; `policies` backs `fetch_policy`; `service_status` backs `check_service_status`; `refunds` is the write path for `issue_refund`. Five lookups of the same account = five identical SQL queries — SQLite happily re-answers, but the agent re-asks because it can't remember; module 3's hydration fixes exactly this for entities.
-4. It re-derives the procedure from scratch — roughly the same tool chain, re-run. The cost is repeated tokens, repeated latency, and (worse) inconsistency: two identical tickets can get two slightly different answers. Module 4's reasoning memory is the fix.
-5. No — each conversation is an island. To connect them, the agent would need a shared store where both conversations and the outage itself live as linked data. That's the memory graph you'll build starting in module 2.
-
-## If you fell behind
-
-From the repo root, run:
-
-```
-make module-1
+```bash
+make dev MODULE=1
+# Second terminal:
+make s1-baseline
+make eval MODULE=1
 ```
 
-That replays this module's beats in order and reproduces the room's current state. If
-your dev server is still running an older stage, stop it first with `Ctrl+C`, then
-restart with `make dev MODULE=1`.
+Each `agent.run` starts without message history, even inside one visible browser
+conversation. The first prompt includes Maya's exact email; the second explicitly
+asks what was just supplied. It should report unknown. SQL tools can still retrieve
+business facts when given an identifier; that is not memory.
 
-## Glossary
+## Explore and verify
 
-- [Agent](../glossary.md#agent) · [Tool](../glossary.md#tool) · [PydanticAI](../glossary.md#pydanticai) · [SQLite](../glossary.md#sqlite) · [LLM](../glossary.md#llm)
+### Q1: Which tool reads current account facts?
+
+`lookup_account` executes SQL; inspect its actual statements and source data.
+
+### Q2: Why is the second answer unknown?
+
+No message history is passed to the next model call. The browser bubbles are not model memory.
+
+## Read the code
+
+Start with `module_1/app/agent.py`, then local `tools.py`.
+
+Each module owns its full agent implementation. Duplicated lesson code is intentional;
+shared `lib/` supplies transport, settings, SQL, receipts and factory selection.

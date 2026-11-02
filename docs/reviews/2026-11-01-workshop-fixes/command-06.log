@@ -1,0 +1,13 @@
+Wikipedia HTTP error for 'Stripe': Client error '403 Please respect our robot policy https://w.wiki/4wJS. If you think you are incorrectly blocked, please contact noc@wikimedia.org (768589d)' for url 'https://en.wikipedia.org/api/rest_v1/page/summary/Stripe'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+{
+  "name": "Stripe",
+  "status": "error",
+  "provider": "wikimedia",
+  "retrieved_at": 1793575970.999274,
+  "enriched_description": null,
+  "wikipedia_url": null,
+  "error": "Client error '403 Please respect our robot policy https://w.wiki/4wJS. If you think you are incorrectly blocked, please contact noc@wikimedia.org (768589d)' for url 'https://en.wikipedia.org/api/rest_v1/page/summary/Stripe'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+  "cached": false,
+  "live": true
+}

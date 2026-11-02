@@ -1,12 +1,17 @@
 {
   "name": "s4-fail",
   "module": 4,
-  "description": "Deliberately failed trace: a $400 refund on the Pro plan exceeds the $250 no-approval limit — issue_refund rejects it. Failures are first-class memory.",
+  "description": "Explicit case authorization; no identity inherited between turns.",
   "sessions": [
     {
-      "id": "s4-b",
+      "id": "s4-fail-0",
       "messages": [
-        "This is Maya Chen (maya.chen@northwind.example). Our team also got billed $400 for spot capacity we never used on Acme Cloud Compute. Just refund the whole thing please."
+        {
+          "message": "Maya Chen requests $400 for unused spot capacity on Pro. Check the current limit; do not invent an escalation.",
+          "account_email": "maya.chen@northwind.example",
+          "incident_id": "maya-spot-capacity",
+          "authorize_refund": true
+        }
       ]
     }
   ]

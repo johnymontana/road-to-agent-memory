@@ -1,0 +1,72 @@
+[
+  {
+    "command": "make check",
+    "exit_code": 0,
+    "seconds": 4.38
+  },
+  {
+    "command": "make s1-baseline",
+    "exit_code": 0,
+    "seconds": 18.31
+  },
+  {
+    "command": "make eval MODULE=1",
+    "exit_code": 0,
+    "seconds": 9.92
+  },
+  {
+    "command": "make s2-return",
+    "exit_code": 0,
+    "seconds": 95.19
+  },
+  {
+    "command": "make s2-restart",
+    "exit_code": 0,
+    "seconds": 131.0
+  },
+  {
+    "command": "make eval MODULE=2",
+    "exit_code": 0,
+    "seconds": 100.9
+  },
+  {
+    "command": "make s3-default",
+    "exit_code": 0,
+    "seconds": 293.41
+  },
+  {
+    "command": "make s3-ontology",
+    "exit_code": 0,
+    "seconds": 374.55
+  },
+  {
+    "command": "make s3-enrich",
+    "exit_code": 0,
+    "seconds": 74.3
+  },
+  {
+    "command": "make eval MODULE=3",
+    "exit_code": 0,
+    "seconds": 293.45
+  },
+  {
+    "command": "make s4-refund",
+    "exit_code": 0,
+    "seconds": 103.97
+  },
+  {
+    "command": "make s4-fail",
+    "exit_code": 0,
+    "seconds": 91.87
+  },
+  {
+    "command": "make s4-refund-repeat",
+    "exit_code": 0,
+    "seconds": 332.76
+  },
+  {
+    "command": "make eval MODULE=4",
+    "exit_code": 2,
+    "seconds": 353.17
+  }
+]

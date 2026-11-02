@@ -1,87 +1,43 @@
 import { useEffect, useState } from 'react'
 
-export default function EvalScorecard({ open, onClose, onError }) {
-  const [questions, setQuestions] = useState(null)
-  const [loading, setLoading] = useState(false)
-
+export default function EvalScorecard({ open, onClose, module }) {
+  const storageKey = `workshop-eval-id-${module}`
+  const [id, setId] = useState(null)
+  useEffect(() => { setId(localStorage.getItem(storageKey)); setRun(null); setError(null) }, [storageKey])
+  const [run, setRun] = useState(null)
+  const [error, setError] = useState(null)
+  const [starting, setStarting] = useState(false)
+  async function start(reuse = false) {
+    const next = reuse && id ? id : crypto.randomUUID()
+    setId(next); localStorage.setItem(storageKey, next); setStarting(true); setError(null)
+    try {
+      const r = await fetch('/api/eval', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: next }) })
+      if (!r.ok) throw new Error(`Evaluation start failed: ${r.status}`)
+      setRun({ ...(await r.json()), questions: [] })
+    } catch (e) { setError(e.message) }
+    finally { setStarting(false) }
+  }
   useEffect(() => {
-    if (!open) return
-    let cancelled = false
-    setLoading(true)
-    setQuestions(null)
-
-    fetch('/api/eval')
-      .then((res) => {
-        if (!res.ok) throw new Error(`GET /api/eval failed: ${res.status} ${res.statusText}`)
-        return res.json()
-      })
-      .then((data) => {
-        if (!cancelled) setQuestions(Array.isArray(data.questions) ? data.questions : [])
-      })
-      .catch((e) => {
-        if (cancelled) return
-        onError?.(e.message || 'Eval request failed')
-        onClose?.()
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false)
-      })
-
-    return () => {
-      cancelled = true
+    if (!open || !id) return
+    let cancelled = false, timer
+    async function poll() {
+      try {
+        const r = await fetch(`/api/eval/${encodeURIComponent(id)}`)
+        if (!r.ok) throw new Error(`No evaluation result yet (HTTP ${r.status}). Retry start to recover this run.`)
+        const data = await r.json()
+        if (!cancelled) { setRun(data); setError(null); if (data.status === 'running') timer = setTimeout(poll, 1500) }
+      } catch (e) { if (!cancelled) setError(e.message) }
     }
-  }, [open, onClose, onError])
-
+    poll(); return () => { cancelled = true; clearTimeout(timer) }
+  }, [open, id, starting])
   if (!open) return null
-
-  const answeredCount = questions?.filter((q) => q.answered).length ?? 0
-
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <h2 className="modal-title">
-            Continuity Eval Scorecard
-            {questions && (
-              <span className="badge score-badge">
-                {answeredCount} / {questions.length} answered
-              </span>
-            )}
-          </h2>
-          <button className="error-dismiss" onClick={onClose} aria-label="Close">
-            ×
-          </button>
-        </div>
-
-        <div className="modal-body">
-          {loading && (
-            <div className="modal-loading">
-              <span className="spinner" /> running eval questions against the agent…
-            </div>
-          )}
-          {questions && questions.length === 0 && (
-            <div className="trace-empty">No eval questions returned.</div>
-          )}
-          {questions && questions.length > 0 && (
-            <ul className="eval-list">
-              {questions.map((q) => (
-                <li key={q.id ?? q.question} className="eval-item">
-                  <span className="eval-status" aria-label={q.answered ? 'answered' : 'not answered'}>
-                    {q.answered ? '✅' : '❌'}
-                  </span>
-                  <div className="eval-content">
-                    <div className="eval-question">{q.question}</div>
-                    {q.answer && <div className="eval-answer mono">{q.answer}</div>}
-                  </div>
-                  <span className="badge eval-module-badge">
-                    module {q.expected_from_module ?? '?'}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </div>
-    </div>
-  )
+  return <div className="modal-overlay"><div className="modal" role="dialog" aria-modal="true" aria-label="Controlled evaluation lab">
+    <div className="modal-header"><h2>Controlled evaluation lab</h2><button aria-label="Close evaluation" onClick={onClose}>×</button></div>
+    <div className="modal-body"><p>New runs use a private SQLite copy, unique memory fixtures and no business-action tools. They test retrieval under controlled conditions, not overall model quality.</p>
+      <button className="btn" disabled={starting || run?.status === 'running'} onClick={() => start(false)}>Start new isolated evaluation</button>
+      {error && <p role="alert">{error}<button className="btn" disabled={starting} onClick={() => start(true)}>Retry start / recover run</button></p>}
+      {run && <p role="status">Module {run.module ?? module} · Run {id?.slice(-8)} · {run.status} · {run.questions?.length ?? 0}/4 questions recorded</p>}
+      <ul className="eval-list">{run?.questions?.map(q => <li className="eval-item" key={q.id}><span aria-label={q.answered ? 'passed' : q.error ? 'error' : 'not answered'}>{q.answered ? '✅' : q.error ? '⚠️' : '❌'}</span><div><strong>{q.question}</strong><p>{q.answer ?? q.error}</p><p>Checks: {q.checks?.join(' · ')} · Sources: {q.sources?.join(', ') || 'none'}</p></div></li>)}</ul>
+      {run?.error && <p role="alert">Run incomplete: {run.error}. Completed results remain above.</p>}
+    </div></div></div>
 }

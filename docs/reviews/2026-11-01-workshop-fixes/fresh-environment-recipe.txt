@@ -1,0 +1,2 @@
+[{"id": "267b88e0-0fb0-4141-a58f-7a8b738a916a", "role": "user", "content": "My ticket phrase is violet-84f43ab302eb4eaba478805a7826a859."}]
+Pass this retrieved context into your agent instructions before its next model call.

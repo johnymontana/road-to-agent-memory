@@ -10,5 +10,7 @@ web/dist/
 .pytest_cache/
 .ruff_cache/
 playwright-report/
-artifacts/screenshots/
+artifacts/screenshots/*
+!artifacts/screenshots/module-[1-4]-live.png
+!artifacts/screenshots/module-[1-4]-live.json
 .DS_Store

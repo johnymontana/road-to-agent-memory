@@ -3,6 +3,9 @@
 
 from __future__ import annotations
 
+import asyncio
+import os
+import sqlite3
 import sys
 from pathlib import Path
 
@@ -28,7 +31,13 @@ def main() -> int:
     report(bool(s.neo4j_uri), "NEO4J_URI set", s.neo4j_uri[:40] or "missing — see .env.example")
     report(bool(s.neo4j_password), "NEO4J_PASSWORD set")
     report(bool(s.openai_api_key), "OPENAI_API_KEY set (env or personal Codespaces secret)")
-    report(s.db_path.exists(), "SQLite seeded", str(s.db_path))
+    try:
+        with sqlite3.connect(f"file:{s.db_path}?mode=ro", uri=True) as db:
+            for table in ("customers", "plans", "policies", "products", "service_status"):
+                assert db.execute(f"SELECT count(*) FROM {table}").fetchone()[0] > 0, table
+        report(True, "SQLite schema and lesson data")
+    except Exception as error:
+        report(False, "SQLite schema and lesson data", type(error).__name__)
 
     if s.neo4j_uri and s.neo4j_password:
         try:
@@ -44,18 +53,44 @@ def main() -> int:
 
     if s.openai_api_key:
         try:
-            import httpx
+            from openai import OpenAI
 
-            resp = httpx.get(
-                "https://api.openai.com/v1/models",
-                headers={"Authorization": f"Bearer {s.openai_api_key}"},
-                timeout=15.0,
+            with OpenAI(api_key=s.openai_api_key, timeout=20, max_retries=1) as client:
+                client.chat.completions.create(
+                    model=s.openai_model,
+                    messages=[{"role": "user", "content": "Reply OK"}],
+                    max_completion_tokens=8,
+                )
+                result = client.embeddings.create(
+                    model=s.embedding_model, input="workshop capability check"
+                )
+                assert result.data[0].embedding
+            report(True, "Configured chat model and embeddings")
+        except Exception as error:
+            report(False, "Configured chat model and embeddings", type(error).__name__)
+    if s.neo4j_uri and s.neo4j_password and s.openai_api_key:
+
+        async def memory_capability():
+            from lib.graph import bolt_graph
+            from module_2.app.memory import open_memory
+
+            async with open_memory(s) as memory:
+                graph = await bolt_graph(memory, limit=3)
+                assert all(
+                    edge["from"] in {n["id"] for n in graph["nodes"]}
+                    for edge in graph["relationships"]
+                )
+
+        try:
+            print(
+                "  Checking memory startup and graph serialization (may take a minute)…", flush=True
             )
-            report(resp.status_code == 200, "OpenAI key valid", f"HTTP {resp.status_code}")
-        except Exception as exc:  # noqa: BLE001
-            report(False, "OpenAI key valid", str(exc))
+            asyncio.run(asyncio.wait_for(memory_capability(), timeout=180))
+            report(True, "Memory startup and graph transport")
+        except Exception as error:
+            report(False, "Memory startup and graph transport", type(error).__name__)
 
-    if s.nams_api_key:
+    if os.environ.get("MODULE") == "5" and s.nams_api_key:
         try:
             import httpx
 
@@ -69,10 +104,16 @@ def main() -> int:
         except Exception as exc:  # noqa: BLE001
             report(False, "NAMS key valid (module 5)", str(exc))
     else:
-        print(f"  {WARN} NAMS_API_KEY not set — only needed for module 5")
+        print(f"  {WARN} NAMS is optional here; validate separately for module 5")
 
-    print("\n" + ("All required checks passed. Try: make dev" if not failures
-                  else f"{failures} check(s) failed — fix .env and re-run make check"))
+    print(
+        "\n"
+        + (
+            "All required checks passed. Try: make dev"
+            if not failures
+            else f"{failures} check(s) failed — fix .env and re-run make check"
+        )
+    )
     return 1 if failures else 0
 
 

@@ -1,0 +1,33 @@
+Module 4 ontology source: /Users/lyonwj/github/johnymontana/road-to-agent-memory/module_4/ontology/acme_cloud.yaml; validation=permissive
+Opening module 4 · process 6383 · namespace control-final-isolated-ablation
+Module 4 ontology source: /Users/lyonwj/github/johnymontana/road-to-agent-memory/module_4/ontology/acme_cloud.yaml; validation=permissive
+Ready in 36.0s
+[s4-refund-repeat-0] customer: Dana Whitfield at Contoso, dana.w@contoso.example. Refund my duplicate $129 Storage charge.
+                 pydantic-ai v2.62.0 • Python 3.12.12
+      / \
+     /   \       model: openai:gpt-4o-mini • tools: 8 • capabilities: 0
+   /___.___\
+  /    |    \    observability: off — see every model and tool call live, with cost
+/      |      \    set it up free with Pydantic Logfire: uvx logfire-cli wizard --task pydantic-ai
+`---.._|_..---'    or use any OpenTelemetry backend: https://pydantic.dev/docs/ai/logfire/#otel
+
+                 goes away once observability is on — or PYDANTIC_AI_NO_BANNER=1
+SupportBot: Issued refund #2: $129.00 for Dana Whitfield (dana.w@contoso.example, Enterprise). Incident: dana-duplicate-storage. This incident cannot be refunded twice.
+Tools: [('issue_refund', 'issued')]
+Timing: {'context_seconds': 9.44, 'model_seconds': 2.388, 'input_tokens': 1906, 'output_tokens': 61, 'total_seconds': 14.119} Warnings: []
+[s4-refund-repeat-0] customer: Our ops lead wants $400 back on his Pro account. What is the current limit and approval process? Do not act on my account.
+SupportBot: Pro plan: current no-approval refund limit $250.00 per request (source: SQLite plans). Larger requests require manager approval. No refund or escalation was authorized or performed for this policy question.
+Tools: [('fetch_policy', None)]
+Timing: {'context_seconds': 7.8, 'model_seconds': 2.49, 'input_tokens': 2390, 'output_tokens': 55, 'total_seconds': 12.653} Warnings: []
+Opening module 4 · process 6383 · namespace treatment-final-isolated-ablation
+Module 4 ontology source: /Users/lyonwj/github/johnymontana/road-to-agent-memory/module_4/ontology/acme_cloud.yaml; validation=permissive
+Ready in 35.8s
+[s4-refund-repeat-0] customer: Dana Whitfield at Contoso, dana.w@contoso.example. Refund my duplicate $129 Storage charge.
+SupportBot: Issued refund #2: $129.00 for Dana Whitfield (dana.w@contoso.example, Enterprise). Incident: dana-duplicate-storage. This incident cannot be refunded twice.
+Tools: [('issue_refund', 'issued')]
+Timing: {'context_seconds': 12.037, 'model_seconds': 2.362, 'input_tokens': 2652, 'output_tokens': 65, 'total_seconds': 16.642} Warnings: []
+[s4-refund-repeat-0] customer: Our ops lead wants $400 back on his Pro account. What is the current limit and approval process? Do not act on my account.
+SupportBot: Pro plan: current no-approval refund limit $250.00 per request (source: SQLite plans). Larger requests require manager approval. No refund or escalation was authorized or performed for this policy question.
+Tools: [('fetch_policy', None)]
+Timing: {'context_seconds': 10.296, 'model_seconds': 2.738, 'input_tokens': 3130, 'output_tokens': 66, 'total_seconds': 15.384} Warnings: []
+Control/treatment input SQL hashes match. Branches could not write into the reasoning corpus.

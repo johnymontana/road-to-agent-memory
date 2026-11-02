@@ -1,86 +1,85 @@
-# Module 4 — Reasoning memory
+# Module 4 — Execution memory and controlled retrieval
 
-Start with [`app/agent.py`](app/agent.py). This folder owns the complete agent for
-this stage: its prompt, registered tools, model call and chat orchestration.
-Code is intentionally duplicated so changes from the previous lesson are visible.
-No lesson imports another lesson's agent.
+Start commands from the repository root. Keep `make dev MODULE=4` in one
+terminal and run the lesson commands in another. Before switching modules, stop
+the server with Ctrl+C, launch the next module, and reload the browser.
 
-## Run and explore
+Browser chat has a visible conversation ID, New conversation and Resume controls.
+It preserves turn history locally across reloads; clearing browser storage removes
+that local history. Neo4j memory remains persistent. Terminal commands print their
+own dialogue, tools and timing. Use **Refresh graph → Saved replay** to inspect their
+immutable output projection; choose **Live memory** for the replay's persisted
+Neo4j message/entity/trace links. CLI runs do not append turns to browser chat. Choose Current
+conversation for browser evidence, or All stored memory deliberately.
 
-Run every command from the **repository root**, not from this folder:
+Refund actions require a selected Customer and Billing case plus **Authorize selected
+refund for this message**. Confirmation resets after each turn. The server checks
+case identity, amount, current SQL plan limit and incident uniqueness. Asking for
+an update reads refund history. A request ID returns its saved operation receipt on
+retry; replaying a billing case cannot create a second refund. No escalation tool
+exists. Status values are seeded examples with timestamps, never a live monitoring feed.
+
+Run `make eval MODULE=4` explicitly. The evaluation lab starts only on POST/action;
+opening or reopening it reads results. Each run uses private SQL, unique memory
+fixtures and disabled business tools. Exact facts and source IDs are checked. This
+is a controlled retrieval probe, not an end-to-end support-quality score or a promise
+of monotonic improvement. A dependency error preserves completed questions.
 
 ```bash
 make dev MODULE=4
-```
-
-Keep the server terminal open. Run scenarios in a second terminal. Stop the previous
-server with Ctrl+C before switching stages, then reload the browser. The same root
-`.env`, SQLite database, virtual environment and AuraDB are reused.
-
-Scenario playback constructs this folder's agent directly and prints dialogue and
-tool calls in the terminal. It does not replay the conversation into the browser.
-Reload the graph or change its layer filter to see externally written memory.
-The browser's tool trace displays only the latest browser chat request.
-
-```bash
+# Second terminal:
 make s4-refund
 make s4-fail
 make s4-refund-repeat
 make eval MODULE=4
 ```
 
+A trace opens before execution and completes on success or exception. It retains
+the exact reply and distinguishes execution status from business status. The
+server's reject-only policy guard guarantees an inspectable over-limit fixture;
+it cannot issue a refund. Actual model tool order may differ from illustrative chains.
+
+The graph uses ReasoningTrace → HAS_STEP → ReasoningStep → USES_TOOL → ToolCall
+→ INSTANCE_OF → Tool. Outcome, reply and success are trace properties. INITIATED_BY
+links the trace to its source message; TOUCHED links steps to case Customer and Plan.
+Tool receipts contain actual executed SQL: a rejection has no refund INSERT.
+These are execution records, not hidden model thoughts.
+
+Retrieval loads bounded full steps, tool inputs/results and exact outcomes with source
+IDs. Executions are examples, not instructions or current policy. Current SQL guards
+apply with retrieval both off and on.
+
+The ablation seeds one fixed reasoning corpus. Control/treatment use identical
+private SQL copies, separate message namespaces, and disabled branch trace recording.
+Entity extraction is disabled in both branches, so globally resolved entities
+cannot transfer state from the control. The corpus cannot learn from the control. The second question explicitly concerns
+Pro, carries no refund authorization, and cannot inherit Dana's Enterprise plan.
+The artifact records input hashes, retrieved evidence, tools, tokens and timing.
+Identical behavior is a valid result; fewer calls or tokens are not guaranteed.
+
+See the [participant guide](../docs/modules/module-4.md) for the same questions and answer key.
+
+## Explore and verify
+
+### Q1: What did the agent actually execute?
+
+Inspect ordered ReasoningSteps and ToolCalls, exact SQL and trace outcome.
+
+### Q2: Did retrieval help?
+
+Compare evidence, business result, tool calls, measured tokens and timing. Do not infer benefit from different prose.
+
+### Q3: What does failure mean?
+
+A declined business request may have a successful execution. A model/dependency exception has execution_status failed. Inspect both fields and warnings.
+
+### Q4: How do provenance links differ?
+
+MENTIONS is source text about an entity. TOUCHED records case dependencies; INITIATED_BY identifies the initiating user message.
+
 ## Read the code
 
-1. [`app/main.py`](app/main.py) connects the local agent factory to the shared HTTP transport.
-2. [`app/agent.py`](app/agent.py) constructs the agent and runs one complete chat turn.
-3. [`app/tools.py`](app/tools.py) defines all five business tools and their trace collection.
-4. [`app/memory.py`](app/memory.py) configures and opens this lesson’s memory client.
-5. [`app/memory_tools.py`](app/memory_tools.py) exposes memory search and preferences.
-6. [`app/hydrate.py`](app/hydrate.py) grounds extracted entities in SQLite facts.
-7. [`ontology/acme_cloud.yaml`](ontology/acme_cloud.yaml) is this lesson’s editable domain ontology.
+Start with `module_4/app/agent.py`, then local `tools.py`. Read local `memory.py` and `context.py` for configuration and retrieval. Read `hydrate.py` and `memory_tools.py` for SQL grounding and preferences. Read `reasoning.py` and `ablation.py` for execution records and comparison fixtures.
 
-## What changes in this stage
-
-Before inference, the agent can retrieve task/outcome summaries from similar traces.
-After inference it records the actual execution with `record_agent_trace`, including
-tool calls and rejected refunds. The retrieval-off control disables reasoning in
-both the prompt and memory tools; generic context assembly also excludes reasoning.
-Traces continue to be recorded during the control. A model may refuse an over-limit
-request without attempting the tool; the deterministic regression test separately
-forces tool rejection to verify failed-trace recording.
-
-Select an ontology with `ONTOLOGY=acme_cloud` (default), `ONTOLOGY=default-poleo`,
-or `ONTOLOGY=active` to use the version activated in AuraDB. An explicit selection
-in a scenario overrides the environment for that invocation only. A local YAML
-selection overrides an active database ontology; edits resolve on client creation.
-
-`AGENT_REASONING_RETRIEVAL=off make dev MODULE=4` disables similar-task
-retrieval for manual experiments; the ablation scenario passes this option explicitly.
-
-Hydration checks the stored name and recorded aliases against exact SQLite
-records. It preserves resolved node names and skips conflicting alias matches.
-Explicit preference-save requests call `save_preference` before confirmation.
-
-Wikimedia enrichment is best-effort. Extracted organizations without SQLite
-records (for example Stripe) are queued through the public entity upsert;
-they are not counted as SQL-hydrated facts. The provider can return an error
-when Wikipedia blocks automated requests. The support reply and internally
-grounded facts still work; do not expect external properties on those runs.
-
-## Compare and verify
-
-```bash
-diff -ru module_3/app module_4/app
-```
-
-Use the [participant guide](../docs/modules/module-4.md) for questions and answers.
-The offline tests exercise real PydanticAI runs using local adapters. Live rehearsal
-is opt-in and writes unique test conversations without wiping existing graph data.
-
-```bash
-uv run pytest tests/test_module_agents.py tests/test_workshop_runners.py -q
-RUN_BEHAVIORAL=1 uv run pytest tests/test_behavioral.py -v
-```
-
-Shared `lib/` contains credentials, SQL helpers, graph serialization, HTTP transport,
-and module dispatch only. Agent behavior is implemented here.
+Each module owns its full agent implementation. Duplicated lesson code is intentional;
+shared `lib/` supplies transport, settings, SQL, receipts and factory selection.

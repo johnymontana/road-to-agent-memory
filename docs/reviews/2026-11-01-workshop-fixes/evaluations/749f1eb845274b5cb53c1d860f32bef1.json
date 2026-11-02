@@ -1,0 +1,98 @@
+{
+  "id": "749f1eb845274b5cb53c1d860f32bef1",
+  "module": 3,
+  "status": "completed",
+  "questions": [
+    {
+      "id": "q1",
+      "question": "What name and email did the customer Maya Eval749f1eb845 provide? Return ONLY JSON with fields name, email, source_ids (array of evidence IDs); use null for unknown fields.",
+      "expected_from_module": 2,
+      "answered": true,
+      "checks": [
+        "name: pass",
+        "email: pass",
+        "verified source ID: pass"
+      ],
+      "sources": [
+        "69382f07-df7a-4dbf-b0b4-2dbad86f6a52",
+        "e7cca444-b192-486b-941e-7f6ff7a157b7"
+      ],
+      "answer": "```json\n{\n  \"name\": \"Maya Eval749f1eb845\",\n  \"email\": \"maya.749f1eb845@workshop.example\",\n  \"source_ids\": [\n    \"69382f07-df7a-4dbf-b0b4-2dbad86f6a52\",\n    \"e7cca444-b192-486b-941e-7f6ff7a157b7\"\n  ]\n}\n```",
+      "warnings": [],
+      "timing": {
+        "context_seconds": 9.16,
+        "model_seconds": 1.645,
+        "input_tokens": 995,
+        "output_tokens": 100,
+        "total_seconds": 12.956
+      }
+    },
+    {
+      "id": "q2",
+      "question": "What is my exact verification phrase from this conversation? Return ONLY JSON with fields verification_phrase, source_ids (array of evidence IDs); use null for unknown fields.",
+      "expected_from_module": 2,
+      "answered": true,
+      "checks": [
+        "verification_phrase: pass",
+        "verified source ID: pass"
+      ],
+      "sources": [
+        "69382f07-df7a-4dbf-b0b4-2dbad86f6a52",
+        "69382f07-df7a-4dbf-b0b4-2dbad86f6a52"
+      ],
+      "answer": "```json\n{\n  \"verification_phrase\": \"compass-274b5cb53c\",\n  \"source_ids\": [\n    \"69382f07-df7a-4dbf-b0b4-2dbad86f6a52\",\n    \"69382f07-df7a-4dbf-b0b4-2dbad86f6a52\"\n  ]\n}\n```",
+      "warnings": [],
+      "timing": {
+        "context_seconds": 8.1,
+        "model_seconds": 1.495,
+        "input_tokens": 1202,
+        "output_tokens": 88,
+        "total_seconds": 11.782
+      }
+    },
+    {
+      "id": "q3",
+      "question": "What is the grounded signup date for Maya Eval749f1eb845? Return ONLY JSON with fields signup_date, source_ids (array of evidence IDs); use null for unknown fields.",
+      "expected_from_module": 3,
+      "answered": true,
+      "checks": [
+        "signup_date: pass",
+        "verified source ID: pass"
+      ],
+      "sources": [
+        "e7cca444-b192-486b-941e-7f6ff7a157b7"
+      ],
+      "answer": "```json\n{\n  \"signup_date\": \"2025-03-14\",\n  \"source_ids\": [\"e7cca444-b192-486b-941e-7f6ff7a157b7\"]\n}\n```",
+      "warnings": [],
+      "timing": {
+        "context_seconds": 8.806,
+        "model_seconds": 1.298,
+        "input_tokens": 1122,
+        "output_tokens": 50,
+        "total_seconds": 12.18
+      }
+    },
+    {
+      "id": "q4",
+      "question": "Recall the recorded approval decision 1d860f32be. What is the exact refusal quote? Return ONLY JSON with fields refusal_quote, source_ids (array of evidence IDs); use null for unknown fields.",
+      "expected_from_module": 4,
+      "answered": false,
+      "checks": [
+        "refusal_quote: fail",
+        "verified source ID: fail"
+      ],
+      "sources": [],
+      "answer": "```json\n{\n  \"refusal_quote\": null,\n  \"source_ids\": []\n}\n```",
+      "warnings": [],
+      "timing": {
+        "context_seconds": 9.367,
+        "model_seconds": 4.246,
+        "input_tokens": 3069,
+        "output_tokens": 45,
+        "total_seconds": 15.841
+      }
+    }
+  ],
+  "protocol": "Controlled seeded retrieval; no business tools; extraction verified separately.",
+  "namespace": "eval-749f1eb845274b5cb53c1d860f32bef1"
+}

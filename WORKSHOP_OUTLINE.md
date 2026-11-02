@@ -55,232 +55,52 @@ Codespaces-first flow (ADR 003):
 
 ---
 
-### Module 1 — The Stateless Agent *(15 min)*
+### Module 1 — The stateless control (15 min)
 
-**Failure mode:** Customer reports an issue, then "returns" in a new chat — the agent
-asks who they are again. Restart mid-conversation: context gone.
+Run `make s1-baseline`: one self-contained SQL lookup, followed by an explicit
+per-turn forgetting control. Browser bubbles do not become model history. Run
+`make eval MODULE=1`, an isolated retrieval probe with no business tools.
 
-**What happens:**
-- Baseline PydanticAI support agent with a rich tool set, each backed by SQL queries against the embedded, pre-seeded SQLite database (`data/acme_cloud.db`, stdlib `sqlite3` — no extra services to run):
-  - `lookup_account(customer_email)` — customer, organization, subscription, plan
-  - `search_product_catalog(query)` — products and features
-  - `fetch_policy(topic)` — refund policy, SLA, API key rotation, data export, etc.
-  - `check_service_status(service)` — current status of Acme Cloud services
-  - `issue_refund(account_id, amount)` — validates against policy, writes to the refunds table
-- Run scenario 1 (billing issue) — `make s1-baseline` — and observe zero continuity across chats
-- Establish the eval-question baseline (`make eval` prints the scorecard from here on)
+### Module 2 — Persistent messages (20 min)
 
-**Key framing introduced here:** two stores with two jobs. **SQLite is the system of
-record** — the business data the agent *acts on* (accounts, catalog, policies). **Neo4j
-is the memory** — what the agent *learned while acting* (conversations, entities,
-traces). Memory doesn't replace the systems of record; it captures experience over them.
-This distinction runs through the whole workshop.
+Run `make s2-return` for same-conversation and cross-conversation contrasts, then
+`make s2-restart` for two separate Python processes using the same session. Local
+context uses the newest ten prior messages plus scoped semantic user statements.
+Inspect evidence paths and source IDs. Bolt observations/reflections are not taught
+as available context tiers. Run `make eval MODULE=2` explicitly.
 
-**Guided exploration questions:**
+### Module 3 — Structured and grounded facts (40 min)
 
-1. Ask the agent the eval questions. Which can it answer? Which fail, and why?
-2. Run the same ticket twice. Does the agent's procedure differ? What does that cost (tokens, latency, consistency)?
-3. If two customers describe the same outage, does the agent connect them? What would it need in order to?
-4. Watch a tool call in the trace panel: what SQL ran against SQLite? What did the agent "learn" during the call — and where does that learning go when the process exits?
-5. Inspect the SQLite schema directly. Which tables back which tools? If the agent looks up the same account five times in one conversation, how many SQL queries run — and what would it take to avoid that?
+Compare `make s3-default` with `make s3-ontology`: independent extractor-only snapshots
+of one fixed transcript, with hashes and elapsed time. Choose each Saved replay;
+no prior chat or hydration participates. LLM output can vary at temperature zero.
+Then introduce a Customer in browser chat: extraction → type-safe SQL hydration
+of current-message entities → retrieval → answer. Expose grounded email/plan/date
+and source IDs. Select a Customer for scoped preferences and inspect actual saved
+receipts. Read `module_3/ontology/acme_cloud.yaml` and the local context/hydration code.
 
-*Design notes these questions inform: the **SQLite schema** — tables for customers,
-organizations, products, features, plans, subscriptions, policies (keyed by topic),
-service_status, refunds (write-path); the seed dataset must be rich enough that every
-tool returns meaningful results immediately (attendees see agent competence from the
-first message, so module 1's failure is *memory*, not capability); tools use
-parameterized SQL and return typed, tool-call-visible results (their inputs/outputs
-become the reasoning-memory and distillation material in modules 4–5); scenario 1 must
-contain entity-rich dialogue so its loss is felt in module 3; the tool vocabulary
-(`products`, `plans`, `policies`) deliberately mirrors the Acme Cloud ontology labels
-so extracted entities line up with catalog rows.*
+Instructor recipes: `uv run scripts/instructor.py strict` shows invalid relation
+drop versus raise; `uv run scripts/instructor.py plan` upgrades and rolls back a
+private SQL copy. ONTOLOGY=active uses the database ontology; local YAML is the
+default override. Optional `make s3-enrich` explicitly caches Wikimedia Organization
+facts/status. A 403 is unavailable, not pending; no service-health inference.
+Run `make eval MODULE=3`; explain source holdouts, not guaranteed green progression.
 
----
+### Module 4 — Execution records (30 min)
 
-### Module 2 — Short-Term Memory *(25 min)*
+`make s4-refund`, `make s4-fail`, `make s4-refund-repeat`. Select Saved replay to
+inspect CLI output. Browser actions require explicit account/case and per-turn
+authorization. SQL enforces identity, finite positive amounts, case amount, current
+plan limit and incident uniqueness. Updates read history; no escalation is performed.
 
-**Concepts:** Conversations and messages; session continuity; `get_context`; context
-assembly into PydanticAI dynamic instructions; message search (including **cross-session
-"relevant past messages"** — a real capability with attribution nuance, see the
-verification log); the three-tier context model (reflections / observations / recent
-messages) **as a NAMS capability** — on Bolt, `get_context` returns recent + relevant
-messages and reflections/observations raise `NotSupportedError` (a live
-backend-asymmetry teaching moment; verified in spike 0.2).
-
-**What changes:** `MemoryClient` (Bolt backend), conversation creation, `add_message` on
-each turn, retrieved context injected per request.
-
-**Run:** `make s2-return` (customer returns in a new chat) · `make s2-restart` (the
-kill-and-restart-mid-conversation beat).
-
-**Failure mode fixed:** The agent survives restarts and continues mid-conversation.
-
-**NVL moment:** Sequential message chains appear — `:Message` nodes linked per conversation.
-
-**Guided exploration questions:**
-
-1. In the graph panel, find the conversation you just had. How are messages linked? What properties does a `:Message` node carry (role, timestamp, embedding, metadata)?
-2. Kill and restart the app mid-scenario. What does the agent still know? Trace exactly which records made that possible.
-3. Use message search with a paraphrase of something said earlier (not exact words). Which search path answered — vector or text? How can you tell?
-4. Try `get_reflections` / `get_observations` on Bolt — what happens, and why? (They raise `NotSupportedError`: the three-tier model is a hosted/NAMS feature; Bolt gives you recent + semantically-relevant messages. Which would you pick for a self-hosted deployment, and what would you give up?)
-5. What's the boundary of short-term memory? If the customer returns tomorrow in a *new* conversation, what crosses over — and what doesn't?
-
-*Design notes these questions inform: conversation/message schema and metadata fields; embedding config; scenario must include a restart point and a paraphrasable statement; question 5 sets up module 3's motivation and implies conversations must link to a stable customer identity.*
-
----
-
-### Module 3 — Long-Term Memory *(40 min)*
-
-**Concepts:** Entity extraction with a **custom domain ontology** (not the default POLE+O
-template) using **LLM-based extraction** (ADR 001: `extractor_type="llm"`, OpenAI,
-structured outputs, temperature 0 — no local ML models); ontology-driven extraction —
-one YAML document driving the LLM extraction prompt (entity types, annotation-guideline
-descriptions, relationship patterns), relation validation on ingest, and entity
-resolution; aliases; **structured, multi-property entities** (the hybrid pipeline
-below); preferences and facts; memory tools (`save_preference`, `recall_preferences`,
-`search_memory`); permissive vs. strict validation modes.
-
-**What changes:**
-
-1. Write the **Acme Cloud ontology** (`acme_cloud.yaml`) — domain-specific entity types and typed relationships, each anchored to a POLE+O `pole_type` for storage labels
-2. Validate it with the CLI (`neo4j-agent-memory ontology validate`)
-3. Configure **LLM extraction** (`extractor_type="llm"`, `llm="openai/gpt-4o-mini"`, temperature 0 — near-deterministic, identical on every attendee machine); store and **activate the ontology in the database** so every app restart picks it up automatically
-4. Register the memory tools on the agent
-5. Wire the **property-hydration and enrichment hooks** (below)
-
-**The hybrid pipeline for rich, structured entities.** The LLM's structured payload
-(`EntityPayload`) deliberately excludes `attributes` and `description` — facts never
-come from the extractor. Rich entities come from a deliberate three-source split —
-each source doing only what it's actually good at:
-
-1. **LLM → structure.** Entity spans, types, and typed relations, extracted via
-   structured outputs at temperature 0. The ontology is rendered into the extraction
-   prompt (entity types with their annotation-guideline descriptions, legal
-   relationship patterns), and relations the ontology doesn't permit are dropped at
-   ingest.
-2. **SQLite → grounded facts (hydration).** When extraction creates "Maya Chen" as a
-   `Customer`, a post-extraction hook calls the system of record (`lookup_account`,
-   catalog queries) and re-writes the entity via `add_entity(..., description=…,
-   attributes={email, plan, signup_date, …})`. `add_entity` MERGEs on `(name, type)`
-   with `ON MATCH SET e.description = COALESCE($description, e.description)` — so this
-   **updates the extracted node in place** rather than duplicating it. *All* properties
-   come from SQLite, including categoricals (`plan_tier`, `severity`) — grounded in
-   real business data, never LLM-invented: no hallucinated emails, no hallucinated
-   plan tiers.
-3. **Wikipedia → external knowledge (enrichment).** Acme Cloud is fictional, but its
-   *integrations* aren't — scenario dialogue mentions real third parties ("we pipe
-   Acme Cloud webhooks into Stripe"). For those `Organization` entities, background
-   enrichment (`EnrichmentConfig`, Wikimedia provider — free, no API key, rate-limited)
-   writes `enriched_description`, `wikipedia_url`, `wikidata_id`, `image_url` onto the
-   node asynchronously after extraction.
-
-   **Enrichment steps (stretch — demoted off the critical path; the instructor shows
-   one pre-warmed Stripe node in passing and moves on):**
-   1. Enable enrichment in settings: `enrichment={"enabled": True,
-      "providers": ["wikimedia"], "entity_types": ["ORGANIZATION"]}` — background,
-      non-blocking, cached
-   2. Run the scenario that mentions the Stripe integration (`make s3-enrich`); extraction creates the
-      `Stripe` `Organization` entity
-   3. Wait for the background worker (seconds at Wikimedia's ~2 req/s rate limit) —
-      it's async, so the node appears first and enrichment fields follow
-   4. Inspect the node in the graph panel: `enriched_description`, `wikipedia_url`,
-      `wikidata_id` now present alongside the extraction-created properties
-
-4. **The design-principle beat.** Show (briefly) *why* facts don't come from the LLM:
-   it could infer an email or a plan tier, but the stock `EntityPayload` schema drops
-   `attributes` and `description` by design — and that's the point. We use the LLM for
-   *structure* precisely because we don't let it invent *facts*. Extending the payload
-   for LLM property extraction is possible in custom builds; point at the extension,
-   don't build it live.
-
-**Teaching beat:** start with the default POLE+O entity types and show what generic
-extraction produces on a support conversation (`make s3-default` — loosely labeled
-nodes, no typed relations, bare properties) — then swap in the custom ontology (which
-re-renders the extraction prompt) and re-run the same scenario (`make s3-ontology`) to
-show the difference. This makes the value of ontology-driven extraction concrete.
-
-**Failure mode fixed:** New session — the agent knows *who the customer is*: their plan,
-their products, their preferences — not just what was said.
-
-**NVL moment:** The knowledge graph blooms — `Customer`, `Organization`, `Product`,
-`Plan`, `Incident` entities connected by typed edges (`REPORTED`, `USES`, `AFFECTS`,
-`SUBSCRIBES_TO`, …), with `:MENTIONS` edges back to the source messages. Click a
-`Customer` node: the details panel shows hydrated properties (email, plan) and a
-`Stripe` node shows its Wikipedia enrichment (stretch beat — shown pre-warmed).
-
-**Guided exploration questions** — tiered: **core** (everyone): 1, 2, 9, 13 ·
-**instructor-demonstrated live** (config edits / re-runs): 3, 7, 12 · **stretch**
-(answer key in the module README): the rest:
-
-1. Find an entity extracted from your conversation. Follow its `:MENTIONS` edge back to the exact message that created it. Why is provenance valuable for a support org?
-2. Compare the graph from the default POLE+O run vs. the custom-ontology run on the same scenario. What changed — labels, relationships, precision? Which would you rather build a support workflow on?
-3. Read the ontology's entity-type descriptions. They're rendered verbatim into the LLM's extraction prompt — why do they include negative cases ("Not the support engineer who answers")? Rewrite one description without its negative cases and re-run — what gets extracted differently?
-4. Trigger the alias beat: the customer says "AcmeCloud" after earlier saying "Acme Cloud". The ontology declares the alias — where's the evidence in the graph that they resolved to one node? What would have happened without the alias declaration?
-5. Find a typed edge (e.g., `REPORTED`). What do its `support`, `confidence`, and `source_message_ids` properties tell you? Find an edge with `support >= 2` — what does that mean?
-6. Query the Neo4j labels: why does a `Customer` land as `(:Entity:Person:Customer {subtype: "CUSTOMER"})`? What is the ontology label vs. the POLE+O anchor, and why keep both?
-7. Switch validation to strict and feed the agent an entity type the ontology doesn't declare. What happens — dropped, warned, or stored? When would you choose strict vs. permissive?
-8. Save a preference via chat ("I prefer email over phone"). Where does it land in the graph, and how does the agent surface it in a later session? How is a preference different from an entity?
-9. Click into a `Customer` node's properties. Which came from the LLM (type, subtype, typed relations), which from SQLite hydration (email, plan, signup date), and which from Wikipedia enrichment (`enriched_description`, `wikipedia_url`)? How could you tell the *source* of each property if the panel didn't label them?
-10. The LLM could infer properties like an email address — so why do we hydrate every fact from SQLite instead? What failure mode does LLM-invented data invite, and what does the stock `EntityPayload` schema's decision to drop `attributes` tell you about how the library's authors think about this?
-11. Find the `Stripe` entity. Which properties are enrichment-written, and why did enrichment work for Stripe but would miss for "Acme Cloud"? When is external enrichment the right tool vs. internal hydration?
-12. Watch a hydration upsert: re-run a scenario where the customer's plan was upgraded in SQLite between runs. What changed on the entity node — and what *didn't* (name, type, `:MENTIONS` edges)? Why is MERGE-on-`(name, type)` upsert semantics the right behavior here?
-13. Compare what the agent knows about the customer now vs. module 2. Which eval questions changed answers?
-
-*Design notes these questions inform: the **Acme Cloud ontology document** — entity
-types (Customer, Organization, Product, Plan, Feature/Component, Incident) with
-annotation-guideline descriptions and negative cases (rendered into the LLM extraction
-prompt); typed relationships (WORKS_AT, SUBSCRIBES_TO, USES, REPORTED, AFFECTS,
-PART_OF, INCLUDES) with at least one constraint (e.g. `unique_source` on WORKS_AT) to
-teach constraint behavior; declared aliases covering the near-duplicate beat; the
-**extraction config** — `extractor_type="llm"` with a pinned small OpenAI model at
-temperature 0 (ADR 001); the **hydration mapping** — which SQLite columns populate
-which entity properties per entity type (customers → email/plan/plan_tier/signup_date
-on Customer; catalog rows → description on Product; policy topics → description on
-Policy objects), with *all* properties including categoricals (`plan_tier`, `severity`)
-hydrated from the system of record, implemented as a post-extraction hook calling the
-existing SQLite tools and re-writing via `add_entity` upserts; the **enrichment
-scenario beat** — dialogue must mention a real, Wikipedia-notable third party (Stripe)
-whose entity type is in the enrichment allowlist, with the async gap (node first,
-enrichment fields seconds later) rehearsed for live delivery; seed dialogue must
-reliably exercise every entity type and at least two relationship patterns twice (for
-`support >= 2`); a preference statement must be scripted; the ontology must be stored +
-activated in the DB (resolved at connect time) so FastAPI restarts follow it;
-**scenario pacing** — scripted conversations serialize OpenAI calls (chat + embedding +
-extraction per turn) to avoid whole-room rate-limit bursts.*
-
----
-
-### Module 4 — Reasoning Memory *(25 min)*
-
-**Concepts:** Reasoning traces; agent steps, tool calls, outcomes; `record_agent_trace`
-consuming a PydanticAI `AgentRunResult`; similar-task retrieval; provenance.
-
-**What changes:** Every agent run recorded as a trace; similar past traces retrieved to
-prime the agent on familiar tasks.
-
-**Run:** `make s4-refund` (first refund ticket, recorded as a trace) ·
-`make s4-refund-repeat` (the "same shape" ticket days later) · `make s4-fail` (the
-deliberately over-limit refund that `issue_refund` rejects — the failed trace).
-
-**Failure mode fixed:** A refund ticket identical in shape to one solved "yesterday" —
-the agent recalls *how it solved it* instead of re-deriving the procedure.
-
-**NVL moment:** Trace subgraphs — `ReasoningStep → ToolCall` chains (`HAS_STEP` /
-`USES_TOOL` edges — naming verified in spike 0.4), `:TOUCHED` edges to
-entities, outcome nodes (success/failure).
-
-**Guided exploration questions:**
-
-1. Pick a completed trace in the graph. Reconstruct the story: what was the task, which tools were called in what order, what was the outcome?
-2. Find the `:TOUCHED` edges from a reasoning step. Which entities did the agent's decision depend on? How is this different from `:MENTIONS`?
-3. Run the "same shape" refund ticket. What does similar-task retrieval return, and how does it change the agent's behavior (tool order, steps skipped, confidence)?
-4. Find a *failed* trace (scenario includes one — e.g., a refund over the policy limit that `issue_refund` rejected). What went wrong, and how would the next agent avoid it? What does it mean that failures are first-class memory?
-5. Answer the provenance question: "Why did you issue that refund?" — trace the answer from final outcome back through steps and tool calls (including the `fetch_policy` result the decision relied on) to the customer's original message.
-6. Which eval question does reasoning memory unlock that modules 2–3 couldn't answer?
-
-*Design notes these questions inform: scenario must include (a) a successful refund procedure executed at least twice with a consistent tool order (`lookup_account` → `fetch_policy("refund")` → `issue_refund`), (b) one deliberately failed trace (refund over the SQLite policy limit, rejected by `issue_refund`), (c) tool-call inputs/outputs — especially the SQL queries and `fetch_policy` results — rich enough to distill a procedure from in module 5; trace schema (task, steps, actionTaken, result, success) must be visible in NVL.*
-
----
+Trace before execution and complete on success/exception. ReasoningTrace HAS_STEP
+ReasoningStep USES_TOOL ToolCall INSTANCE_OF Tool. Outcome and reply are trace
+properties. INITIATED_BY links trace to message; TOUCHED links steps to case Customer
+and Plan. Record actual executed SQL. Distinguish execution failure from a declined
+business result. Retrieved procedures include bounded steps and observations, never
+current policy authority. The ablation uses equal private SQL copies, separate
+message scopes, a frozen corpus and no branch recording. Inspect actual safety,
+retrieval, calls, tokens and timing; improvement is not guaranteed.
 
 ### Module 5 — Skill Distillation on NAMS *(20 min)*
 
@@ -361,7 +181,7 @@ traces, tool calls, and entities that justify each step.
 | Codespaces unavailable for an attendee (org-managed account disables it, or quota exhausted) | Local clone fallback with the same `.devcontainer/` config; `make module-N` catch-up targets |
 | Whole-room OpenAI bursts (chat + embeddings + one extraction call per turn) hitting tier-1 rate limits — 429s look like "broken setup" to attendees | Scenario scripts pace/serialize OpenAI calls; pre-work states the key/billing requirement and expected cost (<$1); instructor watches for 429s; extraction at temperature 0 on a small model (ADR 001) keeps call volume and cost minimal |
 | Extraction variability live | temperature 0 + structured outputs = near-deterministic; identical on every attendee machine (no local ML); "expected graph" screenshots per module; ontology descriptions written as tight annotation guidelines |
-| Wikimedia enrichment is async + network-dependent in live delivery | Enrichment cached (1-week TTL) and pre-warmed in the devcontainer; fallback: screenshot of the enriched Stripe node; hydration (SQLite) is synchronous and carries the demo if enrichment lags |
+| Wikimedia enrichment is async + network-dependent in live delivery | Enrichment cached (1-week TTL) and explicitly requested and cached by s3-enrich; fallback: stored provider-status replay; hydration (SQLite) is synchronous and carries the demo if enrichment lags |
 | NAMS is early-access | Rehearsed fallback: pre-recorded distillation demo if signups hiccup |
 | Content load vs. the 150-minute slot | Times reallocated per review consensus (M0 15 / M1 15 / M2 25 / M3 40 / M4 25 / M5 20 / Wrap 5) + 5-minute buffer after module 3; module 4 exploration is the droppable section; run-of-show marks trim points |
 

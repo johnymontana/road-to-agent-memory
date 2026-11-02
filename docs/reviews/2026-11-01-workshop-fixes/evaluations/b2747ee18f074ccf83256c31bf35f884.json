@@ -1,0 +1,95 @@
+{
+  "id": "b2747ee18f074ccf83256c31bf35f884",
+  "module": 2,
+  "status": "completed",
+  "questions": [
+    {
+      "id": "q1",
+      "question": "What name and email did the customer Maya Evalb2747ee18f provide? Return ONLY JSON with fields name, email, source_ids (array of evidence IDs); use null for unknown fields.",
+      "expected_from_module": 2,
+      "answered": true,
+      "checks": [
+        "name: pass",
+        "email: pass",
+        "verified source ID: pass"
+      ],
+      "sources": [
+        "a7491bef-b1da-4895-bad4-a361f67c592f"
+      ],
+      "answer": "```json\n{\n  \"name\": \"Maya Evalb2747ee18f\",\n  \"email\": \"maya.b2747ee18f@workshop.example\",\n  \"source_ids\": [\"a7491bef-b1da-4895-bad4-a361f67c592f\"]\n}\n```",
+      "warnings": [],
+      "timing": {
+        "context_seconds": 7.181,
+        "model_seconds": 1.596,
+        "input_tokens": 604,
+        "output_tokens": 66,
+        "total_seconds": 10.892
+      }
+    },
+    {
+      "id": "q2",
+      "question": "What is my exact verification phrase from this conversation? Return ONLY JSON with fields verification_phrase, source_ids (array of evidence IDs); use null for unknown fields.",
+      "expected_from_module": 2,
+      "answered": true,
+      "checks": [
+        "verification_phrase: pass",
+        "verified source ID: pass"
+      ],
+      "sources": [
+        "a7491bef-b1da-4895-bad4-a361f67c592f",
+        "a7491bef-b1da-4895-bad4-a361f67c592f"
+      ],
+      "answer": "```json\n{\n  \"verification_phrase\": \"compass-074ccf8325\",\n  \"source_ids\": [\"a7491bef-b1da-4895-bad4-a361f67c592f\", \"a7491bef-b1da-4895-bad4-a361f67c592f\"]\n}\n```",
+      "warnings": [],
+      "timing": {
+        "context_seconds": 6.293,
+        "model_seconds": 1.394,
+        "input_tokens": 800,
+        "output_tokens": 71,
+        "total_seconds": 9.846
+      }
+    },
+    {
+      "id": "q3",
+      "question": "What is the grounded signup date for Maya Evalb2747ee18f? Return ONLY JSON with fields signup_date, source_ids (array of evidence IDs); use null for unknown fields.",
+      "expected_from_module": 3,
+      "answered": false,
+      "checks": [
+        "signup_date: fail",
+        "verified source ID: fail"
+      ],
+      "sources": [],
+      "answer": "```json\n{\n  \"signup_date\": null,\n  \"source_ids\": []\n}\n```",
+      "warnings": [],
+      "timing": {
+        "context_seconds": 7.083,
+        "model_seconds": 1.214,
+        "input_tokens": 726,
+        "output_tokens": 20,
+        "total_seconds": 10.408
+      }
+    },
+    {
+      "id": "q4",
+      "question": "Recall the recorded approval decision 6c31bf35f8. What is the exact refusal quote? Return ONLY JSON with fields refusal_quote, source_ids (array of evidence IDs); use null for unknown fields.",
+      "expected_from_module": 4,
+      "answered": false,
+      "checks": [
+        "refusal_quote: fail",
+        "verified source ID: fail"
+      ],
+      "sources": [],
+      "answer": "```json\n{\n  \"refusal_quote\": null,\n  \"source_ids\": []\n}\n```",
+      "warnings": [],
+      "timing": {
+        "context_seconds": 7.274,
+        "model_seconds": 1.208,
+        "input_tokens": 851,
+        "output_tokens": 21,
+        "total_seconds": 10.718
+      }
+    }
+  ],
+  "protocol": "Controlled seeded retrieval; no business tools; extraction verified separately.",
+  "namespace": "eval-b2747ee18f074ccf83256c31bf35f884"
+}

@@ -1,0 +1,15 @@
+Opening module 4 · process 4430 · namespace replay-c022e39c57694856a3a0b106738d0252
+Ready in 36.8s
+[s4-refund-0] customer: Maya Chen, maya.chen@northwind.example. Please refund the duplicate $49 Compute charge.
+                 pydantic-ai v2.62.0 • Python 3.12.12
+      / \
+     /   \       model: openai:gpt-4o-mini • tools: 8 • capabilities: 0
+   /___.___\
+  /    |    \    observability: off — see every model and tool call live, with cost
+/      |      \    set it up free with Pydantic Logfire: uvx logfire-cli wizard --task pydantic-ai
+`---.._|_..---'    or use any OpenTelemetry backend: https://pydantic.dev/docs/ai/logfire/#otel
+
+                 goes away once observability is on — or PYDANTIC_AI_NO_BANNER=1
+SupportBot: Issued refund #1: $49.00 for Maya Chen (maya.chen@northwind.example, Pro). Incident: maya-duplicate-compute. This incident cannot be refunded twice.
+Tools: [('issue_refund', 'issued')]
+Timing: {'context_seconds': 28.669, 'model_seconds': 2.55, 'input_tokens': 2428, 'output_tokens': 72, 'total_seconds': 44.607} Warnings: []

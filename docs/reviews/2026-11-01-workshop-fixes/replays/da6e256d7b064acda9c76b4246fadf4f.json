@@ -1,0 +1,158 @@
+{
+  "id": "da6e256d7b064acda9c76b4246fadf4f",
+  "title": "s4-fail",
+  "module": 4,
+  "namespace": "replay-da6e256d7b064acda9c76b4246fadf4f",
+  "pid": 4582,
+  "append": false,
+  "turns": [
+    {
+      "message": "Maya Chen requests $400 for unused spot capacity on Pro. Check the current limit; do not invent an escalation.",
+      "namespace": "replay-da6e256d7b064acda9c76b4246fadf4f",
+      "result": {
+        "reply": "No refund was issued. $400.00 exceeds the Pro no-approval limit of $250.00; manager approval is required. No escalation has been created.",
+        "session_id": "replay-da6e256d7b064acda9c76b4246fadf4f:s4-fail-s4-fail-0",
+        "request_id": "3ba7a1c6d198480d8cfdbe01bf6647fa",
+        "tool_calls": [
+          {
+            "name": "refund_policy_guard",
+            "origin": "server_validation",
+            "input": {
+              "incident_id": "maya-spot-capacity"
+            },
+            "output": {
+              "customer": "Maya Chen",
+              "customer_email": "maya.chen@northwind.example",
+              "plan": "Pro",
+              "no_approval_limit": 250.0,
+              "incident_id": "maya-spot-capacity",
+              "amount": 400.0,
+              "source": "sqlite:plans",
+              "status": "rejected_over_limit",
+              "reason": "$400.00 exceeds the Pro no-approval limit of $250.00; manager approval is required. No escalation has been created."
+            },
+            "sql": "SELECT b.id, b.amount, b.description,\n        c.email, c.name AS customer, p.name AS plan, p.refund_limit\n        FROM billing_cases b JOIN customers c ON c.id=b.customer_id\n        JOIN plans p ON p.id=c.plan_id ORDER BY b.id\nSELECT b.id, b.amount, b.description,\n        c.email, c.name AS customer, p.name AS plan, p.refund_limit\n        FROM billing_cases b JOIN customers c ON c.id=b.customer_id\n        JOIN plans p ON p.id=c.plan_id ORDER BY b.id",
+            "duration_ms": 1.1
+          }
+        ],
+        "status": "completed",
+        "execution_status": "succeeded",
+        "business_status": "rejected_over_limit",
+        "warnings": [],
+        "timing": {
+          "context_seconds": 28.653,
+          "model_seconds": 1.33,
+          "input_tokens": 1281,
+          "output_tokens": 40,
+          "total_seconds": 43.38
+        },
+        "context": {
+          "used_memory": true,
+          "summary": "grounded_entity, reasoning_trace",
+          "evidence": [
+            {
+              "id": "3356b7f1-34e0-499c-bc6e-43b2c434fd39",
+              "name": "Maya",
+              "type": "PERSON",
+              "description": "Maya Chen \u2014 Pro plan customer at Northwind Robotics, signed up 2025-03-14.",
+              "email": "maya.chen@northwind.example",
+              "plan": "Pro",
+              "signup_date": "2025-03-14",
+              "preferred_contact": "email",
+              "organization": "Northwind Robotics",
+              "refund_limit": null,
+              "source": "sqlite:customers",
+              "score": 0.7118017673492432,
+              "works_at": null,
+              "path": "grounded_entity"
+            },
+            {
+              "id": "05ea3505-efb9-4e46-b815-bdfad81d796f",
+              "name": "Pro",
+              "type": "OBJECT",
+              "description": "Pro plan \u2014 $49.00/mo, no-approval refund limit $250.00.",
+              "email": null,
+              "plan": null,
+              "signup_date": null,
+              "preferred_contact": null,
+              "organization": null,
+              "refund_limit": 250.0,
+              "source": "sqlite:plans",
+              "score": 0.6264892816543579,
+              "works_at": null,
+              "path": "grounded_entity"
+            },
+            {
+              "id": "471eeb49-6061-44b9-90df-fca4236b315c",
+              "path": "reasoning_trace",
+              "score": 1.0
+            }
+          ],
+          "hydrated": [
+            "Maya",
+            "Pro"
+          ],
+          "written_layers": [
+            "short_term",
+            "long_term",
+            "reasoning"
+          ]
+        }
+      }
+    }
+  ],
+  "protocol": "Actual lesson agent; explicit per-turn action authorization.",
+  "status": "completed",
+  "graph": {
+    "nodes": [
+      {
+        "id": "turn-0",
+        "labels": [
+          "Message"
+        ],
+        "properties": {
+          "content": "Maya Chen requests $400 for unused spot capacity on Pro. Check the current limit; do not invent an escalation.",
+          "reply": "No refund was issued. $400.00 exceeds the Pro no-approval limit of $250.00; manager approval is required. No escalation has been created.",
+          "source": "measured replay output",
+          "namespace": "replay-da6e256d7b064acda9c76b4246fadf4f"
+        }
+      },
+      {
+        "id": "turn-0-tool-0",
+        "labels": [
+          "ToolCall"
+        ],
+        "properties": {
+          "name": "refund_policy_guard",
+          "origin": "server_validation",
+          "input": {
+            "incident_id": "maya-spot-capacity"
+          },
+          "output": {
+            "customer": "Maya Chen",
+            "customer_email": "maya.chen@northwind.example",
+            "plan": "Pro",
+            "no_approval_limit": 250.0,
+            "incident_id": "maya-spot-capacity",
+            "amount": 400.0,
+            "source": "sqlite:plans",
+            "status": "rejected_over_limit",
+            "reason": "$400.00 exceeds the Pro no-approval limit of $250.00; manager approval is required. No escalation has been created."
+          },
+          "sql": "SELECT b.id, b.amount, b.description,\n        c.email, c.name AS customer, p.name AS plan, p.refund_limit\n        FROM billing_cases b JOIN customers c ON c.id=b.customer_id\n        JOIN plans p ON p.id=c.plan_id ORDER BY b.id\nSELECT b.id, b.amount, b.description,\n        c.email, c.name AS customer, p.name AS plan, p.refund_limit\n        FROM billing_cases b JOIN customers c ON c.id=b.customer_id\n        JOIN plans p ON p.id=c.plan_id ORDER BY b.id",
+          "duration_ms": 1.1
+        }
+      }
+    ],
+    "relationships": [
+      {
+        "id": "turn-0-tool-0-edge",
+        "from": "turn-0",
+        "to": "turn-0-tool-0",
+        "type": "EXECUTED",
+        "properties": {}
+      }
+    ],
+    "truncated": false
+  }
+}

@@ -1,66 +1,51 @@
 #!/usr/bin/env python3
-"""Capture a golden-graph snapshot from the CURRENT memory state (Phase 3 exit
-criterion per module). Writes tests/golden/<name>.json with exact assertions
-and aspirational tolerances. Usage: uv run scripts/capture_golden.py m4-state"""
+"""Capture a bounded session graph as evidence, not self-validating test assertions."""
 
 from __future__ import annotations
 
+import argparse
 import asyncio
 import json
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT))
-GOLDEN = ROOT / "tests" / "golden"
-
-ONT_LABELS = ["Customer", "Organization", "Product", "Plan", "Incident"]
-REASONING_LABELS = ["ReasoningTrace", "ReasoningStep", "ToolCall"]
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 
-async def main(name: str) -> None:
+async def main(module, session):
+    from lib.graph import bolt_graph
     from lib.settings import get_settings
     from lib.workshop import open_agent
 
     settings = get_settings()
-    async with open_agent(4, settings) as agent:
-        memory = agent.memory
-        assert memory is not None
-        labels = await memory.query.cypher(
-            "MATCH (n) UNWIND labels(n) AS l RETURN DISTINCT l AS label ORDER BY l"
+    async with open_agent(module, settings) as agent:
+        graph = (
+            await bolt_graph(agent.memory, session_id=session)
+            if agent.memory
+            else {"nodes": [], "relationships": []}
         )
-        entity_count = (await memory.query.cypher("MATCH (e:Entity) RETURN count(e) AS n"))[0]["n"]
-        rel_types = await memory.query.cypher(
-            "MATCH ()-[r]->() RETURN DISTINCT type(r) AS t ORDER BY t"
-        )
-        traces = (
-            await memory.query.cypher(
-                "MATCH (t:ReasoningTrace) RETURN count(t) AS n, "
-                "sum(CASE WHEN t.success = false THEN 1 ELSE 0 END) AS failed"
-            )
-        )[0]
+    output = settings.data_dir / "snapshots"
+    output.mkdir(parents=True, exist_ok=True)
+    from uuid import uuid4
 
-    snapshot = {
-        "scenario": name,
-        "module": 4,
-        "generated_by": "scripts/capture_golden.py — regenerate at each module's Phase 3 exit",
-        "exact": {
-            "labels_present": [r["label"] for r in labels],
-            "relationship_types": [r["t"] for r in rel_types],
-            "trace_count": traces["n"],
-            "failed_trace_count": traces["failed"],
-        },
-        "aspirational": {
-            "entity_count_range": [max(0, entity_count - 3), entity_count + 3],
-        },
-    }
-    path = GOLDEN / f"{name}.json"
-    path.write_text(json.dumps(snapshot, indent=2) + "\n")
-    print(f"wrote {path}")
-    print(f"  labels: {snapshot['exact']['labels_present']}")
-    print(f"  relationships: {snapshot['exact']['relationship_types']}")
-    print(f"  entities: {entity_count} (±3), traces: {traces['n']} ({traces['failed']} failed)")
+    path = output / f"{uuid4().hex}.json"
+    path.write_text(
+        json.dumps(
+            {
+                "module": module,
+                "session_id": session,
+                "source": "actual scoped graph; verify learning invariants separately",
+                "graph": graph,
+            },
+            indent=2,
+        )
+    )
+    print(path)
 
 
 if __name__ == "__main__":
-    asyncio.run(main(sys.argv[1] if len(sys.argv) > 1 else "m4-state"))
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--module", type=int, choices=range(1, 5), required=True)
+    parser.add_argument("--session", required=True)
+    args = parser.parse_args()
+    asyncio.run(main(args.module, args.session))

@@ -45,8 +45,12 @@ def launcher_env(tmp_path):
 
 def run_launcher(env):
     process = subprocess.Popen(
-        ["bash", "scripts/dev.sh"], cwd=ROOT, env=env,
-        stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
+        ["bash", "scripts/dev.sh"],
+        cwd=ROOT,
+        env=env,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
         start_new_session=True,
     )
     try:

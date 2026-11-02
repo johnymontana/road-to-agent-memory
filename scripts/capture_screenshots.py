@@ -1,46 +1,53 @@
 #!/usr/bin/env python3
-"""Capture expected-graph screenshots (deck v0.9 → v1.0, module READMEs).
+"""Capture the actual running backend module; never select a module with a URL query.
 
-Requires the app running (make dev MODULE=N) and playwright browsers installed
-(`uv run playwright install chromium`). Writes artifacts/screenshots/<name>.png.
-Optional tooling — screenshots can also be captured by hand during rehearsal.
+Start make dev MODULE=N first. Usage: uv run scripts/capture_screenshots.py --module N
 """
 
 from __future__ import annotations
 
+import argparse
 import asyncio
-import sys
+import json
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "artifacts" / "screenshots"
+import httpx
 
-SHOTS = {
-    "m1-stateless": "1",
-    "m2-message-chains": "2",
-    "m3-ontology-graph": "3",
-    "m4-trace-subgraph": "4",
-    "m5-skill-subgraph": "5",
-}
+ROOT = Path(__file__).resolve().parents[1]
 
 
-async def main() -> None:
+async def main(module):
     from playwright.async_api import async_playwright
 
-    OUT.mkdir(parents=True, exist_ok=True)
+    async with httpx.AsyncClient() as http:
+        health = (await http.get("http://localhost:8000/api/health")).raise_for_status().json()
+    if health["module"] != module:
+        raise SystemExit(
+            f"Expected module {module}, running {health['module']}. "
+            "Stop the old server and launch the requested module."
+        )
+    output = ROOT / "artifacts" / "screenshots"
+    output.mkdir(parents=True, exist_ok=True)
     async with async_playwright() as pw:
         browser = await pw.chromium.launch()
-        for name, module in SHOTS.items():
-            page = await browser.new_page(viewport={"width": 1600, "height": 1000})
-            await page.goto(f"http://localhost:5173/?module={module}")
-            await page.wait_for_timeout(3000)  # let the graph panel fetch + settle
-            await page.locator(".graph-panel").screenshot(path=OUT / f"{name}.png")
-            print(f"captured {name}.png")
-            await page.close()
+        page = await browser.new_page(viewport={"width": 1600, "height": 1000})
+        await page.goto("http://localhost:5173")
+        await page.wait_for_function("!document.querySelector('.starting-banner')")
+        await page.get_by_label("Graph view").select_option("all")
+        await page.wait_for_timeout(3000)
+        assert f"Module {module}" in await page.locator(".chat-panel").inner_text()
+        await page.screenshot(path=output / f"module-{module}-live.png")
+        (output / f"module-{module}-live.json").write_text(
+            json.dumps(
+                {"health": health, "source": "actual running backend; all stored memory view"},
+                indent=2,
+            )
+        )
         await browser.close()
+    print(f"Captured verified module {module}")
 
 
 if __name__ == "__main__":
-    if "install" in sys.argv:
-        raise SystemExit("Run: uv run playwright install chromium")
-    asyncio.run(main())
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--module", required=True, type=int, choices=range(1, 5))
+    asyncio.run(main(parser.parse_args().module))

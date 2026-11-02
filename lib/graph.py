@@ -12,7 +12,7 @@ from .settings import AppSettings
 
 _LAYER_LABELS = {
     "short_term": ["Conversation", "Message"],
-    "long_term": ["Entity"],
+    "long_term": ["Entity", "Preference", "Fact"],
     "reasoning": ["ReasoningTrace", "ReasoningStep", "ToolCall", "Tool"],
 }
 
@@ -24,42 +24,90 @@ def _labels_for_layer(layer: str) -> list[str]:
 _LABELS_FOR_ALL = [lbl for labels in _LAYER_LABELS.values() for lbl in labels]
 
 
-async def bolt_graph(client: MemoryClient, layer: str = "all") -> dict[str, Any]:
+def _json_value(value):
+    if isinstance(value, dict):
+        return {k: _json_value(v) for k, v in value.items() if "embedding" not in k.lower()}
+    if isinstance(value, (list, tuple)):
+        return [_json_value(v) for v in value]
+    if hasattr(value, "iso_format"):
+        return value.iso_format()
+    if hasattr(value, "isoformat"):
+        return value.isoformat()
+    if value is None or isinstance(value, (str, int, float, bool)):
+        return value
+    return str(value)
+
+
+async def bolt_graph(
+    client: MemoryClient,
+    layer: str = "all",
+    *,
+    session_id: str | None = None,
+    limit: int = 200,
+) -> dict[str, Any]:
+    """Return bounded, induced graph maps, never serialized driver objects."""
     labels = _labels_for_layer(layer)
     rows = await client.query.cypher(
         """
         MATCH (n)
         WHERE any(l IN labels(n) WHERE l IN $labels)
-        OPTIONAL MATCH (n)-[r]-(m)
-        WHERE any(l IN labels(m) WHERE l IN $labels)
-        RETURN n, r, m
-        LIMIT 500
-        """,
-        {"labels": labels},
-    )
-    nodes: dict[str, dict] = {}
-    rels: dict[str, dict] = {}
-
-    def add_node(node) -> None:
-        nid = str(node.element_id)
-        props = {k: v for k, v in dict(node).items() if k != "embedding"}
-        nodes[nid] = {"id": nid, "labels": list(node.labels), "properties": props}
-
-    for row in rows:
-        add_node(row["n"])
-        if row["m"] is not None:
-            add_node(row["m"])
-        if row["r"] is not None:
-            r = row["r"]
-            rid = str(r.element_id)
-            rels[rid] = {
-                "id": rid,
-                "from": str(r.start_node.element_id),
-                "to": str(r.end_node.element_id),
-                "type": r.type,
-                "properties": dict(r),
+          AND ($session_id IS NULL OR n.session_id = $session_id
+            OR EXISTS {
+              MATCH (c:Conversation {session_id: $session_id})-[:HAS_MESSAGE]->(msg)
+              WHERE n = c OR n = msg OR (msg)-[:MENTIONS]->(n)
             }
-    return {"nodes": list(nodes.values()), "relationships": list(rels.values())}
+            OR EXISTS {
+              MATCH (t:ReasoningTrace {session_id: $session_id})-[:HAS_STEP*0..1]->(s)
+              WHERE n = s OR (s)-[:USES_TOOL]->(n) OR (s)-[:TOUCHED]->(n)
+                OR EXISTS { MATCH (s)-[:USES_TOOL]->(:ToolCall)-[:INSTANCE_OF]->(n) }
+            }
+            OR (n:Preference AND $session_id IS NOT NULL AND
+                n.category STARTS WITH $preference_namespace)
+            OR EXISTS {
+              MATCH (:Conversation {session_id: $session_id})-[:HAS_MESSAGE]->(:Message)
+                -[:MENTIONS]->(e)<-[:ABOUT]-(n:Preference)
+              WHERE n.category STARTS WITH $preference_namespace
+            })
+        WITH n ORDER BY coalesce(n.timestamp, n.created_at, n.started_at) DESC,
+                        elementId(n)
+        LIMIT $limit
+        WITH collect(n) AS candidates
+        WITH candidates[..$visible_limit] AS chosen,
+             size(candidates) > $visible_limit AS truncated
+        UNWIND chosen AS n
+        OPTIONAL MATCH (n)-[r]->(m) WHERE m IN chosen
+        RETURN {id: elementId(n), labels: labels(n), properties: properties(n)} AS n,
+          CASE WHEN m IS NULL THEN null ELSE
+            {id: elementId(m), labels: labels(m), properties: properties(m)} END AS m,
+          CASE WHEN r IS NULL THEN null ELSE
+            {id: elementId(r), from: elementId(startNode(r)),
+             to: elementId(endNode(r)), type: type(r), properties: properties(r)} END AS r,
+          truncated
+        """,
+        {
+            "labels": labels,
+            "session_id": session_id,
+            "limit": limit + 1,
+            "visible_limit": limit,
+            "preference_namespace": (session_id or "").split(":")[0] + ":",
+        },
+    )
+    nodes = {}
+    relationships = {}
+    for row in rows:
+        for key in ("n", "m"):
+            node = row.get(key)
+            if node:
+                nodes[str(node["id"])] = _json_value(node)
+        relationship = row.get("r")
+        if relationship:
+            relationships[str(relationship["id"])] = _json_value(relationship)
+    return {
+        "nodes": list(nodes.values()),
+        "relationships": list(relationships.values()),
+        "truncated": any(r.get("truncated", False) for r in rows),
+        "session_id": session_id,
+    }
 
 
 async def nams_graph(s: AppSettings) -> dict[str, Any]:

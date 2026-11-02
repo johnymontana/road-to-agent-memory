@@ -61,7 +61,6 @@ module-2: ## Module 2 — short-term memory beats
 	$(MAKE) s2-return
 
 module-3: ## Module 3 — long-term memory beats
-	uv run scripts/activate_ontology.py module_3/ontology/acme_cloud.yaml
 	$(MAKE) s3-default
 	$(MAKE) s3-ontology
 
@@ -79,15 +78,15 @@ module-5: ## Module 5 — NAMS distillation beats
 # ── Scenarios (paced/serialized OpenAI calls — ADR 001) ────────────────────────
 s1-baseline:       ## M1: billing-issue ticket, no memory
 	uv run scripts/run_scenario.py s1-baseline --module 1
-s2-return:         ## M2: customer returns in a new chat
+s2-return:         ## M2: same-chat and cross-chat message recall
 	uv run scripts/run_scenario.py s2-return --module 2
-s2-restart:        ## M2: kill-and-restart mid-conversation beat
+s2-restart:        ## M2: two-process restart with the same conversation
 	uv run scripts/run_scenario.py s2-restart --module 2 --restart-beat
 s3-default:        ## M3: extraction with default POLE+O types
 	uv run scripts/run_scenario.py s3-default --module 3
-s3-ontology:       ## M3: same scenario with the Acme Cloud ontology
+s3-ontology:       ## M3: fixed transcript with the Acme Cloud ontology
 	uv run scripts/run_scenario.py s3-ontology --module 3
-s3-enrich:         ## M3 (stretch): Stripe-mention scenario + Wikipedia enrichment
+s3-enrich:         ## M3 (stretch): explicit cached Wikimedia enrichment (best effort)
 	uv run scripts/run_scenario.py s3-enrich --module 3
 s4-refund:         ## M4: first refund ticket (recorded as a trace)
 	uv run scripts/run_scenario.py s4-refund --module 4

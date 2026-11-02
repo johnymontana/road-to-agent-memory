@@ -1,0 +1,41 @@
+{
+  "presentationId": "1qBsciAQf7s3BUdQleJJ39-4RDKAoqqoVfodPDDg63z8",
+  "title": "Road to Actionable Knowledge & Agent Memory 2026",
+  "revisionId": "QDmoL4ElpcYHAA",
+  "source": "https://docs.google.com/presentation/d/1qBsciAQf7s3BUdQleJJ39-4RDKAoqqoVfodPDDg63z8/edit",
+  "scope": "General closing slides 54–56 and 59; NAMS-specific claims excluded. Content outline, not rendered visual QA.",
+  "slides": [
+    {
+      "slideNumber": 54,
+      "objectId": "ram_design_054",
+      "title": "The eval scoreboard, re-run",
+      "text": "The eval scoreboard, re-run\n\nIdentity\n\nConversation\n\nAccount\n\n“Do you know who I am?”\n\nLong-term memory\n\n“What did we discuss?”\n\nShort-term memory\n\n“What do you know about my account?”\n\nLong-term memory\n\nProcedure\n\n“Handled this before?”\n\nReasoning → distilled skill\n\nWrap\n\nmake eval · The same four questions, one last time. Track which memory layer unlocked each.",
+      "pageElementCount": 12,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 55,
+      "objectId": "ram_design_055",
+      "title": "One knowledge graph",
+      "text": "One knowledge graph\n\nShort-term\n\nLong-term\n\nReasoning\n\nConversations and messages: what was said.\n\nEntities and facts: who and what it was about.\n\nTasks, tool calls and outcomes: how the agent acted.\n\nWrap\n\nConnected, queryable, auditable. Grounded skills connect back to the experience that supports them.",
+      "pageElementCount": 10,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 56,
+      "objectId": "ram_slide_056",
+      "title": "One connected knowledge graph",
+      "text": "One connected knowledge graph\n\nWrap\n\nConversation\n\nMessages\n\nEntities\n\nMENTIONS\n\nTasks / traces\n\nTOUCHED\n\nSkill claims\n\nGROUNDED_IN\n\nMessages, entities, traces and grounded skills form one connected, queryable memory model.",
+      "pageElementCount": 12,
+      "tableCount": 0
+    },
+    {
+      "slideNumber": 59,
+      "objectId": "ram_design_059",
+      "title": "Your Monday morning path",
+      "text": "Your Monday morning path\n\nInstall\n\nWrite\n\nAdd the library to your agent project with pip or uv.\n\nConnect MemoryClient to your database over Bolt.\n\nCall add_message on every conversation turn.\n\nRetrieve\n\nInject get_context into the instructions for your agent.\n\nWrap · About 20 minutes\n\nneo4j.com/labs/agent-memory · github.com/neo4j-labs/agent-memory · GraphAcademy: Context Graphs\n\npip install neo4j-agent-memory   ·   MemoryClient(backend=\"bolt\")\n\nConnect",
+      "pageElementCount": 13,
+      "tableCount": 0
+    }
+  ]
+}

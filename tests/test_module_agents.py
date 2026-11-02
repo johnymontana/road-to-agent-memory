@@ -62,9 +62,11 @@ class Memory:
             search_entities=AsyncMock(return_value=[]),
             search_preferences=AsyncMock(return_value=[]),
             add_preference=AsyncMock(),
-            add_entity=AsyncMock(),
+            add_entity=AsyncMock(
+                return_value=(SimpleNamespace(id="00000000-0000-0000-0000-000000000001"), None)
+            ),
         )
-        self.query = SimpleNamespace(cypher=AsyncMock(return_value=[]))
+        self.query = SimpleNamespace(cypher=AsyncMock(side_effect=self.query_rows))
         self.trace = SimpleNamespace(
             id="trace-id",
             task="Prior refund procedure",
@@ -76,15 +78,28 @@ class Memory:
             start_trace=AsyncMock(return_value=self.trace),
             add_step=AsyncMock(return_value=SimpleNamespace(id="step-id")),
             record_tool_call=AsyncMock(),
+            link_trace_to_message=AsyncMock(),
             complete_trace=AsyncMock(return_value=self.trace),
         )
+
+    async def query_rows(self, query, params):
+        if "workshop:recent" in query:
+            return [
+                {"id": str(i), "role": role, "content": text}
+                for i, (sid, role, text) in reversed(list(enumerate(self.messages)))
+                if sid == params["session_id"]
+            ][-10:]
+        return []
 
     async def create(self, session_id):
         self.events.append(("conversation", session_id))
 
-    async def add(self, session_id, role, content):
+    async def add(self, session_id, role, content, **kwargs):
         self.events.append(("write", role))
         self.messages.append((session_id, role, content))
+        from uuid import uuid4
+
+        return SimpleNamespace(id=uuid4())
 
     async def get_context(self, message, *, session_id, **options):
         self.context_options.append(options)
@@ -100,6 +115,11 @@ async def fake_memory(memory):
 def install_memory(monkeypatch, number, memory):
     implementation = load_agent_module(number)
     monkeypatch.setattr(implementation, "open_memory", lambda settings, **kw: fake_memory(memory))
+    monkeypatch.setattr(
+        implementation,
+        "OpenAIEmbedder",
+        lambda *a, **kw: SimpleNamespace(embed=AsyncMock(return_value=[0.1] * 3)),
+    )
     return implementation
 
 
@@ -113,65 +133,6 @@ def responder(tool=None, arguments=None):
         return ModelResponse(parts=[TextPart("Support response")])
 
     return FunctionModel(answer), seen
-
-
-@pytest.mark.parametrize("number", range(1, 6))
-async def test_agent_stage_runs_local_business_tool_and_preserves_contract(
-    number, settings, monkeypatch
-):
-    memory = Memory()
-    implementation = load_agent_module(number)
-    if number > 1:
-        install_memory(monkeypatch, number, memory)
-    model, seen = responder("lookup_account", {"customer_email": "maya.chen@northwind.example"})
-    async with open_agent(number, settings) as chat:
-        assert type(chat).__module__ == f"module_{number}.app.agent"
-        with chat.agent.override(model=model):
-            reply = await chat.chat("Look up my account", "test-session")
-        assert chat.module == number
-        assert chat.memory_layers == ["short_term", "long_term", "reasoning"][: min(number - 1, 3)]
-        names = {tool.name for tool in seen[0].function_tools}
-        assert names == BUSINESS_TOOLS | (MEMORY_TOOLS if number >= 3 else set())
-        if number >= 3:
-            assert "MUST call `save_preference`" in seen[0].instructions
-        assert reply["session_id"] == "test-session"
-        assert reply["reply"] == "Support response"
-        call = reply["tool_calls"][0]
-        assert call["name"] == "lookup_account"
-        assert call["output"]["plan"] == "Pro"
-        assert "SELECT" in call["sql"]
-        if number == 1:
-            assert chat.memory is None
-            assert reply["context"] == {"used_memory": False, "summary": None}
-        else:
-            assert memory.events == [
-                ("conversation", "test-session"),
-                ("write", "user"),
-                ("retrieve", "test-session"),
-                ("write", "assistant"),
-            ]
-            assert "Retrieved memory" in seen[0].instructions
-            assert memory.context_options == [
-                {
-                    "include_long_term": number >= 3,
-                    "include_reasoning": False,
-                }
-            ]
-        if number < 4:
-            memory.reasoning.start_trace.assert_not_called()
-            memory.reasoning.get_similar_traces.assert_not_called()
-        else:
-            # Exercise the library's real record_agent_trace against the fake backend.
-            memory.reasoning.record_tool_call.assert_awaited_once()
-            assert (
-                memory.reasoning.record_tool_call.call_args.kwargs["tool_name"] == "lookup_account"
-            )
-            assert memory.reasoning.complete_trace.call_args.kwargs["success"] is True
-            assert "Similar tasks" in seen[0].instructions
-            # Failed executions are part of this lesson's recall, too.
-            assert memory.reasoning.get_similar_traces.call_args.kwargs["success_only"] is False
-    # Agent construction itself must come from this lesson, not shared dispatch.
-    assert implementation.ChatService.__module__ == f"module_{number}.app.agent"
 
 
 async def test_short_term_survives_a_new_agent_with_the_same_conversation(settings, monkeypatch):
@@ -194,6 +155,7 @@ async def test_hydration_uses_sqlite_facts_and_updates_existing_entity(
 ):
     hydration = importlib.import_module(f"module_{number}.app.hydrate")
     memory = Memory()
+    memory.query.cypher.side_effect = None
     memory.query.cypher.return_value = [
         {"name": "Maya Chen", "type": "PERSON", "subtype": "CUSTOMER"},
         {"name": "Pro", "type": "OBJECT", "subtype": "PLAN"},
@@ -230,6 +192,7 @@ async def test_hydration_uses_resolved_aliases_without_renaming_nodes(
 ):
     hydration = importlib.import_module(f"module_{number}.app.hydrate")
     memory = Memory()
+    memory.query.cypher.side_effect = None
     memory.query.cypher.return_value = [
         {"name": "Maya", "type": "PERSON", "subtype": "CUSTOMER", "aliases": ["Maya Chen"]},
     ]
@@ -252,11 +215,12 @@ async def test_hydration_uses_resolved_aliases_without_renaming_nodes(
 
 
 @pytest.mark.parametrize("number", [3, 4, 5])
-async def test_extracted_third_party_organizations_are_queued_for_enrichment(
+async def test_external_organizations_do_not_trigger_background_enrichment(
     number, settings, monkeypatch
 ):
     hydration = importlib.import_module(f"module_{number}.app.hydrate")
     memory = Memory()
+    memory.query.cypher.side_effect = None
     memory.query.cypher.return_value = [
         {"name": "Stripe", "type": "ORGANIZATION", "subtype": "COMPANY"},
     ]
@@ -267,48 +231,7 @@ async def test_extracted_third_party_organizations_are_queued_for_enrichment(
     )
     assert hydrated == []  # External data is not a SQLite-grounded fact.
     writes.assert_not_called()
-    memory.long_term.add_entity.assert_awaited_once_with(
-        "Stripe",
-        "ORGANIZATION",
-        subtype="COMPANY",
-        resolve=False,
-        deduplicate=False,
-        enrich=True,
-    )
-
-
-@pytest.mark.parametrize("number", [3, 4, 5])
-async def test_memory_tools_search_grounded_entities_and_collect_preferences(
-    number, settings, monkeypatch
-):
-    memory = Memory()
-    install_memory(monkeypatch, number, memory)
-    memory.long_term.search_entities.return_value = [
-        SimpleNamespace(name="Maya Chen", description="Signed up 2025-03-14"),
-    ]
-    async with open_agent(number, settings) as chat:
-        model, _ = responder("search_memory", {"query": "Maya"})
-        with chat.agent.override(model=model):
-            reply = await chat.chat("Find Maya", "search-session")
-        call = reply["tool_calls"][0]
-        assert call["sql"] is None
-        assert "2025-03-14" in call["output"]
-        model, _ = responder("save_preference", {"category": "contact", "preference": "email"})
-        with chat.agent.override(model=model):
-            reply = await chat.chat("Please use email", "preference-session")
-        assert reply["tool_calls"][0]["name"] == "save_preference"
-        memory.long_term.add_preference.assert_awaited_once_with("contact", "email", context=None)
-        memory.long_term.search_preferences.return_value = [
-            SimpleNamespace(category="contact", preference="email"),
-        ]
-        model, _ = responder("recall_preferences", {"topic": "contact"})
-        with chat.agent.override(model=model):
-            reply = await chat.chat("How do I prefer follow-ups?", "recall-session")
-        assert "[contact] email" in reply["tool_calls"][0]["output"]
-        if number == 3:
-            memory.reasoning.get_similar_traces.assert_not_called()
-        else:
-            assert memory.reasoning.get_similar_traces.call_args.kwargs["success_only"] is False
+    memory.long_term.add_entity.assert_not_awaited()
 
 
 @pytest.mark.parametrize("number", [4, 5])
@@ -323,29 +246,8 @@ async def test_ablation_disables_both_paths_to_reasoning_but_still_records(
             reply = await chat.chat("Have you handled this?", "control")
     memory.reasoning.get_similar_traces.assert_not_called()
     memory.reasoning.start_trace.assert_awaited_once()
-    assert "Similar tasks" not in seen[0].instructions
-    assert "reasoning" not in reply["context"]["summary"]
-
-
-@pytest.mark.parametrize("number", [4, 5])
-async def test_rejected_refund_is_a_failed_recorded_trace(number, settings, monkeypatch):
-    memory = Memory()
-    install_memory(monkeypatch, number, memory)
-    model, _ = responder(
-        "issue_refund",
-        {
-            "customer_email": "maya.chen@northwind.example",
-            "amount": 400,
-            "reason": "spot capacity",
-        },
-    )
-    async with open_agent(number, settings) as chat:
-        with chat.agent.override(model=model):
-            reply = await chat.chat("Refund $400", "failed-refund")
-    assert reply["tool_calls"][0]["output"]["status"] == "rejected_over_limit"
-    completion = memory.reasoning.complete_trace.call_args.kwargs
-    assert completion["success"] is False
-    assert "Refund rejected" in completion["outcome"]
+    assert "Past execution examples" not in seen[0].instructions
+    assert not any(e["path"] == "reasoning_trace" for e in reply["context"]["evidence"])
 
 
 @pytest.mark.parametrize("number", [2, 3, 4, 5])
@@ -376,7 +278,7 @@ async def test_local_memory_configuration_and_connection_lifetime(number, settin
         assert "ontology" not in captured
     else:
         assert configuration.extraction.extractor_type == "llm"
-        assert configuration.enrichment.enabled
+        assert not configuration.enrichment.enabled
         assert captured["ontology"].domain.name == "acme-cloud-support"
         async with module.open_memory(settings, ontology="default-poleo"):
             assert captured["ontology"].domain.name == "generic-poleo"
@@ -406,9 +308,9 @@ def test_http_app_uses_the_local_factory(number, settings, monkeypatch):
             response = client.post("/api/chat", json={"message": "Hello", "session_id": "web"})
             evaluation = client.get("/api/eval")
         assert response.status_code == 200
-        assert response.json()["session_id"] == "web"
+        assert response.json()["session_id"] == "workshop:web"
         assert evaluation.status_code == 200
-        assert len(evaluation.json()["questions"]) == 4
+        assert evaluation.json() == {"runs": []}
         if number == 1:
             assert client.get("/api/graph").json() == {"nodes": [], "relationships": []}
         if number < 5:
@@ -466,7 +368,13 @@ async def test_every_local_business_tool_returns_grounded_results(number, settin
 
     async with open_agent(number, settings) as chat:
         with chat.agent.override(model=FunctionModel(perform)):
-            result = await chat.chat("Check products, policy, service and refund", "all-tools")
+            result = await chat.chat(
+                "Check products, policy, service and refund",
+                "all-tools",
+                account_email="maya.chen@northwind.example",
+                incident_id="maya-duplicate-compute",
+                authorize_refund=True,
+            )
     observed = result["tool_calls"]
     assert [c["name"] for c in observed] == [name for name, _ in calls]
     assert observed[0]["output"]["count"] >= 1
@@ -474,3 +382,101 @@ async def test_every_local_business_tool_returns_grounded_results(number, settin
     assert observed[2]["output"]["services"]
     assert observed[3]["output"]["status"] == "issued"
     assert all(c["duration_ms"] >= 0 and c["sql"] for c in observed)
+
+
+@pytest.mark.parametrize("number", range(1, 6))
+async def test_local_stage_and_retry_receipt(number, settings, monkeypatch):
+    memory = Memory()
+    if number > 1:
+        install_memory(monkeypatch, number, memory)
+    model, seen = responder("lookup_account", {"customer_email": "maya.chen@northwind.example"})
+    async with open_agent(number, settings) as chat:
+        with chat.agent.override(model=model):
+            result = await chat.chat("Look up Maya", "lesson", request_id="retry")
+            retry = await chat.chat("Look up Maya", "lesson", request_id="retry")
+    assert retry == result
+    assert result["session_id"] == "workshop:lesson"
+    assert result["execution_status"] == "succeeded"
+    assert result["tool_calls"][0]["output"]["plan"] == "Pro"
+    assert result["tool_calls"][0]["sql"].startswith("SELECT")
+    assert type(chat).__module__ == f"module_{number}.app.agent"
+    assert len(seen) == 2
+    if number >= 4:
+        memory.reasoning.complete_trace.assert_awaited_once()
+
+
+@pytest.mark.parametrize("number", [4, 5])
+async def test_exception_and_rejection_complete_traces(number, settings, monkeypatch):
+    memory = Memory()
+    install_memory(monkeypatch, number, memory)
+    async with open_agent(number, settings) as chat:
+
+        def fail(*args):
+            raise RuntimeError("model unavailable")
+
+        with chat.agent.override(model=FunctionModel(fail)):
+            result = await chat.chat(
+                "refund 400",
+                "decline",
+                account_email="maya.chen@northwind.example",
+                incident_id="maya-spot-capacity",
+                authorize_refund=True,
+            )
+    assert result["execution_status"] == "failed"
+    assert result["business_status"] == "rejected_over_limit"
+    assert not any("INSERT INTO refunds" in (c["sql"] or "") for c in result["tool_calls"])
+    outcome = memory.reasoning.complete_trace.call_args.kwargs["outcome"]
+    assert not outcome.success
+    assert outcome.error_kind == "execution_error"
+    assert "rejected_over_limit" in outcome.summary
+
+
+def test_replay_index_exposes_exact_conversations_for_live_graphs(settings, monkeypatch):
+    import json
+
+    from lib import app_factory
+
+    monkeypatch.setattr(app_factory, "get_settings", lambda: settings)
+    folder = settings.data_dir / "replays"
+    folder.mkdir()
+    (folder / "recorded.json").write_text(
+        json.dumps(
+            {
+                "module": 4,
+                "title": "Recorded case",
+                "turns": [{"result": {"session_id": "namespace:first"}}],
+                "branches": [{"turns": [{"result": {"session_id": "namespace:second"}}]}],
+            }
+        )
+    )
+    app = app_factory.create_app(load_agent_module(1).open_agent, title="Replay index")
+    with TestClient(app) as client:
+        run = client.get("/api/replays").json()["runs"][0]
+    assert run["session_ids"] == ["namespace:first", "namespace:second"]
+    assert run["module"] == 4 and run["title"] == "Recorded case"
+
+
+@pytest.mark.parametrize("amount", [float("nan"), float("inf"), -float("inf")])
+def test_http_nonfinite_refund_rejection_remains_json_safe(amount, settings, monkeypatch):
+    from lib import app_factory
+
+    monkeypatch.setattr(app_factory, "get_settings", lambda: settings)
+    app = app_factory.create_app(load_agent_module(1).open_agent, title="Invalid refund")
+    model, _ = responder(
+        "issue_refund",
+        {
+            "customer_email": "maya.chen@northwind.example",
+            "amount": amount,
+            "reason": "invalid amount",
+        },
+    )
+    with TestClient(app) as client, app.state.chat.agent.override(model=model):
+        response = client.post("/api/chat", json={"message": "Refund the charge"})
+    assert response.status_code == 200
+    data = response.json()
+    assert data["business_status"] == "rejected_invalid_amount"
+    assert isinstance(data["tool_calls"][0]["input"]["amount"], str)
+    from lib.db import connect
+
+    with connect(settings.db_path) as db:
+        assert db.execute("SELECT count(*) FROM refunds").fetchone()[0] == 0

@@ -17,6 +17,8 @@ def build_settings(settings: AppSettings) -> MemorySettings:
             "username": settings.neo4j_username,
             "password": settings.neo4j_password,
             "database": settings.neo4j_database,
+            "connection_timeout": 10,
+            "max_transaction_retry_time": 5,
         },
         llm=f"openai/{settings.openai_model}",
         embedding=f"openai/{settings.embedding_model}",

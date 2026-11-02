@@ -1,53 +1,57 @@
-# Module 1 — The stateless support agent
+# Module 1 — Per-turn stateless baseline
 
-Start with [`app/agent.py`](app/agent.py). This folder owns the complete agent for
-this stage: its prompt, registered tools, model call and chat orchestration.
-Code is intentionally duplicated so changes from the previous lesson are visible.
-No lesson imports another lesson's agent.
+Start commands from the repository root. Keep `make dev MODULE=1` in one
+terminal and run the lesson commands in another. Before switching modules, stop
+the server with Ctrl+C, launch the next module, and reload the browser.
 
-## Run and explore
+Browser chat has a visible conversation ID, New conversation and Resume controls.
+It preserves turn history locally across reloads; clearing browser storage removes
+that local history. Neo4j memory remains persistent. Terminal commands print their
+own dialogue, tools and timing. Use **Refresh graph → Saved replay** to inspect their
+immutable output projection; choose **Live memory** for the replay's persisted
+Neo4j message/entity/trace links. CLI runs do not append turns to browser chat. Choose Current
+conversation for browser evidence, or All stored memory deliberately.
 
-Run every command from the **repository root**, not from this folder:
+Refund actions require a selected Customer and Billing case plus **Authorize selected
+refund for this message**. Confirmation resets after each turn. The server checks
+case identity, amount, current SQL plan limit and incident uniqueness. Asking for
+an update reads refund history. A request ID returns its saved operation receipt on
+retry; replaying a billing case cannot create a second refund. No escalation tool
+exists. Status values are seeded examples with timestamps, never a live monitoring feed.
+
+Run `make eval MODULE=1` explicitly. The evaluation lab starts only on POST/action;
+opening or reopening it reads results. Each run uses private SQL, unique memory
+fixtures and disabled business tools. Exact facts and source IDs are checked. This
+is a controlled retrieval probe, not an end-to-end support-quality score or a promise
+of monotonic improvement. A dependency error preserves completed questions.
 
 ```bash
 make dev MODULE=1
-```
-
-Keep the server terminal open. Run scenarios in a second terminal. Stop the previous
-server with Ctrl+C before switching stages, then reload the browser. The same root
-`.env`, SQLite database, virtual environment and AuraDB are reused.
-
-Scenario playback constructs this folder's agent directly and prints dialogue and
-tool calls in the terminal. It does not replay the conversation into the browser.
-Reload the graph or change its layer filter to see externally written memory.
-The browser's tool trace displays only the latest browser chat request.
-
-```bash
+# Second terminal:
 make s1-baseline
 make eval MODULE=1
 ```
 
+Each `agent.run` starts without message history, even inside one visible browser
+conversation. The first prompt includes Maya's exact email; the second explicitly
+asks what was just supplied. It should report unknown. SQL tools can still retrieve
+business facts when given an identifier; that is not memory.
+
+See the [participant guide](../docs/modules/module-1.md) for the same questions and answer key.
+
+## Explore and verify
+
+### Q1: Which tool reads current account facts?
+
+`lookup_account` executes SQL; inspect its actual statements and source data.
+
+### Q2: Why is the second answer unknown?
+
+No message history is passed to the next model call. The browser bubbles are not model memory.
+
 ## Read the code
 
-1. [`app/main.py`](app/main.py) connects the local agent factory to the shared HTTP transport.
-2. [`app/agent.py`](app/agent.py) constructs the agent and runs one complete chat turn.
-3. [`app/tools.py`](app/tools.py) defines all five business tools and their trace collection.
+Start with `module_1/app/agent.py`, then local `tools.py`.
 
-## What changes in this stage
-
-The agent has business tools but no memory client. Every model call is stateless;
-even reusing a session ID does not supply conversation history. The graph is empty.
-
-## Compare and verify
-
-Use the [participant guide](../docs/modules/module-1.md) for questions and answers.
-The offline tests exercise real PydanticAI runs using local adapters. Live rehearsal
-is opt-in and writes unique test conversations without wiping existing graph data.
-
-```bash
-uv run pytest tests/test_module_agents.py tests/test_workshop_runners.py -q
-RUN_BEHAVIORAL=1 uv run pytest tests/test_behavioral.py -v
-```
-
-Shared `lib/` contains credentials, SQL helpers, graph serialization, HTTP transport,
-and module dispatch only. Agent behavior is implemented here.
+Each module owns its full agent implementation. Duplicated lesson code is intentional;
+shared `lib/` supplies transport, settings, SQL, receipts and factory selection.

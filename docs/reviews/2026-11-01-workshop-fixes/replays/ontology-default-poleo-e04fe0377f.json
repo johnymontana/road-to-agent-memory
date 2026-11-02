@@ -1,0 +1,290 @@
+{
+  "id": "ontology-default-poleo-e04fe0377f",
+  "title": "Extractor only \u00b7 default-poleo",
+  "module": 3,
+  "protocol": "Fixed transcript; independent extractor call; no chat history, hydration or graph merging.",
+  "transcript_sha256": "752d85d09cfa41b20133a44216efbfae05bcd9b8ecfb3d15991191f43c10c504",
+  "model": "gpt-4o-mini",
+  "ontology": "default-poleo",
+  "seconds": 3.948,
+  "raw_extraction": {
+    "entities": [
+      {
+        "name": "Maya Chen",
+        "type": "PERSON",
+        "subtype": null,
+        "start_pos": null,
+        "end_pos": null,
+        "confidence": 0.9,
+        "context": null,
+        "attributes": {},
+        "extractor": "llm",
+        "id": null
+      },
+      {
+        "name": "Northwind Robotics",
+        "type": "ORGANIZATION",
+        "subtype": null,
+        "start_pos": null,
+        "end_pos": null,
+        "confidence": 0.9,
+        "context": null,
+        "attributes": {},
+        "extractor": "llm",
+        "id": null
+      },
+      {
+        "name": "Acme Cloud Compute",
+        "type": "OBJECT",
+        "subtype": null,
+        "start_pos": null,
+        "end_pos": null,
+        "confidence": 0.9,
+        "context": null,
+        "attributes": {},
+        "extractor": "llm",
+        "id": null
+      },
+      {
+        "name": "Acme Cloud Billing API",
+        "type": "OBJECT",
+        "subtype": null,
+        "start_pos": null,
+        "end_pos": null,
+        "confidence": 0.9,
+        "context": null,
+        "attributes": {},
+        "extractor": "llm",
+        "id": null
+      },
+      {
+        "name": "AcmeCloud",
+        "type": "ORGANIZATION",
+        "subtype": null,
+        "start_pos": null,
+        "end_pos": null,
+        "confidence": 0.9,
+        "context": null,
+        "attributes": {},
+        "extractor": "llm",
+        "id": null
+      },
+      {
+        "name": "BILL-104",
+        "type": "EVENT",
+        "subtype": null,
+        "start_pos": null,
+        "end_pos": null,
+        "confidence": 0.9,
+        "context": null,
+        "attributes": {},
+        "extractor": "llm",
+        "id": null
+      }
+    ],
+    "relations": [
+      {
+        "source": "Maya Chen",
+        "target": "Northwind Robotics",
+        "relation_type": "WORKS_AT",
+        "confidence": 0.8,
+        "source_id": null,
+        "target_id": null,
+        "derived": false
+      },
+      {
+        "source": "Maya Chen",
+        "target": "AcmeCloud",
+        "relation_type": "KNOWS",
+        "confidence": 0.8,
+        "source_id": null,
+        "target_id": null,
+        "derived": false
+      }
+    ],
+    "preferences": [
+      {
+        "category": "subscription",
+        "preference": "Pro plan",
+        "context": null,
+        "confidence": 0.85
+      }
+    ],
+    "source_text": "Maya Chen works at Northwind Robotics and subscribes to the Pro plan. Maya uses Acme Cloud Compute and Acme Cloud Billing API. Maya reported incident BILL-104: a duplicate charge affecting Acme Cloud Compute. Maya calls the vendor AcmeCloud, also known as Acme Cloud."
+  },
+  "dropped_relations": [],
+  "graph": {
+    "nodes": [
+      {
+        "id": "source",
+        "labels": [
+          "Message"
+        ],
+        "properties": {
+          "content": "Maya Chen works at Northwind Robotics and subscribes to the Pro plan. Maya uses Acme Cloud Compute and Acme Cloud Billing API. Maya reported incident BILL-104: a duplicate charge affecting Acme Cloud Compute. Maya calls the vendor AcmeCloud, also known as Acme Cloud.",
+          "source": "fixed transcript",
+          "immutable": true
+        }
+      },
+      {
+        "id": "entity-0",
+        "labels": [
+          "Entity",
+          "Person"
+        ],
+        "properties": {
+          "name": "Maya Chen",
+          "type": "PERSON",
+          "subtype": null,
+          "source": "LLM extractor",
+          "confidence": 0.9
+        }
+      },
+      {
+        "id": "entity-1",
+        "labels": [
+          "Entity",
+          "Organization"
+        ],
+        "properties": {
+          "name": "Northwind Robotics",
+          "type": "ORGANIZATION",
+          "subtype": null,
+          "source": "LLM extractor",
+          "confidence": 0.9
+        }
+      },
+      {
+        "id": "entity-2",
+        "labels": [
+          "Entity",
+          "Object"
+        ],
+        "properties": {
+          "name": "Acme Cloud Compute",
+          "type": "OBJECT",
+          "subtype": null,
+          "source": "LLM extractor",
+          "confidence": 0.9
+        }
+      },
+      {
+        "id": "entity-3",
+        "labels": [
+          "Entity",
+          "Object"
+        ],
+        "properties": {
+          "name": "Acme Cloud Billing API",
+          "type": "OBJECT",
+          "subtype": null,
+          "source": "LLM extractor",
+          "confidence": 0.9
+        }
+      },
+      {
+        "id": "entity-4",
+        "labels": [
+          "Entity",
+          "Organization"
+        ],
+        "properties": {
+          "name": "AcmeCloud",
+          "type": "ORGANIZATION",
+          "subtype": null,
+          "source": "LLM extractor",
+          "confidence": 0.9
+        }
+      },
+      {
+        "id": "entity-5",
+        "labels": [
+          "Entity",
+          "Event"
+        ],
+        "properties": {
+          "name": "BILL-104",
+          "type": "EVENT",
+          "subtype": null,
+          "source": "LLM extractor",
+          "confidence": 0.9
+        }
+      }
+    ],
+    "relationships": [
+      {
+        "id": "mention-0",
+        "from": "source",
+        "to": "entity-0",
+        "type": "MENTIONS",
+        "properties": {
+          "source": "fixed transcript"
+        }
+      },
+      {
+        "id": "mention-1",
+        "from": "source",
+        "to": "entity-1",
+        "type": "MENTIONS",
+        "properties": {
+          "source": "fixed transcript"
+        }
+      },
+      {
+        "id": "mention-2",
+        "from": "source",
+        "to": "entity-2",
+        "type": "MENTIONS",
+        "properties": {
+          "source": "fixed transcript"
+        }
+      },
+      {
+        "id": "mention-3",
+        "from": "source",
+        "to": "entity-3",
+        "type": "MENTIONS",
+        "properties": {
+          "source": "fixed transcript"
+        }
+      },
+      {
+        "id": "mention-4",
+        "from": "source",
+        "to": "entity-4",
+        "type": "MENTIONS",
+        "properties": {
+          "source": "fixed transcript"
+        }
+      },
+      {
+        "id": "mention-5",
+        "from": "source",
+        "to": "entity-5",
+        "type": "MENTIONS",
+        "properties": {
+          "source": "fixed transcript"
+        }
+      },
+      {
+        "id": "relation-0",
+        "from": "entity-0",
+        "to": "entity-1",
+        "type": "WORKS_AT",
+        "properties": {
+          "confidence": 0.8
+        }
+      },
+      {
+        "id": "relation-1",
+        "from": "entity-0",
+        "to": "entity-4",
+        "type": "KNOWS",
+        "properties": {
+          "confidence": 0.8
+        }
+      }
+    ],
+    "truncated": false
+  }
+}

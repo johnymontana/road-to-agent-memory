@@ -1,0 +1,38 @@
+import json
+import os
+import subprocess
+import time
+from pathlib import Path
+
+ROOT = Path('/Users/lyonwj/github/johnymontana/road-to-agent-memory')
+OUT = Path('/private/tmp/workshop-review-20261101')
+commands = [
+    ['make', 'check'], ['make', 's1-baseline'], ['make', 'eval', 'MODULE=1'],
+    ['make', 's2-return'], ['make', 's2-restart'], ['make', 'eval', 'MODULE=2'],
+    ['make', 's3-default'], ['make', 's3-ontology'], ['make', 's3-enrich'],
+    ['make', 'eval', 'MODULE=3'], ['make', 's4-refund'], ['make', 's4-fail'],
+    ['make', 's4-refund-repeat'], ['make', 'eval', 'MODULE=4'],
+]
+env = dict(os.environ, DATA_DIR=str(OUT/'data'),
+           UV_CACHE_DIR=str(OUT/'uv-cache'), PYTHONUNBUFFERED='1',
+           PYTHONPATH=f'{OUT}/hook:{ROOT}', WORKSHOP_REPLAY='1',
+           REPLAY_PREFIX='review-20261101-a', REPLAY_EVENTS=str(OUT/'events.jsonl'))
+results = []
+for index, args in enumerate(commands, 1):
+    command = ' '.join(args)
+    print(f'[{index}/{len(commands)}] START {command}', flush=True)
+    log = OUT/f'{index:02d}-{args[1]}.log'
+    started = time.monotonic()
+    try:
+        with log.open('w') as output:
+            run = subprocess.run(args, cwd=ROOT, env=dict(env, REPLAY_COMMAND=command),
+                                 stdout=output, stderr=subprocess.STDOUT, timeout=900)
+        status = run.returncode
+    except subprocess.TimeoutExpired:
+        status = 'timeout'
+    item = dict(command=command, exit_code=status,
+                seconds=round(time.monotonic()-started, 2), log=str(log))
+    results.append(item)
+    (OUT/'commands.json').write_text(json.dumps(results, indent=2))
+    print(f'[{index}/{len(commands)}] END {command}: {status}, {item["seconds"]}s', flush=True)
+print('REPLAY COMPLETE', flush=True)

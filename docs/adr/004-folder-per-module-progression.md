@@ -90,3 +90,15 @@ Live rehearsal is opt-in, uses temporary SQLite data and unique conversation IDs
 and never resets existing graph data. The NAMS seed/lifecycle needs its own
 configured-workspace verification; mocked HTTP choreography is not evidence of
 hosted-service parity.
+
+
+## 2026-11-01 workflow clarification
+
+Browser chat, conversational replay and controlled eval select the local lesson
+factory. Two deliberate teaching exceptions apply: `s2-restart` launches two
+separate Python processes around the same persisted conversation, and the module-3
+default/custom pair calls independent extractors on a fixed transcript, without
+running the agent or hydration. The module-4 ablation disables new extraction and
+hydration in both branches as well as branch trace recording, preventing shared
+canonical entities from transferring control writes into treatment context. The
+SQL-selected case facts remain identical inputs to both business agents.

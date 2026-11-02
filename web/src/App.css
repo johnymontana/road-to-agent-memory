@@ -696,3 +696,17 @@ body {
   color: #1864ab;
   flex-shrink: 0;
 }
+
+.operator-controls {display:flex;flex-wrap:wrap;gap:10px;padding:10px 14px;background:white;border-bottom:1px solid var(--border)}
+.operator-controls label {display:flex;gap:6px;align-items:center;font-size:12px}
+.operator-controls select {max-width:300px;min-height:30px}
+.starting-banner {padding:12px;background:#e7f5ff;color:#1864ab}
+.sr-only {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.trace-body pre {white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%;font-size:11px}
+.trace-body > details {padding:10px;border-bottom:1px solid var(--border)}
+.graph-notice {position:absolute;top:8px;left:8px;z-index:2;padding:6px;background:#fff3bf;max-width:90%}
+.graph-accessible-list {position:absolute;right:8px;bottom:46px;max-height:130px;overflow:auto;max-width:220px;background:#ffffffdd;padding:4px}
+.graph-accessible-list button {display:block;font-size:11px;margin:2px;border:1px solid #ddd;background:white;max-width:210px;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:650px){.operator-controls select{max-width:220px}.header-title{font-size:14px}.operator-controls{max-height:210px;overflow:auto}}
+
+.composer-label { font-size: 12px; color: var(--text-muted, #52606d); }

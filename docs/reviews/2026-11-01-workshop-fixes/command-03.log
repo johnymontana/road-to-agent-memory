@@ -1,0 +1,58 @@
+Opening module 2 · process 4006 · namespace replay-483e76efcf6d4311b56c3af53e0beefb
+Ready in 37.6s
+[s2-return-0] customer: Remember that I am Maya Chen, maya.chen@northwind.example, at Northwind Robotics. My ticket phrase is violet comet.
+                 pydantic-ai v2.62.0 • Python 3.12.12
+      / \
+     /   \       model: openai:gpt-4o-mini • tools: 5 • capabilities: 0
+   /___.___\
+  /    |    \    observability: off — see every model and tool call live, with cost
+/      |      \    set it up free with Pydantic Logfire: uvx logfire-cli wizard --task pydantic-ai
+`---.._|_..---'    or use any OpenTelemetry backend: https://pydantic.dev/docs/ai/logfire/#otel
+
+                 goes away once observability is on — or PYDANTIC_AI_NO_BANNER=1
+SupportBot: I found your account, Maya. You're with Northwind Robotics on the Pro plan. Your monthly price is $49, and you have a refund limit of $250. How can I assist you today?
+Tools: [('lookup_account', None)]
+Timing: {'context_seconds': 7.322, 'model_seconds': 2.077, 'input_tokens': 1173, 'output_tokens': 65, 'total_seconds': 11.596} Warnings: []
+[s2-return-0] customer: What name, email, and ticket phrase did I give you?
+SupportBot: You provided the following details:
+
+- Name: Maya Chen
+- Email: maya.chen@northwind.example
+- Ticket phrase: violet comet. 
+
+If you need further assistance, let me know!
+Tools: []
+Timing: {'context_seconds': 6.271, 'model_seconds': 1.352, 'input_tokens': 811, 'output_tokens': 43, 'total_seconds': 10.617} Warnings: []
+Opening module 2 · process 4233 · namespace replay-483e76efcf6d4311b56c3af53e0beefb
+Ready in 37.1s
+[s2-return-0] customer: After restarting this process, what ticket phrase did I give you?
+                 pydantic-ai v2.62.0 • Python 3.12.12
+      / \
+     /   \       model: openai:gpt-4o-mini • tools: 5 • capabilities: 0
+   /___.___\
+  /    |    \    observability: off — see every model and tool call live, with cost
+/      |      \    set it up free with Pydantic Logfire: uvx logfire-cli wizard --task pydantic-ai
+`---.._|_..---'    or use any OpenTelemetry backend: https://pydantic.dev/docs/ai/logfire/#otel
+
+                 goes away once observability is on — or PYDANTIC_AI_NO_BANNER=1
+SupportBot: You provided the ticket phrase: "violet comet."
+Tools: []
+Timing: {'context_seconds': 6.571, 'model_seconds': 1.287, 'input_tokens': 1069, 'output_tokens': 13, 'total_seconds': 9.962} Warnings: []
+[s2-return-0] customer: Please look up my account and refund history; do not issue a new refund.
+SupportBot: Your account details are as follows:
+
+- **Name:** Maya Chen
+- **Email:** maya.chen@northwind.example
+- **Organization:** Northwind Robotics
+- **Plan:** Pro
+- **Monthly Price:** $49
+- **Refund Limit:** $250
+- **Refund History:** No refunds have been issued yet.
+
+According to our refund policy, refunds up to $250 can be granted immediately for charges within the last 30 days. Let me know if you need anything else!
+Tools: [('lookup_account', None), ('fetch_policy', None)]
+Timing: {'context_seconds': 6.425, 'model_seconds': 2.972, 'input_tokens': 2791, 'output_tokens': 155, 'total_seconds': 11.718} Warnings: []
+[s2-return-1] customer: Which ticket phrase did Maya Chen give us? Cite the retrieved message ID.
+SupportBot: Maya Chen provided the ticket phrase "violet comet." This information can be found in message ID **31ed63eb-6162-4eaf-b878-d380081f958c**.
+Tools: []
+Timing: {'context_seconds': 6.975, 'model_seconds': 1.192, 'input_tokens': 981, 'output_tokens': 44, 'total_seconds': 10.495} Warnings: []

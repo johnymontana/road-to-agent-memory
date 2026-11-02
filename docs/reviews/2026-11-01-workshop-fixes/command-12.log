@@ -1,0 +1,17 @@
+Module 3 ontology source: /Users/lyonwj/github/johnymontana/road-to-agent-memory/module_3/ontology/acme_cloud.yaml; validation=permissive
+                 pydantic-ai v2.62.0 • Python 3.12.12
+      / \
+     /   \       model: openai:gpt-4o-mini • tools: 3 • capabilities: 0
+   /___.___\
+  /    |    \    observability: off — see every model and tool call live, with cost
+/      |      \    set it up free with Pydantic Logfire: uvx logfire-cli wizard --task pydantic-ai
+`---.._|_..---'    or use any OpenTelemetry backend: https://pydantic.dev/docs/ai/logfire/#otel
+
+                 goes away once observability is on — or PYDANTIC_AI_NO_BANNER=1
+Controlled retrieval scorecard — module 3 (749f1eb845274b5cb53c1d860f32bef1)
+SQL copy + unique memory fixtures; business tools disabled; not an end-to-end quality grade.
+PASS q1: ['name: pass', 'email: pass', 'verified source ID: pass'] sources=['69382f07-df7a-4dbf-b0b4-2dbad86f6a52', 'e7cca444-b192-486b-941e-7f6ff7a157b7']
+PASS q2: ['verification_phrase: pass', 'verified source ID: pass'] sources=['69382f07-df7a-4dbf-b0b4-2dbad86f6a52', '69382f07-df7a-4dbf-b0b4-2dbad86f6a52']
+PASS q3: ['signup_date: pass', 'verified source ID: pass'] sources=['e7cca444-b192-486b-941e-7f6ff7a157b7']
+UNKNOWN q4: ['refusal_quote: fail', 'verified source ID: fail'] sources=[]
+3/4 checks · completed

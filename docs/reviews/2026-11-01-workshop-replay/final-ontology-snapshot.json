@@ -1,0 +1,115 @@
+[
+  {
+    "name": "Maya Chen",
+    "type": "PERSON",
+    "subtype": null,
+    "labels": [
+      "Entity",
+      "Person"
+    ],
+    "source": "sqlite:customers"
+  },
+  {
+    "name": "Northwind Robotics",
+    "type": "ORGANIZATION",
+    "subtype": null,
+    "labels": [
+      "Entity",
+      "Organization"
+    ],
+    "source": "sqlite:organizations"
+  },
+  {
+    "name": "Acme Cloud Compute",
+    "type": "OBJECT",
+    "subtype": null,
+    "labels": [
+      "Entity",
+      "Object"
+    ],
+    "source": "sqlite:products"
+  },
+  {
+    "name": "Acme Cloud Compute",
+    "type": "ORGANIZATION",
+    "subtype": null,
+    "labels": [
+      "Entity",
+      "Organization"
+    ],
+    "source": "sqlite:products"
+  },
+  {
+    "name": "Billing API",
+    "type": "OBJECT",
+    "subtype": null,
+    "labels": [
+      "Entity",
+      "Object"
+    ],
+    "source": null
+  },
+  {
+    "name": "Ravi Shah",
+    "type": "PERSON",
+    "subtype": null,
+    "labels": [
+      "Entity",
+      "Person",
+      "Customer"
+    ],
+    "source": "sqlite:customers"
+  },
+  {
+    "name": "duplicate-charge incident",
+    "type": "EVENT",
+    "subtype": null,
+    "labels": [
+      "Entity",
+      "Event"
+    ],
+    "source": null
+  },
+  {
+    "name": "Acme Cloud Billing API",
+    "type": "OBJECT",
+    "subtype": null,
+    "labels": [
+      "Entity",
+      "Object"
+    ],
+    "source": "sqlite:products"
+  },
+  {
+    "name": "AcmeCloud",
+    "type": "ORGANIZATION",
+    "subtype": null,
+    "labels": [
+      "Entity",
+      "Organization"
+    ],
+    "source": null
+  },
+  {
+    "name": "Maya",
+    "type": "PERSON",
+    "subtype": null,
+    "labels": [
+      "Entity",
+      "Person",
+      "Customer"
+    ],
+    "source": "sqlite:customers"
+  },
+  {
+    "name": "Pro",
+    "type": "OBJECT",
+    "subtype": "PLAN",
+    "labels": [
+      "Entity",
+      "Object",
+      "Plan"
+    ],
+    "source": "sqlite:plans"
+  }
+]

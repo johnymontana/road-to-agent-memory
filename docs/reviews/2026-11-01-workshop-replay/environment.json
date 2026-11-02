@@ -1,0 +1,22 @@
+{
+  "python": "3.12.12",
+  "platform": "Darwin",
+  "baseline": "3f4837f",
+  "model": "gpt-4o-mini",
+  "services": [
+    "configured OpenAI",
+    "configured Neo4j",
+    "optional Wikimedia"
+  ],
+  "excluded": [
+    "NAMS",
+    "module 5"
+  ],
+  "dependencies": {
+    "neo4j-agent-memory": "0.8.0",
+    "neo4j": "6.4.1",
+    "pydantic-ai-slim": "2.62.0",
+    "fastapi": "0.162.0",
+    "playwright": "1.64.1"
+  }
+}

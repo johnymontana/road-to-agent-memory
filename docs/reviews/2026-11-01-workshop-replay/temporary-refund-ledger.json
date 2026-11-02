@@ -1,0 +1,128 @@
+[
+  {
+    "id": 1,
+    "customer": "Maya Chen",
+    "email": "maya.chen@northwind.example",
+    "plan": "Pro",
+    "amount": 49.0,
+    "reason": "Double charge for Acme Cloud Compute.",
+    "status": "issued"
+  },
+  {
+    "id": 2,
+    "customer": "Maya Chen",
+    "email": "maya.chen@northwind.example",
+    "plan": "Pro",
+    "amount": 49.0,
+    "reason": "Double charge for Acme Cloud Compute.",
+    "status": "issued"
+  },
+  {
+    "id": 3,
+    "customer": "Maya Chen",
+    "email": "maya.chen@northwind.example",
+    "plan": "Pro",
+    "amount": 49.0,
+    "reason": "Double charge for Acme Cloud Compute",
+    "status": "issued"
+  },
+  {
+    "id": 4,
+    "customer": "Maya Chen",
+    "email": "maya.chen@northwind.example",
+    "plan": "Pro",
+    "amount": 49.0,
+    "reason": "Double charge for Acme Cloud Compute.",
+    "status": "issued"
+  },
+  {
+    "id": 5,
+    "customer": "Maya Chen",
+    "email": "maya.chen@northwind.example",
+    "plan": "Pro",
+    "amount": 49.0,
+    "reason": "Duplicate charge for Acme Cloud Compute.",
+    "status": "issued"
+  },
+  {
+    "id": 6,
+    "customer": "Maya Chen",
+    "email": "maya.chen@northwind.example",
+    "plan": "Pro",
+    "amount": 49.0,
+    "reason": "Double charge for Acme Cloud Compute.",
+    "status": "issued"
+  },
+  {
+    "id": 7,
+    "customer": "Maya Chen",
+    "email": "maya.chen@northwind.example",
+    "plan": "Pro",
+    "amount": 49.0,
+    "reason": "Double charge for Acme Cloud Compute.",
+    "status": "issued"
+  },
+  {
+    "id": 8,
+    "customer": "Maya Chen",
+    "email": "maya.chen@northwind.example",
+    "plan": "Pro",
+    "amount": 49.0,
+    "reason": "Duplicate charge for Acme Cloud Compute.",
+    "status": "issued"
+  },
+  {
+    "id": 9,
+    "customer": "Maya Chen",
+    "email": "maya.chen@northwind.example",
+    "plan": "Pro",
+    "amount": 49.0,
+    "reason": "double charge for Acme Cloud Compute",
+    "status": "issued"
+  },
+  {
+    "id": 10,
+    "customer": "Maya Chen",
+    "email": "maya.chen@northwind.example",
+    "plan": "Pro",
+    "amount": 49.0,
+    "reason": "Duplicate charge on Acme Cloud Compute",
+    "status": "issued"
+  },
+  {
+    "id": 11,
+    "customer": "Dana Whitfield",
+    "email": "dana.w@contoso.example",
+    "plan": "Enterprise",
+    "amount": 129.0,
+    "reason": "Double-billed for Acme Cloud Storage.",
+    "status": "issued"
+  },
+  {
+    "id": 12,
+    "customer": "Dana Whitfield",
+    "email": "dana.w@contoso.example",
+    "plan": "Enterprise",
+    "amount": 129.0,
+    "reason": "Double billing for Acme Cloud Storage",
+    "status": "issued"
+  },
+  {
+    "id": 13,
+    "customer": "Dana Whitfield",
+    "email": "dana.w@contoso.example",
+    "plan": "Enterprise",
+    "amount": 400.0,
+    "reason": "Refund for unused spot capacity on Pro account",
+    "status": "issued"
+  },
+  {
+    "id": 14,
+    "customer": "Maya Chen",
+    "email": "maya.chen@northwind.example",
+    "plan": "Pro",
+    "amount": 49.0,
+    "reason": "Double charge for Acme Cloud Compute.",
+    "status": "issued"
+  }
+]

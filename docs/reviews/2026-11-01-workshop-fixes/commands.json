@@ -1,0 +1,159 @@
+[
+  {
+    "args": [
+      "scripts/check_env.py"
+    ],
+    "exit": 0,
+    "seconds": 43.4,
+    "log": "command-00.log"
+  },
+  {
+    "args": [
+      "scripts/run_scenario.py",
+      "s1-baseline",
+      "--module",
+      "1"
+    ],
+    "exit": 0,
+    "seconds": 5.13,
+    "log": "command-01.log"
+  },
+  {
+    "args": [
+      "scripts/run_scenario.py",
+      "s2-return",
+      "--module",
+      "2"
+    ],
+    "exit": 0,
+    "seconds": 94.59,
+    "log": "command-02.log"
+  },
+  {
+    "args": [
+      "scripts/run_scenario.py",
+      "s2-restart",
+      "--module",
+      "2",
+      "--restart-beat"
+    ],
+    "exit": 0,
+    "seconds": 130.95,
+    "log": "command-03.log"
+  },
+  {
+    "args": [
+      "scripts/run_scenario.py",
+      "s3-default",
+      "--module",
+      "3"
+    ],
+    "exit": 0,
+    "seconds": 4.31,
+    "log": "command-04.log"
+  },
+  {
+    "args": [
+      "scripts/run_scenario.py",
+      "s3-ontology",
+      "--module",
+      "3"
+    ],
+    "exit": 0,
+    "seconds": 5.07,
+    "log": "command-05.log"
+  },
+  {
+    "args": [
+      "scripts/run_scenario.py",
+      "s3-enrich",
+      "--module",
+      "3"
+    ],
+    "exit": 0,
+    "seconds": 0.93,
+    "log": "command-06.log"
+  },
+  {
+    "args": [
+      "scripts/run_scenario.py",
+      "s4-refund",
+      "--module",
+      "4"
+    ],
+    "exit": 0,
+    "seconds": 81.91,
+    "log": "command-07.log"
+  },
+  {
+    "args": [
+      "scripts/run_scenario.py",
+      "s4-fail",
+      "--module",
+      "4"
+    ],
+    "exit": 0,
+    "seconds": 80.7,
+    "log": "command-08.log"
+  },
+  {
+    "args": [
+      "scripts/run_scenario.py",
+      "s4-refund-repeat",
+      "--module",
+      "4",
+      "--ablation"
+    ],
+    "exit": 0,
+    "seconds": 221.15,
+    "log": "command-09.log"
+  },
+  {
+    "args": [
+      "scripts/eval.py",
+      "--module",
+      "1"
+    ],
+    "exit": 0,
+    "seconds": 5.39,
+    "log": "command-10.log"
+  },
+  {
+    "args": [
+      "scripts/eval.py",
+      "--module",
+      "2"
+    ],
+    "exit": 0,
+    "seconds": 84.59,
+    "log": "command-11.log"
+  },
+  {
+    "args": [
+      "scripts/eval.py",
+      "--module",
+      "3"
+    ],
+    "exit": 0,
+    "seconds": 103.67,
+    "log": "command-12.log"
+  },
+  {
+    "args": [
+      "scripts/eval.py",
+      "--module",
+      "4"
+    ],
+    "exit": 0,
+    "seconds": 118.3,
+    "log": "command-13.log"
+  },
+  {
+    "args": [
+      "scripts/monday_memory.py"
+    ],
+    "exit": 0,
+    "seconds": 43.07,
+    "log": "command-14.log"
+  }
+]

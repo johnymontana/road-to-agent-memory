@@ -1,0 +1,237 @@
+{
+  "id": "final-isolated-ablation-treatment",
+  "title": "s4-refund-repeat",
+  "module": 4,
+  "namespace": "treatment-final-isolated-ablation",
+  "pid": 6383,
+  "append": false,
+  "turns": [
+    {
+      "message": "Dana Whitfield at Contoso, dana.w@contoso.example. Refund my duplicate $129 Storage charge.",
+      "namespace": "treatment-final-isolated-ablation",
+      "result": {
+        "reply": "Issued refund #2: $129.00 for Dana Whitfield (dana.w@contoso.example, Enterprise). Incident: dana-duplicate-storage. This incident cannot be refunded twice.",
+        "session_id": "treatment-final-isolated-ablation:s4-refund-repeat-s4-refund-repeat-0",
+        "request_id": "bfb29a18385348b694b78baeaad6312f",
+        "tool_calls": [
+          {
+            "name": "issue_refund",
+            "input": {
+              "customer_email": "dana.w@contoso.example",
+              "amount": 129.0,
+              "reason": "Duplicate Storage charge"
+            },
+            "sql": "SELECT b.id, b.amount, b.description,\n        c.email, c.name AS customer, p.name AS plan, p.refund_limit\n        FROM billing_cases b JOIN customers c ON c.id=b.customer_id\n        JOIN plans p ON p.id=c.plan_id ORDER BY b.id\nBEGIN \nINSERT OR IGNORE INTO refunds\n        (customer_id,amount,reason,status,created_at,incident_id)\n        SELECT customer_id,129.0,'Duplicate Storage charge', 'issued',datetime('now'),id FROM billing_cases WHERE id='dana-duplicate-storage'\nSELECT changes()\nSELECT id FROM refunds WHERE incident_id='dana-duplicate-storage'\nCOMMIT",
+            "output": {
+              "customer": "Dana Whitfield",
+              "customer_email": "dana.w@contoso.example",
+              "plan": "Enterprise",
+              "no_approval_limit": 500.0,
+              "incident_id": "dana-duplicate-storage",
+              "amount": 129.0,
+              "source": "sqlite:plans",
+              "status": "issued",
+              "refund_id": 2
+            },
+            "duration_ms": 4.7
+          }
+        ],
+        "status": "completed",
+        "execution_status": "succeeded",
+        "business_status": "issued",
+        "warnings": [],
+        "timing": {
+          "context_seconds": 12.037,
+          "model_seconds": 2.362,
+          "input_tokens": 2652,
+          "output_tokens": 65,
+          "total_seconds": 16.642
+        },
+        "context": {
+          "used_memory": true,
+          "summary": "reasoning_trace",
+          "evidence": [
+            {
+              "id": "dc1ee2f9-b78b-4e2c-b3bc-17026bdce17d",
+              "path": "reasoning_trace",
+              "score": 0.7242207527160645
+            }
+          ],
+          "hydrated": [],
+          "written_layers": [
+            "short_term",
+            "long_term",
+            "reasoning"
+          ]
+        }
+      }
+    },
+    {
+      "message": "Our ops lead wants $400 back on his Pro account. What is the current limit and approval process? Do not act on my account.",
+      "namespace": "treatment-final-isolated-ablation",
+      "result": {
+        "reply": "Pro plan: current no-approval refund limit $250.00 per request (source: SQLite plans). Larger requests require manager approval. No refund or escalation was authorized or performed for this policy question.",
+        "session_id": "treatment-final-isolated-ablation:s4-refund-repeat-s4-refund-repeat-0",
+        "request_id": "7aec2679a2264858a0bf398345280b89",
+        "tool_calls": [
+          {
+            "name": "fetch_policy",
+            "input": {
+              "topic": "refund"
+            },
+            "sql": "SELECT topic, title, body, updated_at FROM policies WHERE topic = 'refund'",
+            "output": {
+              "topic": "refund",
+              "title": "Refund Policy",
+              "body": "Refunds up to the plan's no-approval limit (Free $0, Pro $250, Enterprise $500) are granted immediately for charges within the last 30 days. Amounts above the limit require engineering-manager approval via ticket escalation. Duplicate charges are always refundable regardless of amount.",
+              "updated_at": "2026-01-15"
+            },
+            "duration_ms": 1.8
+          }
+        ],
+        "status": "completed",
+        "execution_status": "succeeded",
+        "business_status": "no_action",
+        "warnings": [],
+        "timing": {
+          "context_seconds": 10.296,
+          "model_seconds": 2.738,
+          "input_tokens": 3130,
+          "output_tokens": 66,
+          "total_seconds": 15.384
+        },
+        "context": {
+          "used_memory": true,
+          "summary": "recent_conversation, semantic_message, reasoning_trace",
+          "evidence": [
+            {
+              "id": "f97c8edd-e973-4e0f-a643-67bdec961bd0",
+              "role": "user",
+              "content": "Dana Whitfield at Contoso, dana.w@contoso.example. Refund my duplicate $129 Storage charge.",
+              "path": "recent_conversation"
+            },
+            {
+              "id": "a901eb4d-afbf-48ee-854e-ff0fe53e4a30",
+              "role": "assistant",
+              "content": "Issued refund #2: $129.00 for Dana Whitfield (dana.w@contoso.example, Enterprise). Incident: dana-duplicate-storage. This incident cannot be refunded twice.",
+              "path": "recent_conversation"
+            },
+            {
+              "id": "f97c8edd-e973-4e0f-a643-67bdec961bd0",
+              "role": "user",
+              "content": "Dana Whitfield at Contoso, dana.w@contoso.example. Refund my duplicate $129 Storage charge.",
+              "session_id": "treatment-final-isolated-ablation:s4-refund-repeat-s4-refund-repeat-0",
+              "score": 0.6747555732727051,
+              "path": "semantic_message"
+            },
+            {
+              "id": "dc1ee2f9-b78b-4e2c-b3bc-17026bdce17d",
+              "path": "reasoning_trace",
+              "score": 0.7714827656745911
+            }
+          ],
+          "hydrated": [],
+          "written_layers": [
+            "short_term",
+            "long_term",
+            "reasoning"
+          ]
+        }
+      }
+    }
+  ],
+  "protocol": "Actual lesson agent; explicit per-turn action authorization.",
+  "status": "completed",
+  "graph": {
+    "nodes": [
+      {
+        "id": "turn-0",
+        "labels": [
+          "Message"
+        ],
+        "properties": {
+          "content": "Dana Whitfield at Contoso, dana.w@contoso.example. Refund my duplicate $129 Storage charge.",
+          "reply": "Issued refund #2: $129.00 for Dana Whitfield (dana.w@contoso.example, Enterprise). Incident: dana-duplicate-storage. This incident cannot be refunded twice.",
+          "source": "measured replay output",
+          "namespace": "treatment-final-isolated-ablation"
+        }
+      },
+      {
+        "id": "turn-0-tool-0",
+        "labels": [
+          "ToolCall"
+        ],
+        "properties": {
+          "name": "issue_refund",
+          "input": {
+            "customer_email": "dana.w@contoso.example",
+            "amount": 129.0,
+            "reason": "Duplicate Storage charge"
+          },
+          "sql": "SELECT b.id, b.amount, b.description,\n        c.email, c.name AS customer, p.name AS plan, p.refund_limit\n        FROM billing_cases b JOIN customers c ON c.id=b.customer_id\n        JOIN plans p ON p.id=c.plan_id ORDER BY b.id\nBEGIN \nINSERT OR IGNORE INTO refunds\n        (customer_id,amount,reason,status,created_at,incident_id)\n        SELECT customer_id,129.0,'Duplicate Storage charge', 'issued',datetime('now'),id FROM billing_cases WHERE id='dana-duplicate-storage'\nSELECT changes()\nSELECT id FROM refunds WHERE incident_id='dana-duplicate-storage'\nCOMMIT",
+          "output": {
+            "customer": "Dana Whitfield",
+            "customer_email": "dana.w@contoso.example",
+            "plan": "Enterprise",
+            "no_approval_limit": 500.0,
+            "incident_id": "dana-duplicate-storage",
+            "amount": 129.0,
+            "source": "sqlite:plans",
+            "status": "issued",
+            "refund_id": 2
+          },
+          "duration_ms": 4.7
+        }
+      },
+      {
+        "id": "turn-1",
+        "labels": [
+          "Message"
+        ],
+        "properties": {
+          "content": "Our ops lead wants $400 back on his Pro account. What is the current limit and approval process? Do not act on my account.",
+          "reply": "Pro plan: current no-approval refund limit $250.00 per request (source: SQLite plans). Larger requests require manager approval. No refund or escalation was authorized or performed for this policy question.",
+          "source": "measured replay output",
+          "namespace": "treatment-final-isolated-ablation"
+        }
+      },
+      {
+        "id": "turn-1-tool-0",
+        "labels": [
+          "ToolCall"
+        ],
+        "properties": {
+          "name": "fetch_policy",
+          "input": {
+            "topic": "refund"
+          },
+          "sql": "SELECT topic, title, body, updated_at FROM policies WHERE topic = 'refund'",
+          "output": {
+            "topic": "refund",
+            "title": "Refund Policy",
+            "body": "Refunds up to the plan's no-approval limit (Free $0, Pro $250, Enterprise $500) are granted immediately for charges within the last 30 days. Amounts above the limit require engineering-manager approval via ticket escalation. Duplicate charges are always refundable regardless of amount.",
+            "updated_at": "2026-01-15"
+          },
+          "duration_ms": 1.8
+        }
+      }
+    ],
+    "relationships": [
+      {
+        "id": "turn-0-tool-0-edge",
+        "from": "turn-0",
+        "to": "turn-0-tool-0",
+        "type": "EXECUTED",
+        "properties": {}
+      },
+      {
+        "id": "turn-1-tool-0-edge",
+        "from": "turn-1",
+        "to": "turn-1-tool-0",
+        "type": "EXECUTED",
+        "properties": {}
+      }
+    ],
+    "truncated": false
+  }
+}

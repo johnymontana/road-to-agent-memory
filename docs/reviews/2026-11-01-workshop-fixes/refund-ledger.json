@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Maya Chen",
+    "email": "maya.chen@northwind.example",
+    "incident_id": "maya-duplicate-compute",
+    "amount": 49.0,
+    "status": "issued"
+  }
+]

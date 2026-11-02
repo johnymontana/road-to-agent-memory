@@ -1,0 +1,25 @@
+{
+  "scope": "isolated temporary SQLite; direct real SQL helper probe",
+  "negative_amount_accepted": true,
+  "same_incident_duplicate_count": 2,
+  "rows": [
+    {
+      "id": 1,
+      "amount": -49.0,
+      "reason": "review boundary probe",
+      "status": "issued"
+    },
+    {
+      "id": 2,
+      "amount": 49.0,
+      "reason": "same review incident",
+      "status": "issued"
+    },
+    {
+      "id": 3,
+      "amount": 49.0,
+      "reason": "same review incident",
+      "status": "issued"
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "id": "0043880ab2c744f197d979692aefe0f2",
+  "title": "s1-baseline",
+  "module": 1,
+  "namespace": "replay-0043880ab2c744f197d979692aefe0f2",
+  "pid": 3888,
+  "append": false,
+  "turns": [
+    {
+      "message": "Hi, Maya Chen here (maya.chen@northwind.example). Look up my Acme Cloud account.",
+      "namespace": "replay-0043880ab2c744f197d979692aefe0f2",
+      "result": {
+        "reply": "I've found your Acme Cloud account details:\n\n- **Name:** Maya Chen\n- **Email:** maya.chen@northwind.example\n- **Organization:** Northwind Robotics\n- **Plan:** Pro\n- **Monthly Price:** $49.00\n- **Refund Limit:** $250.00\n- **Refunds Issued:** None\n\nIs there anything specific you would like assistance with?",
+        "session_id": "replay-0043880ab2c744f197d979692aefe0f2:s1-baseline-s1-baseline-0",
+        "request_id": "e57543e12ce045d2b0343bb5d88b0e42",
+        "tool_calls": [
+          {
+            "name": "lookup_account",
+            "input": {
+              "customer_email": "maya.chen@northwind.example"
+            },
+            "sql": "SELECT c.id, c.name, c.email, c.signup_date, c.preferred_contact, o.name AS organization, p.name AS plan, p.tier AS plan_tier, p.monthly_price, p.refund_limit FROM customers c LEFT JOIN organizations o ON c.organization_id = o.id LEFT JOIN plans p ON c.plan_id = p.id WHERE c.email = 'maya.chen@northwind.example'\nSELECT r.id AS refund_id,r.incident_id,r.amount,\n        r.status,r.created_at FROM refunds r JOIN customers c ON c.id=r.customer_id\n        WHERE c.email='maya.chen@northwind.example' ORDER BY r.id DESC",
+            "output": {
+              "id": 1,
+              "name": "Maya Chen",
+              "email": "maya.chen@northwind.example",
+              "signup_date": "2025-03-14",
+              "preferred_contact": "email",
+              "organization": "Northwind Robotics",
+              "plan": "Pro",
+              "plan_tier": "pro",
+              "monthly_price": 49.0,
+              "refund_limit": 250.0,
+              "refunds": []
+            },
+            "duration_ms": 0.5
+          }
+        ],
+        "status": "completed",
+        "execution_status": "succeeded",
+        "business_status": "no_action",
+        "warnings": [],
+        "timing": {
+          "context_seconds": 0.001,
+          "model_seconds": 2.91,
+          "input_tokens": 1159,
+          "output_tokens": 105,
+          "total_seconds": 2.91
+        },
+        "context": {
+          "used_memory": false,
+          "summary": null,
+          "evidence": [],
+          "hydrated": [],
+          "written_layers": []
+        }
+      }
+    },
+    {
+      "message": "What email did I just give you? Do not look it up; say unknown if it is absent.",
+      "namespace": "replay-0043880ab2c744f197d979692aefe0f2",
+      "result": {
+        "reply": "Unknown.",
+        "session_id": "replay-0043880ab2c744f197d979692aefe0f2:s1-baseline-s1-baseline-0",
+        "request_id": "5b63306c81c446288bd5a3f86fbe294f",
+        "tool_calls": [],
+        "status": "completed",
+        "execution_status": "succeeded",
+        "business_status": "no_action",
+        "warnings": [],
+        "timing": {
+          "context_seconds": 0.001,
+          "model_seconds": 0.939,
+          "input_tokens": 530,
+          "output_tokens": 4,
+          "total_seconds": 0.94
+        },
+        "context": {
+          "used_memory": false,
+          "summary": null,
+          "evidence": [],
+          "hydrated": [],
+          "written_layers": []
+        }
+      }
+    }
+  ],
+  "protocol": "Actual lesson agent; explicit per-turn action authorization.",
+  "graph": {
+    "nodes": [
+      {
+        "id": "turn-0",
+        "labels": [
+          "Message"
+        ],
+        "properties": {
+          "content": "Hi, Maya Chen here (maya.chen@northwind.example). Look up my Acme Cloud account.",
+          "reply": "I've found your Acme Cloud account details:\n\n- **Name:** Maya Chen\n- **Email:** maya.chen@northwind.example\n- **Organization:** Northwind Robotics\n- **Plan:** Pro\n- **Monthly Price:** $49.00\n- **Refund Limit:** $250.00\n- **Refunds Issued:** None\n\nIs there anything specific you would like assistance with?",
+          "source": "measured replay output",
+          "namespace": "replay-0043880ab2c744f197d979692aefe0f2"
+        }
+      },
+      {
+        "id": "turn-0-tool-0",
+        "labels": [
+          "ToolCall"
+        ],
+        "properties": {
+          "name": "lookup_account",
+          "input": {
+            "customer_email": "maya.chen@northwind.example"
+          },
+          "sql": "SELECT c.id, c.name, c.email, c.signup_date, c.preferred_contact, o.name AS organization, p.name AS plan, p.tier AS plan_tier, p.monthly_price, p.refund_limit FROM customers c LEFT JOIN organizations o ON c.organization_id = o.id LEFT JOIN plans p ON c.plan_id = p.id WHERE c.email = 'maya.chen@northwind.example'\nSELECT r.id AS refund_id,r.incident_id,r.amount,\n        r.status,r.created_at FROM refunds r JOIN customers c ON c.id=r.customer_id\n        WHERE c.email='maya.chen@northwind.example' ORDER BY r.id DESC",
+          "output": {
+            "id": 1,
+            "name": "Maya Chen",
+            "email": "maya.chen@northwind.example",
+            "signup_date": "2025-03-14",
+            "preferred_contact": "email",
+            "organization": "Northwind Robotics",
+            "plan": "Pro",
+            "plan_tier": "pro",
+            "monthly_price": 49.0,
+            "refund_limit": 250.0,
+            "refunds": []
+          },
+          "duration_ms": 0.5
+        }
+      },
+      {
+        "id": "turn-1",
+        "labels": [
+          "Message"
+        ],
+        "properties": {
+          "content": "What email did I just give you? Do not look it up; say unknown if it is absent.",
+          "reply": "Unknown.",
+          "source": "measured replay output",
+          "namespace": "replay-0043880ab2c744f197d979692aefe0f2"
+        }
+      }
+    ],
+    "relationships": [
+      {
+        "id": "turn-0-tool-0-edge",
+        "from": "turn-0",
+        "to": "turn-0-tool-0",
+        "type": "EXECUTED",
+        "properties": {}
+      }
+    ],
+    "truncated": false
+  }
+}

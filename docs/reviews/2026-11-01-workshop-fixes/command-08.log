@@ -1,0 +1,15 @@
+Opening module 4 · process 4582 · namespace replay-da6e256d7b064acda9c76b4246fadf4f
+Ready in 36.7s
+[s4-fail-0] customer: Maya Chen requests $400 for unused spot capacity on Pro. Check the current limit; do not invent an escalation.
+                 pydantic-ai v2.62.0 • Python 3.12.12
+      / \
+     /   \       model: openai:gpt-4o-mini • tools: 8 • capabilities: 0
+   /___.___\
+  /    |    \    observability: off — see every model and tool call live, with cost
+/      |      \    set it up free with Pydantic Logfire: uvx logfire-cli wizard --task pydantic-ai
+`---.._|_..---'    or use any OpenTelemetry backend: https://pydantic.dev/docs/ai/logfire/#otel
+
+                 goes away once observability is on — or PYDANTIC_AI_NO_BANNER=1
+SupportBot: No refund was issued. $400.00 exceeds the Pro no-approval limit of $250.00; manager approval is required. No escalation has been created.
+Tools: [('refund_policy_guard', 'rejected_over_limit')]
+Timing: {'context_seconds': 28.653, 'model_seconds': 1.33, 'input_tokens': 1281, 'output_tokens': 40, 'total_seconds': 43.38} Warnings: []

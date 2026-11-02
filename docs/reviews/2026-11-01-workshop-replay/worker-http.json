@@ -1,0 +1,12 @@
+[
+  {
+    "worker": "HierarchicalLayout.worker.js",
+    "status": 404,
+    "body": ""
+  },
+  {
+    "worker": "CoseBilkentLayout.worker.js",
+    "status": 404,
+    "body": ""
+  }
+]

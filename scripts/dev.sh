@@ -54,6 +54,21 @@ npm --prefix web run dev -- --strictPort &
 frontend_pid=$!
 pids+=("$frontend_pid")
 
+# Announce readiness only after both HTTP surfaces answer; health polling also
+# remains in the browser when a Codespaces tab opens before this point.
+(
+    for attempt in $(seq 1 180); do
+        if curl -fsS http://localhost:8000/api/health >/dev/null 2>&1 && \
+           curl -fsS http://localhost:5173/ >/dev/null 2>&1; then
+            echo "Ready: http://localhost:5173 (module ${MODULE})"
+            exit 0
+        fi
+        sleep 1
+    done
+    echo "Startup is taking longer than expected; inspect the service output above."
+) &
+pids+=("$!")
+
 # Bash 3.2 (macOS) has no wait -n. Stop the peer when either service exits,
 # and preserve the exited service's status so make reports startup failures.
 while kill -0 "$backend_pid" 2>/dev/null && kill -0 "$frontend_pid" 2>/dev/null; do

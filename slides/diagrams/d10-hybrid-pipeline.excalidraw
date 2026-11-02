@@ -189,13 +189,13 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "Wikipedia \u2192 external knowledge\nenriched_description \u00b7 wikipedia_url",
+      "text": "Wikipedia \u2192 external knowledge\nOrganization: optional Wikimedia facts",
       "fontSize": 15,
       "fontFamily": 1,
       "textAlign": "center",
       "verticalAlign": "middle",
       "containerId": "rectangle-66",
-      "originalText": "Wikipedia \u2192 external knowledge\nenriched_description \u00b7 wikipedia_url",
+      "originalText": "Wikipedia \u2192 external knowledge\nOrganization: optional Wikimedia facts",
       "lineHeight": 1.25
     },
     {

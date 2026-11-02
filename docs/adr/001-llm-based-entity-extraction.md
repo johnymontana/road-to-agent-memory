@@ -43,7 +43,7 @@ enrichment.
 
 ## Decision
 
-**Use LLM-based extraction** for modules 1–4:
+**Use LLM-based extraction** where extraction is enabled (modules 3–5):
 
 ```python
 MemorySettings(
@@ -56,16 +56,16 @@ MemorySettings(
 
 - Extraction model: same OpenAI account/key attendees already have; small,
   cheap model (gpt-4o-mini class) at **temperature 0** with structured outputs for
-  near-deterministic, reproducible results across the room.
+  lower variance; temperature zero does not guarantee identical results.
 - The **custom Acme Cloud ontology still drives extraction**: entity types,
   annotation-guideline descriptions (negative cases included), aliases, and typed
   relationship patterns are rendered into the LLM prompt; forbidden relations are
   dropped by ingest-time validation.
-- **All entity properties — including categorical values (`plan_tier`, `severity`) —
+- **Business attributes — including categorical values (`plan`, `signup_date`) —
   come from SQLite hydration**, not from the extractor. (This replaces the GLiNER enum
   attribute pass; grounding categoricals in the system of record is strictly more
   accurate.)
-- Wikipedia enrichment is unaffected (separate subsystem).
+- Wikimedia is a separate, explicit cached optional workflow; errors remain visible.
 
 ## Alternatives considered
 

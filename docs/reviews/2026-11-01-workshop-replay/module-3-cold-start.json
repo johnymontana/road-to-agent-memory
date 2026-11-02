@@ -1,0 +1,22 @@
+{
+  "initial_badges": [],
+  "initial_errors": [
+    "Could not reach backend \u2014 is it running on :8000? (GET /api/health failed: 500 Internal Server Error)\u00d7"
+  ],
+  "ready_health": {
+    "status": "ok",
+    "module": 3,
+    "memory_layers": [
+      "short_term",
+      "long_term"
+    ]
+  },
+  "after_backend_ready_badges": [],
+  "after_backend_ready_errors": [
+    "Could not reach backend \u2014 is it running on :8000? (GET /api/health failed: 500 Internal Server Error)\u00d7"
+  ],
+  "requested_url_module": 4,
+  "actual_badge": [
+    "Module 3"
+  ]
+}

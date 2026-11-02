@@ -1,0 +1,80 @@
+"""Review-only instrumentation. Does not modify repository runtime code."""
+import asyncio
+import json
+import os
+import time
+from contextlib import asynccontextmanager
+from pathlib import Path
+from uuid import uuid4
+
+if os.environ.get('WORKSHOP_REPLAY') == '1':
+    import lib.workshop as workshop
+
+    destination = Path(os.environ['REPLAY_EVENTS'])
+    prefix = os.environ['REPLAY_PREFIX']
+    command = os.environ.get('REPLAY_COMMAND', '')
+
+    def record(kind, **data):
+        with destination.open('a') as out:
+            out.write(json.dumps({'kind': kind, 'command': command, **data}, default=str) + '\n')
+
+    original_open = workshop.open_agent
+
+    @asynccontextmanager
+    async def instrumented_open(number, settings=None, **options):
+        opened = time.monotonic()
+        record('opening', module=number, options=options)
+        async with original_open(number, settings, **options) as chat:
+            record('opened', module=number, seconds=round(time.monotonic()-opened, 2))
+            original_chat = chat.chat
+
+            async def recorded_chat(message, session_id=None):
+                sid = f'{prefix}-{session_id}' if session_id else f'{prefix}-m{number}-{uuid4().hex[:8]}'
+                started = time.monotonic()
+                record('turn_start', module=number, session_id=sid, message=message)
+                try:
+                    result = await original_chat(message, sid)
+                except Exception as error:
+                    record('turn_error', module=number, session_id=sid,
+                           seconds=round(time.monotonic()-started, 2),
+                           error=f'{type(error).__name__}: {error}')
+                    raise
+                record('turn', module=number, message=message,
+                       seconds=round(time.monotonic()-started, 2), result=result)
+                return result
+
+            chat.chat = recorded_chat
+            if number >= 4:
+                original_retrieval = chat.memory.reasoning.get_similar_traces
+
+                async def recorded_retrieval(task, **kwargs):
+                    traces = await original_retrieval(task, **kwargs)
+                    record('reasoning_retrieval', module=number, options=kwargs,
+                           traces=[{'id': str(t.id), 'success': t.success,
+                                    'same_replay': t.session_id.startswith(prefix),
+                                    'session_id': t.session_id if t.session_id.startswith(prefix) else 'prior graph data',
+                                    'similarity': t.metadata.get('similarity')}
+                                   for t in traces])
+                    return traces
+
+                chat.memory.reasoning.get_similar_traces = recorded_retrieval
+            yield chat
+            if chat.memory is not None:
+                try:
+                    snapshot = await chat.memory.query.cypher(
+                        'MATCH (c:Conversation) WHERE c.session_id STARTS WITH $prefix '
+                        'OPTIONAL MATCH (c)-[:HAS_MESSAGE]->(m:Message) '
+                        'RETURN c.session_id AS session, count(m) AS messages', {'prefix': prefix})
+                    record('conversation_snapshot', module=number, rows=snapshot)
+                    if number >= 4:
+                        traces = await chat.memory.query.cypher(
+                            'MATCH (t:ReasoningTrace) WHERE t.session_id STARTS WITH $prefix '
+                            'OPTIONAL MATCH (t)-[:HAS_STEP]->(s:ReasoningStep) '
+                            'RETURN t.session_id AS session, t.task AS task, t.outcome AS outcome, '
+                            't.success AS success, count(s) AS steps', {'prefix': prefix})
+                        record('trace_snapshot', module=number, rows=traces)
+                except Exception as error:
+                    record('snapshot_error', error=f'{type(error).__name__}: {error}')
+        record('closed', module=number, total_seconds=round(time.monotonic()-opened, 2))
+
+    workshop.open_agent = instrumented_open

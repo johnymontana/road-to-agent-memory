@@ -27,6 +27,8 @@ jobs:
       - run: uv run pytest tests/ -m "not behavioral" -x -q
       - run: uv lock --check
       - run: npm --prefix web ci && npm --prefix web run build
+      - run: uv run playwright install --with-deps chromium
+      - run: RUN_UI=1 uv run pytest tests/test_ui.py -q
 
   devcontainer:
     runs-on: ubuntu-latest

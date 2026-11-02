@@ -1,0 +1,15 @@
+{
+  "branches": [
+    {
+      "branch": "control",
+      "new_entity_mentions": 0,
+      "recorded_traces": 0
+    },
+    {
+      "branch": "treatment",
+      "new_entity_mentions": 0,
+      "recorded_traces": 0
+    }
+  ],
+  "frozen_corpus_trace_count": 1
+}

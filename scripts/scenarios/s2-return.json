@@ -1,21 +1,21 @@
 {
   "name": "s2-return",
   "module": 2,
-  "description": "Short-term memory: the agent survives restarts and continues mid-conversation; a returning customer in the SAME conversation is remembered.",
+  "description": "Explicit case authorization; no identity inherited between turns.",
   "sessions": [
     {
-      "id": "s2-a",
+      "id": "s2-return-0",
       "messages": [
-        "Hi, I'm Maya Chen from Northwind Robotics. I was double-charged $49 for Acme Cloud Compute — my email is maya.chen@northwind.example.",
-        "Can you also check whether Acme Cloud Functions is having issues? Our event processing looks slow this morning.",
-        "I prefer email over phone for any follow-ups, by the way."
+        "Remember that I am Maya Chen, maya.chen@northwind.example, at Northwind Robotics. My ticket phrase is violet comet.",
+        "What name, email, and ticket phrase did I give you?",
+        "After restarting this process, what ticket phrase did I give you?",
+        "Please look up my account and refund history; do not issue a new refund."
       ]
     },
     {
-      "id": "s2-a",
-      "comment": "Same conversation, continued after an app restart (see --restart-beat).",
+      "id": "s2-return-1",
       "messages": [
-        "Back again — any update on that duplicate charge? And remind me what we said about Functions."
+        "Which ticket phrase did Maya Chen give us? Cite the retrieved message ID."
       ]
     }
   ]

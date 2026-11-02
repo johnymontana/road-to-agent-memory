@@ -52,7 +52,7 @@ Every action an attendee or instructor needs is a `make` target. Full target sur
 | Module beats | `make module-0` … `make module-5` — run that module's beats in order (also the catch-up lane: a fallen-behind attendee runs the current module's target to reproduce state) |
 | Scenario scripts | `make s1-baseline` · `make s2-return` · `make s2-restart` · `make s3-default` · `make s3-ontology` · `make s3-enrich` · `make s4-refund` · `make s4-refund-repeat` · `make s4-fail` · `make s5-fresh-agent` |
 | NAMS (module 5) | `make nams-check` (verify key + workspace) · `make nams-seed` · `make nams-distill` · `make nams-drift` (delete-entity drift beat, D4) · `make policy-change` (SQLite boundary demo) · `make nams-redistill` |
-| Utilities | `make eval` (run the continuity eval-question set, print the per-module scorecard) · `make reset-memory` (wipe the Neo4j memory graph for clean re-runs) · `make clean` |
+| Utilities | `make eval MODULE=N` (run isolated exact-fact/source-ID retrieval probes; no business tools) · `make reset-memory` (wipe the Neo4j memory graph for clean re-runs) · `make clean` |
 
 - Per-module READMEs and slide decks reference **only** these targets; raw
   `uv`/`python`/`npm` invocations are considered internals.
@@ -107,3 +107,13 @@ Every action an attendee or instructor needs is a `make` target. Full target sur
 - ADR 001 — LLM-based entity extraction (rate-limit pacing implemented in scenario targets)
 - ADR 003 — Codespaces-first delivery (lifecycle scripts invoke `uv sync` / `make seed`)
 - REVIEW_FEEDBACK.md — items F4, D1, A3, G7, G10
+
+
+## 2026-11-01 clarification: optional recipes
+
+The 29-target Make surface remains the core participant workflow. Optional
+instructor experiments and the standalone take-home API example may use explicitly
+documented `uv run scripts/instructor.py ...` and `uv run scripts/monday_memory.py`.
+These are short, reversible recipes rather than additional workshop beats; they
+do not require new Make targets. Screenshot and scoped evidence-capture utilities
+are facilitator tooling, likewise outside the attendee command-surface count.

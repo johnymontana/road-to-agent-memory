@@ -50,5 +50,14 @@ async def run_fresh_agent(settings: AppSettings, *, mode: str = "on") -> dict:
     skill = load_skill(mode)
     agent = create_fresh_agent(settings, skill=skill)
     collector: list[dict] = []
-    result = await agent.run(TICKET, deps=ToolDeps(db_path=settings.db_path, collector=collector))
+    result = await agent.run(
+        TICKET,
+        deps=ToolDeps(
+            db_path=settings.db_path,
+            collector=collector,
+            account_email="ravi.shah@northwind.example",
+            incident_id="ravi-duplicate-compute",
+            authorize_refund=True,
+        ),
+    )
     return {"reply": result.output, "tool_calls": collector, "with_skill": skill is not None}

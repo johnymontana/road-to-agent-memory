@@ -1,0 +1,13 @@
+{
+  "probe": "forced dependency optimization; synthetic health/graph; no live backend",
+  "worker_requests": [
+    {
+      "worker": "HierarchicalLayout.worker.js",
+      "status": 404
+    },
+    {
+      "worker": "CoseBilkentLayout.worker.js",
+      "status": 404
+    }
+  ]
+}

@@ -1,83 +1,102 @@
-# Module 3 — Structured long-term memory
+# Module 3 — Structured, grounded long-term memory
 
-Start with [`app/agent.py`](app/agent.py). This folder owns the complete agent for
-this stage: its prompt, registered tools, model call and chat orchestration.
-Code is intentionally duplicated so changes from the previous lesson are visible.
-No lesson imports another lesson's agent.
+Start commands from the repository root. Keep `make dev MODULE=3` in one
+terminal and run the lesson commands in another. Before switching modules, stop
+the server with Ctrl+C, launch the next module, and reload the browser.
 
-## Run and explore
+Browser chat has a visible conversation ID, New conversation and Resume controls.
+It preserves turn history locally across reloads; clearing browser storage removes
+that local history. Neo4j memory remains persistent. Terminal commands print their
+own dialogue, tools and timing. Use **Refresh graph → Saved replay** to inspect their
+immutable output projection; choose **Live memory** for the replay's persisted
+Neo4j message/entity/trace links. CLI runs do not append turns to browser chat. Choose Current
+conversation for browser evidence, or All stored memory deliberately.
 
-Run every command from the **repository root**, not from this folder:
+Refund actions require a selected Customer and Billing case plus **Authorize selected
+refund for this message**. Confirmation resets after each turn. The server checks
+case identity, amount, current SQL plan limit and incident uniqueness. Asking for
+an update reads refund history. A request ID returns its saved operation receipt on
+retry; replaying a billing case cannot create a second refund. No escalation tool
+exists. Status values are seeded examples with timestamps, never a live monitoring feed.
+
+Run `make eval MODULE=3` explicitly. The evaluation lab starts only on POST/action;
+opening or reopening it reads results. Each run uses private SQL, unique memory
+fixtures and disabled business tools. Exact facts and source IDs are checked. This
+is a controlled retrieval probe, not an end-to-end support-quality score or a promise
+of monotonic improvement. A dependency error preserves completed questions.
 
 ```bash
 make dev MODULE=3
-```
-
-Keep the server terminal open. Run scenarios in a second terminal. Stop the previous
-server with Ctrl+C before switching stages, then reload the browser. The same root
-`.env`, SQLite database, virtual environment and AuraDB are reused.
-
-Scenario playback constructs this folder's agent directly and prints dialogue and
-tool calls in the terminal. It does not replay the conversation into the browser.
-Reload the graph or change its layer filter to see externally written memory.
-The browser's tool trace displays only the latest browser chat request.
-
-```bash
+# Second terminal:
 make s3-default
 make s3-ontology
+make s3-enrich
 make eval MODULE=3
 ```
 
+The default/custom pair sends one fixed transcript through two independent LLM
+extractors. No conversation, SQL hydration or old graph participates. Saved replay
+snapshots include identical transcript hashes, ontology, model and timing. Shapes may
+vary despite temperature zero. They are extractor results, not a comparison of chat agents.
+
+For the full agent, introduce Maya Chen at Northwind Robotics in browser chat.
+Extraction runs first, then type-safe SQL hydration of current-message entities,
+then retrieval and the answer. `context.py` exposes allowlisted email, plan,
+signup_date and employer facts with IDs. Exact aliases preserve resolved names;
+ambiguous or incompatible types do not acquire SQL facts. One pooled writer is
+reused; bounded retries and warnings preserve partial completion.
+
+Select a Customer before saving preferences. Categories include namespace and email;
+the receipt shows the actual stored object, context and deduplication flag. Customer
+choices remain separate. Prior preference rows are not a new source of current policy.
+
+`ONTOLOGY=acme_cloud` loads `module_3/ontology/acme_cloud.yaml`; `default-poleo`
+loads the local generic file. `ONTOLOGY=active` uses the database version after
+`scripts/activate_ontology.py`. Both shell and `.env` settings resolve on restart.
+The pinned app filters invalid relations in both modes; `VALIDATION_MODE=strict`
+also drops undeclared entity types. The separate instructor validator recipe shows
+explicit relation `mode="drop"` versus `mode="raise"`; it is not the app setting.
+
+Optional `s3-enrich` explicitly requests public Organization facts from Wikimedia.
+It caches successes for one week and errors for five minutes and saves provider
+status as a replay. A 403 is unavailable, not pending. It never enriches fictional
+companies automatically or proves Stripe operational status. Continue without it.
+
+See the [participant guide](../docs/modules/module-3.md) for the same questions and answer key.
+
+## Explore and verify
+
+### Q1: Where did this entity come from?
+
+Follow Message MENTIONS Entity and inspect that message.
+
+### Q2: What changed with the ontology?
+
+Compare only the two Saved replay snapshots. Verify transcript hashes before interpreting their types and edges.
+
+### Q3: Which source supplied Customer fields?
+
+Email, plan and signup_date come from SQL hydration; types/relations come from extraction. hydrated_from is a source marker, not per-field temporal lineage.
+
+### Q4: What changed since module 2?
+
+Structured facts and scoped preferences were added. Cross-conversation messages already existed in module 2.
+
+### Q5: What do negative descriptions do?
+
+Read the YAML and rerun the fixed extractor after a local edit. They guide the model; outputs are variable.
+
+### Q6: How do validation modes differ?
+
+Run `uv run scripts/instructor.py strict`: permissive drops an invalid relation, strict raises.
+
+### Q7: What happens after a plan upgrade?
+
+Run `uv run scripts/instructor.py plan`: a private SQL copy and local writer fixture run the actual hydration function before, after and following restoration of Maya's plan. Assert one entity is updated in place; this fixture is not a live Neo4j graph or automatic CDC.
+
 ## Read the code
 
-1. [`app/main.py`](app/main.py) connects the local agent factory to the shared HTTP transport.
-2. [`app/agent.py`](app/agent.py) constructs the agent and runs one complete chat turn.
-3. [`app/tools.py`](app/tools.py) defines all five business tools and their trace collection.
-4. [`app/memory.py`](app/memory.py) configures and opens this lesson’s memory client.
-5. [`app/memory_tools.py`](app/memory_tools.py) exposes memory search and preferences.
-6. [`app/hydrate.py`](app/hydrate.py) grounds extracted entities in SQLite facts.
-7. [`ontology/acme_cloud.yaml`](ontology/acme_cloud.yaml) is this lesson’s editable domain ontology.
+Start with `module_3/app/agent.py`, then local `tools.py`. Read local `memory.py` and `context.py` for configuration and retrieval. Read `hydrate.py` and `memory_tools.py` for SQL grounding and preferences.
 
-## What changes in this stage
-
-LLM extraction is enabled, local memory tools join the business tools, and hydration
-updates extracted entities with facts from SQLite. Memory search includes messages,
-entities and preferences, but never reasoning traces. Both ontology variants are
-owned by this directory. Default/custom runs share one graph; inspect each result
-before the next run, rather than expecting isolated canvases.
-
-Select an ontology with `ONTOLOGY=acme_cloud` (default), `ONTOLOGY=default-poleo`,
-or `ONTOLOGY=active` to use the version activated in AuraDB. An explicit selection
-in a scenario overrides the environment for that invocation only. A local YAML
-selection overrides an active database ontology; edits resolve on client creation.
-
-Optional enrichment: `make s3-enrich`. Inspect the grounded `Customer` properties and
-follow `MENTIONS` from messages to extracted entities. Wikimedia enrichment is async.
-
-Hydration checks the stored name and recorded aliases against exact SQLite
-records. It preserves resolved node names and skips conflicting alias matches.
-Explicit preference-save requests call `save_preference` before confirmation.
-
-Wikimedia enrichment is best-effort. Extracted organizations without SQLite
-records (for example Stripe) are queued through the public entity upsert;
-they are not counted as SQL-hydrated facts. The provider can return an error
-when Wikipedia blocks automated requests. The support reply and internally
-grounded facts still work; do not expect external properties on those runs.
-
-## Compare and verify
-
-```bash
-diff -ru module_2/app module_3/app
-```
-
-Use the [participant guide](../docs/modules/module-3.md) for questions and answers.
-The offline tests exercise real PydanticAI runs using local adapters. Live rehearsal
-is opt-in and writes unique test conversations without wiping existing graph data.
-
-```bash
-uv run pytest tests/test_module_agents.py tests/test_workshop_runners.py -q
-RUN_BEHAVIORAL=1 uv run pytest tests/test_behavioral.py -v
-```
-
-Shared `lib/` contains credentials, SQL helpers, graph serialization, HTTP transport,
-and module dispatch only. Agent behavior is implemented here.
+Each module owns its full agent implementation. Duplicated lesson code is intentional;
+shared `lib/` supplies transport, settings, SQL, receipts and factory selection.
