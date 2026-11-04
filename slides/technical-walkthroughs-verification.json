@@ -1,0 +1,251 @@
+{
+  "updated": "2026-11-04",
+  "presentation_id": "1qBsciAQf7s3BUdQleJJ39-4RDKAoqqoVfodPDDg63z8",
+  "slide_count": 74,
+  "added_slides": 15,
+  "code_walkthroughs": 13,
+  "introduction_after_module_1": [
+    19,
+    20,
+    21
+  ],
+  "original_slide_content_preserved": true,
+  "permitted_existing_change": "Automatic slide-number values after insertion",
+  "visual_qa": "All 15 new slides inspected through connector thumbnails. Shortened API labels on the concept overview to avoid broken identifiers. Native editable code text, syntax coloring and source captions preserved.",
+  "validation": {
+    "neo4j_agent_memory": "0.8.0",
+    "pydantic_ai": "2.62.0",
+    "snippets": [
+      {
+        "slide_id": "ram_code_m1",
+        "syntax": "valid async fragment",
+        "verified_calls": [
+          "Agent",
+          "agent.run"
+        ]
+      },
+      {
+        "slide_id": "ram_code_client",
+        "syntax": "valid async fragment",
+        "verified_calls": [
+          "MemorySettings",
+          "MemoryClient"
+        ]
+      },
+      {
+        "slide_id": "ram_code_m2_write",
+        "syntax": "valid async fragment",
+        "verified_calls": [
+          "memory.short_term.create_conversation",
+          "memory.short_term.add_message",
+          "memory.short_term.add_message"
+        ]
+      },
+      {
+        "slide_id": "ram_code_m2_inject",
+        "syntax": "valid async fragment",
+        "verified_calls": [
+          "agent.run"
+        ]
+      },
+      {
+        "slide_id": "ram_code_m3_extract",
+        "syntax": "valid async fragment",
+        "verified_calls": [
+          "MemoryClient",
+          "memory.short_term.add_message"
+        ]
+      },
+      {
+        "slide_id": "ram_code_m3_ground",
+        "syntax": "valid async fragment",
+        "verified_calls": [
+          "memory.long_term.add_entity"
+        ]
+      },
+      {
+        "slide_id": "ram_code_m3_tools",
+        "syntax": "valid async fragment",
+        "verified_calls": [
+          "Agent"
+        ]
+      },
+      {
+        "slide_id": "ram_code_m3_preferences",
+        "syntax": "valid async fragment",
+        "verified_calls": [
+          "memory.long_term.add_preference"
+        ]
+      },
+      {
+        "slide_id": "ram_code_m4_lifecycle",
+        "syntax": "valid async fragment",
+        "verified_calls": [
+          "memory.reasoning.start_trace",
+          "agent.run",
+          "memory.reasoning.complete_trace",
+          "TraceOutcome"
+        ]
+      },
+      {
+        "slide_id": "ram_code_m4_tools",
+        "syntax": "valid async fragment",
+        "verified_calls": [
+          "memory.reasoning.link_trace_to_message",
+          "memory.reasoning.add_step",
+          "memory.reasoning.record_tool_call"
+        ]
+      },
+      {
+        "slide_id": "ram_code_m4_recall",
+        "syntax": "valid async fragment",
+        "verified_calls": [
+          "agent.run",
+          "memory.reasoning.get_trace_with_steps"
+        ]
+      },
+      {
+        "slide_id": "ram_code_m5_distill",
+        "syntax": "valid async fragment",
+        "verified_calls": []
+      },
+      {
+        "slide_id": "ram_code_m5_agent",
+        "syntax": "valid async fragment",
+        "verified_calls": [
+          "Agent",
+          "agent.run"
+        ]
+      }
+    ],
+    "scope": "Syntax and installed API signature validation; no remote service calls. Local helper aliases/preconditions documented in presenter notes."
+  },
+  "slide_plan": [
+    {
+      "slide_id": "ram_code_m1",
+      "narrative_role": "Module 1 \u00b7 Code \u00b7 The baseline: PydanticAI + business tools",
+      "exemplar_slide_id": "ram_design_016",
+      "method": "duplicate native exemplar and edit existing slots",
+      "insert_after": "ram_design_013",
+      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+    },
+    {
+      "slide_id": "ram_mem_intro",
+      "narrative_role": "Library introduction \u00b7 Meet neo4j-agent-memory",
+      "exemplar_slide_id": "ram_design_055",
+      "method": "duplicate native exemplar and edit existing slots",
+      "insert_after": "ram_design_017",
+      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+    },
+    {
+      "slide_id": "ram_mem_seam",
+      "narrative_role": "Library introduction \u00b7 Where memory meets PydanticAI",
+      "exemplar_slide_id": "ram_design_036",
+      "method": "duplicate native exemplar and edit existing slots",
+      "insert_after": "ram_mem_intro",
+      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+    },
+    {
+      "slide_id": "ram_code_client",
+      "narrative_role": "Library introduction \u00b7 Code \u00b7 Configure and open one memory client",
+      "exemplar_slide_id": "ram_design_016",
+      "method": "duplicate native exemplar and edit existing slots",
+      "insert_after": "ram_mem_seam",
+      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+    },
+    {
+      "slide_id": "ram_code_m2_write",
+      "narrative_role": "Module 2 \u00b7 Code \u00b7 Persist both sides of a conversation",
+      "exemplar_slide_id": "ram_design_016",
+      "method": "duplicate native exemplar and edit existing slots",
+      "insert_after": "ram_slide_020",
+      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+    },
+    {
+      "slide_id": "ram_code_m2_inject",
+      "narrative_role": "Module 2 \u00b7 Code \u00b7 Retrieve evidence, then call the agent",
+      "exemplar_slide_id": "ram_design_016",
+      "method": "duplicate native exemplar and edit existing slots",
+      "insert_after": "ram_slide_022",
+      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+    },
+    {
+      "slide_id": "ram_code_m3_extract",
+      "narrative_role": "Module 3 \u00b7 Code \u00b7 Turn on ontology-driven extraction",
+      "exemplar_slide_id": "ram_design_016",
+      "method": "duplicate native exemplar and edit existing slots",
+      "insert_after": "ram_slide_028",
+      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+    },
+    {
+      "slide_id": "ram_code_m3_ground",
+      "narrative_role": "Module 3 \u00b7 Code \u00b7 Ground extracted entities in SQL facts",
+      "exemplar_slide_id": "ram_design_016",
+      "method": "duplicate native exemplar and edit existing slots",
+      "insert_after": "ram_slide_032",
+      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+    },
+    {
+      "slide_id": "ram_code_m3_tools",
+      "narrative_role": "Module 3 \u00b7 Code \u00b7 Expose memory tools to PydanticAI",
+      "exemplar_slide_id": "ram_design_016",
+      "method": "duplicate native exemplar and edit existing slots",
+      "insert_after": "ram_design_036",
+      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+    },
+    {
+      "slide_id": "ram_code_m3_preferences",
+      "narrative_role": "Module 3 \u00b7 Code \u00b7 Save a preference for one customer",
+      "exemplar_slide_id": "ram_design_016",
+      "method": "duplicate native exemplar and edit existing slots",
+      "insert_after": "ram_code_m3_tools",
+      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+    },
+    {
+      "slide_id": "ram_code_m4_lifecycle",
+      "narrative_role": "Module 4 \u00b7 Code \u00b7 Record the execution and its outcome",
+      "exemplar_slide_id": "ram_design_016",
+      "method": "duplicate native exemplar and edit existing slots",
+      "insert_after": "ram_slide_040",
+      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+    },
+    {
+      "slide_id": "ram_code_m4_tools",
+      "narrative_role": "Module 4 \u00b7 Code \u00b7 Attach observations and provenance",
+      "exemplar_slide_id": "ram_design_016",
+      "method": "duplicate native exemplar and edit existing slots",
+      "insert_after": "ram_code_m4_lifecycle",
+      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+    },
+    {
+      "slide_id": "ram_code_m4_recall",
+      "narrative_role": "Module 4 \u00b7 Code \u00b7 Retrieve a procedure, then prime the agent",
+      "exemplar_slide_id": "ram_design_016",
+      "method": "duplicate native exemplar and edit existing slots",
+      "insert_after": "ram_slide_042",
+      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+    },
+    {
+      "slide_id": "ram_code_m5_distill",
+      "narrative_role": "Module 5 \u00b7 Repository workflow \u00b7 Turn hosted experience into a skill file",
+      "exemplar_slide_id": "ram_design_016",
+      "method": "duplicate native exemplar and edit existing slots",
+      "insert_after": "ram_design_048",
+      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+    },
+    {
+      "slide_id": "ram_code_m5_agent",
+      "narrative_role": "Module 5 \u00b7 Code \u00b7 Give the skill to a fresh PydanticAI agent",
+      "exemplar_slide_id": "ram_design_016",
+      "method": "duplicate native exemplar and edit existing slots",
+      "insert_after": "ram_design_049",
+      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+    }
+  ],
+  "revision_id": "8_OmiGg4DAZ_ug",
+  "layout_check": {
+    "errors": 0,
+    "warnings": 32,
+    "intentional_exceptions": "Template-native captions and source footers; 12.5pt monospaced code. No new raster narrative or code images."
+  }
+}
