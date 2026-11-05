@@ -12,6 +12,12 @@ You run a complete app and explore it; you don't write code from scratch. Every
 action is a `make` target. SQLite is Acme Cloud's system of record; Neo4j is the
 agent's memory. New to graphs or agents? See the [glossary](docs/glossary.md).
 
+## Slides
+
+[![](img/slides.png)](https://graphstuff.com/road-to-action)
+
+Open slides at [graphstuff.com/road-to-action](https://graphstuff.com)
+
 ## Setup
 
 1. Complete the [pre-work](docs/prework-email.md): a free AuraDB instance, an
