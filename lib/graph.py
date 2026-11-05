@@ -110,8 +110,29 @@ async def bolt_graph(
     }
 
 
-async def nams_graph(s: AppSettings) -> dict[str, Any]:
-    """Skill subgraph from the NAMS workspace (module 5) via read-only Cypher REST."""
+# The served skill graph: Skill -> versions -> steps -> the memory each step is
+# GROUNDED_IN (entities, agent steps, tool calls). Explicit maps, one row.
+NAMS_SKILL_GRAPH = """
+MATCH (s:Skill)-[hv:HAS_VERSION]->(v:SkillVersion)
+OPTIONAL MATCH (v)-[hs:HAS_STEP]->(st:SkillStep)
+OPTIONAL MATCH (st)-[gi:GROUNDED_IN]->(g)
+OPTIONAL MATCH (v)-[sup:SUPERSEDES]->(:SkillVersion)
+WITH collect(DISTINCT s) + collect(DISTINCT v) + collect(DISTINCT st) + collect(DISTINCT g) AS ns,
+     collect(DISTINCT hv) + collect(DISTINCT hs) + collect(DISTINCT gi)
+       + collect(DISTINCT sup) AS rs
+RETURN [n IN ns[..$limit] | {id: elementId(n), labels: labels(n), properties: properties(n)}]
+         AS nodes,
+       [r IN rs | {id: elementId(r), from: elementId(startNode(r)), to: elementId(endNode(r)),
+                   type: type(r)}] AS relationships,
+       size(ns) > $limit AS truncated
+"""
+
+# Large documents stored on SkillVersion nodes; the panel shows them elsewhere.
+_NAMS_HIDDEN = ("skillMd", "provenanceJson", "referencesJson")
+
+
+async def nams_graph(s: AppSettings, limit: int = 200) -> dict[str, Any]:
+    """The skill graph from the NAMS workspace (module 5), via read-only Cypher REST."""
     if not s.nams_api_key:
         return {"nodes": [], "relationships": [], "unavailable": True}
     try:
@@ -121,42 +142,27 @@ async def nams_graph(s: AppSettings) -> dict[str, Any]:
             timeout=30.0,
         ) as http:
             resp = await http.post(
-                "/v1/query",
-                json={
-                    "cypher": (
-                        "MATCH (n) WHERE any(l IN labels(n) WHERE l STARTS WITH 'Skill') "
-                        "OPTIONAL MATCH (n)-[r]-(m) RETURN n, r, m LIMIT 300"
-                    )
-                },
+                "/v1/query", json={"cypher": NAMS_SKILL_GRAPH, "params": {"limit": limit}}
             )
             resp.raise_for_status()
-            payload = resp.json()
+            rows = resp.json().get("rows", [])  # Each row is an object keyed by column.
     except httpx.HTTPError:
         return {"nodes": [], "relationships": [], "unavailable": True}
-
-    # NAMS /v1/query returns {columns, rows}; rows contain node maps with
-    # element id / labels / properties depending on deployment — map defensively.
-    nodes: dict[str, dict] = {}
-    rels: dict[str, dict] = {}
-    for row in payload.get("rows", []):
-        record = dict(zip(payload.get("columns", []), row, strict=False))
-        for key in ("n", "m"):
-            node = record.get(key)
-            if isinstance(node, dict) and node.get("id") is not None:
-                nid = str(node["id"])
-                nodes[nid] = {
-                    "id": nid,
-                    "labels": node.get("labels", []),
-                    "properties": node.get("properties", node),
-                }
-        rel = record.get("r")
-        if isinstance(rel, dict) and rel.get("id") is not None:
-            rid = str(rel["id"])
-            rels[rid] = {
-                "id": rid,
-                "from": str(rel.get("from") or rel.get("start")),
-                "to": str(rel.get("to") or rel.get("end")),
-                "type": rel.get("type", "RELATED"),
-                "properties": rel.get("properties", {}),
-            }
-    return {"nodes": list(nodes.values()), "relationships": list(rels.values())}
+    if not rows:
+        return {"nodes": [], "relationships": []}
+    row = rows[0]
+    nodes = [
+        {
+            "id": node["id"],
+            "labels": node["labels"],
+            "properties": _json_value(
+                {k: v for k, v in node["properties"].items() if k not in _NAMS_HIDDEN}
+            ),
+        }
+        for node in row["nodes"]
+    ]
+    shown = {node["id"] for node in nodes}
+    relationships = [
+        rel for rel in row["relationships"] if rel["from"] in shown and rel["to"] in shown
+    ]
+    return {"nodes": nodes, "relationships": relationships, "truncated": row["truncated"]}

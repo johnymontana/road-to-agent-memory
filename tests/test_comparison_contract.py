@@ -4,7 +4,7 @@ from unittest.mock import AsyncMock
 from neo4j_agent_memory.extraction import ExtractedEntity, ExtractionResult
 
 from lib.settings import AppSettings
-from module_3.app.compare import run_extraction_snapshot
+from module_3.lab.compare import run_extraction_snapshot
 
 
 async def test_comparison_is_immutable_and_uses_one_fixed_transcript(tmp_path):

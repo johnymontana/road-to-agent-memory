@@ -6,8 +6,14 @@ import time
 
 from neo4j_agent_memory.enrichment.wikimedia import WikimediaProvider
 
+# Wikimedia rejects generic clients (HTTP 403, "robot policy"). Its User-Agent
+# policy asks for a client name plus a contact URL: https://w.wiki/4wJS
+USER_AGENT = (
+    "road-to-agent-memory-workshop/1.0 (https://github.com/johnymontana/road-to-agent-memory)"
+)
 
-async def enrich_organization(settings, name="Stripe", *, provider=None, refresh=False):
+
+async def enrich_organization(settings, name="Stripe, Inc.", *, provider=None, refresh=False):
     folder = settings.data_dir / "enrichment-cache"
     folder.mkdir(parents=True, exist_ok=True)
     path = folder / (hashlib.sha256(name.casefold().encode()).hexdigest() + ".json")
@@ -17,7 +23,9 @@ async def enrich_organization(settings, name="Stripe", *, provider=None, refresh
         if time.time() - cached["retrieved_at"] < ttl:
             return {**cached, "cached": True}
     try:
-        result = await (provider or WikimediaProvider()).enrich(name, "ORGANIZATION")
+        result = await (provider or WikimediaProvider(user_agent=USER_AGENT)).enrich(
+            name, "ORGANIZATION"
+        )
         status = getattr(result.status, "value", str(result.status)).lower()
         data = {
             "name": name,

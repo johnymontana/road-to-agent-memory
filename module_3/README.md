@@ -1,68 +1,65 @@
-# Module 3 — Structured, grounded long-term memory
+# Module 3 — Long-term memory
 
-Start commands from the repository root. Keep `make dev MODULE=3` in one
-terminal and run the lesson commands in another. Before switching modules, stop
-the server with Ctrl+C, launch the next module, and reload the browser.
+**The idea:** remember *who and what* the customer talks about, not just the
+words. Saving a user message now also extracts the entities it mentions
+(`(:Message)-[:MENTIONS]->(:Entity)`), typed by an ontology. Their facts come
+from SQLite, never from the LLM: an extracted "Maya Chen" gets her email, plan
+and signup date from the system of record. The agent can also save and recall
+customer preferences.
 
-Browser chat has a visible conversation ID, New conversation and Resume controls.
-It preserves turn history locally across reloads; clearing browser storage removes
-that local history. Neo4j memory remains persistent. Terminal commands print their
-own dialogue, tools and timing. Use **Refresh graph → Saved replay** to inspect their
-immutable output projection; choose **Live memory** for the replay's persisted
-Neo4j message/entity/trace links. CLI runs do not append turns to browser chat. Choose Current
-conversation for browser evidence, or All stored memory deliberately.
+## Read the code
 
-Refund actions require a selected Customer and Billing case plus **Authorize selected
-refund for this message**. Confirmation resets after each turn. The server checks
-case identity, amount, current SQL plan limit and incident uniqueness. Asking for
-an update reads refund history. A request ID returns its saved operation receipt on
-retry; replaying a billing case cannot create a second refund. No escalation tool
-exists. Status values are seeded examples with timestamps, never a live monitoring feed.
+```bash
+diff -ru module_2/app module_3/app
+```
 
-Run `make eval MODULE=3` explicitly. The evaluation lab starts only on POST/action;
-opening or reopening it reads results. Each run uses private SQL, unique memory
-fixtures and disabled business tools. Exact facts and source IDs are checked. This
-is a controlled retrieval probe, not an end-to-end support-quality score or a promise
-of monotonic improvement. A dependency error preserves completed questions.
+1. [`app/memory.py`](app/memory.py): `extractor_type="llm"` plus an ontology
+   from [`ontology/`](ontology/) (`acme_cloud.yaml` or `default-poleo.yaml`).
+2. [`app/agent.py`](app/agent.py): `_turn` adds a **ground** step between
+   saving the message and recalling.
+3. [`app/hydrate.py`](app/hydrate.py): looks up extracted names in SQLite and
+   writes the facts onto the entity nodes. Type mismatches and ambiguous aliases
+   hydrate nothing.
+4. [`app/context.py`](app/context.py): two new retrieval paths,
+   **grounded_entity** and **customer_preference**.
+5. [`app/memory_tools.py`](app/memory_tools.py): `search_memory`,
+   `save_preference` and `recall_preferences`, which the model calls itself.
+
+[`lab/`](lab/) holds the experiments behind the scenario commands. The agent does
+not use them: `compare.py` (extract one fixed transcript with each ontology) and
+`enrichment.py` (optional Wikimedia lookup).
+
+## Run it
 
 ```bash
 make dev MODULE=3
 # Second terminal:
-make s3-default
-make s3-ontology
-make s3-enrich
+make s3-default      # fixed transcript, generic POLE+O ontology
+make s3-ontology     # same transcript, Acme Cloud ontology
+make s3-enrich       # optional
 make eval MODULE=3
 ```
 
-The default/custom pair sends one fixed transcript through two independent LLM
-extractors. No conversation, SQL hydration or old graph participates. Saved replay
-snapshots include identical transcript hashes, ontology, model and timing. Shapes may
-vary despite temperature zero. They are extractor results, not a comparison of chat agents.
+- **Ontology comparison:** `s3-default`/`s3-ontology` send one fixed transcript
+  through two independent extractors. No conversation, hydration or old graph is
+  involved. Saved replays record transcript hashes, ontology, model and timing.
+  Shapes can vary even at temperature zero.
+- **The full agent:** introduce Maya Chen at Northwind Robotics in browser chat.
+  Extraction runs first, then hydration of the entities in that message, then
+  retrieval and the answer.
+- **Preferences:** select a customer before saving one. The receipt shows the
+  stored object and whether it was deduplicated. Preferences are linked to a
+  per-customer `(:User)` and read back with `long_term.get_preferences_for()`.
+- **Ontology selection:** `ONTOLOGY=acme_cloud` (default) or `default-poleo`
+  loads the local YAML. `ONTOLOGY=active` uses the version stored in AuraDB
+  (`scripts/activate_ontology.py`). `VALIDATION_MODE=strict` also drops entity
+  types the ontology does not declare. Settings apply on restart.
+- **Enrichment (optional):** `s3-enrich` asks Wikimedia for public organization
+  facts. It caches successes for a week and errors for five minutes, and never
+  enriches fictional companies. A 403 means unavailable; continue without it.
 
-For the full agent, introduce Maya Chen at Northwind Robotics in browser chat.
-Extraction runs first, then type-safe SQL hydration of current-message entities,
-then retrieval and the answer. `context.py` exposes allowlisted email, plan,
-signup_date and employer facts with IDs. Exact aliases preserve resolved names;
-ambiguous or incompatible types do not acquire SQL facts. One pooled writer is
-reused; bounded retries and warnings preserve partial completion.
-
-Select a Customer before saving preferences. Categories include namespace and email;
-the receipt shows the actual stored object, context and deduplication flag. Customer
-choices remain separate. Prior preference rows are not a new source of current policy.
-
-`ONTOLOGY=acme_cloud` loads `module_3/ontology/acme_cloud.yaml`; `default-poleo`
-loads the local generic file. `ONTOLOGY=active` uses the database version after
-`scripts/activate_ontology.py`. Both shell and `.env` settings resolve on restart.
-The pinned app filters invalid relations in both modes; `VALIDATION_MODE=strict`
-also drops undeclared entity types. The separate instructor validator recipe shows
-explicit relation `mode="drop"` versus `mode="raise"`; it is not the app setting.
-
-Optional `s3-enrich` explicitly requests public Organization facts from Wikimedia.
-It caches successes for one week and errors for five minutes and saves provider
-status as a replay. A 403 is unavailable, not pending. It never enriches fictional
-companies automatically or proves Stripe operational status. Continue without it.
-
-See the [participant guide](../docs/modules/module-3.md) for the same questions and answer key.
+General app notes: [docs/running-the-app.md](../docs/running-the-app.md).
+Questions and answers: [participant guide](../docs/modules/module-3.md).
 
 ## Explore and verify
 
@@ -93,10 +90,3 @@ Run `uv run scripts/instructor.py strict`: permissive drops an invalid relation,
 ### Q7: What happens after a plan upgrade?
 
 Run `uv run scripts/instructor.py plan`: a private SQL copy and local writer fixture run the actual hydration function before, after and following restoration of Maya's plan. Assert one entity is updated in place; this fixture is not a live Neo4j graph or automatic CDC.
-
-## Read the code
-
-Start with `module_3/app/agent.py`, then local `tools.py`. Read local `memory.py` and `context.py` for configuration and retrieval. Read `hydrate.py` and `memory_tools.py` for SQL grounding and preferences.
-
-Each module owns its full agent implementation. Duplicated lesson code is intentional;
-shared `lib/` supplies transport, settings, SQL, receipts and factory selection.

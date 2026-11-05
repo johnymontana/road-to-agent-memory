@@ -21,7 +21,7 @@ jobs:
       - uses: astral-sh/setup-uv@v5
       - uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: "22"
       - run: uv sync --frozen
       - run: uv run ruff check .
       - run: uv run pytest tests/ -m "not behavioral" -x -q
@@ -29,16 +29,6 @@ jobs:
       - run: npm --prefix web ci && npm --prefix web run build
       - run: uv run playwright install --with-deps chromium
       - run: RUN_UI=1 uv run pytest tests/test_ui.py -q
-
-  devcontainer:
-    runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.modified, '.devcontainer') || github.event_name == 'pull_request'
-    steps:
-      - uses: actions/checkout@v4
-      - name: Build the devcontainer
-        run: |
-          npm install -g @devcontainers/cli
-          devcontainer build --workspace-folder . --image-name workshop-devcontainer-ci
 
   behavioral:
     # Live lesson agents and graph invariants against

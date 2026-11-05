@@ -1,13 +1,14 @@
-"""Business tools owned by this lesson, backed by shared SQLite queries.
+"""SupportBot's five business tools, backed by the Acme Cloud SQLite database.
 
-Each tool collects its name, input, SQL, output and duration for the caller's
-trace panel. Tool definitions are intentionally copied into every lesson.
+These are ordinary PydanticAI tools: async functions whose first argument is
+`RunContext[ToolDeps]`. The docstring and type hints become the tool schema the
+model sees. Each tool also records its input, executed SQL, output and duration
+in `deps.collector`, which the UI's trace panel shows.
 """
 
 from __future__ import annotations
 
 import math
-import re
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -20,25 +21,28 @@ from lib import db as dbx
 
 @dataclass
 class ToolDeps:
+    """Per-turn dependencies passed to every tool through `RunContext.deps`."""
+
     db_path: Path
     collector: list[dict[str, Any]] = field(default_factory=list)
+    # Selected by the operator in the UI, never inferred by the model:
     account_email: str | None = None
     incident_id: str | None = None
     authorize_refund: bool = False
-    session_id: str = ""
+    # Used by the memory tools (memory_tools.py), new in module 3:
     namespace: str = "workshop"
     current_message_id: str | None = None
     embedder: Any = None
 
 
-def _receipt_value(value):
-    """Keep rejected nonfinite attempts inspectable in standards-compliant JSON."""
+def _json_safe(value):
+    """Render NaN/inf as strings so a rejected refund attempt stays valid JSON."""
     if isinstance(value, float) and not math.isfinite(value):
         return str(value)
     if isinstance(value, dict):
-        return {k: _receipt_value(v) for k, v in value.items()}
+        return {k: _json_safe(v) for k, v in value.items()}
     if isinstance(value, list):
-        return [_receipt_value(v) for v in value]
+        return [_json_safe(v) for v in value]
     return value
 
 
@@ -50,12 +54,13 @@ def _record(
     started: float,
     output: Any,
 ) -> Any:
+    """Append one tool call to the trace collector and return its output unchanged."""
     ctx.deps.collector.append(
         {
             "name": name,
-            "input": _receipt_value(tool_input),
+            "input": _json_safe(tool_input),
             "sql": sql,
-            "output": _receipt_value(output),
+            "output": _json_safe(output),
             "duration_ms": round((time.monotonic() - started) * 1000, 1),
         }
     )
@@ -166,105 +171,3 @@ SQLITE_TOOLS = [
     check_service_status,
     issue_refund,
 ]
-
-
-def verified_reply(message: str, reply: str, calls: list[dict]) -> str:
-    """Business receipts override unsupported action claims in model prose."""
-    refunds = [c["output"] for c in calls if c["name"] in ("issue_refund", "refund_policy_guard")]
-    if refunds:
-        result = refunds[-1]
-        if result["status"] in ("issued", "already_issued"):
-            verb = "Issued" if result["status"] == "issued" else "Previously issued"
-            return (
-                f"{verb} refund #{result['refund_id']}: ${result['amount']:.2f} "
-                f"for {result['customer']} ({result['customer_email']}, {result['plan']}). "
-                f"Incident: {result['incident_id']}. This incident cannot be refunded twice."
-            )
-        return "No refund was issued. " + result["reason"]
-    statuses = [c["output"] for c in calls if c["name"] == "check_service_status"]
-    if statuses and statuses[-1].get("status") == "known":
-        rows = statuses[-1]["services"]
-        return "Workshop snapshot (not live monitoring): " + "; ".join(
-            f"{row['service']}: {row['status']} as of {row['updated_at']} (SQLite service_status)"
-            for row in rows
-        )
-    if statuses and statuses[-1].get("status") == "unknown":
-        return (
-            "Current service status is unknown: this workshop has no verified "
-            "status source for that service."
-        )
-    lower = message.lower()
-    status_question = any(
-        p in lower
-        for p in ("status", "outage", "operational", "having issues", "showing any issues")
-    )
-    if status_question and not statuses:
-        return (
-            "No current service status was verified in this turn. Please name "
-            "an Acme Cloud service so I can check it."
-        )
-    escalation = "escalat" in lower or "escalat" in reply.lower()
-    refund_claim = re.search(
-        r"\brefunded\b|\brefund\b.{0,60}\b(issued|processed|sent|completed|approved)\b"
-        r"|\b(issue[ds]?|process(?:ed)?|sent|completed)\b.{0,60}\brefund\b",
-        reply,
-        re.I,
-    )
-    if escalation or refund_claim:
-        policies = [
-            c["output"].get("body", "")
-            for c in calls
-            if c["name"] == "fetch_policy" and isinstance(c["output"], dict)
-        ]
-        history = [
-            refund
-            for c in calls
-            if c["name"] == "lookup_account" and isinstance(c["output"], dict)
-            for refund in c["output"].get("refunds", [])
-        ]
-        detail = ""
-        if policies:
-            detail = "Current SQL policy: " + policies[-1] + " "
-        if history:
-            detail += (
-                "Recorded SQL refund history: "
-                + ", ".join(
-                    f"#{r['refund_id']} ${r['amount']:.2f} ({r['status']})" for r in history
-                )
-                + ". "
-            )
-        return detail + (
-            "No new refund or escalation was performed in this turn. "
-            "Confirm a billing case for a refund; ask a manager for approval above the plan limit."
-        )
-    return reply
-
-
-def validate_selected_case(deps):
-    if not deps.authorize_refund or not deps.incident_id:
-        return
-    statements = []
-    start = time.monotonic()
-    with dbx.connect(deps.db_path, audit=statements) as db:
-        case = dbx.case_details(db, deps.incident_id)
-        if not case or case["amount"] <= case["refund_limit"]:
-            return
-        result = dbx.issue_refund(
-            db,
-            case["email"],
-            case["amount"],
-            "Confirmed case policy check",
-            incident_id=deps.incident_id,
-            authorized_email=deps.account_email,
-            authorized=True,
-        )
-    deps.collector.append(
-        {
-            "name": "refund_policy_guard",
-            "origin": "server_validation",
-            "input": {"incident_id": deps.incident_id},
-            "output": result,
-            "sql": "\n".join(statements),
-            "duration_ms": round((time.monotonic() - start) * 1000, 1),
-        }
-    )

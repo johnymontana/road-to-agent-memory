@@ -1,251 +1,303 @@
 {
   "updated": "2026-11-04",
   "presentation_id": "1qBsciAQf7s3BUdQleJJ39-4RDKAoqqoVfodPDDg63z8",
-  "slide_count": 74,
-  "added_slides": 15,
-  "code_walkthroughs": 13,
-  "introduction_after_module_1": [
+  "revision_id": "DDts8zxWoZw1ng",
+  "slides_reviewed": 75,
+  "slides_with_visible_updates": [
+    4,
+    6,
+    12,
+    13,
+    14,
     19,
     20,
-    21
+    21,
+    22,
+    25,
+    26,
+    27,
+    28,
+    32,
+    35,
+    37,
+    38,
+    39,
+    40,
+    43,
+    44,
+    45,
+    46,
+    48,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    73,
+    74,
+    75
   ],
-  "original_slide_content_preserved": true,
-  "permitted_existing_change": "Automatic slide-number values after insertion",
-  "visual_qa": "All 15 new slides inspected through connector thumbnails. Shortened API labels on the concept overview to avoid broken identifiers. Native editable code text, syntax coloring and source captions preserved.",
-  "validation": {
-    "neo4j_agent_memory": "0.8.0",
-    "pydantic_ai": "2.62.0",
-    "snippets": [
-      {
-        "slide_id": "ram_code_m1",
-        "syntax": "valid async fragment",
-        "verified_calls": [
-          "Agent",
-          "agent.run"
-        ]
-      },
-      {
-        "slide_id": "ram_code_client",
-        "syntax": "valid async fragment",
-        "verified_calls": [
-          "MemorySettings",
-          "MemoryClient"
-        ]
-      },
-      {
-        "slide_id": "ram_code_m2_write",
-        "syntax": "valid async fragment",
-        "verified_calls": [
-          "memory.short_term.create_conversation",
-          "memory.short_term.add_message",
-          "memory.short_term.add_message"
-        ]
-      },
-      {
-        "slide_id": "ram_code_m2_inject",
-        "syntax": "valid async fragment",
-        "verified_calls": [
-          "agent.run"
-        ]
-      },
-      {
-        "slide_id": "ram_code_m3_extract",
-        "syntax": "valid async fragment",
-        "verified_calls": [
-          "MemoryClient",
-          "memory.short_term.add_message"
-        ]
-      },
-      {
-        "slide_id": "ram_code_m3_ground",
-        "syntax": "valid async fragment",
-        "verified_calls": [
-          "memory.long_term.add_entity"
-        ]
-      },
-      {
-        "slide_id": "ram_code_m3_tools",
-        "syntax": "valid async fragment",
-        "verified_calls": [
-          "Agent"
-        ]
-      },
-      {
-        "slide_id": "ram_code_m3_preferences",
-        "syntax": "valid async fragment",
-        "verified_calls": [
-          "memory.long_term.add_preference"
-        ]
-      },
-      {
-        "slide_id": "ram_code_m4_lifecycle",
-        "syntax": "valid async fragment",
-        "verified_calls": [
-          "memory.reasoning.start_trace",
-          "agent.run",
-          "memory.reasoning.complete_trace",
-          "TraceOutcome"
-        ]
-      },
-      {
-        "slide_id": "ram_code_m4_tools",
-        "syntax": "valid async fragment",
-        "verified_calls": [
-          "memory.reasoning.link_trace_to_message",
-          "memory.reasoning.add_step",
-          "memory.reasoning.record_tool_call"
-        ]
-      },
-      {
-        "slide_id": "ram_code_m4_recall",
-        "syntax": "valid async fragment",
-        "verified_calls": [
-          "agent.run",
-          "memory.reasoning.get_trace_with_steps"
-        ]
-      },
-      {
-        "slide_id": "ram_code_m5_distill",
-        "syntax": "valid async fragment",
-        "verified_calls": []
-      },
-      {
-        "slide_id": "ram_code_m5_agent",
-        "syntax": "valid async fragment",
-        "verified_calls": [
-          "Agent",
-          "agent.run"
-        ]
-      }
-    ],
-    "scope": "Syntax and installed API signature validation; no remote service calls. Local helper aliases/preconditions documented in presenter notes."
-  },
-  "slide_plan": [
+  "speaker_notes_reviewed_and_updated": 75,
+  "code_walkthroughs": [
     {
-      "slide_id": "ram_code_m1",
-      "narrative_role": "Module 1 \u00b7 Code \u00b7 The baseline: PydanticAI + business tools",
-      "exemplar_slide_id": "ram_design_016",
-      "method": "duplicate native exemplar and edit existing slots",
-      "insert_after": "ram_design_013",
-      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+      "id": "ram_code_m1",
+      "lines": 13,
+      "max_line_length": 49,
+      "source": "module_1/app/agent.py"
     },
     {
-      "slide_id": "ram_mem_intro",
-      "narrative_role": "Library introduction \u00b7 Meet neo4j-agent-memory",
-      "exemplar_slide_id": "ram_design_055",
-      "method": "duplicate native exemplar and edit existing slots",
-      "insert_after": "ram_design_017",
-      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+      "id": "ram_code_client",
+      "lines": 14,
+      "max_line_length": 52,
+      "source": "module_2/app/memory.py"
     },
     {
-      "slide_id": "ram_mem_seam",
-      "narrative_role": "Library introduction \u00b7 Where memory meets PydanticAI",
-      "exemplar_slide_id": "ram_design_036",
-      "method": "duplicate native exemplar and edit existing slots",
-      "insert_after": "ram_mem_intro",
-      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+      "id": "ram_code_m2_write",
+      "lines": 11,
+      "max_line_length": 52,
+      "source": "module_2/app/agent.py"
     },
     {
-      "slide_id": "ram_code_client",
-      "narrative_role": "Library introduction \u00b7 Code \u00b7 Configure and open one memory client",
-      "exemplar_slide_id": "ram_design_016",
-      "method": "duplicate native exemplar and edit existing slots",
-      "insert_after": "ram_mem_seam",
-      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+      "id": "ram_code_m2_inject",
+      "lines": 12,
+      "max_line_length": 50,
+      "source": "module_2/app/agent.py; module_2/app/context.py"
     },
     {
-      "slide_id": "ram_code_m2_write",
-      "narrative_role": "Module 2 \u00b7 Code \u00b7 Persist both sides of a conversation",
-      "exemplar_slide_id": "ram_design_016",
-      "method": "duplicate native exemplar and edit existing slots",
-      "insert_after": "ram_slide_020",
-      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+      "id": "ram_code_m3_extract",
+      "lines": 12,
+      "max_line_length": 55,
+      "source": "module_3/app/memory.py; module_3/app/agent.py"
     },
     {
-      "slide_id": "ram_code_m2_inject",
-      "narrative_role": "Module 2 \u00b7 Code \u00b7 Retrieve evidence, then call the agent",
-      "exemplar_slide_id": "ram_design_016",
-      "method": "duplicate native exemplar and edit existing slots",
-      "insert_after": "ram_slide_022",
-      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+      "id": "ram_code_m3_ground",
+      "lines": 14,
+      "max_line_length": 47,
+      "source": "module_3/app/hydrate.py"
     },
     {
-      "slide_id": "ram_code_m3_extract",
-      "narrative_role": "Module 3 \u00b7 Code \u00b7 Turn on ontology-driven extraction",
-      "exemplar_slide_id": "ram_design_016",
-      "method": "duplicate native exemplar and edit existing slots",
-      "insert_after": "ram_slide_028",
-      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+      "id": "ram_code_m3_tools",
+      "lines": 13,
+      "max_line_length": 48,
+      "source": "module_3/app/agent.py; module_3/app/memory_tools.py"
     },
     {
-      "slide_id": "ram_code_m3_ground",
-      "narrative_role": "Module 3 \u00b7 Code \u00b7 Ground extracted entities in SQL facts",
-      "exemplar_slide_id": "ram_design_016",
-      "method": "duplicate native exemplar and edit existing slots",
-      "insert_after": "ram_slide_032",
-      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+      "id": "ram_code_m3_preferences",
+      "lines": 12,
+      "max_line_length": 54,
+      "source": "module_3/app/memory_tools.py; module_3/app/context.py"
     },
     {
-      "slide_id": "ram_code_m3_tools",
-      "narrative_role": "Module 3 \u00b7 Code \u00b7 Expose memory tools to PydanticAI",
-      "exemplar_slide_id": "ram_design_016",
-      "method": "duplicate native exemplar and edit existing slots",
-      "insert_after": "ram_design_036",
-      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+      "id": "ram_code_m4_lifecycle",
+      "lines": 15,
+      "max_line_length": 54,
+      "source": "module_4/app/agent.py; module_4/app/reasoning.py"
     },
     {
-      "slide_id": "ram_code_m3_preferences",
-      "narrative_role": "Module 3 \u00b7 Code \u00b7 Save a preference for one customer",
-      "exemplar_slide_id": "ram_design_016",
-      "method": "duplicate native exemplar and edit existing slots",
-      "insert_after": "ram_code_m3_tools",
-      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+      "id": "ram_code_m4_tools",
+      "lines": 15,
+      "max_line_length": 54,
+      "source": "module_4/app/reasoning.py"
     },
     {
-      "slide_id": "ram_code_m4_lifecycle",
-      "narrative_role": "Module 4 \u00b7 Code \u00b7 Record the execution and its outcome",
-      "exemplar_slide_id": "ram_design_016",
-      "method": "duplicate native exemplar and edit existing slots",
-      "insert_after": "ram_slide_040",
-      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+      "id": "ram_code_m4_outcome",
+      "lines": 15,
+      "max_line_length": 53,
+      "source": "module_4/app/reasoning.py"
     },
     {
-      "slide_id": "ram_code_m4_tools",
-      "narrative_role": "Module 4 \u00b7 Code \u00b7 Attach observations and provenance",
-      "exemplar_slide_id": "ram_design_016",
-      "method": "duplicate native exemplar and edit existing slots",
-      "insert_after": "ram_code_m4_lifecycle",
-      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+      "id": "ram_code_m4_recall",
+      "lines": 15,
+      "max_line_length": 54,
+      "source": "module_4/app/reasoning.py; module_4/app/agent.py"
     },
     {
-      "slide_id": "ram_code_m4_recall",
-      "narrative_role": "Module 4 \u00b7 Code \u00b7 Retrieve a procedure, then prime the agent",
-      "exemplar_slide_id": "ram_design_016",
-      "method": "duplicate native exemplar and edit existing slots",
-      "insert_after": "ram_slide_042",
-      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+      "id": "ram_code_m5_distill",
+      "lines": 14,
+      "max_line_length": 55,
+      "source": "module_5/workflows/distill.py"
     },
     {
-      "slide_id": "ram_code_m5_distill",
-      "narrative_role": "Module 5 \u00b7 Repository workflow \u00b7 Turn hosted experience into a skill file",
-      "exemplar_slide_id": "ram_design_016",
-      "method": "duplicate native exemplar and edit existing slots",
-      "insert_after": "ram_design_048",
-      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
-    },
-    {
-      "slide_id": "ram_code_m5_agent",
-      "narrative_role": "Module 5 \u00b7 Code \u00b7 Give the skill to a fresh PydanticAI agent",
-      "exemplar_slide_id": "ram_design_016",
-      "method": "duplicate native exemplar and edit existing slots",
-      "insert_after": "ram_design_049",
-      "media_mapping": "Keep native branding, shapes and inherited layout. No slide-local photos/images/videos in these exemplars. Code console widened; source caption added."
+      "id": "ram_code_m5_agent",
+      "lines": 15,
+      "max_line_length": 51,
+      "source": "module_5/app/fresh_agent.py"
     }
   ],
-  "revision_id": "8_OmiGg4DAZ_ug",
-  "layout_check": {
+  "code_api_signatures_checked": true,
+  "sdk_version": "0.8.0",
+  "pydantic_ai_version": "2.62.0",
+  "native_slide_order_ids_and_layouts_preserved": true,
+  "native_circular_graph_nodes_preserved": 45,
+  "diagram_mirrors_verified": 17,
+  "source_paths_and_markdown_snippets_verified": true,
+  "module_source_hashes_unchanged_since_audit": true,
+  "offline_tests": {
+    "passed": 139,
+    "skipped": 1,
+    "deselected": 4,
+    "warning": "Existing SDK Pydantic class-based config deprecation"
+  },
+  "visual_qa": {
+    "delivered_slides_inspected": 75,
+    "code_slides_inspected_at_large_size": 14,
+    "consolidated_repair_passes": 1,
+    "repaired_slides_reinspected": 7,
+    "method": "Connector LARGE previews. Reused unchanged source previews from prior verified revision; prior PDF helper failed materialization."
+  },
+  "live_service_rehearsal": false,
+  "source_hashes": {
+    "lib/__init__.py": "d7ffac7b82618927e564d13d51dbdf4b1c86efbc01c9d0cc7f4609588b2cf15a",
+    "lib/app_factory.py": "3f13816ca7e47364bf748fe834de6cde19c52eee229417795d4f94a0647255a8",
+    "lib/db.py": "33c85acaab27802e2c7ff4faef01e33743af30aae96747fc8cd528154c6ff969",
+    "lib/graph.py": "0d2ed78f16646637685b8840391fab642c26666b9020bc41ef02ede89b6af507",
+    "lib/operations.py": "4bdc4b3b897c50e907e7fe74f032e32cee5081bf9675ac8cb9cf0f70b92e7217",
+    "lib/response.py": "ecd91d2727eb909680013e473d37c9dce6ef0062f8f60d1635b97d05e2dd5a85",
+    "lib/settings.py": "3847a378095efaf95349674c765b3b2b409147e4adf365f36c320a6b3e5a5ef9",
+    "lib/workshop.py": "cda751ab12a4baf8ec01a104b4a87beb6c1ffacff1566996eadcd8005038e0ae",
+    "module_1/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "module_1/app/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "module_1/app/agent.py": "76f264df31db5fc5670cf420c0f60c874c1af3a3d76a2f7bb81de623c626ee22",
+    "module_1/app/guardrails.py": "0c7fb9089b1ca6ff7d012700f5b3781b073fd9f6f33b71d04ebc3ff66397bde2",
+    "module_1/app/main.py": "d45fde60da872a8183420d5ee73ecead3473dc803a8ba523b510f2aa24436008",
+    "module_1/app/tools.py": "714044635e4452515e6555c4cad17678cd0fd69daca7f0ee7ab6d48e3b1c0d68",
+    "module_2/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "module_2/app/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "module_2/app/agent.py": "4f9fb108b5b351009ef8a1a9d01204ce89bff6a7d92ffa01f9cbdf48f73b9a54",
+    "module_2/app/context.py": "7a9cb63b48fed961502ea3f95f0224e0fd96ae5d3e8ccaece91d6f00be19bd1e",
+    "module_2/app/guardrails.py": "0c7fb9089b1ca6ff7d012700f5b3781b073fd9f6f33b71d04ebc3ff66397bde2",
+    "module_2/app/main.py": "12ebf0531217be60d7e43720e0f27e29ea369f95b30144201db9197d6a68abce",
+    "module_2/app/memory.py": "d6380446638323b90bce82b95809a00f29ad6d4419ead48bac4770612fb8e901",
+    "module_2/app/tools.py": "714044635e4452515e6555c4cad17678cd0fd69daca7f0ee7ab6d48e3b1c0d68",
+    "module_3/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "module_3/app/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "module_3/app/agent.py": "ccb7746d41da879c58b031fb6ea2e3d0d6e91bbc4bdbef6d632535694cccf5e0",
+    "module_3/app/context.py": "b8415ad4c67d08c0942937ff66ee1e3f5ea704ca24550e9c544979551596e1c3",
+    "module_3/app/guardrails.py": "0c7fb9089b1ca6ff7d012700f5b3781b073fd9f6f33b71d04ebc3ff66397bde2",
+    "module_3/app/hydrate.py": "603276ac5c034c80a597c3dcf789ecf3b1d598ce2e0e8c604d5436e7ccc88faa",
+    "module_3/app/main.py": "8f0c9e774a1b94fca783825b721be6c238076c16187f19a55b981935bc675888",
+    "module_3/app/memory.py": "b5a1315244d498ad4403da1e6f23cc087d4f3e423865fa8fd988a61d21752312",
+    "module_3/app/memory_tools.py": "82ea9ba7947b616924d528ef3eec3026e88253ca6cf006b4216f5ca0afa22249",
+    "module_3/app/tools.py": "f82792de997d5691756fa2113c77b256236035e273155919a2c2286babcfbb55",
+    "module_3/lab/__init__.py": "09e90483ca54f0eac31548d43b70acc00f3543a6362f79f4d19bf847e50c0f76",
+    "module_3/lab/compare.py": "f4b518f88ec34f866a2e11e33f7802ef535e83c7c074e16d128edd5aa5e1312b",
+    "module_3/lab/enrichment.py": "e145a2adb31f2f3c38eeff12f91ccb4673a2217c8d7b56814bab54ea2707ab02",
+    "module_4/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "module_4/app/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "module_4/app/agent.py": "343cd87d6deeb12f03617ad2ab2d47ee4e40db3dd780794ffb4d8ac9e5a4f182",
+    "module_4/app/context.py": "b8415ad4c67d08c0942937ff66ee1e3f5ea704ca24550e9c544979551596e1c3",
+    "module_4/app/guardrails.py": "0c7fb9089b1ca6ff7d012700f5b3781b073fd9f6f33b71d04ebc3ff66397bde2",
+    "module_4/app/hydrate.py": "603276ac5c034c80a597c3dcf789ecf3b1d598ce2e0e8c604d5436e7ccc88faa",
+    "module_4/app/main.py": "d5236c15b9619dd9b960137c1d6ed9ae2a7026332078e84a39dba0a0f5d4186a",
+    "module_4/app/memory.py": "b5a1315244d498ad4403da1e6f23cc087d4f3e423865fa8fd988a61d21752312",
+    "module_4/app/memory_tools.py": "eacb8a99b9f844abc361892d946b78e29e3ccaa78d307d00e0065a4fa3878c33",
+    "module_4/app/reasoning.py": "90fcc1bccb884e5d72740dcaa1d1714669e24901f26f2645e169ffdde119f957",
+    "module_4/app/tools.py": "f82792de997d5691756fa2113c77b256236035e273155919a2c2286babcfbb55",
+    "module_4/lab/__init__.py": "5fb49917590f565bac9c01e91e4d712f4cd0458a9d3f7abea98d6b9169a549c5",
+    "module_4/lab/ablation.py": "bd5bee633a46590e73e46f916f4419284796543891eaae366ffd8ed0f72ab8fc",
+    "module_5/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "module_5/app/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "module_5/app/agent.py": "89fd208600a4f49982de6ff752c494a6820674ffb86a07a0cebc71a39ce527a3",
+    "module_5/app/context.py": "b8415ad4c67d08c0942937ff66ee1e3f5ea704ca24550e9c544979551596e1c3",
+    "module_5/app/fresh_agent.py": "4da4f11511b873f4e35179b8c719553c3f11ebf4238a565ec208ca603a7215ea",
+    "module_5/app/guardrails.py": "0c7fb9089b1ca6ff7d012700f5b3781b073fd9f6f33b71d04ebc3ff66397bde2",
+    "module_5/app/hydrate.py": "603276ac5c034c80a597c3dcf789ecf3b1d598ce2e0e8c604d5436e7ccc88faa",
+    "module_5/app/main.py": "862b2496742804111fecd4c42b6917d0e688abb35416025a1e4e74e4f05cdcb8",
+    "module_5/app/memory.py": "b5a1315244d498ad4403da1e6f23cc087d4f3e423865fa8fd988a61d21752312",
+    "module_5/app/memory_tools.py": "eacb8a99b9f844abc361892d946b78e29e3ccaa78d307d00e0065a4fa3878c33",
+    "module_5/app/reasoning.py": "90fcc1bccb884e5d72740dcaa1d1714669e24901f26f2645e169ffdde119f957",
+    "module_5/app/tools.py": "f82792de997d5691756fa2113c77b256236035e273155919a2c2286babcfbb55",
+    "module_5/workflows/__init__.py": "28e97782a54afeea1e4db8f57a9c753fccdecb713db6b56980aaaf88137675f1",
+    "module_5/workflows/check.py": "4ce77ccfc179ca3fa90307726ec4e3e5d002ff45cf0c7cef2f9d6523e7a610e0",
+    "module_5/workflows/distill.py": "277d70c3ec4484915e19342c78c1ccc967938cbdbe64a034ff1946eb5f2bbb0e",
+    "module_5/workflows/drift.py": "14f383b4929d71ca0646498b89cf015798a6e6e14d276077c25893b774de5979",
+    "module_5/workflows/seed.py": "8e5131fcf3a0b004089c1a5cb620b1acdafb970942392bc8edad5018f3fe6553",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/activate_ontology.py": "406dcb3b09a820db461e0e55d0826ad62d9b4472f6a9b4be33a29d97fa012373",
+    "scripts/capture_golden.py": "fd383581f2f7e129ebdd3675d8a8dbb2a90da193a6869ded628290e65048e34c",
+    "scripts/capture_screenshots.py": "c2d479da3e05772ddde867e71e7456db00567b38c4c17d29c16de93998bdfcef",
+    "scripts/change_policy.py": "5f5b49635b9f80ee2d1ade605dc05a7c5f82d87a3cb49afbf9bf978373778fe8",
+    "scripts/check_env.py": "8db5cdf69b14adad97cfa96ce759bcfc5c22aaa4c4096f01aa01e6b8ba42e03a",
+    "scripts/eval.py": "0b41aa7d8afe88ff2f3fee399a2b8be885ffb193162a91ec67128b6407a67a3b",
+    "scripts/fresh_agent.py": "6248adf1367fd3776ba125343ea8315f7819314e4665d7002101cb8a1288eaf5",
+    "scripts/instructor.py": "fdf6acfe25d7db512c8748014a3b270b57e9c2f24ddc7d1d18b36bb18eca9699",
+    "scripts/monday_memory.py": "d67736e9ea5d67160697473d8314116ff5ee38eef6e2ad8e6d2d34d5c1f0dd21",
+    "scripts/nams_check.py": "5cd64f61088ce8e4772d81f59c8dca44a8fc98b43ededd00080b9b84a0996515",
+    "scripts/nams_distill.py": "677b259044efb1b2748e07571d01e8fcd1daceda2606ae442a7b4428f71035fc",
+    "scripts/nams_drift.py": "b038d56832d5899406e62411eb712f35ecb8f65a4bf01cc27676b20d38ee0db6",
+    "scripts/reset_memory.py": "5449a9452f7a6f036e7ba039e417f1272d7f2c9583d60d28d419caffde3530e9",
+    "scripts/run_scenario.py": "7d1578debc53010bf23be4df5306139e2ba9ee81f7e1b492ec71ef8ae71b3004",
+    "scripts/seed_nams.py": "21c2a2b6228072bcb7166f141c94e280fc08fc271fdc6ac3677eeb1228d652e8",
+    "scripts/seed_sqlite.py": "d5389962540a666416ba3a59dd17a876699d8b2d8b70021424b00f36e2b260eb",
+    "scripts/spikes/spike_0_2_3_bolt_shapes.py": "3a11a7f48911b38322e9fdc02bc1c135f183c317fa408d71254394de2c687984",
+    "scripts/spikes/spike_0_4_reasoning.py": "f31dd32f072f8a9caff51d08c67384e77bfbec3370fc445cddb29868507b2630",
+    "scripts/spikes/spike_0_5_extraction.py": "e68fbe407d5aabb140381419f9fba12c8bf0120d4f1343491e6a8d6508c499a4",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/command_surface_spec.py": "f33f43454550605309364d4f1247635a26978b78bc85fb4932588aba51b5cae1",
+    "tests/test_action_claims.py": "b38dc5c35c13bd3ee7c9e8eaeea26d09d013157497ced7bc745ecf5a8e934d31",
+    "tests/test_behavioral.py": "2745e8bec564824a1f0b92545ae268e4f0bb4e00a32e23a0aa0eace09799b6bf",
+    "tests/test_command_surface.py": "5f9cd5b08a94af45d418d6b8999d6ade929593489c7a0946810826348f6b72df",
+    "tests/test_comparison_contract.py": "6dfef33329acf64ec3f38d10a76bcef1f59ef432673edacf38d07f4a12d95e9e",
+    "tests/test_context_contract.py": "c7652ae3227517c59871f46591df2d82ef8fa4fc5876b55339bf76b25699c406",
+    "tests/test_dev_launcher.py": "c48c7a0fe81001de82d222334d0c6044cb94711f3e9b15dd7524ebe64deb94e3",
+    "tests/test_enrichment_contract.py": "08da44a7b936cf5699f1ed5cb240c30165cbf788794c430b01f57a39f8b17b2a",
+    "tests/test_evaluation_contract.py": "e5910ac39178ff8483e020feda8a3586f0705122869796efa05e73b0d1ae0fef",
+    "tests/test_golden_format.py": "a4122e2e65847a4d6b4bb05d6ffbfa05845666d144be27d55d79c7f1d39bd714",
+    "tests/test_graph_transport.py": "538a92f3a7540a2a87fbf7b521b574bd38d44fc229a06360f50a8958b4b2001b",
+    "tests/test_hydration_types.py": "d3456c2923a1d9a9145bc092a816f2da61e3360eea8ee5472a7df00235d1e19e",
+    "tests/test_instructor_recipes.py": "c44f4844484829702d54e672c2fd06d755cd7dae0d87597cd6d6a0cd69b1c19a",
+    "tests/test_module_agents.py": "61289d064a83de42fca3f8a32bbad0769d0d8700fef2af7a12d98514d40f82d8",
+    "tests/test_nams_workflows.py": "de2076bd88968a9adcf30e9b50155f9f5877b34d4c90056a5c3855eceb4520ce",
+    "tests/test_refund_contract.py": "398ff5bca4fc04bd756cf0a3ed7a6c2b5f346087e5c7b59c392da97e88faacef",
+    "tests/test_seed.py": "ac09771048f852e3d7adb85fe4b465c24f44d0d95d4ed15233bbb9388a2401c3",
+    "tests/test_ui.py": "6cc27c7843968742d511eaac54aadd625146115fff748787fc7ed0e1c7aeadbf",
+    "tests/test_workshop_runners.py": "5b0a9d0a2d04516ab60a01c73b77f82da3231a39ea683360173726a1a3db3747"
+  },
+  "slide_issue_checker": {
     "errors": 0,
-    "warnings": 32,
-    "intentional_exceptions": "Template-native captions and source footers; 12.5pt monospaced code. No new raster narrative or code images."
+    "warnings": 29,
+    "warning_disposition": "Preserved and visually reviewed template captions, eyebrows and micro-labels."
+  },
+  "svg_hashes": {
+    "d02-three-memory-types.svg": "185c5aeafbfd25bcccc68714d3bb3231b3473f0d827403a5088bec2f8f93c30a",
+    "d03-workshop-arc.svg": "c5d5f105ead9923cc4254258beb43e7ce29433ce248660285e02ccbe6663980d",
+    "d04-environment-map.svg": "647222d1f4d9c9107d72484e6703fee0bddeea7d237121608f67c4b701ac16d3",
+    "d01-two-stores.svg": "76910d76c337b2225848e204b884aaabf2989046fa1e77ab8d12b079266427a4",
+    "d05-statelessness.svg": "ce42795ed4bcbe6011a0d3f712ded5a9ffa267532314d23e281271ec0dd67225",
+    "d06-message-chains.svg": "73f6d99c0c9d9db8c6ab4eda5bfa7e85de8a014ed59db57d50bfcc09246338ea",
+    "d07-context-assembly.svg": "5434aee13ab0703620adcb82fd57082c4cbce882a23f19586cd6b1d193d88e8c",
+    "d08-ontology-extraction.svg": "750066eb548b4b009e4e15ae9dcf34f1764656d26524f4061e2195de8124d28e",
+    "d09-default-custom-ontology.svg": "96599d769b0355164e1b0ce81df566d3b3eeed61a8c2badd3208a0986f61f2fd",
+    "d10-hybrid-pipeline.svg": "99fe06019d667864f2b35419c2dfaff9563b2b22d26b7d8816e082fcbacfdfb7",
+    "d11-entity-resolution.svg": "a48157f143232fbb07acc82357d749d900b01d96af4d9650c3044b5f942437fb",
+    "d12-trace-anatomy.svg": "0f7bc28bd27a60dc6148178cb6d404e0e6275aed8a6c5de2fe2544cfccdabd42",
+    "d13-similar-task-retrieval.svg": "e23e7bf3232d33261fbfa166f4c815ce2977f6b311a1d3f1d737319fe91c7e4b",
+    "d14-skill-distillation.svg": "bf514e023273021332f8b8a1dcf4554339cb84fefed9328be7d5f051d3332b92",
+    "d15-governance-loop.svg": "798e29862536ab8152a1a90fd0adac43c13d309d97a059b15b9424a70e0782a9",
+    "d16-connected-memory.svg": "f2771a961a84d3103a2add15ff5a61967a06fe5f148061ae39af3480f07ff386",
+    "d18-bolt-vs-nams.svg": "4146abda95067f337a23feb9dee6ae68252d7f54ead52963c669914c202504de"
+  },
+  "subsequent_resource_update": {
+    "revision_id": "qG5M17j8fBPgPg",
+    "native_slide_count": 90,
+    "record": "slides/resources-verification.json",
+    "all14_code_excerpts_unchanged": true,
+    "all_original_diagram_elements_unchanged": true
+  },
+  "subsequent_module5_update": {
+    "checked_at": "2026-11-04",
+    "revision_id": "MFho-EresCn7HA",
+    "native_slide_count": 102,
+    "module5_slide_count": 22,
+    "record": "docs/deck-module5-2026-11-04.md",
+    "verification": "slides/module5-verification.json"
   }
 }

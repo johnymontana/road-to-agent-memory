@@ -1,56 +1,88 @@
 #!/usr/bin/env python3
-"""make nams-drift — the drift beat (module 5, decision D4).
+"""make nams-drift: delete the memory a skill is grounded in and watch it go stale.
 
-Deletes the refund-policy entity from the workspace memory. The distilled
-skill's GROUNDED_IN claims lose their source nodes, and governance flags the
-skill as stale. Contrast with `make policy-change` (SQLite), which governance
-cannot see — it watches the memory graph, not the system of record.
+The downloaded provenance.json lists the memory nodes every claim and step of the
+skill is grounded in. This deletes the refund-policy entities among them, then
+asks NAMS for the skill's drift report: the claims and steps that lost a source.
+
+Contrast with `make policy-change`, which edits SQLite. Governance cannot see that:
+it watches the memory graph, not the system of record.
 """
 
 from __future__ import annotations
 
 import asyncio
+import json
 import sys
+from collections import Counter
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from module_5.workflows.nams import SKILL_DIR, call, client, read_json  # noqa: E402
+
+# Entities whose name contains this are the refund policy the procedure relies on.
+TARGET_HINT = "policy"
+
+
+def grounding(provenance: dict) -> Counter:
+    """How many claims and steps cite each grounding node."""
+    return Counter(
+        node for item in provenance["claims"] + provenance["steps"] for node in item["groundedIn"]
+    )
+
+
+async def grounding_entities(http, node_ids) -> list[dict]:
+    """The grounding nodes that are entities (others are messages, steps, …)."""
+
+    async def fetch(node_id):
+        response = await http.get(f"/v1/entities/{node_id}")
+        return response.json() if response.status_code == 200 else None
+
+    found = await asyncio.gather(*(fetch(node_id) for node_id in node_ids))
+    return [entity for entity in found if entity]
 
 
 async def main() -> None:
-    import httpx
-
     from lib.settings import get_settings
 
-    s = get_settings()
-    headers = {"Authorization": f"Bearer {s.nams_api_key}"}
-    async with httpx.AsyncClient(base_url=s.nams_base_url, headers=headers, timeout=30.0) as http:
-        # Find the policy/plan entity whose facts ground the refund skill.
-        resp = await http.post("/v1/entities/search", json={"query": "Pro plan refund limit"})
-        resp.raise_for_status()
-        entities = resp.json().get("entities", [])
-        if not entities:
-            print("No policy entity found — run make nams-seed first.")
-            sys.exit(1)
-        target = entities[0]
-        print(f"Deleting grounding entity: {target.get('name')} ({target.get('type')})")
-        resp = await http.delete(f"/v1/entities/{target['id']}")
-        resp.raise_for_status()
+    skill_id = read_json(SKILL_DIR / "skill.json").get("skillId")
+    provenance = read_json(SKILL_DIR / "provenance.json")
+    if not skill_id or not provenance:
+        sys.exit("No distilled skill found. Run make nams-seed and make nams-distill first.")
+    cited = grounding(provenance)
+
+    async with client(get_settings()) as http:
+        entities = await grounding_entities(http, list(cited))
+        targets = [e for e in entities if TARGET_HINT in e["name"].lower()]
+        if not targets and entities:  # Otherwise, the most-cited grounding entity.
+            targets = [max(entities, key=lambda e: cited[e["id"]])]
+        if not targets:
+            sys.exit("The skill's grounding entities are already gone. Run make nams-redistill.")
+
+        for entity in targets:
+            await call(http, "DELETE", f"/v1/entities/{entity['id']}")
+            print(f"Deleted grounding entity: {entity['name']} ({entity['type']})")
 
         print("\nChecking skill drift…")
-        skill_response = await http.get("/v1/skills")
-        skill_response.raise_for_status()
-        skills = skill_response.json().get("skills", [])
-        for skill in skills:
-            drift = await http.get(f"/v1/skills/{skill['id']}/drift")
-            if drift.status_code != 200:
-                continue
-            report = drift.json()
-            flagged = report.get("flagged_claims") or report.get("claims") or []
-            print(f"  skill '{skill.get('name')}': {len(flagged)} claim(s) lost grounding")
-            for claim in flagged[:5]:
-                print(f"    ⚠️  {claim}")
-        print("\nThe skill is stale — its grounding was deleted. Next: make nams-redistill")
+        report = await call(http, "GET", f"/v1/skills/{skill_id}/drift")
+
+    claims = {c["claimId"]: c["text"] for c in provenance["claims"]}
+    steps = {s["id"]: s["name"] for s in provenance["steps"]}
+    stale_claims = report.get("staleClaims") or []
+    stale_steps = report.get("staleSteps") or []
+    print(
+        f"  status: {report['status']} · {len(stale_claims)}/{report['totalClaims']} claims "
+        f"and {len(stale_steps)}/{report['totalSteps']} steps lost a source"
+    )
+    for claim in stale_claims:
+        print(f"    ⚠️  claim: {claims.get(claim['claimId'], claim['claimId'])}")
+    for step in stale_steps:
+        print(f"    ⚠️  step:  {steps.get(step['stepId'], step['stepId'])}")
+    if report["status"] == "drifted":
+        print("\nThe skill is stale: its grounding was deleted. Next: make nams-redistill")
+    else:
+        print("\nNo drift reported:", json.dumps(report)[:200])
 
 
 if __name__ == "__main__":

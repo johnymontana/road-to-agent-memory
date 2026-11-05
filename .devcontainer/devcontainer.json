@@ -8,7 +8,7 @@
   "build": { "dockerfile": "Dockerfile" },
 
   "features": {
-    "ghcr.io/devcontainers/features/node:1": { "version": "lts" }
+    "ghcr.io/devcontainers/features/node:1": { "version": "22" }
   },
 
   // Default attendees to a 4-core / 8 GB machine (vs. the 2-core default) —
@@ -32,8 +32,9 @@
 
   // Non-secret defaults. Secrets NEVER live here — attendees provide keys via
   // their personal Codespaces secrets (OPENAI_API_KEY, repo-scoped) or .env.
+  // NEO4J_DATABASE is deliberately not set: env vars override .env, and newer AuraDB
+  // instances name their database after the instance ID (settings detect it).
   "containerEnv": {
-    "NEO4J_DATABASE": "neo4j",
     "UV_LINK_MODE": "copy"
   },
 

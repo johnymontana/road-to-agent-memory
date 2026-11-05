@@ -3,9 +3,10 @@
 reasoning memory (module 5). Pre-seeded snapshot approach (decision D2).
 
 Writes in realistic agent-loop order: entities → conversation → messages →
-reasoning traces (steps + tool calls with JSON-string payloads). Entity upserts
-may merge; conversations and traces are newly seeded on each run.
-Live NAMS verification is tracked separately in docs/verification-log.md.
+reasoning traces (steps + tool calls with JSON-string payloads) → trace completion.
+Entity upserts may merge; conversations and traces are newly seeded on each run.
+The seeded conversation ID is saved for `make nams-distill`, which distills from
+exactly this history.
 """
 
 from __future__ import annotations
@@ -15,8 +16,7 @@ import json
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 ENTITIES = [
     {
@@ -60,6 +60,7 @@ MESSAGES = [
 TRACES = [
     {
         "task": "Refund duplicate $49 Acme Cloud Compute charge for Maya Chen",
+        "outcome": "Refund issued: duplicate $49 charge, within the Pro no-approval limit.",
         "steps": [
             {
                 "reasoning": "Identify the customer and plan before touching money.",
@@ -99,6 +100,7 @@ TRACES = [
     },
     {
         "task": "Refund duplicate $49 Acme Cloud Compute charge (repeat, one week later)",
+        "outcome": "Refund issued: same duplicate-charge procedure as last week.",
         "steps": [
             {
                 "reasoning": "Same shape as last week: verify account first.",
@@ -140,62 +142,59 @@ TRACES = [
 
 
 async def main() -> None:
-    import httpx
-
     from lib.settings import get_settings
+    from module_5.workflows.nams import call, client, seed_state_path, write_json
 
-    s = get_settings()
-    if not s.nams_api_key:
-        print("NAMS_API_KEY not set — run make nams-check first.")
-        sys.exit(1)
-    headers = {"Authorization": f"Bearer {s.nams_api_key}"}
-    async with httpx.AsyncClient(base_url=s.nams_base_url, headers=headers, timeout=30.0) as http:
+    settings = get_settings()
+    async with client(settings) as http:
         print("Seeding entities…")
         entity_ids: dict[str, str] = {}
-        for ent in ENTITIES:
-            resp = await http.post("/v1/entities", json=ent)
-            resp.raise_for_status()
-            body = resp.json()
-            entity_ids[ent["name"]] = body.get("id") or body.get("merged_into")
+        for entity in ENTITIES:
+            body = await call(http, "POST", "/v1/entities", entity)
+            # 201 creates it; 200 means it resolved onto an existing entity.
+            entity_ids[entity["name"]] = body.get("id") or body.get("merged_into")
 
         print("Creating conversation + messages…")
-        resp = await http.post("/v1/conversations", json={"userId": "maya.chen"})
-        resp.raise_for_status()
-        conv_id = resp.json()["id"]
-        resp = await http.post(
-            f"/v1/conversations/{conv_id}/messages/bulk", json={"messages": MESSAGES}
+        conversation = await call(http, "POST", "/v1/conversations", {"userId": "maya.chen"})
+        conv_id = conversation["id"]
+        added = await call(
+            http, "POST", f"/v1/conversations/{conv_id}/messages/bulk", {"messages": MESSAGES}
         )
-        resp.raise_for_status()
+        first_message_id = added["messages"][0]["id"]
 
         print("Writing reasoning traces (steps + tool calls, agent-loop order)…")
+        trace_ids = []
         for trace in TRACES:
-            resp = await http.post(
+            started = await call(
+                http,
+                "POST",
                 "/v1/reasoning/traces",
-                json={
+                {
                     "conversationId": conv_id,
                     "task": trace["task"],
+                    "triggeredByMessageId": first_message_id,
                 },
             )
-            resp.raise_for_status()
-            trace_id = resp.json()["id"]
+            trace_id = started["id"]
             for step in trace["steps"]:
-                resp = await http.post(
+                recorded = await call(
+                    http,
+                    "POST",
                     "/v1/reasoning/steps",
-                    json={
+                    {
                         "traceId": trace_id,
-                        "conversationId": conv_id,
                         "reasoning": step["reasoning"],
                         "actionTaken": step["actionTaken"],
                         "result": step["result"],
                     },
                 )
-                resp.raise_for_status()
-                step_id = resp.json()["id"]
                 tool = step["tool"]
-                resp = await http.post(
+                await call(
+                    http,
+                    "POST",
                     "/v1/reasoning/tool-calls",
-                    json={
-                        "stepId": step_id,
+                    {
+                        "stepId": recorded["id"],
                         "toolName": tool["toolName"],
                         # NAMS expects input/output as JSON-encoded STRINGS
                         "input": json.dumps(tool["input"]),
@@ -204,12 +203,24 @@ async def main() -> None:
                         "touchedEntityIds": [entity_ids["Maya Chen"]],
                     },
                 )
-                resp.raise_for_status()
+            # A completed, successful trace is what distillation learns a procedure from.
+            await call(
+                http,
+                "POST",
+                f"/v1/reasoning/traces/{trace_id}/complete",
+                {
+                    "outcome": trace["outcome"],
+                    "success": True,
+                    "relatedEntityIds": [entity_ids["Maya Chen"]],
+                },
+            )
+            trace_ids.append(trace_id)
 
-        print(
-            f"Done. Conversation {conv_id}, {len(TRACES)} traces, "
-            f"{len(ENTITIES)} entities. Next: make nams-distill"
-        )
+    write_json(seed_state_path(settings), {"conversationId": conv_id, "traceIds": trace_ids})
+    print(
+        f"Done. Conversation {conv_id}, {len(TRACES)} completed traces, "
+        f"{len(ENTITIES)} entities. Next: make nams-distill"
+    )
 
 
 if __name__ == "__main__":

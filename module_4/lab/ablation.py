@@ -1,4 +1,8 @@
-"""Frozen, verified policy execution used by both independent measurement branches."""
+"""Ablation corpus for `make s4-refund-repeat`: one fixed, rejected refund trace.
+
+Both branches (retrieval off / on) read this same corpus, so the only difference
+between them is whether the agent retrieves past executions.
+"""
 
 import json
 
@@ -6,7 +10,7 @@ from neo4j_agent_memory.schema.models import TraceOutcome
 
 from lib import db as dbx
 
-from .memory import open_memory
+from ..app.memory import open_memory
 
 
 async def seed_corpus(settings, namespace):

@@ -1,4 +1,8 @@
-"""Module 2's explicit Bolt memory configuration. Read alongside agent.py."""
+"""Open the neo4j-agent-memory client for module 2: Bolt backend, no extraction yet.
+
+Messages are stored and embedded. Entity extraction stays off (`extractor_type=
+"none"`) until module 3, so this module shows short-term memory on its own.
+"""
 
 from __future__ import annotations
 

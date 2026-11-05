@@ -1,0 +1,67 @@
+{
+  "updated": "2026-11-04",
+  "presentation_id": "1qBsciAQf7s3BUdQleJJ39-4RDKAoqqoVfodPDDg63z8",
+  "revision_id": "DDts8zxWoZw1ng",
+  "slide_count": 75,
+  "source_design_record": "slides/visual-design.json",
+  "review_record": "docs/deck-code-sync-2026-11-04.md",
+  "native_slide_order_ids_and_layouts_preserved": true,
+  "native_circular_graph_nodes": 45,
+  "diagram_compositions": 17,
+  "current_code_synchronized": true,
+  "presenter_notes_updated": 75,
+  "code_walkthroughs_validated": 14,
+  "visual_qa": {
+    "delivered_slides_inspected": 75,
+    "code_slides_inspected_at_large_size": 14,
+    "consolidated_repair_passes": 1,
+    "repaired_slides_reinspected": 7,
+    "method": "Connector LARGE previews. Reused unchanged source previews from prior verified revision; prior PDF helper failed materialization."
+  },
+  "slide_issue_checker": {
+    "errors": 0,
+    "warnings": 29,
+    "warning_disposition": "Preserved and visually reviewed template captions, eyebrows and micro-labels."
+  },
+  "svg_mirrors": {
+    "d02-three-memory-types.svg": "185c5aeafbfd25bcccc68714d3bb3231b3473f0d827403a5088bec2f8f93c30a",
+    "d03-workshop-arc.svg": "c5d5f105ead9923cc4254258beb43e7ce29433ce248660285e02ccbe6663980d",
+    "d04-environment-map.svg": "647222d1f4d9c9107d72484e6703fee0bddeea7d237121608f67c4b701ac16d3",
+    "d01-two-stores.svg": "76910d76c337b2225848e204b884aaabf2989046fa1e77ab8d12b079266427a4",
+    "d05-statelessness.svg": "ce42795ed4bcbe6011a0d3f712ded5a9ffa267532314d23e281271ec0dd67225",
+    "d06-message-chains.svg": "73f6d99c0c9d9db8c6ab4eda5bfa7e85de8a014ed59db57d50bfcc09246338ea",
+    "d07-context-assembly.svg": "5434aee13ab0703620adcb82fd57082c4cbce882a23f19586cd6b1d193d88e8c",
+    "d08-ontology-extraction.svg": "750066eb548b4b009e4e15ae9dcf34f1764656d26524f4061e2195de8124d28e",
+    "d09-default-custom-ontology.svg": "96599d769b0355164e1b0ce81df566d3b3eeed61a8c2badd3208a0986f61f2fd",
+    "d10-hybrid-pipeline.svg": "99fe06019d667864f2b35419c2dfaff9563b2b22d26b7d8816e082fcbacfdfb7",
+    "d11-entity-resolution.svg": "a48157f143232fbb07acc82357d749d900b01d96af4d9650c3044b5f942437fb",
+    "d12-trace-anatomy.svg": "0f7bc28bd27a60dc6148178cb6d404e0e6275aed8a6c5de2fe2544cfccdabd42",
+    "d13-similar-task-retrieval.svg": "e23e7bf3232d33261fbfa166f4c815ce2977f6b311a1d3f1d737319fe91c7e4b",
+    "d14-skill-distillation.svg": "bf514e023273021332f8b8a1dcf4554339cb84fefed9328be7d5f051d3332b92",
+    "d15-governance-loop.svg": "798e29862536ab8152a1a90fd0adac43c13d309d97a059b15b9424a70e0782a9",
+    "d16-connected-memory.svg": "f2771a961a84d3103a2add15ff5a61967a06fe5f148061ae39af3480f07ff386",
+    "d18-bolt-vs-nams.svg": "4146abda95067f337a23feb9dee6ae68252d7f54ead52963c669914c202504de"
+  },
+  "offline_workshop_tests": {
+    "passed": 139,
+    "skipped": 1,
+    "deselected": 4,
+    "warning": "Existing SDK Pydantic class-based config deprecation"
+  },
+  "scope": "Presentation and source artifacts only. Application code preserved; no OpenAI, Neo4j, Wikimedia or NAMS live rehearsal.",
+  "subsequent_resource_update": {
+    "revision_id": "qG5M17j8fBPgPg",
+    "native_slide_count": 90,
+    "record": "slides/resources-verification.json",
+    "all14_code_excerpts_unchanged": true,
+    "all_original_diagram_elements_unchanged": true
+  },
+  "subsequent_module5_update": {
+    "checked_at": "2026-11-04",
+    "revision_id": "MFho-EresCn7HA",
+    "native_slide_count": 102,
+    "module5_slide_count": 22,
+    "record": "docs/deck-module5-2026-11-04.md",
+    "verification": "slides/module5-verification.json"
+  }
+}

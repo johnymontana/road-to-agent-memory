@@ -34,8 +34,10 @@ make eval MODULE=2
 ```
 
 The local `context.py` fetches the newest ten prior messages, reorders them
-chronologically, and searches prior user statements within the selected namespace.
-It excludes the current message and repeated question text. Evidence records identify
+chronologically and passes them to PydanticAI as `message_history`, so the model
+sees real prior turns. It also searches prior user statements within the selected
+namespace and adds them to the instructions as cited evidence. It excludes the
+current message and repeated question text. Evidence records identify
 `recent_conversation` and `semantic_message`; vectors are omitted from the browser.
 Bolt does not provide hosted observations/reflections in this lesson.
 

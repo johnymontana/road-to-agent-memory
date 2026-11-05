@@ -62,6 +62,7 @@ class Memory:
             search_entities=AsyncMock(return_value=[]),
             search_preferences=AsyncMock(return_value=[]),
             add_preference=AsyncMock(),
+            get_preferences_for=AsyncMock(return_value=[]),
             add_entity=AsyncMock(
                 return_value=(SimpleNamespace(id="00000000-0000-0000-0000-000000000001"), None)
             ),
@@ -142,11 +143,18 @@ async def test_short_term_survives_a_new_agent_with_the_same_conversation(settin
         model, _ = responder()
         with first.agent.override(model=model):
             await first.chat("Remember Maya and the duplicate charge", "same-session")
+    sent = []
+
+    def answer(messages, info):
+        sent.extend(messages)
+        return ModelResponse(parts=[TextPart("Support response")])
+
     async with open_agent(2, settings) as second:
-        model, seen = responder()
-        with second.agent.override(model=model):
+        with second.agent.override(model=FunctionModel(answer)):
             await second.chat("What did we discuss?", "same-session")
-        assert "Remember Maya and the duplicate charge" in seen[0].instructions
+    # The earlier turns reach the model as PydanticAI message history, not prompt text.
+    prior = [part.content for message in sent[:-1] for part in message.parts]
+    assert prior == ["Remember Maya and the duplicate charge", "Support response"]
 
 
 @pytest.mark.parametrize("number", [3, 4, 5])
@@ -161,15 +169,17 @@ async def test_hydration_uses_sqlite_facts_and_updates_existing_entity(
         {"name": "Pro", "type": "OBJECT", "subtype": "PLAN"},
         {"name": "Invented Person", "type": "PERSON"},
     ]
-    writes = AsyncMock()
-    monkeypatch.setattr(hydration, "_apply_flat_attributes", writes)
-    names = await hydration.hydrate_session_entities(memory, "session", settings.db_path, settings)
+    writer = SimpleNamespace(set_properties=AsyncMock())
+    writes = writer.set_properties
+    names = await hydration.hydrate_session_entities(
+        memory, "session", settings.db_path, writer=writer
+    )
     assert names == ["Maya Chen", "Pro"]
-    properties = writes.await_args_list[0].args[3]
+    properties = writes.await_args_list[0].args[2]
     assert properties["email"] == "maya.chen@northwind.example"
     assert properties["signup_date"] == "2025-03-14"
     assert properties["hydrated_from"] == "sqlite:customers"
-    assert writes.await_args_list[1].args[3]["refund_limit"] == 250
+    assert writes.await_args_list[1].args[2]["refund_limit"] == 250
     assert all(
         call.kwargs["resolve"] is False for call in memory.long_term.add_entity.await_args_list
     )
@@ -182,8 +192,8 @@ async def test_hydration_uses_sqlite_facts_and_updates_existing_entity(
             "WHERE name='Maya Chen'"
         )
         conn.commit()
-    await hydration.hydrate_session_entities(memory, "session", settings.db_path, settings)
-    assert writes.await_args_list[2].args[3]["plan"] == "Enterprise"
+    await hydration.hydrate_session_entities(memory, "session", settings.db_path, writer=writer)
+    assert writes.await_args_list[2].args[2]["plan"] == "Enterprise"
 
 
 @pytest.mark.parametrize("number", [3, 4, 5])
@@ -196,19 +206,19 @@ async def test_hydration_uses_resolved_aliases_without_renaming_nodes(
     memory.query.cypher.return_value = [
         {"name": "Maya", "type": "PERSON", "subtype": "CUSTOMER", "aliases": ["Maya Chen"]},
     ]
-    writes = AsyncMock()
-    monkeypatch.setattr(hydration, "_apply_flat_attributes", writes)
+    writer = SimpleNamespace(set_properties=AsyncMock())
+    writes = writer.set_properties
     assert await hydration.hydrate_session_entities(
-        memory, "session", settings.db_path, settings
+        memory, "session", settings.db_path, writer=writer
     ) == ["Maya"]
-    assert writes.call_args.args[1:3] == ("Maya", "PERSON")
-    assert writes.call_args.args[3]["email"] == "maya.chen@northwind.example"
+    assert writes.call_args.args[0:2] == ("Maya", "PERSON")
+    assert writes.call_args.args[2]["email"] == "maya.chen@northwind.example"
     assert memory.long_term.add_entity.call_args.args[0] == "Maya"
     # Conflicting exact aliases must not silently choose a customer's facts.
     memory.query.cypher.return_value[0]["aliases"].append("Ravi Shah")
     writes.reset_mock()
     assert (
-        await hydration.hydrate_session_entities(memory, "session", settings.db_path, settings)
+        await hydration.hydrate_session_entities(memory, "session", settings.db_path, writer=writer)
         == []
     )
     writes.assert_not_called()
@@ -224,10 +234,10 @@ async def test_external_organizations_do_not_trigger_background_enrichment(
     memory.query.cypher.return_value = [
         {"name": "Stripe", "type": "ORGANIZATION", "subtype": "COMPANY"},
     ]
-    writes = AsyncMock()
-    monkeypatch.setattr(hydration, "_apply_flat_attributes", writes)
+    writer = SimpleNamespace(set_properties=AsyncMock())
+    writes = writer.set_properties
     hydrated = await hydration.hydrate_session_entities(
-        memory, "session", settings.db_path, settings
+        memory, "session", settings.db_path, writer=writer
     )
     assert hydrated == []  # External data is not a SQLite-grounded fact.
     writes.assert_not_called()
@@ -248,6 +258,39 @@ async def test_ablation_disables_both_paths_to_reasoning_but_still_records(
     memory.reasoning.start_trace.assert_awaited_once()
     assert "Past execution examples" not in seen[0].instructions
     assert not any(e["path"] == "reasoning_trace" for e in reply["context"]["evidence"])
+
+
+@pytest.mark.parametrize("number", [4, 5])
+async def test_reasoning_retrieval_failure_degrades_instead_of_failing(
+    number, settings, monkeypatch
+):
+    memory = Memory()
+    implementation = install_memory(monkeypatch, number, memory)
+    monkeypatch.setattr(
+        implementation, "similar_executions", AsyncMock(side_effect=RuntimeError("index"))
+    )
+    async with open_agent(number, settings) as chat:
+        model, _ = responder()
+        with chat.agent.override(model=model):
+            reply = await chat.chat("Have you handled this?", "degraded")
+    assert reply["execution_status"] == "succeeded"
+    assert reply["status"] == "degraded"
+    assert {"phase": "reasoning_retrieval", "error": "RuntimeError"} in reply["warnings"]
+    memory.reasoning.complete_trace.assert_awaited_once()
+
+
+@pytest.mark.parametrize("number", [3, 4, 5])
+async def test_preferences_are_read_through_the_library_user_lookup(number, settings):
+    context = importlib.import_module(f"module_{number}.app.context")
+    memory = Memory()
+    memory.long_term.get_preferences_for.return_value = [
+        SimpleNamespace(id="p1", preference="Email only", context=None, category="x:contact")
+    ]
+    rows = await context.search_preferences(memory, "maya@example.test", "workshop")
+    memory.long_term.get_preferences_for.assert_awaited_once_with("workshop:maya@example.test")
+    assert rows[0]["preference"] == "Email only"
+    assert rows[0]["path"] == "customer_preference"
+    assert await context.search_preferences(memory, None, "workshop") == []
 
 
 @pytest.mark.parametrize("number", [2, 3, 4, 5])
@@ -480,3 +523,14 @@ def test_http_nonfinite_refund_rejection_remains_json_safe(amount, settings, mon
 
     with connect(settings.db_path) as db:
         assert db.execute("SELECT count(*) FROM refunds").fetchone()[0] == 0
+
+
+@pytest.mark.parametrize("number", [4, 5])
+async def test_reasoning_retrieval_ignores_open_traces_including_this_turn(number):
+    reasoning = importlib.import_module(f"module_{number}.app.reasoning")
+    memory = Memory()
+    embedder = SimpleNamespace(embed=AsyncMock(return_value=[0.1] * 3))
+    await reasoning.similar_executions(memory, "Refund $49", embedder, "workshop")
+    query, _ = memory.query.cypher.call_args.args
+    # This turn's trace is opened before retrieval; it must never match itself.
+    assert "t.completed_at IS NOT NULL" in query

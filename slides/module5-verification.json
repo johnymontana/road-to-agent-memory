@@ -1,0 +1,106 @@
+{
+  "checked_at": "2026-11-04",
+  "presentation_id": "1qBsciAQf7s3BUdQleJJ39-4RDKAoqqoVfodPDDg63z8",
+  "source_revision": "qG5M17j8fBPgPg",
+  "revision_id": "MFho-EresCn7HA",
+  "record": "docs/deck-module5-2026-11-04.md",
+  "native_slide_count": 102,
+  "module5_slide_count": 22,
+  "module5_native_positions": [
+    60,
+    81
+  ],
+  "new_native_slides": [
+    "ram_m5_concepts",
+    "ram_m5_pipeline",
+    "ram_m5_signup",
+    "ram_m5_key",
+    "ram_m5_connect",
+    "ram_m5_seed",
+    "ram_m5_package",
+    "ram_m5_evaluate",
+    "ram_code_m5_seed_complete",
+    "ram_code_m5_publish",
+    "ram_code_m5_drift",
+    "ram_m5_governance_demo"
+  ],
+  "slide_order_verified": true,
+  "original_90_slide_ids_preserved": true,
+  "expected_text_fields_verified": 214,
+  "updated_speaker_notes_verified": 32,
+  "native_code_panels_verified": 17,
+  "module5_code_panels": 5,
+  "unchanged_existing_code_panels": 13,
+  "code_syntax_size_and_source_mirror_verified": true,
+  "native_editable_additions_only": true,
+  "versioned_skill_graph_circular_nodes": 7,
+  "planned_reference_links_verified": 44,
+  "all_internal_link_targets_verified": true,
+  "instructional_native_slides_with_references": 87,
+  "unique_catalog_resources_in_appendix": 49,
+  "source_artifacts": {
+    "marp_sections": 87,
+    "instructional_sections": 72,
+    "module5_sections": 22,
+    "resource_sections": 15,
+    "inline_reference_links": 162,
+    "diagram_svg_mirrors": 18,
+    "browser_overflow_sections": 0,
+    "marp_build": "passed"
+  },
+  "visual_qa": {
+    "native_slides_reviewed": 102,
+    "method": "Google Slides LARGE thumbnails; contact sheets for all slides and detailed Module 5/code/diagram review.",
+    "pdf_export": "Unavailable: the Google Drive PDF file reference could not be materialized. Native thumbnails used.",
+    "consolidated_repair_passes": 2,
+    "repairs": [
+      "Setup panel URL and all terminal commands fit at 13 pt.",
+      "Resource card title/body/domain formatting restored."
+    ],
+    "final_repair_previews_verified": true,
+    "unresolved_visual_defects": 0
+  },
+  "structural_issue_checker": {
+    "output_revision": "2kWABZxNLmXedA",
+    "errors": 0,
+    "warnings": 84,
+    "warning_review": "83 template source captions or diagram micro-labels; one intentional process arrow. No substantive narrative overflow."
+  },
+  "offline_tests": {
+    "command": "uv run pytest tests/ -m 'not behavioral' -q",
+    "passed": 141,
+    "skipped": 1,
+    "deselected": 4,
+    "warnings": 1,
+    "warning_detail": "Upstream Pydantic class-based configuration deprecation."
+  },
+  "onboarding_verification": {
+    "public_signin_and_signup": "inspected",
+    "public_docs_and_openapi": "verified",
+    "authenticated_key_creation": "not performed",
+    "credentials_accessed": false
+  },
+  "live_service_rehearsal": false,
+  "scope": "Deck and source documentation only; no application code or hosted workspace state changed by this update.",
+  "native_readback_sha256": "48699fbdcf122e99687b0d0a56fdd89c9a92c47c03960590f6d83e76b58d1c79",
+  "module5_source_sha256": {
+    "module_5/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "module_5/app/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "module_5/app/agent.py": "89fd208600a4f49982de6ff752c494a6820674ffb86a07a0cebc71a39ce527a3",
+    "module_5/app/context.py": "b8415ad4c67d08c0942937ff66ee1e3f5ea704ca24550e9c544979551596e1c3",
+    "module_5/app/fresh_agent.py": "4da4f11511b873f4e35179b8c719553c3f11ebf4238a565ec208ca603a7215ea",
+    "module_5/app/guardrails.py": "0c7fb9089b1ca6ff7d012700f5b3781b073fd9f6f33b71d04ebc3ff66397bde2",
+    "module_5/app/hydrate.py": "603276ac5c034c80a597c3dcf789ecf3b1d598ce2e0e8c604d5436e7ccc88faa",
+    "module_5/app/main.py": "862b2496742804111fecd4c42b6917d0e688abb35416025a1e4e74e4f05cdcb8",
+    "module_5/app/memory.py": "b5a1315244d498ad4403da1e6f23cc087d4f3e423865fa8fd988a61d21752312",
+    "module_5/app/memory_tools.py": "eacb8a99b9f844abc361892d946b78e29e3ccaa78d307d00e0065a4fa3878c33",
+    "module_5/app/reasoning.py": "90fcc1bccb884e5d72740dcaa1d1714669e24901f26f2645e169ffdde119f957",
+    "module_5/app/tools.py": "f82792de997d5691756fa2113c77b256236035e273155919a2c2286babcfbb55",
+    "module_5/workflows/__init__.py": "28e97782a54afeea1e4db8f57a9c753fccdecb713db6b56980aaaf88137675f1",
+    "module_5/workflows/check.py": "353067c1f346450d1be21a10c3249c4ef98df55f16c621acb8834a26a3533cd3",
+    "module_5/workflows/distill.py": "f1a97f15665ea2eb0bc2cf357b2850721eba27cbf7bf768f1e202fb9c2d5245f",
+    "module_5/workflows/drift.py": "0292d621aa4178c316c7b223644695e9284f9fbe5f4e6e98e766a3c00e706297",
+    "module_5/workflows/nams.py": "c010fd029445f85caa435c323f44d2de6377d4f4abf1126d29221fd54d4adfd3",
+    "module_5/workflows/seed.py": "09f269e62766b25387a48e736e769abb009dedb7e2e3e467c44ffdb1b6bd7fb4"
+  }
+}

@@ -17,6 +17,16 @@ export default function EvalScorecard({ open, onClose, module }) {
     } catch (e) { setError(e.message) }
     finally { setStarting(false) }
   }
+  // Without a run started in this browser, show the latest saved run for this module,
+  // e.g. one from `make eval MODULE=N`. Listing reads files only; it starts nothing.
+  useEffect(() => {
+    if (!open || id) return
+    let cancelled = false
+    fetch('/api/eval').then(r => r.json())
+      .then(d => { const latest = (d.runs ?? []).find(r => r.module === module); if (!cancelled && latest) setId(latest.id) })
+      .catch(() => {})
+    return () => { cancelled = true }
+  }, [open, id, module])
   useEffect(() => {
     if (!open || !id) return
     let cancelled = false, timer

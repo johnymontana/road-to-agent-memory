@@ -61,17 +61,9 @@ async def plan_demo():
             node = nodes.setdefault((name, etype), {"id": "local-maya"})
             node["description"] = kwargs["description"]
 
-        async def execute_write(self, operation):
-            return await operation(self)
-
-        async def run(self, query, parameters):
-            assert "SET e += $attributes" in query
-            nodes[(parameters["name"], parameters["type"])].update(parameters["attributes"])
-            writes.append(dict(parameters["attributes"]))
-            return self
-
-        async def consume(self):
-            return None
+        async def set_properties(self, name, etype, attributes):
+            nodes[(name, etype)].update(attributes)
+            writes.append(dict(attributes))
 
     adapter = LocalFixture()
     memory = SimpleNamespace(query=adapter, long_term=adapter)
@@ -84,7 +76,7 @@ async def plan_demo():
 
         async def snapshot(expected):
             names = await hydrate_session_entities(
-                memory, "local-fixture", path, settings, message_id="local-message", writer=adapter
+                memory, "local-fixture", path, message_id="local-message", writer=adapter
             )
             assert names == ["Maya Chen"] and len(nodes) == 1
             node = nodes[("Maya Chen", "PERSON")]

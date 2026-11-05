@@ -1,4 +1,10 @@
-"""Module 5's explicit Bolt memory configuration. Read alongside agent.py."""
+"""Open the neo4j-agent-memory client: Bolt backend + LLM entity extraction.
+
+New in module 3 and unchanged afterwards: `extractor_type="llm"` extracts
+entities from each saved user message, typed by an ontology (ontology/*.yaml).
+`ONTOLOGY` selects acme_cloud (default), default-poleo, or `active` (the version
+stored in AuraDB).
+"""
 
 from __future__ import annotations
 
@@ -52,6 +58,6 @@ async def open_memory(settings: AppSettings, *, ontology: str | None = None):
         if selection == "active"
         else str(ONTOLOGY_DIR / f"{selection}.yaml")
     )
-    print(f"Module 5 ontology source: {source}; validation={settings.validation_mode}", flush=True)
+    print(f"Ontology source: {source}; validation={settings.validation_mode}", flush=True)
     async with MemoryClient(build_settings(settings), ontology=document) as memory:
         yield memory

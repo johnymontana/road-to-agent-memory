@@ -8,6 +8,7 @@ the render artifacts the deck references.
 
 from __future__ import annotations
 
+import runpy
 from pathlib import Path
 
 OUT = Path(__file__).resolve().parent
@@ -158,7 +159,7 @@ s.box(500, 290, 200, 90, "NAMS\n(hosted memory)", "labs", sub="module 5 · nams_
 s.arrow(360, 150, 500, 125, "bolt")
 s.arrow(360, 220, 500, 230, "API key")
 s.arrow(360, 290, 500, 335, "REST")
-s.text(210, 355, ".env (Aura creds) · Codespaces secret (OpenAI)", 12)
+s.text(210, 355, ".env or personal Codespaces secrets; never commit credentials", 12)
 s.save("d04-environment-map.svg")
 
 # ── D-05 Statelessness ────────────────────────────────────────────────────────
@@ -198,17 +199,18 @@ s.save("d06-message-chains.svg")
 
 # ── D-07 Context assembly ─────────────────────────────────────────────────────
 s = Svg(960, 380)
-s.text(480, 34, "Per-turn context assembly", 20, "#1e1e1e", bold=True)
-s.box(40, 150, 180, 90, "customer\nmessage", "neutral")
-s.box(280, 60, 200, 80, "store message\n(add_message)", "short")
-s.box(280, 240, 200, 80, "build_context()\nrecent + semantic", "short")
-s.box(540, 150, 180, 90, "instructions =\nbase + memory", "store")
-s.box(760, 150, 170, 90, "model call", "labs")
-s.arrow(220, 170, 280, 100)
-s.arrow(220, 220, 280, 280)
-s.arrow(480, 100, 540, 170)
-s.arrow(480, 280, 540, 210)
-s.arrow(720, 195, 760, 195)
+s.text(480, 34, "Per-turn context assembly: write before retrieval", 20, "#1e1e1e", bold=True)
+for x, label, color in [
+    (25, "customer\nmessage", "neutral"),
+    (215, "store message\nadd_message", "short"),
+    (405, "build_context\nexclude current ID", "short"),
+    (595, "instructions\nbase + evidence", "store"),
+    (785, "model call", "labs"),
+]:
+    s.box(x, 145, 150, 90, label, color)
+for x in (175, 365, 555, 745):
+    s.arrow(x, 190, x + 40, 190)
+s.text(480, 320, "Recent prior messages + scoped semantic matches; then run and verify", 14)
 s.save("d07-context-assembly.svg")
 
 # ── D-08 Ontology-driven extraction ──────────────────────────────────────────
@@ -230,7 +232,7 @@ s.save("d08-ontology-extraction.svg")
 
 # ── D-10 The hybrid pipeline ──────────────────────────────────────────────────
 s = Svg(960, 440)
-s.text(480, 34, "Structure from the LLM — facts never from the LLM", 20, "#1e1e1e", bold=True)
+s.text(480, 34, "LLM structure + source-marked SQL and public facts", 20, "#1e1e1e", bold=True)
 s.box(40, 60, 220, 90, "LLM extractor", "labs", sub="structure")
 s.box(40, 180, 220, 90, "SQLite", "store", sub="grounded facts")
 s.box(40, 300, 220, 90, "Wikipedia", "neutral", sub="external knowledge")
@@ -259,7 +261,11 @@ s.box(670, 130, 240, 110, "Organization\nAcme Cloud", "long", sub="aliases: Acme
 s.arrow(280, 115, 390, 165)
 s.arrow(280, 255, 390, 205)
 s.arrow(570, 185, 670, 185)
-s.text(480, 320, "declared aliases + embedding similarity → one node, not two", 14)
+s.text(
+    480, 320,
+    "Illustrative resolution; inspect actual nodes and aliases. Duplicates remain possible.",
+    14,
+)
 s.save("d11-entity-resolution.svg")
 
 # ── D-13 Similar-task retrieval ───────────────────────────────────────────────
@@ -271,7 +277,7 @@ s.box(
     60,
     280,
     90,
-    "yesterday's trace\n(same shape)",
+    "Recorded success\n(conceptual example)",
     "reasoning",
     sub="task → steps → outcome: success",
 )
@@ -280,7 +286,7 @@ s.box(
     250,
     280,
     90,
-    "yesterday's failed trace\n($400, over limit)",
+    "Fixed declined trace\n(ablation corpus)",
     "reasoning",
     sub="task → steps → outcome: rejected",
 )
@@ -288,33 +294,44 @@ s.box(700, 150, 220, 90, "primed agent", "labs", sub="procedure from memory")
 s.arrow(260, 175, 330, 105, "similar-task retrieval")
 s.arrow(260, 215, 330, 295)
 s.arrow(610, 195, 700, 195)
-s.text(480, 375, "Equal private SQL, separate messages, frozen corpus. Measure the result.", 13)
+s.text(
+    480, 375,
+    "The ablation seeds one declined trace; separate SQL copies isolate both branches.",
+    13,
+)
 s.save("d13-similar-task-retrieval.svg")
 
 # ── D-15 Governance loop ──────────────────────────────────────────────────────
 s = Svg(960, 400)
 s.text(480, 34, "The governance loop", 20, "#1e1e1e", bold=True)
-s.box(60, 150, 200, 90, "memory changes\n(policy entity deleted)", "long")
-s.box(380, 60, 220, 80, "skill flagged\nSTALE", "alert", sub="GROUNDED_IN claims lost source")
+s.box(60, 150, 200, 90, "hosted memory changes\n(matched entity deleted)", "long")
+s.box(
+    380, 60, 220, 80, "inspect drift report\nSTALE if reported", "alert",
+    sub="verify affected grounding",
+)
 s.box(380, 250, 220, 80, "re-distill\n(make nams-redistill)", "labs")
-s.box(700, 150, 210, 90, "updated skill\n+ fresh agent", "reasoning")
+s.box(700, 150, 210, 90, "inspect updated skill\nre-run fresh agent", "reasoning")
 s.arrow(260, 180, 380, 100)
 s.arrow(490, 140, 490, 250)
 s.arrow(600, 290, 700, 220)
-s.text(480, 375, "SQLite change alone flags nothing — governance watches the memory graph", 13)
+s.text(480, 375, "Expected workflow; inspect actual reports. SQLite is not synchronized.", 13)
 s.save("d15-governance-loop.svg")
 
 # ── D-18 Bolt vs NAMS ─────────────────────────────────────────────────────────
 s = Svg(960, 400)
 s.text(480, 34, "Same memory model, two consumption models", 20, "#1e1e1e", bold=True)
-s.box(60, 90, 380, 240, "Bolt — self-hosted", "store")
+s.box(60, 90, 380, 240, "Bolt — your database", "store")
 s.text(250, 160, "your AuraDB · full Cypher access", 14, "#1e1e1e")
 s.text(250, 195, "client-side extraction (your models)", 14, "#1e1e1e")
 s.text(250, 240, "custom hydration / write paths", 14, "#1e1e1e")
-s.text(250, 275, "modules 1–4 in this workshop", 13, "#495057")
+s.text(250, 275, "full support apps: modules 1–5", 13, "#495057")
 s.box(520, 90, 380, 240, "NAMS — hosted service", "labs")
-s.text(710, 160, "workspace per team · REST + MCP", 14, "#1e1e1e")
-s.text(710, 195, "server-side extraction + resolution", 14, "#1e1e1e")
-s.text(710, 240, "three-tier context · skill distillation", 14, "#1e1e1e")
-s.text(710, 275, "module 5 in this workshop", 13, "#495057")
+s.text(710, 160, "separate seeded workspace", 14, "#1e1e1e")
+s.text(710, 195, "REST generate → poll → publish", 14, "#1e1e1e")
+s.text(710, 240, "download skill → fresh agent", 14, "#1e1e1e")
+s.text(710, 275, "module 5 workflows (early access)", 13, "#495057")
 s.save("d18-bolt-vs-nams.svg")
+
+# Apply the reviewed native-deck design after the legacy/reference scenes.
+if (OUT.parent / "visual-design.json").is_file():
+    runpy.run_path(str(OUT / "generate_branded_diagrams.py"), run_name="__main__")

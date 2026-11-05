@@ -196,9 +196,9 @@ async def test_module_4_receipts_guards_provenance_and_failure(live_settings, mo
         graphs = await graph_http(chat, live_settings, result["session_id"], monkeypatch)
         types = {r["type"] for r in graphs["all"]["relationships"]}
         assert {"INITIATED_BY", "TOUCHED", "USES_TOOL", "INSTANCE_OF"} <= types, types
-        from module_4.app.reasoning import reasoning_examples
+        from module_4.app.reasoning import similar_executions
 
-        examples, evidence = await reasoning_examples(
+        examples, evidence = await similar_executions(
             chat.memory,
             "Refund duplicate $49 Compute charge",
             chat.embedder,

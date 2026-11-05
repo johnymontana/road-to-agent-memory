@@ -57,7 +57,7 @@ async def test_scenario_runner_uses_selected_lesson(number, monkeypatch):
     )
     assert calls == [{}]
     assert chat.chat.call_args.args == ("hello",)
-    assert chat.chat.call_args.kwargs["session_id"] == "scenario-a"
+    assert chat.chat.call_args.kwargs["session_id"] == "a"
     assert chat.chat.call_args.kwargs["request_id"]
 
 

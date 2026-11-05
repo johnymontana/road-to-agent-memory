@@ -1,0 +1,38 @@
+name: Devcontainer
+
+# Build the Codespaces image and run its lifecycle hooks whenever something that
+# shapes it changes, so a broken codespace is caught before workshop day.
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".devcontainer/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "web/package.json"
+      - "web/package-lock.json"
+      - "scripts/seed_sqlite.py"
+  pull_request:
+    paths:
+      - ".devcontainer/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "web/package.json"
+      - "web/package-lock.json"
+      - "scripts/seed_sqlite.py"
+  workflow_dispatch:
+
+jobs:
+  devcontainer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the devcontainer and run onCreate / postCreate
+        run: |
+          npm install -g @devcontainers/cli
+          devcontainer up --workspace-folder .
+      - name: Smoke test inside the container
+        run: |
+          devcontainer exec --workspace-folder . make help
+          devcontainer exec --workspace-folder . uv run pytest tests -m "not behavioral" -q
+          devcontainer exec --workspace-folder . npm --prefix web run build

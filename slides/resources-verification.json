@@ -1,0 +1,68 @@
+{
+  "checked_at": "2026-11-04",
+  "presentation_id": "1qBsciAQf7s3BUdQleJJ39-4RDKAoqqoVfodPDDg63z8",
+  "revision_id": "qG5M17j8fBPgPg",
+  "source_revision": "DDts8zxWoZw1ng",
+  "native_slide_count": 90,
+  "original_slides": 75,
+  "appendix_slides": 15,
+  "unique_verified_resources": 47,
+  "annotated_resource_cards": 45,
+  "additional_overview_links": 2,
+  "inline_external_references": 151,
+  "original_slides_with_resource_navigation": 75,
+  "unchanged_native_code_excerpts": 14,
+  "speaker_notes_with_resources": 90,
+  "expected_text_fields_verified": 181,
+  "original_visual_elements_unchanged": 1096,
+  "native_editable_additions_only": true,
+  "links_checked_from_native_readback": true,
+  "appendix_contains_all_catalog_urls": true,
+  "original_order_preserved": true,
+  "source_files_synced": [
+    "slides/deck.md",
+    "slides/deck.html",
+    "slides/technical-walkthroughs.json",
+    "slides/technical-walkthroughs.md",
+    "slides/resources.json",
+    "slides/resources.md"
+  ],
+  "visual_qa": {
+    "all90_slides_inspected": true,
+    "render_method": "Google Slides LARGE thumbnails; PDF export reference could not be materialized",
+    "repair_passes": 1,
+    "repairs": "Improved contrast on six dark slide reference captions; added two linked overview footers for complete catalog coverage.",
+    "repaired_slides_inspected": 8,
+    "unresolved_visual_defects": []
+  },
+  "issue_checker": {
+    "errors": 0,
+    "warnings": 74,
+    "warning_disposition": "29 existing template micro-label/caption warnings plus 45 intentional 9.5pt resource-domain source notes. Appendix narrative bodies use 13 pt; titles 14 pt."
+  },
+  "offline_tests": {
+    "command": "uv run pytest -q -m \"not live\"",
+    "passed": 139,
+    "skipped": 1,
+    "deselected": 4,
+    "warnings": 1,
+    "warning": "Existing upstream Pydantic class-based config deprecation"
+  },
+  "local_render": {
+    "sections": 73,
+    "original_sections": 58,
+    "resource_sections": 15,
+    "inline_links": 136,
+    "overflow_sections": 0
+  },
+  "live_service_rehearsal": false,
+  "compatibility_note": "Current NAMS generation docs require scope.type and list nameHint; the repository excerpt still uses name plus scope.taskContains. The deck labels the mismatch and links live contracts. No application code or hosted state was changed.",
+  "subsequent_module5_update": {
+    "checked_at": "2026-11-04",
+    "revision_id": "MFho-EresCn7HA",
+    "native_slide_count": 102,
+    "module5_slide_count": 22,
+    "record": "docs/deck-module5-2026-11-04.md",
+    "verification": "slides/module5-verification.json"
+  }
+}

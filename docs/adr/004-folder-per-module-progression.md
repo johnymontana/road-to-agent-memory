@@ -21,6 +21,10 @@ agent, and no shared implementation enables features by comparing module numbers
 
 `app/agent.py` is the reading entry point in every folder. `app/tools.py` is also
 local: registering and implementing tools is part of understanding an agent.
+`app/guardrails.py` (refund and reply safety) is local too but identical in every
+module, so it never appears in a stage diff. Experiments run by make targets but
+not used by the agent live in `module_N/lab/`. The HTTP response envelope and
+request receipts are shared transport in `lib/response.py` and `lib/operations.py`.
 `app/memory.py` appears in module 2; `memory_tools.py`, `hydrate.py`, and local
 `ontology/` files appear in module 3. Module 5 owns `app/fresh_agent.py` and
 `workflows/{check,seed,distill,drift}.py`.

@@ -91,7 +91,6 @@ async def seed_fixture(chat, namespace, name, email, phrase, date, quote, refere
             chat.memory,
             session,
             chat.settings.db_path,
-            chat.settings,
             message_id=message.id,
             writer=chat.writer,
         )

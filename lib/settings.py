@@ -43,9 +43,30 @@ class AppSettings(BaseSettings):
         return self.data_dir / "acme_cloud.db"
 
 
+def _home_database(s: AppSettings) -> str | None:
+    """The user's home database on the server, or None if it cannot be reached.
+
+    Newer AuraDB Free instances name their database after the instance ID, not
+    "neo4j". Asking the server avoids making every participant look it up.
+    """
+    try:
+        from neo4j import GraphDatabase
+
+        with GraphDatabase.driver(
+            s.neo4j_uri, auth=(s.neo4j_username, s.neo4j_password), connection_timeout=10
+        ) as driver:
+            records = driver.execute_query("CALL db.info() YIELD name RETURN name").records
+        return records[0]["name"] if records else None
+    except Exception:  # make check reports connection problems with full detail.
+        return None
+
+
 @lru_cache
 def get_settings() -> AppSettings:
     s = AppSettings()
+    # NEO4J_DATABASE unset (env and .env): use the server's home database.
+    if "neo4j_database" not in s.model_fields_set and s.neo4j_uri and s.neo4j_password:
+        s.neo4j_database = _home_database(s) or s.neo4j_database
     # The neo4j-agent-memory OpenAI adapter and PydanticAI both read the raw
     # env var, not pydantic-settings — export it so .env-only setups work.
     if s.openai_api_key and not os.environ.get("OPENAI_API_KEY"):

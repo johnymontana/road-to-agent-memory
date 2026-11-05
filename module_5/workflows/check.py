@@ -29,10 +29,16 @@ def main() -> int:
             print(f"❌ NAMS auth failed: HTTP {resp.status_code} — {resp.text[:200]}")
             return 1
         caps = http.get("/v1/skills/capabilities")
-        if caps.status_code == 200:
-            print(f"✅ NAMS reachable; skills capabilities: {caps.json()}")
+        enabled = caps.status_code == 200 and caps.json().get("distillation")
+        if enabled:
+            gates = caps.json()
+            print(
+                "✅ NAMS reachable; skill distillation enabled "
+                f"(publish gates: grounding ≥ {gates.get('groundingThreshold')}, "
+                f"coverage ≥ {gates.get('coverageThreshold')})"
+            )
         else:
-            print(f"✅ NAMS reachable (capabilities endpoint: HTTP {caps.status_code})")
+            print(f"✅ NAMS reachable, but skill distillation is off (HTTP {caps.status_code})")
             print("   ⚠️  skill distillation may be disabled on this deployment —")
             print("   if so, use the pre-distilled fallback:")
             print("   make s5-fresh-agent WITH_SKILL=fallback")

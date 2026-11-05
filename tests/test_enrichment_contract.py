@@ -2,7 +2,7 @@ from types import SimpleNamespace
 from unittest.mock import AsyncMock
 
 from lib.settings import AppSettings
-from module_3.app.enrichment import enrich_organization
+from module_3.lab.enrichment import enrich_organization
 
 
 async def test_provider_failure_is_visible_cached_and_not_service_health(tmp_path):

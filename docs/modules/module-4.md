@@ -77,7 +77,7 @@ MENTIONS is source text about an entity. TOUCHED records case dependencies; INIT
 
 ## Read the code
 
-Start with `module_4/app/agent.py`, then local `tools.py`. Read local `memory.py` and `context.py` for configuration and retrieval. Read `hydrate.py` and `memory_tools.py` for SQL grounding and preferences. Read `reasoning.py` and `ablation.py` for execution records and comparison fixtures.
+Start with `module_4/app/agent.py`, then local `tools.py`. Read local `memory.py` and `context.py` for configuration and retrieval. Read `hydrate.py` and `memory_tools.py` for SQL grounding and preferences. Read `reasoning.py` for execution records and `lab/ablation.py` for the comparison corpus.
 
 Each module owns its full agent implementation. Duplicated lesson code is intentional;
 shared `lib/` supplies transport, settings, SQL, receipts and factory selection.

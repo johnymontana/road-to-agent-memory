@@ -7,6 +7,7 @@ import asyncio
 import os
 import sqlite3
 import sys
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -47,7 +48,19 @@ def main() -> int:
                 s.neo4j_uri, auth=(s.neo4j_username, s.neo4j_password)
             ) as driver:
                 driver.verify_connectivity()
-            report(True, "AuraDB reachable (Bolt)")
+                # Median of a few trivial queries ≈ the cost of every memory read/write.
+                timings = []
+                for _ in range(5):
+                    started = time.monotonic()
+                    driver.execute_query("RETURN 1", database_=s.neo4j_database)
+                    timings.append(time.monotonic() - started)
+                query_ms = round(sorted(timings)[2] * 1000)
+            report(True, "AuraDB reachable (Bolt)", f"{query_ms} ms per query")
+            if query_ms > 150:
+                print(
+                    "  ⚠️  Each chat turn makes dozens of memory queries, so turns will be slow.\n"
+                    "     An AuraDB region closer to where this code runs fixes that."
+                )
         except Exception as exc:  # noqa: BLE001 — report anything to the attendee
             report(False, "AuraDB reachable (Bolt)", f"{type(exc).__name__}: {exc}")
 

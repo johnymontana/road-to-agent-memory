@@ -43,11 +43,15 @@ For the full agent, introduce Maya Chen at Northwind Robotics in browser chat.
 Extraction runs first, then type-safe SQL hydration of current-message entities,
 then retrieval and the answer. `context.py` exposes allowlisted email, plan,
 signup_date and employer facts with IDs. Exact aliases preserve resolved names;
-ambiguous or incompatible types do not acquire SQL facts. One pooled writer is
-reused; bounded retries and warnings preserve partial completion.
+ambiguous or incompatible types do not acquire SQL facts. Property writes share one
+driver and open a short session each; bounded retries and warnings preserve partial
+completion.
 
-Select a Customer before saving preferences. Categories include namespace and email;
-the receipt shows the actual stored object, context and deduplication flag. Customer
+Select a Customer before saving preferences. Each preference is linked to a
+per-customer `(:User)` and read back with `long_term.get_preferences_for()`. Its
+category is prefixed with namespace and email because the library deduplicates
+within a category across all users. The receipt shows the actual stored object,
+context and deduplication flag. Customer
 choices remain separate. Prior preference rows are not a new source of current policy.
 
 `ONTOLOGY=acme_cloud` loads `module_3/ontology/acme_cloud.yaml`; `default-poleo`

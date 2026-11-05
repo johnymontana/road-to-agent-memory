@@ -15,7 +15,11 @@ workshop building agent memory — not waiting for cloud instances to provision.
 ## Step 1 — Create your free AuraDB instance (~10 min)
 
 1. Go to [console.neo4j.io](https://console.neo4j.io) and sign in (or create a free account).
-2. Create a **free instance** (the free tier is all we need).
+2. Create a **free instance** (the free tier is all we need). If you can choose a
+   region, pick the one closest to you: Codespaces starts in the region nearest you
+   (US East/West, Europe West or Southeast Asia). Every memory write is a database
+   round trip, so a distant region can make each chat turn take 20+ seconds instead
+   of a few. `make check` prints the measured time per query.
 3. **Save the credentials immediately** — the connection URI, username, and password are shown only once. Download the credentials file or copy all three into a password manager.
 4. Wait for the instance status to show **Running**, and confirm you can open it.
 
@@ -37,6 +41,13 @@ automatically — no pasting keys into files on the day.
 5. Value: your OpenAI API key (starts with `sk-...`; create one at platform.openai.com if you don't have one).
 6. Under **Repository access**, choose **Selected repositories** and pick *only* the workshop repository.
 7. Save.
+8. Optional: add `NAMS_API_KEY` (from Step 3) the same way, so module 5 needs no setup on the day.
+
+Create secrets **before** you create the codespace. If you add one later, GitHub offers to
+reload the codespace; accept, or the new secret won't be visible.
+
+While you're on the Codespaces settings page, set **Default idle timeout** to **90 minutes**.
+The default of 30 minutes can stop your codespace during a talk segment.
 
 ## Step 3 — Sign up for NAMS and create an API key (~5 min)
 
@@ -50,8 +61,10 @@ Module 5 uses the hosted Neo4j Agent Memory Service.
 
 1. Open the workshop repository and click the **"Open in GitHub Codespaces"** badge in the README.
 2. Wait for the codespace to finish starting (the first open takes a couple of minutes).
-3. In the terminal, run `make check`.
-4. If every line is green — you're done. **If anything is red, reply to this email and paste the full output.**
+3. `.env` opens automatically. Paste your AuraDB `NEO4J_URI` and `NEO4J_PASSWORD` into it
+   and save. (Your OpenAI key already comes from the secret.)
+4. In the terminal, run `make check`.
+5. If every line is green — you're done. **If anything is red, reply to this email and paste the full output.**
 
 When you're finished, stop the codespace (it also auto-stops on idle) so it doesn't
 consume your free quota.

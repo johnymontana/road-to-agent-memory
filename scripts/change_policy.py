@@ -34,9 +34,35 @@ def main() -> None:
         )
         conn.commit()
     print(f"Pro plan refund limit changed in SQLite: ${before:.0f} → ${new_limit:.0f}")
+    if new_limit == 250.0:
+        print("Restored the workshop default. (Run it again to repeat the demo.)")
+        return
     print("Note: this changed the system of record only — the memory graph (and any")
-    print("distilled skill grounded in it) still references the old limit. That's the")
-    print("governance blind spot. Next: make nams-drift")
+    print("distilled skill grounded in it) still references the old limit.")
+    report_drift(s)
+    print("That's the governance blind spot. Next: make nams-drift")
+
+
+def report_drift(settings) -> None:
+    """Ask NAMS whether the distilled skill noticed. It cannot: SQLite isn't memory."""
+    import httpx
+
+    from module_5.workflows.nams import SKILL_DIR, read_json
+
+    skill_id = read_json(SKILL_DIR / "skill.json").get("skillId")
+    if not (skill_id and settings.nams_api_key):
+        return
+    try:
+        response = httpx.get(
+            f"{settings.nams_base_url}/v1/skills/{skill_id}/drift",
+            headers={"Authorization": f"Bearer {settings.nams_api_key}"},
+            timeout=30,
+        )
+        response.raise_for_status()
+    except httpx.HTTPError as error:
+        print(f"(Could not read the skill's drift report: {error})")
+        return
+    print(f"NAMS drift check for the distilled skill: {response.json()['status']}")
 
 
 if __name__ == "__main__":

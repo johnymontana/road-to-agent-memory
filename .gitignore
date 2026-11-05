@@ -2,7 +2,10 @@
 __pycache__/
 *.pyc
 .env
-data/acme_cloud.db
+# Runtime state: SQLite, receipts, replays, evaluations, NAMS seed record
+data/
+# Downloaded by make nams-distill (the checked-in fallback is pre-distilled-skill/)
+artifacts/distilled/
 node_modules/
 web/node_modules/
 web/dist/

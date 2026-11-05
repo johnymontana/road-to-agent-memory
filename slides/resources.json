@@ -1,0 +1,3239 @@
+{
+  "checked_at": "2026-11-04",
+  "presentation_id": "1qBsciAQf7s3BUdQleJJ39-4RDKAoqqoVfodPDDg63z8",
+  "source_revision": "qG5M17j8fBPgPg",
+  "version_policy": "Workshop SDK 0.8.0 and local code govern executable examples. Current online guides and hosted contracts may target other releases. Focused topic URLs are verified; no guessed fragment anchors.",
+  "resources": [
+    {
+      "id": "sdk_github",
+      "title": "Neo4j Agent Memory \u2014 GitHub",
+      "url": "https://github.com/neo4j-labs/agent-memory",
+      "description": "Python and TypeScript SDK source, examples, issue tracker and contribution entry point.",
+      "verified_by": "GitHub repository opened; README explicitly documents Python 0.8.0. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_mem_intro",
+        "ram_design_059"
+      ],
+      "version_caveat": "Default branch can advance beyond workshop 0.8.0.",
+      "display_title": "GitHub \u00b7 neo4j-labs/agent-memory",
+      "annotation": "Browse SDK source, examples, issues and contributions. Compare the branch with your installed release."
+    },
+    {
+      "id": "sdk_releases",
+      "title": "Neo4j Agent Memory \u2014 releases",
+      "url": "https://github.com/neo4j-labs/agent-memory/releases",
+      "description": "Published GitHub release notes and change history.",
+      "verified_by": "GitHub releases page opened. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_mem_intro"
+      ],
+      "version_caveat": "Page retrieved lists 0.7.0 as latest; do not label this as the 0.8.0 release.",
+      "display_title": "SDK release notes",
+      "annotation": "Track published changes before upgrading. Compare release notes, package files and your lockfile."
+    },
+    {
+      "id": "sdk_pypi_080",
+      "title": "Python SDK 0.8.0 \u2014 pinned release",
+      "url": "https://pypi.org/project/neo4j-agent-memory/0.8.0/",
+      "description": "Exact workshop package release, downloadable source distribution and wheel.",
+      "verified_by": "PyPI release files verified as 0.8.0, uploaded 2026-10-22. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_code_client",
+        "ram_mem_intro"
+      ],
+      "version_caveat": "Package description still contains 0.7.0 examples; release files are explicitly 0.8.0.",
+      "display_title": "Pinned Python release \u00b7 0.8.0",
+      "annotation": "Find the exact workshop release files. Use the repository\u2019s uv.lock and Make recipes."
+    },
+    {
+      "id": "docs_home",
+      "title": "Neo4j Agent Memory documentation",
+      "url": "https://neo4j.com/labs/agent-memory/",
+      "description": "Official guides, tutorials, concepts and Python/TypeScript API references.",
+      "verified_by": "Official documentation home opened. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_mem_intro",
+        "ram_design_059"
+      ],
+      "version_caveat": "Rolling documentation may differ from workshop SDK 0.8.0. Use the workshop repository and uv.lock for executable examples.",
+      "display_title": "Official documentation",
+      "annotation": "Find concept guides, tutorials and focused API references. Check each example\u2019s version."
+    },
+    {
+      "id": "memory_types",
+      "title": "Understanding the three memory types",
+      "url": "https://neo4j.com/labs/agent-memory/explanation/memory-types/",
+      "description": "Conversation history, durable knowledge and recorded task execution have distinct retrieval roles.",
+      "verified_by": "Opened through official explanation index. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_slide_003",
+        "ram_mem_intro",
+        "ram_design_018",
+        "ram_design_026",
+        "ram_design_055"
+      ],
+      "version_caveat": "Rolling documentation may differ from workshop SDK 0.8.0. Use the workshop repository and uv.lock for executable examples.",
+      "display_title": "Three memory types",
+      "annotation": "Compare persisted conversation history, durable entity knowledge and recorded task execution."
+    },
+    {
+      "id": "graph_architecture",
+      "title": "Why Neo4j? Graph memory architecture",
+      "url": "https://neo4j.com/labs/agent-memory/explanation/graph-architecture/",
+      "description": "How graph relationships join conversations, entities and recorded task traces.",
+      "verified_by": "Opened through official explanation index. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_slide_003",
+        "ram_mem_intro",
+        "ram_slide_056"
+      ],
+      "version_caveat": "Rolling documentation may differ from workshop SDK 0.8.0. Use the workshop repository and uv.lock for executable examples.",
+      "display_title": "Why graph memory?",
+      "annotation": "See how relationships connect messages, entities and execution provenance in one graph."
+    },
+    {
+      "id": "poleo_model",
+      "title": "The POLE+O data model",
+      "url": "https://neo4j.com/labs/agent-memory/explanation/poleo-model/",
+      "description": "People, objects, locations, events and organizations provide a common entity model.",
+      "verified_by": "Opened through official explanation index. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_design_027",
+        "ram_slide_028",
+        "ram_design_029",
+        "ram_slide_030"
+      ],
+      "version_caveat": "Rolling documentation may differ from workshop SDK 0.8.0. Use the workshop repository and uv.lock for executable examples.",
+      "display_title": "POLE+O data model",
+      "annotation": "Understand base types and domain subtypes before defining the Acme Cloud ontology."
+    },
+    {
+      "id": "memory_client_api",
+      "title": "MemoryClient API reference",
+      "url": "https://neo4j.com/labs/agent-memory/reference/api/memory-client/",
+      "description": "Client lifecycle, memory stores, read-only Cypher interface and ontology precedence.",
+      "verified_by": "Opened and checked constructor, properties and ontology precedence. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_code_client",
+        "ram_mem_intro",
+        "ram_mem_seam",
+        "ram_code_m3_ground"
+      ],
+      "version_caveat": "Live examples use BoltSettings; workshop 0.8.0 uses explicit MemorySettings(backend='bolt'). Preserve workshop configuration.",
+      "display_title": "MemoryClient \u00b7 lifecycle and stores",
+      "annotation": "Check constructor settings, client lifetime, memory accessors and the read-only query surface."
+    },
+    {
+      "id": "provider_settings",
+      "title": "Embedding, LLM, schema, extraction and resolution settings",
+      "url": "https://neo4j.com/labs/agent-memory/reference/configuration-providers/",
+      "description": "Configure model providers, ontology selection, extraction behavior and entity resolution.",
+      "verified_by": "Opened via official documentation navigation. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_code_client",
+        "ram_code_m3_extract",
+        "ram_design_029"
+      ],
+      "version_caveat": "Rolling documentation may differ from workshop SDK 0.8.0. Use the workshop repository and uv.lock for executable examples.",
+      "display_title": "Providers, extraction and schema settings",
+      "annotation": "Review LLM, embedding, ontology and resolution configuration; compare with local memory.py."
+    },
+    {
+      "id": "short_term_api",
+      "title": "ShortTermMemory API reference",
+      "url": "https://neo4j.com/labs/agent-memory/reference/api/short-term/",
+      "description": "Conversation storage and backend differences, including implicit Bolt conversation creation.",
+      "verified_by": "Opened API index and checked Bolt/NAMS distinction. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_design_018",
+        "ram_design_019",
+        "ram_slide_020",
+        "ram_code_m2_write"
+      ],
+      "version_caveat": "Rolling documentation may differ from workshop SDK 0.8.0. Use the workshop repository and uv.lock for executable examples."
+    },
+    {
+      "id": "messages_api",
+      "title": "Conversation and message operations",
+      "url": "https://neo4j.com/labs/agent-memory/reference/api/short-term-messages/",
+      "description": "add_message, get_conversation and related persistence operations.",
+      "verified_by": "Opened from ShortTermMemory API; checked add_message signature. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_code_m2_write",
+        "ram_design_019",
+        "ram_slide_020",
+        "ram_design_023",
+        "ram_design_024",
+        "ram_design_025"
+      ],
+      "version_caveat": "Rolling documentation may differ from workshop SDK 0.8.0. Use the workshop repository and uv.lock for executable examples.",
+      "display_title": "Conversation and message API",
+      "annotation": "Inspect add_message, conversation creation and retrieval of persisted turns."
+    },
+    {
+      "id": "message_search_api",
+      "title": "Message search and context",
+      "url": "https://neo4j.com/labs/agent-memory/reference/api/short-term-search/",
+      "description": "Semantic search, similarity metadata and the scope limits of built-in context retrieval.",
+      "verified_by": "Opened and checked search_messages/get_context scope notes. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_mem_seam",
+        "ram_code_m2_inject",
+        "ram_design_021",
+        "ram_slide_022"
+      ],
+      "version_caveat": "Official page notes Bolt session_id does not isolate semantic search and get_context can include global matches. Workshop local namespace-scoped retrieval is intentional.",
+      "display_title": "Message search and context scope",
+      "annotation": "Read semantic-search scope limits; the workshop deliberately uses namespace-scoped local Cypher."
+    },
+    {
+      "id": "entity_api",
+      "title": "Entity and relationship operations",
+      "url": "https://neo4j.com/labs/agent-memory/reference/api/long-term-entities/",
+      "description": "add_entity returns an entity/deduplication pair; entity search and relationship operations.",
+      "verified_by": "Opened from LongTermMemory API and checked add_entity semantics. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_code_m3_ground",
+        "ram_code_m3_tools",
+        "ram_design_031"
+      ],
+      "version_caveat": "Workshop PropertyWriter is repository code; do not imply it is a neo4j-agent-memory API.",
+      "display_title": "Entity and relationship API",
+      "annotation": "Check entity upserts, relationship operations and returned values before extending hydration."
+    },
+    {
+      "id": "preference_api",
+      "title": "Preference and fact operations",
+      "url": "https://neo4j.com/labs/agent-memory/reference/api/long-term-preferences/",
+      "description": "Save preferences and retrieve them with explicit user and optional entity filters.",
+      "verified_by": "Opened and checked add_preference/get_preferences_for. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_code_m3_preferences",
+        "ram_code_m3_tools"
+      ],
+      "version_caveat": "Preference category and semantic search are not customer authorization boundaries; workshop uses explicit user_identifier.",
+      "display_title": "Preference and fact API",
+      "annotation": "Inspect add_preference and get_preferences_for; keep explicit customer scope in application code."
+    },
+    {
+      "id": "ontology_extraction",
+      "title": "Drive extraction from an ontology",
+      "url": "https://neo4j.com/labs/agent-memory/how-to/ontology-driven-extraction/",
+      "description": "Define YAML entity labels, descriptions, relationships, aliases and validation constraints.",
+      "verified_by": "Opened via official how-to index and inspected ontology example. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_code_m3_extract",
+        "ram_design_027",
+        "ram_slide_028",
+        "ram_design_029",
+        "ram_slide_030"
+      ],
+      "version_caveat": "Guide pins 0.7.0 and demonstrates GLiNER 2.5 as well as LLM configuration. Workshop uses an LLM extractor with its checked-in ontologies.",
+      "display_title": "Ontology-driven extraction",
+      "annotation": "Read YAML types, aliases, descriptions and validation. Workshop extraction uses the LLM path."
+    },
+    {
+      "id": "extraction_concepts",
+      "title": "How entity extraction works",
+      "url": "https://neo4j.com/labs/agent-memory/explanation/extraction-pipeline/",
+      "description": "Compare extraction approaches and distinguish candidate generation, validation and entity resolution.",
+      "verified_by": "Opened via extraction how-to and inspected LLM/client-side extraction sections. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_code_m3_extract",
+        "ram_design_027",
+        "ram_design_035",
+        "ram_design_036"
+      ],
+      "version_caveat": "The general multi-stage pipeline is broader than the workshop's configured LLM-only extraction.",
+      "display_title": "How extraction works",
+      "annotation": "Distinguish candidate extraction, validation and resolution. The broader pipeline is optional background."
+    },
+    {
+      "id": "resolution_concepts",
+      "title": "Entity resolution and deduplication",
+      "url": "https://neo4j.com/labs/agent-memory/explanation/resolution-deduplication/",
+      "description": "Canonical entity identity, aliases, similarity matching and duplicate review.",
+      "verified_by": "Opened through official explanation index. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_design_033",
+        "ram_slide_034",
+        "ram_design_037"
+      ],
+      "version_caveat": "Rolling documentation may differ from workshop SDK 0.8.0. Use the workshop repository and uv.lock for executable examples.",
+      "display_title": "Entity resolution and deduplication",
+      "annotation": "Study canonical identity, aliases, similarity signals and reviewed duplicate handling."
+    },
+    {
+      "id": "pydantic_integration",
+      "title": "Use Neo4j Agent Memory with PydanticAI",
+      "url": "https://neo4j.com/labs/agent-memory/how-to/integrations/pydantic-ai/",
+      "description": "Official integration recipe for retrieving context, exposing memory tools and persisting a turn.",
+      "verified_by": "Opened full official integration recipe. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_mem_seam",
+        "ram_code_m3_tools",
+        "ram_design_059"
+      ],
+      "version_caveat": "Recipe explicitly targets SDK 0.6.0 and shipped MemoryDependency/create_memory_tools. Workshop 0.8.0 deliberately uses local ToolDeps, scoped helpers and typed message_history.",
+      "display_title": "Neo4j + PydanticAI integration guide",
+      "annotation": "Compare the SDK integration with this workshop\u2019s explicit history, tools and local retrieval helpers."
+    },
+    {
+      "id": "pydantic_history",
+      "title": "PydanticAI \u2014 messages and chat history",
+      "url": "https://pydantic.dev/docs/ai/core-concepts/message-history/",
+      "description": "Pass typed message history to later agent runs; inspect messages returned by an execution.",
+      "verified_by": "Opened ai.pydantic.dev/message-history, followed official redirect and checked message_history examples. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_code_m1",
+        "ram_mem_seam",
+        "ram_code_m2_inject",
+        "ram_design_021",
+        "ram_slide_022",
+        "ram_design_059"
+      ],
+      "version_caveat": "Rolling PydanticAI docs; workshop pins pydantic-ai-slim 2.62.0.",
+      "display_title": "PydanticAI \u00b7 messages and history",
+      "annotation": "Pass typed prior turns through message_history; keep additional retrieved evidence in instructions."
+    },
+    {
+      "id": "pydantic_tools",
+      "title": "PydanticAI \u2014 function tools",
+      "url": "https://pydantic.dev/docs/ai/tools-toolsets/tools/",
+      "description": "Register functions as agent tools and use RunContext for typed dependencies.",
+      "verified_by": "Opened ai.pydantic.dev/tools, followed official redirect and checked registration methods. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_code_m1",
+        "ram_design_013",
+        "ram_code_m3_tools"
+      ],
+      "version_caveat": "Rolling PydanticAI docs; workshop pins pydantic-ai-slim 2.62.0.",
+      "display_title": "PydanticAI \u00b7 function tools",
+      "annotation": "Register functions as tools and understand the RunContext dependency boundary."
+    },
+    {
+      "id": "pydantic_deps",
+      "title": "PydanticAI \u2014 dependencies",
+      "url": "https://pydantic.dev/docs/ai/core-concepts/dependencies/",
+      "description": "Pass runtime services and selected customer data into tools through typed dependencies.",
+      "verified_by": "Opened ai.pydantic.dev/dependencies, followed official redirect and checked deps_type/deps/RunContext. Web-verified 2026-11-04.",
+      "anchor_checked": false,
+      "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
+      "slide_ids": [
+        "ram_code_m1",
+        "ram_code_m3_tools",
+        "ram_code_m3_preferences"
+      ],
+      "version_caveat": "Rolling PydanticAI docs; workshop pins pydantic-ai-slim 2.62.0.",
+      "display_title": "PydanticAI \u00b7 typed dependencies",
+      "annotation": "Follow how runtime services and the selected customer reach tools through ToolDeps."
+    },
+    {
+      "id": "reasoning-traces",
+      "title": "Trace lifecycle API",
+      "url": "https://neo4j.com/labs/agent-memory/reference/api/reasoning-traces/",
+      "description": "Exact start_trace, complete_trace and get_trace_with_steps contracts for recording and reading an observable task execution.",
+      "verified_by": "Opened official API page on 2026-11-04; trace method signatures and Bolt/NAMS behavior inspected.",
+      "anchor_checked": false,
+      "slide_ids": [
+        "ram_design_038",
+        "ram_code_m4_lifecycle",
+        "ram_code_m4_outcome",
+        "ram_code_m4_recall"
+      ],
+      "version_caveat": "Workshop pins SDK 0.8.0. Module 4 uses explicit application recording around its guards and SQL operations; hosted trace behavior is different. The resource is a focused page, not an unverified fragment.",
+      "display_title": "Trace lifecycle API",
+      "annotation": "Read start_trace, complete_trace and get_trace_with_steps alongside the module 4 code."
+    },
+    {
+      "id": "reasoning-steps",
+      "title": "Steps, tool calls and message provenance",
+      "url": "https://neo4j.com/labs/agent-memory/reference/api/reasoning-steps/",
+      "description": "add_step, record_tool_call and link_trace_to_message; touched_entities links a ReasoningStep to Entity through TOUCHED.",
+      "verified_by": "Opened the actual linked official API page on 2026-11-04 and inspected add_step, record_tool_call and link_trace_to_message.",
+      "anchor_checked": false,
+      "slide_ids": [
+        "ram_design_039",
+        "ram_slide_040",
+        "ram_code_m4_tools",
+        "ram_design_045",
+        "ram_slide_056"
+      ],
+      "version_caveat": "Bolt behavior matches the graph concept used in the workshop; do not assume NAMS preserves these optional links or arguments.",
+      "display_title": "Steps, tool calls and provenance",
+      "annotation": "Inspect add_step, record_tool_call, message links and Step \u2192 TOUCHED \u2192 Entity semantics."
+    },
+    {
+      "id": "reasoning-search",
+      "title": "Trace search and hosted lifecycle differences",
+      "url": "https://neo4j.com/labs/agent-memory/reference/api/reasoning-search-stats/",
+      "description": "Reference for similar-trace and step search, tool statistics, and the NAMS synthetic trace lifecycle.",
+      "verified_by": "Opened official page on 2026-11-04; its search section is explicitly Bolt-only.",
+      "anchor_checked": false,
+      "slide_ids": [
+        "ram_design_041",
+        "ram_slide_042",
+        "ram_code_m4_recall",
+        "ram_design_044",
+        "ram_design_048",
+        "ram_design_057"
+      ],
+      "version_caveat": "Workshop similar_executions is local, namespace-scoped Cypher over completed traces followed by SDK get_trace_with_steps. It does not call the SDK get_similar_traces API described here.",
+      "display_title": "Trace search and backend differences",
+      "annotation": "Compare SDK search with the local completed-trace, namespace-scoped retrieval used here."
+    },
+    {
+      "id": "reasoning-models",
+      "title": "Reasoning models and TraceOutcome",
+      "url": "https://neo4j.com/labs/agent-memory/reference/api/reasoning-models/",
+      "description": "Pydantic fields for ReasoningTrace, ReasoningStep, ToolCall and structured outcomes, including their identifiers and status conventions.",
+      "verified_by": "Opened official Models and structured outcomes page on 2026-11-04.",
+      "anchor_checked": false,
+      "slide_ids": [
+        "ram_slide_040",
+        "ram_code_m4_tools",
+        "ram_code_m4_outcome",
+        "ram_design_043"
+      ],
+      "version_caveat": "Use the workshop's pinned SDK for executable code. The models describe recorded application events and results, not hidden model reasoning.",
+      "display_title": "TraceOutcome and reasoning models",
+      "annotation": "Check status, outcome and identifier fields; recorded execution is not hidden model reasoning."
+    },
+    {
+      "id": "reasoning-failure",
+      "title": "Record and verify a failed tool call",
+      "url": "https://neo4j.com/labs/agent-memory/how-to/reasoning-traces/",
+      "description": "Worked Bolt recipe: start a trace, record a failed tool action, complete its outcome, and verify readback.",
+      "verified_by": "Opened official guide on 2026-11-04; verified title, declared Bolt target, failure handling and documented NAMS differences.",
+      "anchor_checked": false,
+      "slide_ids": [
+        "ram_code_m4_lifecycle",
+        "ram_code_m4_tools",
+        "ram_code_m4_outcome",
+        "ram_design_043"
+      ],
+      "version_caveat": "Online recipe explicitly installs SDK 0.7.0 while the workshop pins 0.8.0. Follow the repo's uv/Make commands for the workshop, not this separate tutorial's environment setup.",
+      "display_title": "Record a failed tool call",
+      "annotation": "Work through a separate Bolt example that records failure, completes an outcome and verifies readback."
+    },
+    {
+      "id": "reasoning-audit",
+      "title": "Audit reasoning with TOUCHED edges",
+      "url": "https://neo4j.com/labs/agent-memory/how-to/audit-reasoning/",
+      "description": "Follow recorded steps to referenced entities and connect trace/tool activity to source messages for provenance queries.",
+      "verified_by": "Opened official guide on 2026-11-04; inspected its explicit Step-to-Entity TOUCHED relationship and message linkage discussion.",
+      "anchor_checked": false,
+      "slide_ids": [
+        "ram_design_039",
+        "ram_code_m4_tools",
+        "ram_design_045",
+        "ram_slide_056"
+      ],
+      "version_caveat": "Guide targets Bolt and SDK 0.7.0. It explicitly warns that Python NAMS drops touched_entities; a callable method is not proof of equivalent hosted persistence.",
+      "display_title": "Audit execution with TOUCHED",
+      "annotation": "Follow step-to-entity dependencies and source messages; check backend support before transferring queries."
+    },
+    {
+      "id": "nams-console",
+      "title": "NAMS hosted service",
+      "url": "https://memory.neo4jlabs.com/",
+      "description": "Public entry point for the hosted Neo4j Agent Memory Service, its dashboard and service documentation.",
+      "verified_by": "Opened the public NAMS homepage on 2026-11-04 and followed its Docs link. No authenticated workflow or service write was attempted.",
+      "anchor_checked": false,
+      "slide_ids": [
+        "ram_design_046",
+        "ram_design_048",
+        "ram_design_049",
+        "ram_design_052",
+        "ram_design_057",
+        "ram_slide_058"
+      ],
+      "version_caveat": "Verified public entry only. Service behavior, availability, workspace scopes and preview features must be checked in the selected workspace. Module 5's SupportBot still uses Bolt; its separate skill workflow uses hosted REST.",
+      "display_title": "NAMS \u00b7 hosted memory service",
+      "annotation": "Open the hosted workspace dashboard and service documentation. Module 5 uses a separate REST workflow."
+    },
+    {
+      "id": "nams-service-api",
+      "title": "NAMS live API documentation",
+      "url": "https://memory.neo4jlabs.com/docs",
+      "description": "Current hosted endpoint and request reference, including Skill Generation, capabilities, governance, review, publication and drift.",
+      "verified_by": "Opened public docs on 2026-11-04. Skill Generation > POST /v1/skills/generate says scope.type is required; checked its listed request body and 400 response.",
+      "anchor_checked": false,
+      "slide_ids": [
+        "ram_code_m5_distill",
+        "ram_design_048",
+        "ram_design_050",
+        "ram_slide_051",
+        "ram_design_052",
+        "ram_design_057"
+      ],
+      "version_caveat": "Current workflow sends nameHint and explicit conversations scope, adding skillId for a new version. Missing local seed state warns and falls back to workspace scope. Check the live deployment contract before delivery.",
+      "display_title": "NAMS \u00b7 live endpoint documentation",
+      "annotation": "Check request fields, scope, capabilities and hosted lifecycle responses."
+    },
+    {
+      "id": "nams-connect",
+      "title": "Connect Python to NAMS",
+      "url": "https://neo4j.com/labs/agent-memory/how-to/use-nams/",
+      "description": "Configure a workspace key and hosted endpoint, then use the conversation identifier returned by NAMS for scoped message operations.",
+      "verified_by": "Opened official guide on 2026-11-04; checked its hosted key and service-issued conversation-ID requirements.",
+      "anchor_checked": false,
+      "slide_ids": [
+        "ram_design_048",
+        "ram_design_052",
+        "ram_design_057",
+        "ram_slide_058"
+      ],
+      "version_caveat": "Separate SDK memory connection route. The workshop uses direct HTTPX for hosted skill workflows and authored fixtures, while its support app retains Bolt/AuraDB.",
+      "display_title": "Connect Python to NAMS",
+      "annotation": "Learn the SDK connection route and hosted conversation identifiers; the workshop uses direct REST workflows."
+    },
+    {
+      "id": "backend-capabilities",
+      "title": "Bolt vs NAMS capabilities and scope",
+      "url": "https://neo4j.com/labs/agent-memory/reference/backend-capabilities/",
+      "description": "Compare message, entity, preference, reasoning and extraction operations by backend; understand identifier and retrieval scope boundaries.",
+      "verified_by": "Opened official reference on 2026-11-04; checked its SDK version statement and messages/entities/preferences/reasoning/extraction capability rows.",
+      "anchor_checked": false,
+      "slide_ids": [
+        "ram_design_048",
+        "ram_design_052",
+        "ram_design_057",
+        "ram_slide_058",
+        "ram_code_m4_recall"
+      ],
+      "version_caveat": "Reference explicitly describes Python 0.7.0 and TypeScript 0.5.0; workshop pins Python 0.8.0. NAMS is continuously shipped and /v1 is not an SDK version. Treat this as a capability checklist and check the installed version.",
+      "display_title": "Bolt vs. NAMS \u00b7 capability matrix",
+      "annotation": "Compare supported operations, identifiers and data scope. Similar method names do not imply parity."
+    },
+    {
+      "id": "skills-concepts",
+      "title": "Agent Skills concepts and provenance",
+      "url": "https://neo4j.com/labs/agent-memory/explanation/skills/",
+      "description": "Skills distill selected memory into portable procedures. Creation, review and consumption are separate; grounding and integrity do not establish correctness.",
+      "verified_by": "Opened official Agent Skills (Preview) page on 2026-11-04; inspected creation/review/use, GROUNDED_IN, relation to memory and execution limits.",
+      "anchor_checked": false,
+      "slide_ids": [
+        "ram_design_046",
+        "ram_slide_047",
+        "ram_code_m5_agent",
+        "ram_design_050",
+        "ram_slide_051",
+        "ram_design_052",
+        "ram_design_053"
+      ],
+      "version_caveat": "Preview REST/MCP feature, with no SDK skill accessor or Bolt skill API. A skill is derived from memory, not a fourth memory layer. Receiving application executes it; documented service execution is gated dry-run planning.",
+      "display_title": "Agent Skills \u00b7 concepts and provenance",
+      "annotation": "Separate distillation, review and consumption. Grounding supports inspection; it does not prove correctness."
+    },
+    {
+      "id": "skills-api",
+      "title": "Skills API: generate, review, publish and drift",
+      "url": "https://neo4j.com/labs/agent-memory/reference/skills-api/",
+      "description": "Hosted skill endpoints, required scopes, run outcomes, publication, provenance, attestation and drift checks.",
+      "verified_by": "Opened official Skills API (Preview) reference on 2026-11-04 and checked REST endpoints, lifecycle/run outcomes, attestation and gate descriptions.",
+      "anchor_checked": false,
+      "slide_ids": [
+        "ram_code_m5_distill",
+        "ram_design_049",
+        "ram_design_050",
+        "ram_slide_051",
+        "ram_design_052",
+        "ram_design_053"
+      ],
+      "version_caveat": "Current workflow polls succeeded runs, automatically submits decision=approve, publishes and downloads a ZIP. This is not an interactive human review checkpoint. Skills may have deployment-specific gates and attestation.",
+      "display_title": "Skills API \u00b7 generate, publish and drift",
+      "annotation": "Inspect required scopes, run outcomes, review, publication and per-skill drift endpoints."
+    },
+    {
+      "id": "skills-quickstart",
+      "title": "Distil and download a recorded procedure",
+      "url": "https://neo4j.com/labs/agent-memory/tutorials/skills-quickstart/",
+      "description": "Complete official exercise using a simulated refund procedure: seed a fixture, distill, inspect provenance, explicitly publish and verify the downloaded SKILL.md package.",
+      "verified_by": "Followed the official Skills API quickstart link and opened it on 2026-11-04; checked its declared scope, fixture, preview limits and verification outcome.",
+      "anchor_checked": false,
+      "slide_ids": [
+        "ram_slide_047",
+        "ram_code_m5_distill",
+        "ram_design_049",
+        "ram_code_m5_agent",
+        "ram_design_053"
+      ],
+      "version_caveat": "Separate SDK 0.7.0 tutorial with a dedicated empty workspace and different request flow. It stops after package verification; it does not demonstrate execution in a receiving agent. Workshop's fresh_agent.py supplies that separate application example.",
+      "display_title": "Distill and download a procedure",
+      "annotation": "Follow a separate hosted tutorial through fixture seeding, provenance inspection and SKILL.md download."
+    },
+    {
+      "id": "reasoning-overview",
+      "title": "ReasoningMemory API index",
+      "url": "https://neo4j.com/labs/agent-memory/reference/api/reasoning/",
+      "description": "Entry point to trace lifecycle, step/tool recording, structured outcomes and search references.",
+      "verified_by": "Opened official ReasoningMemory API reference on 2026-11-04 and followed its focused subpage links.",
+      "anchor_checked": false,
+      "slide_ids": [
+        "ram_design_038",
+        "ram_design_039",
+        "ram_design_041"
+      ],
+      "version_caveat": "Main signatures target Bolt. NAMS implements a different conversation-level reasoning lifecycle. Persisted observable events should not be described as a model's private chain of thought."
+    },
+    {
+      "id": "course-context-graphs",
+      "title": "Context Graphs: Agent Memory with Neo4j",
+      "url": "https://graphacademy.neo4j.com/courses/genai-context-graphs",
+      "description": "Self-paced Python course covering short-term, long-term and reasoning memory, POLE+O extraction, and querying the context graph.",
+      "verified_by": "Opened official GraphAcademy course page; confirmed title, Python package, learning objectives and module outline.",
+      "date": null,
+      "checked_at": "2026-11-04",
+      "category": "course",
+      "relevance": "Core follow-up for modules 2\u20134; strongest conceptual and API-oriented continuation of this Python workshop.",
+      "caveat": "Course duration differs between page header and body; omit duration. Use the repo pin and package documentation for version-specific code.",
+      "display_title": "Context Graphs: Agent Memory with Neo4j",
+      "annotation": "Continue with Python memory concepts, POLE+O extraction and queries across the context graph."
+    },
+    {
+      "id": "course-python-workshop",
+      "title": "Neo4j Agent Memory Workshop",
+      "url": "https://graphacademy.neo4j.com/courses/workshop-agent-memory",
+      "description": "Build a PydanticAI learning assistant with conversation, entity and reasoning memory, then implement a custom memory tool.",
+      "verified_by": "Opened official GraphAcademy course page; confirmed Pydantic AI learning-assistant project, memory layers and custom-tool module.",
+      "date": null,
+      "checked_at": "2026-11-04",
+      "category": "course",
+      "relevance": "Core hands-on follow-up for Python/PydanticAI participants after modules 2\u20134.",
+      "caveat": "This is a separate coding workshop and repository, not Road to Agent Memory. Lesson totals and duration are inconsistent on the page; omit both.",
+      "display_title": "Neo4j Agent Memory Workshop",
+      "annotation": "Build a PydanticAI learning assistant and implement a custom memory tool."
+    },
+    {
+      "id": "course-memory-90",
+      "title": "Agent Memory in 90 Minutes",
+      "url": "https://graphacademy.neo4j.com/courses/workshop-agent-memory-90",
+      "description": "Explore a scaffolded agent, connect Copilot to memory through MCP, build a coding assistant, and distil portable skills with AIP.",
+      "verified_by": "Opened official GraphAcademy course page; confirmed create-context-graph, Copilot/MCP and Agent Instruction Protocol workflow.",
+      "date": null,
+      "checked_at": "2026-11-04",
+      "category": "course",
+      "relevance": "Adjacent practical path for MCP-enabled coding agents and portable skills.",
+      "caveat": "AIP skill distillation is an alternative workflow; do not describe this course as the repo's module 5 NAMS REST flow.",
+      "display_title": "Agent Memory in 90 Minutes",
+      "annotation": "Adjacent path: Copilot, MCP and AIP skill distillation; a different workflow from module 5."
+    },
+    {
+      "id": "course-typescript",
+      "title": "Agent Memory Workshop with TypeScript",
+      "url": "https://graphacademy.neo4j.com/courses/workshop-agent-memory-ts",
+      "description": "Extend a Mastra personal assistant with memory, context traces, graph retrieval and code-enforced guardrails; then build your own agent.",
+      "verified_by": "Opened official GraphAcademy course page; confirmed TypeScript/Mastra framework and lesson outline.",
+      "date": null,
+      "checked_at": "2026-11-04",
+      "category": "course",
+      "relevance": "Adjacent TypeScript/Mastra path; useful for translating workshop concepts to another language and framework.",
+      "caveat": "Not the PydanticAI implementation used in this repository. Page duration is inconsistent; omit it.",
+      "display_title": "Agent Memory Workshop with TypeScript",
+      "annotation": "Adjacent path: a Mastra assistant, graph retrieval, context traces and code-enforced guardrails."
+    },
+    {
+      "id": "course-cypher-fundamentals",
+      "title": "Cypher Fundamentals",
+      "url": "https://graphacademy.neo4j.com/courses/cypher-fundamentals",
+      "description": "Practice matching nodes and relationships, filtering graph results, and creating or updating data with Cypher.",
+      "verified_by": "Followed prerequisite link from the official memory workshop; opened course page and confirmed read/write query modules.",
+      "date": null,
+      "checked_at": "2026-11-04",
+      "category": "course",
+      "relevance": "Supporting prerequisite for inspecting module 2\u20134 memory graphs and understanding the repository's namespace-scoped Cypher.",
+      "display_title": "Cypher Fundamentals",
+      "annotation": "Practice graph patterns and filtering before adapting the workshop\u2019s scoped retrieval queries."
+    },
+    {
+      "id": "blog-lennys-memory",
+      "title": "Meet Lenny\u2019s Memory: Building context graphs for AI agents",
+      "url": "https://neo4j.com/blog/developer/meet-lennys-memory-building-context-graphs-for-ai-agents/",
+      "description": "Package introduction and PydanticAI demo connecting conversations, entities and reasoning traces into one context graph.",
+      "verified_by": "Opened official Neo4j article; confirmed H1, author William Lyon, publication date and three-memory-type introduction.",
+      "date": "2026-02-02",
+      "checked_at": "2026-11-04",
+      "category": "blog",
+      "relevance": "Best introductory reading after module 1 and the neo4j-agent-memory concepts section.",
+      "caveat": "Historical launch article. Use versioned package docs and the workshop repository for current executable API examples.",
+      "display_title": "Lenny\u2019s Memory \u00b7 context graphs",
+      "annotation": "A package introduction and PydanticAI example linking conversations, entities and reasoning traces."
+    },
+    {
+      "id": "blog-modeling-memory",
+      "title": "Modeling agent memory",
+      "url": "https://neo4j.com/blog/developer/modeling-agent-memory/",
+      "description": "Conceptual graph models for agent memory, including semantic, episodic and procedural knowledge and trade-offs in when memories are written.",
+      "verified_by": "Opened official Neo4j article; confirmed H1, author Alex Gilmore, publication date and modeling discussion.",
+      "date": "2025-03-20",
+      "checked_at": "2026-11-04",
+      "category": "blog",
+      "relevance": "Optional conceptual background for memory modeling and extraction design.",
+      "caveat": "Predates neo4j-agent-memory and uses a different memory taxonomy. Its general description of short-term memory as ephemeral does not describe this workshop's persisted conversations.",
+      "display_title": "Modeling agent memory",
+      "annotation": "Background on memory models and write strategies. Its older taxonomy differs from this workshop."
+    },
+    {
+      "id": "blog-microsoft-agent-framework",
+      "title": "Building an AI agent with memory: Microsoft Agent Framework + Neo4j",
+      "url": "https://neo4j.com/blog/developer/building-an-ai-agent-with-memory-microsoft-agent-framework-neo4j/",
+      "description": "A transport-assistant example showing persistent conversations, preferences, entities and trace retrieval through Microsoft Agent Framework integration.",
+      "verified_by": "Opened official Neo4j article; confirmed H1, author William Lyon, publication date, TfL Explorer architecture and framework integration.",
+      "date": "2026-04-08",
+      "checked_at": "2026-11-04",
+      "category": "blog",
+      "relevance": "Adjacent framework example for extending the same memory concepts beyond PydanticAI.",
+      "caveat": "Framework-specific code is illustrative, not a substitute for this repository's pinned API usage.",
+      "display_title": "Microsoft Agent Framework + Neo4j",
+      "annotation": "Explore conversation, preference, entity and trace memory in another agent framework."
+    },
+    {
+      "id": "blog-multi-agent-memory",
+      "title": "When your agents share a brain: Building multi-agent memory with Neo4j",
+      "url": "https://neo4j.com/blog/developer/when-your-agents-share-a-brain-building-multi-agent-memory-with-neo4j/",
+      "description": "A Strands multi-agent example shares conversation, entity and reasoning memory through a common Neo4j graph and tool set.",
+      "verified_by": "Opened official Neo4j article; confirmed H1, author William Lyon, publication date and shared-memory architecture.",
+      "date": "2026-04-13",
+      "checked_at": "2026-11-04",
+      "category": "blog",
+      "relevance": "Advanced reading after module 4 about memory shared between cooperating agents.",
+      "caveat": "This workshop uses a single SupportBot and namespace-scoped retrieval; multi-agent sharing is an extension, not its current architecture.",
+      "display_title": "When agents share a brain",
+      "annotation": "Explore a Strands example that shares graph-backed memory across multiple agents."
+    },
+    {
+      "id": "blog-nams-tour",
+      "title": "A Tour of the Neo4j Agent Memory Service (NAMS)",
+      "url": "https://neo4j.com/blog/genai/a-tour-of-the-neo4j-agent-memory-service-nams/",
+      "description": "Walk through the hosted service, its console and managed graph-memory pipeline accessed through REST or MCP.",
+      "verified_by": "Opened official Neo4j article; confirmed H1, author William Lyon, publication date, managed service scope and REST/MCP interfaces.",
+      "date": "2026-06-23",
+      "checked_at": "2026-11-04",
+      "category": "blog",
+      "relevance": "Direct companion to module 5's hosted-service introduction and workspace exploration.",
+      "caveat": "Article explicitly identifies NAMS as an experimental, community-supported Neo4j Labs project. It is not evidence that a particular workspace or endpoint has been tested.",
+      "display_title": "A tour of NAMS",
+      "annotation": "See the hosted console and managed memory pipeline accessed through REST or MCP."
+    },
+    {
+      "id": "blog-portable-skills",
+      "title": "From Agent Memory to Portable Skills",
+      "url": "https://neo4j.com/blog/genai/from-agent-memory-to-portable-skills/",
+      "description": "Explain scoped NAMS skill distillation, evidence-backed SKILL.md packages, fresh-agent reuse and the governance loop for changing memory.",
+      "verified_by": "Opened official Neo4j article; confirmed H1, author William Lyon, publication date and scoped skill-distillation discussion.",
+      "date": "2026-08-06",
+      "checked_at": "2026-11-04",
+      "category": "blog",
+      "relevance": "Strongest module 5 companion for understanding the transition from recorded experience to a portable skill.",
+      "caveat": "Use current NAMS documentation and this repository's workflow code for exact request fields and operations.",
+      "display_title": "From Agent Memory to Portable Skills",
+      "annotation": "Read about scoped distillation, SKILL.md reuse and governance as the source memory changes."
+    },
+    {
+      "id": "pydantic_agent",
+      "title": "PydanticAI \u2014 Agents",
+      "url": "https://pydantic.dev/docs/ai/core-concepts/agent/",
+      "description": "Construct an agent and provide instructions, tools and per-run context.",
+      "verified_by": "Opened official Agents link from current PydanticAI navigation (2026-11-04).",
+      "version_caveat": "Rolling documentation; workshop uses locked PydanticAI 2.62.0.",
+      "display_title": "PydanticAI \u00b7 agents and instructions",
+      "annotation": "Understand agent construction and the per-run instructions used alongside the base prompt."
+    },
+    {
+      "id": "nams-openapi",
+      "title": "NAMS OpenAPI specification",
+      "url": "https://memory.neo4jlabs.com/openapi.json",
+      "display_title": "NAMS OpenAPI",
+      "description": "Machine-readable hosted endpoint contracts and request/response fields.",
+      "annotation": "Inspect the exact hosted schemas used by the workshop HTTP workflows.",
+      "version_caveat": "The service ships independently of the pinned Python SDK. Use the current deployment contract.",
+      "verified_by": "Official public OpenAPI document checked on 2026-11-04."
+    },
+    {
+      "id": "nams-api-keys",
+      "title": "NAMS API key dashboard",
+      "url": "https://memory.neo4jlabs.com/dashboard/api-keys",
+      "display_title": "API key dashboard",
+      "description": "Authenticated console destination for workspace data keys.",
+      "annotation": "After signing in, create a workspace-bound data key and keep it in private configuration.",
+      "version_caveat": "Exact link is exposed by public docs. Authenticated creation controls were not inspected; avoid invented button labels.",
+      "verified_by": "Verified as the API Keys destination linked by official NAMS docs on 2026-11-04."
+    }
+  ],
+  "appendix": [
+    {
+      "id": "ram_resources_01",
+      "title": "Resources \u00b7 Start here",
+      "subtitle": "Project and service entry points",
+      "resources": [
+        "sdk_github",
+        "docs_home",
+        "nams-console"
+      ],
+      "exemplar": "ram_design_025",
+      "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
+      "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
+      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile."
+    },
+    {
+      "id": "ram_resources_02",
+      "title": "Resources \u00b7 Memory concepts",
+      "subtitle": "The model behind modules 1\u20134",
+      "resources": [
+        "memory_types",
+        "graph_architecture",
+        "poleo_model"
+      ],
+      "exemplar": "ram_design_025",
+      "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
+      "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
+      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile."
+    },
+    {
+      "id": "ram_resources_03",
+      "title": "Resources \u00b7 SDK setup and configuration",
+      "subtitle": "Pin first; compare versions before copying examples",
+      "resources": [
+        "sdk_pypi_080",
+        "memory_client_api",
+        "provider_settings"
+      ],
+      "exemplar": "ram_design_025",
+      "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
+      "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
+      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile."
+    },
+    {
+      "id": "ram_resources_04",
+      "title": "Resources \u00b7 PydanticAI foundations",
+      "subtitle": "Agent construction, tools and dependencies",
+      "resources": [
+        "pydantic_agent",
+        "pydantic_tools",
+        "pydantic_deps"
+      ],
+      "exemplar": "ram_design_025",
+      "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
+      "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
+      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile."
+    },
+    {
+      "id": "ram_resources_05",
+      "title": "Resources \u00b7 Short-term memory",
+      "subtitle": "Persistence, retrieval scope and typed history",
+      "resources": [
+        "messages_api",
+        "message_search_api",
+        "pydantic_history"
+      ],
+      "exemplar": "ram_design_025",
+      "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
+      "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
+      "footer": "Short-term memory API overview \u00b7 Workshop SDK 0.8.0; compare docs with local code.",
+      "extra_resources": [
+        "short_term_api"
+      ],
+      "footer_links": [
+        {
+          "resource_id": "short_term_api",
+          "label": "Short-term memory API overview",
+          "url": "https://neo4j.com/labs/agent-memory/reference/api/short-term/"
+        }
+      ]
+    },
+    {
+      "id": "ram_resources_06",
+      "title": "Resources \u00b7 Entities and ontologies",
+      "subtitle": "Structure, identity and SQL grounding boundaries",
+      "resources": [
+        "entity_api",
+        "ontology_extraction",
+        "resolution_concepts"
+      ],
+      "exemplar": "ram_design_025",
+      "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
+      "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
+      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile."
+    },
+    {
+      "id": "ram_resources_07",
+      "title": "Resources \u00b7 Preferences and integration",
+      "subtitle": "Customer scope and application-owned memory policy",
+      "resources": [
+        "preference_api",
+        "extraction_concepts",
+        "pydantic_integration"
+      ],
+      "exemplar": "ram_design_025",
+      "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
+      "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
+      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile."
+    },
+    {
+      "id": "ram_resources_08",
+      "title": "Resources \u00b7 Record an execution",
+      "subtitle": "Trace lifecycle, observations and outcomes",
+      "resources": [
+        "reasoning-traces",
+        "reasoning-steps",
+        "reasoning-models"
+      ],
+      "exemplar": "ram_design_025",
+      "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
+      "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
+      "footer": "Reasoning API overview \u00b7 Workshop SDK 0.8.0; compare docs with local code.",
+      "extra_resources": [
+        "reasoning-overview"
+      ],
+      "footer_links": [
+        {
+          "resource_id": "reasoning-overview",
+          "label": "Reasoning API overview",
+          "url": "https://neo4j.com/labs/agent-memory/reference/api/reasoning/"
+        }
+      ]
+    },
+    {
+      "id": "ram_resources_09",
+      "title": "Resources \u00b7 Retrieve and audit traces",
+      "subtitle": "Failures can be useful examples; inspect actual receipts",
+      "resources": [
+        "reasoning-search",
+        "reasoning-failure",
+        "reasoning-audit"
+      ],
+      "exemplar": "ram_design_025",
+      "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
+      "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
+      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile."
+    },
+    {
+      "id": "ram_resources_10",
+      "title": "Resources \u00b7 NAMS: service and scope",
+      "subtitle": "Hosted contracts evolve independently of the SDK pin",
+      "resources": [
+        "nams-service-api",
+        "nams-connect",
+        "backend-capabilities"
+      ],
+      "exemplar": "ram_design_025",
+      "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
+      "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
+      "footer": "NAMS OpenAPI \u00b7 API key dashboard \u00b7 Workshop generation uses explicit conversation scope.",
+      "extra_resources": [
+        "nams-openapi",
+        "nams-api-keys"
+      ],
+      "footer_links": [
+        {
+          "label": "NAMS OpenAPI",
+          "url": "https://memory.neo4jlabs.com/openapi.json"
+        },
+        {
+          "label": "API key dashboard",
+          "url": "https://memory.neo4jlabs.com/dashboard/api-keys"
+        }
+      ]
+    },
+    {
+      "id": "ram_resources_11",
+      "title": "Resources \u00b7 Skills and governance",
+      "subtitle": "Generation, publication, drift and portable artifacts",
+      "resources": [
+        "skills-concepts",
+        "skills-api",
+        "skills-quickstart"
+      ],
+      "exemplar": "ram_design_025",
+      "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
+      "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
+      "footer": "Hosted preview: inspect the current contract and returned evidence before trusting a generated skill."
+    },
+    {
+      "id": "ram_resources_12",
+      "title": "Resources \u00b7 GraphAcademy: Python path",
+      "subtitle": "Courses that continue the workshop\u2019s core concepts",
+      "resources": [
+        "course-context-graphs",
+        "course-python-workshop",
+        "course-cypher-fundamentals"
+      ],
+      "exemplar": "ram_design_025",
+      "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
+      "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
+      "footer": "Free GraphAcademy learning paths. Course exercises use their own repositories and environments."
+    },
+    {
+      "id": "ram_resources_13",
+      "title": "Resources \u00b7 Other stacks and releases",
+      "subtitle": "Alternative learning paths; verify the selected stack",
+      "resources": [
+        "course-memory-90",
+        "course-typescript",
+        "sdk_releases"
+      ],
+      "exemplar": "ram_design_025",
+      "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
+      "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
+      "footer": "Copilot/AIP and TypeScript/Mastra are adjacent paths, not the Python SupportBot implementation."
+    },
+    {
+      "id": "ram_resources_14",
+      "title": "Resources \u00b7 Read: context graphs",
+      "subtitle": "Official Neo4j articles for broader design context",
+      "resources": [
+        "blog-lennys-memory",
+        "blog-modeling-memory",
+        "blog-multi-agent-memory"
+      ],
+      "exemplar": "ram_design_025",
+      "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
+      "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
+      "footer": "Articles explain concepts and examples; use current API references and the workshop pin for code."
+    },
+    {
+      "id": "ram_resources_15",
+      "title": "Resources \u00b7 Read: integrations and skills",
+      "subtitle": "Framework integration, hosted memory and distillation",
+      "resources": [
+        "blog-microsoft-agent-framework",
+        "blog-nams-tour",
+        "blog-portable-skills"
+      ],
+      "exemplar": "ram_design_025",
+      "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
+      "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
+      "footer": "Articles explain concepts and examples; use current API references and the workshop pin for code."
+    }
+  ],
+  "inline": [
+    {
+      "slide_number": 1,
+      "slide_id": "ram_slide_001",
+      "resources": [
+        "sdk_github",
+        "docs_home"
+      ],
+      "labels": [
+        "SDK GitHub",
+        "Memory docs"
+      ]
+    },
+    {
+      "slide_number": 2,
+      "slide_id": "ram_design_002",
+      "resources": [
+        "docs_home",
+        "course-context-graphs"
+      ],
+      "labels": [
+        "Memory docs",
+        "GraphAcademy: memory"
+      ]
+    },
+    {
+      "slide_number": 3,
+      "slide_id": "ram_slide_003",
+      "resources": [
+        "memory_types",
+        "graph_architecture"
+      ],
+      "labels": [
+        "Memory types",
+        "Graph model"
+      ]
+    },
+    {
+      "slide_number": 4,
+      "slide_id": "ram_slide_004",
+      "resources": [
+        "course-python-workshop",
+        "docs_home"
+      ],
+      "labels": [
+        "GraphAcademy: Python",
+        "Memory docs"
+      ]
+    },
+    {
+      "slide_number": 5,
+      "slide_id": "ram_design_005",
+      "resources": [
+        "memory_types",
+        "blog-lennys-memory"
+      ],
+      "labels": [
+        "Memory types",
+        "Lenny\u2019s Memory"
+      ]
+    },
+    {
+      "slide_number": 6,
+      "slide_id": "ram_slide_006",
+      "resources": [
+        "memory_types",
+        "skills-concepts"
+      ],
+      "labels": [
+        "Memory types",
+        "Skill concepts"
+      ]
+    },
+    {
+      "slide_number": 7,
+      "slide_id": "ram_design_007",
+      "resources": [
+        "memory_client_api",
+        "nams-console"
+      ],
+      "labels": [
+        "Client API",
+        "NAMS console"
+      ]
+    },
+    {
+      "slide_number": 8,
+      "slide_id": "ram_slide_008",
+      "resources": [
+        "backend-capabilities",
+        "nams-connect"
+      ],
+      "labels": [
+        "Backend capabilities",
+        "Connect to NAMS"
+      ]
+    },
+    {
+      "slide_number": 9,
+      "slide_id": "ram_design_009",
+      "resources": [
+        "provider_settings",
+        "nams-console"
+      ],
+      "labels": [
+        "Configuration",
+        "NAMS console"
+      ]
+    },
+    {
+      "slide_number": 10,
+      "slide_id": "ram_design_010",
+      "resources": [
+        "memory_client_api",
+        "provider_settings"
+      ],
+      "labels": [
+        "Client API",
+        "Configuration"
+      ]
+    },
+    {
+      "slide_number": 11,
+      "slide_id": "ram_design_011",
+      "resources": [
+        "graph_architecture",
+        "memory_types"
+      ],
+      "labels": [
+        "Graph model",
+        "Memory types"
+      ]
+    },
+    {
+      "slide_number": 12,
+      "slide_id": "ram_slide_012",
+      "resources": [
+        "graph_architecture",
+        "backend-capabilities"
+      ],
+      "labels": [
+        "Graph model",
+        "Backend capabilities"
+      ]
+    },
+    {
+      "slide_number": 13,
+      "slide_id": "ram_design_013",
+      "resources": [
+        "pydantic_agent",
+        "pydantic_tools"
+      ],
+      "labels": [
+        "PydanticAI agents",
+        "Function tools"
+      ]
+    },
+    {
+      "slide_number": 14,
+      "slide_id": "ram_code_m1",
+      "resources": [
+        "pydantic_agent",
+        "pydantic_deps"
+      ],
+      "labels": [
+        "PydanticAI agents",
+        "Dependencies"
+      ]
+    },
+    {
+      "slide_number": 15,
+      "slide_id": "ram_design_014",
+      "resources": [
+        "pydantic_history",
+        "memory_types"
+      ],
+      "labels": [
+        "Chat history",
+        "Memory types"
+      ]
+    },
+    {
+      "slide_number": 16,
+      "slide_id": "ram_slide_015",
+      "resources": [
+        "pydantic_history",
+        "pydantic_agent"
+      ],
+      "labels": [
+        "Chat history",
+        "PydanticAI agents"
+      ]
+    },
+    {
+      "slide_number": 17,
+      "slide_id": "ram_design_016",
+      "resources": [
+        "pydantic_tools",
+        "pydantic_history"
+      ],
+      "labels": [
+        "Function tools",
+        "Chat history"
+      ]
+    },
+    {
+      "slide_number": 18,
+      "slide_id": "ram_design_017",
+      "resources": [
+        "course-context-graphs",
+        "memory_types"
+      ],
+      "labels": [
+        "GraphAcademy: memory",
+        "Memory types"
+      ]
+    },
+    {
+      "slide_number": 19,
+      "slide_id": "ram_mem_intro",
+      "resources": [
+        "memory_types",
+        "sdk_github"
+      ],
+      "labels": [
+        "Memory types",
+        "SDK GitHub"
+      ]
+    },
+    {
+      "slide_number": 20,
+      "slide_id": "ram_mem_seam",
+      "resources": [
+        "pydantic_history",
+        "pydantic_integration"
+      ],
+      "labels": [
+        "Chat history",
+        "Integration guide"
+      ]
+    },
+    {
+      "slide_number": 21,
+      "slide_id": "ram_code_client",
+      "resources": [
+        "memory_client_api",
+        "provider_settings"
+      ],
+      "labels": [
+        "Client API",
+        "Configuration"
+      ]
+    },
+    {
+      "slide_number": 22,
+      "slide_id": "ram_design_018",
+      "resources": [
+        "memory_types",
+        "messages_api"
+      ],
+      "labels": [
+        "Memory types",
+        "Message API"
+      ]
+    },
+    {
+      "slide_number": 23,
+      "slide_id": "ram_design_019",
+      "resources": [
+        "messages_api",
+        "graph_architecture"
+      ],
+      "labels": [
+        "Message API",
+        "Graph model"
+      ]
+    },
+    {
+      "slide_number": 24,
+      "slide_id": "ram_slide_020",
+      "resources": [
+        "messages_api",
+        "pydantic_history"
+      ],
+      "labels": [
+        "Message API",
+        "Chat history"
+      ]
+    },
+    {
+      "slide_number": 25,
+      "slide_id": "ram_code_m2_write",
+      "resources": [
+        "messages_api",
+        "memory_client_api"
+      ],
+      "labels": [
+        "Message API",
+        "Client API"
+      ]
+    },
+    {
+      "slide_number": 26,
+      "slide_id": "ram_design_021",
+      "resources": [
+        "message_search_api",
+        "pydantic_history"
+      ],
+      "labels": [
+        "Search + scope",
+        "Chat history"
+      ]
+    },
+    {
+      "slide_number": 27,
+      "slide_id": "ram_slide_022",
+      "resources": [
+        "pydantic_history",
+        "message_search_api"
+      ],
+      "labels": [
+        "Chat history",
+        "Search + scope"
+      ]
+    },
+    {
+      "slide_number": 28,
+      "slide_id": "ram_code_m2_inject",
+      "resources": [
+        "pydantic_history",
+        "message_search_api"
+      ],
+      "labels": [
+        "Chat history",
+        "Search + scope"
+      ]
+    },
+    {
+      "slide_number": 29,
+      "slide_id": "ram_design_023",
+      "resources": [
+        "message_search_api",
+        "messages_api"
+      ],
+      "labels": [
+        "Search + scope",
+        "Message API"
+      ]
+    },
+    {
+      "slide_number": 30,
+      "slide_id": "ram_design_024",
+      "resources": [
+        "messages_api",
+        "pydantic_history"
+      ],
+      "labels": [
+        "Message API",
+        "Chat history"
+      ]
+    },
+    {
+      "slide_number": 31,
+      "slide_id": "ram_design_025",
+      "resources": [
+        "course-cypher-fundamentals",
+        "message_search_api"
+      ],
+      "labels": [
+        "Cypher course",
+        "Search + scope"
+      ]
+    },
+    {
+      "slide_number": 32,
+      "slide_id": "ram_design_026",
+      "resources": [
+        "entity_api",
+        "preference_api"
+      ],
+      "labels": [
+        "Entity API",
+        "Preference API"
+      ]
+    },
+    {
+      "slide_number": 33,
+      "slide_id": "ram_design_027",
+      "resources": [
+        "ontology_extraction",
+        "poleo_model"
+      ],
+      "labels": [
+        "Ontology guide",
+        "POLE+O"
+      ]
+    },
+    {
+      "slide_number": 34,
+      "slide_id": "ram_slide_028",
+      "resources": [
+        "ontology_extraction",
+        "extraction_concepts"
+      ],
+      "labels": [
+        "Ontology guide",
+        "Extraction"
+      ]
+    },
+    {
+      "slide_number": 35,
+      "slide_id": "ram_code_m3_extract",
+      "resources": [
+        "ontology_extraction",
+        "provider_settings"
+      ],
+      "labels": [
+        "Ontology guide",
+        "Configuration"
+      ]
+    },
+    {
+      "slide_number": 36,
+      "slide_id": "ram_design_029",
+      "resources": [
+        "poleo_model",
+        "ontology_extraction"
+      ],
+      "labels": [
+        "POLE+O",
+        "Ontology guide"
+      ]
+    },
+    {
+      "slide_number": 37,
+      "slide_id": "ram_slide_030",
+      "resources": [
+        "poleo_model",
+        "entity_api"
+      ],
+      "labels": [
+        "POLE+O",
+        "Entity API"
+      ]
+    },
+    {
+      "slide_number": 38,
+      "slide_id": "ram_design_031",
+      "resources": [
+        "extraction_concepts",
+        "entity_api"
+      ],
+      "labels": [
+        "Extraction",
+        "Entity API"
+      ]
+    },
+    {
+      "slide_number": 39,
+      "slide_id": "ram_slide_032",
+      "resources": [
+        "entity_api",
+        "extraction_concepts"
+      ],
+      "labels": [
+        "Entity API",
+        "Extraction"
+      ]
+    },
+    {
+      "slide_number": 40,
+      "slide_id": "ram_code_m3_ground",
+      "resources": [
+        "entity_api",
+        "memory_client_api"
+      ],
+      "labels": [
+        "Entity API",
+        "Client API"
+      ]
+    },
+    {
+      "slide_number": 41,
+      "slide_id": "ram_design_033",
+      "resources": [
+        "resolution_concepts",
+        "entity_api"
+      ],
+      "labels": [
+        "Resolution",
+        "Entity API"
+      ]
+    },
+    {
+      "slide_number": 42,
+      "slide_id": "ram_slide_034",
+      "resources": [
+        "resolution_concepts",
+        "graph_architecture"
+      ],
+      "labels": [
+        "Resolution",
+        "Graph model"
+      ]
+    },
+    {
+      "slide_number": 43,
+      "slide_id": "ram_design_035",
+      "resources": [
+        "ontology_extraction",
+        "extraction_concepts"
+      ],
+      "labels": [
+        "Ontology guide",
+        "Extraction"
+      ]
+    },
+    {
+      "slide_number": 44,
+      "slide_id": "ram_design_036",
+      "resources": [
+        "entity_api",
+        "provider_settings"
+      ],
+      "labels": [
+        "Entity API",
+        "Configuration"
+      ]
+    },
+    {
+      "slide_number": 45,
+      "slide_id": "ram_code_m3_tools",
+      "resources": [
+        "pydantic_tools",
+        "pydantic_integration"
+      ],
+      "labels": [
+        "Function tools",
+        "Integration guide"
+      ]
+    },
+    {
+      "slide_number": 46,
+      "slide_id": "ram_code_m3_preferences",
+      "resources": [
+        "preference_api",
+        "pydantic_deps"
+      ],
+      "labels": [
+        "Preference API",
+        "Dependencies"
+      ]
+    },
+    {
+      "slide_number": 47,
+      "slide_id": "ram_design_037",
+      "resources": [
+        "course-python-workshop",
+        "preference_api"
+      ],
+      "labels": [
+        "GraphAcademy: Python",
+        "Preference API"
+      ]
+    },
+    {
+      "slide_number": 48,
+      "slide_id": "ram_design_038",
+      "resources": [
+        "memory_types",
+        "reasoning-traces"
+      ],
+      "labels": [
+        "Memory types",
+        "Trace API"
+      ]
+    },
+    {
+      "slide_number": 49,
+      "slide_id": "ram_design_039",
+      "resources": [
+        "reasoning-steps",
+        "reasoning-models"
+      ],
+      "labels": [
+        "Steps + tools",
+        "Outcome models"
+      ]
+    },
+    {
+      "slide_number": 50,
+      "slide_id": "ram_slide_040",
+      "resources": [
+        "reasoning-steps",
+        "reasoning-audit"
+      ],
+      "labels": [
+        "Steps + tools",
+        "Audit provenance"
+      ]
+    },
+    {
+      "slide_number": 51,
+      "slide_id": "ram_code_m4_lifecycle",
+      "resources": [
+        "reasoning-traces",
+        "reasoning-failure"
+      ],
+      "labels": [
+        "Trace API",
+        "Record failures"
+      ]
+    },
+    {
+      "slide_number": 52,
+      "slide_id": "ram_code_m4_tools",
+      "resources": [
+        "reasoning-steps",
+        "reasoning-audit"
+      ],
+      "labels": [
+        "Steps + tools",
+        "Audit provenance"
+      ]
+    },
+    {
+      "slide_number": 53,
+      "slide_id": "ram_code_m4_outcome",
+      "resources": [
+        "reasoning-models",
+        "reasoning-traces"
+      ],
+      "labels": [
+        "Outcome models",
+        "Trace API"
+      ]
+    },
+    {
+      "slide_number": 54,
+      "slide_id": "ram_design_041",
+      "resources": [
+        "reasoning-search",
+        "reasoning-failure"
+      ],
+      "labels": [
+        "Trace search",
+        "Record failures"
+      ]
+    },
+    {
+      "slide_number": 55,
+      "slide_id": "ram_slide_042",
+      "resources": [
+        "reasoning-search",
+        "reasoning-traces"
+      ],
+      "labels": [
+        "Trace search",
+        "Trace API"
+      ]
+    },
+    {
+      "slide_number": 56,
+      "slide_id": "ram_code_m4_recall",
+      "resources": [
+        "reasoning-search",
+        "reasoning-traces"
+      ],
+      "labels": [
+        "Trace search",
+        "Trace API"
+      ]
+    },
+    {
+      "slide_number": 57,
+      "slide_id": "ram_design_043",
+      "resources": [
+        "reasoning-failure",
+        "reasoning-audit"
+      ],
+      "labels": [
+        "Record failures",
+        "Audit provenance"
+      ]
+    },
+    {
+      "slide_number": 58,
+      "slide_id": "ram_design_044",
+      "resources": [
+        "reasoning-audit",
+        "reasoning-steps"
+      ],
+      "labels": [
+        "Audit provenance",
+        "Steps + tools"
+      ]
+    },
+    {
+      "slide_number": 59,
+      "slide_id": "ram_design_045",
+      "resources": [
+        "reasoning-audit",
+        "course-cypher-fundamentals"
+      ],
+      "labels": [
+        "Audit provenance",
+        "Cypher course"
+      ]
+    },
+    {
+      "slide_id": "ram_design_046",
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ],
+      "slide_number": 60
+    },
+    {
+      "slide_id": "ram_m5_concepts",
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ],
+      "slide_number": 61
+    },
+    {
+      "slide_id": "ram_m5_pipeline",
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ],
+      "slide_number": 62
+    },
+    {
+      "slide_id": "ram_design_048",
+      "resources": [
+        "backend-capabilities",
+        "nams-console"
+      ],
+      "labels": [
+        "Backend capabilities",
+        "NAMS console"
+      ],
+      "slide_number": 63
+    },
+    {
+      "slide_id": "ram_m5_signup",
+      "resources": [
+        "nams-console",
+        "nams-service-api"
+      ],
+      "labels": [
+        "NAMS sign in",
+        "Setup docs"
+      ],
+      "slide_number": 64
+    },
+    {
+      "slide_id": "ram_m5_key",
+      "resources": [
+        "nams-api-keys",
+        "nams-service-api"
+      ],
+      "labels": [
+        "API key dashboard",
+        "Authentication docs"
+      ],
+      "slide_number": 65
+    },
+    {
+      "slide_id": "ram_m5_connect",
+      "resources": [
+        "nams-service-api",
+        "skills-api"
+      ],
+      "labels": [
+        "NAMS docs",
+        "Skills API"
+      ],
+      "slide_number": 66
+    },
+    {
+      "slide_id": "ram_m5_seed",
+      "resources": [
+        "nams-openapi",
+        "nams-service-api"
+      ],
+      "labels": [
+        "NAMS OpenAPI",
+        "Live NAMS API"
+      ],
+      "slide_number": 67
+    },
+    {
+      "slide_id": "ram_code_m5_seed_complete",
+      "resources": [
+        "nams-openapi",
+        "nams-service-api"
+      ],
+      "labels": [
+        "NAMS OpenAPI",
+        "Live NAMS API"
+      ],
+      "slide_number": 68
+    },
+    {
+      "slide_id": "ram_code_m5_distill",
+      "resources": [
+        "nams-openapi",
+        "nams-service-api"
+      ],
+      "labels": [
+        "NAMS OpenAPI",
+        "Live NAMS API"
+      ],
+      "slide_number": 69
+    },
+    {
+      "slide_id": "ram_code_m5_publish",
+      "resources": [
+        "nams-openapi",
+        "nams-service-api"
+      ],
+      "labels": [
+        "NAMS OpenAPI",
+        "Live NAMS API"
+      ],
+      "slide_number": 70
+    },
+    {
+      "slide_id": "ram_m5_package",
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ],
+      "slide_number": 71
+    },
+    {
+      "slide_id": "ram_slide_047",
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ],
+      "slide_number": 72
+    },
+    {
+      "slide_id": "ram_m5_evaluate",
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ],
+      "slide_number": 73
+    },
+    {
+      "slide_id": "ram_code_m5_agent",
+      "resources": [
+        "pydantic_agent",
+        "skills-concepts"
+      ],
+      "labels": [
+        "PydanticAI agents",
+        "Skill concepts"
+      ],
+      "slide_number": 74
+    },
+    {
+      "slide_id": "ram_design_049",
+      "resources": [
+        "skills-quickstart",
+        "nams-console"
+      ],
+      "labels": [
+        "Skills tutorial",
+        "NAMS console"
+      ],
+      "slide_number": 75
+    },
+    {
+      "slide_id": "ram_design_050",
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ],
+      "slide_number": 76
+    },
+    {
+      "slide_id": "ram_code_m5_drift",
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ],
+      "slide_number": 77
+    },
+    {
+      "slide_id": "ram_slide_051",
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ],
+      "slide_number": 78
+    },
+    {
+      "slide_id": "ram_m5_governance_demo",
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ],
+      "slide_number": 79
+    },
+    {
+      "slide_id": "ram_design_052",
+      "resources": [
+        "backend-capabilities",
+        "nams-service-api"
+      ],
+      "labels": [
+        "Backend capabilities",
+        "Live NAMS API"
+      ],
+      "slide_number": 80
+    },
+    {
+      "slide_id": "ram_design_053",
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ],
+      "slide_number": 81
+    },
+    {
+      "slide_number": 82,
+      "slide_id": "ram_design_054",
+      "resources": [
+        "course-context-graphs",
+        "reasoning-models"
+      ],
+      "labels": [
+        "GraphAcademy: memory",
+        "Outcome models"
+      ]
+    },
+    {
+      "slide_number": 83,
+      "slide_id": "ram_design_055",
+      "resources": [
+        "memory_types",
+        "graph_architecture"
+      ],
+      "labels": [
+        "Memory types",
+        "Graph model"
+      ]
+    },
+    {
+      "slide_number": 84,
+      "slide_id": "ram_slide_056",
+      "resources": [
+        "graph_architecture",
+        "skills-concepts"
+      ],
+      "labels": [
+        "Graph model",
+        "Skill concepts"
+      ]
+    },
+    {
+      "slide_number": 85,
+      "slide_id": "ram_design_057",
+      "resources": [
+        "backend-capabilities",
+        "nams-connect"
+      ],
+      "labels": [
+        "Backend capabilities",
+        "Connect to NAMS"
+      ]
+    },
+    {
+      "slide_number": 86,
+      "slide_id": "ram_slide_058",
+      "resources": [
+        "backend-capabilities",
+        "nams-console"
+      ],
+      "labels": [
+        "Backend capabilities",
+        "NAMS console"
+      ]
+    },
+    {
+      "slide_number": 87,
+      "slide_id": "ram_design_059",
+      "resources": [
+        "sdk_github",
+        "docs_home",
+        "course-context-graphs"
+      ],
+      "labels": [
+        "SDK GitHub",
+        "Memory docs",
+        "GraphAcademy: memory"
+      ]
+    }
+  ],
+  "source_inline": [
+    {
+      "section_number": 1,
+      "title": "Road to Agent Memory",
+      "native_slide_ids": [
+        "ram_slide_001"
+      ],
+      "resources": [
+        "sdk_github",
+        "docs_home"
+      ],
+      "labels": [
+        "SDK GitHub",
+        "Memory docs"
+      ]
+    },
+    {
+      "section_number": 2,
+      "title": "What you'll leave with (an honest promise)",
+      "native_slide_ids": [
+        "ram_design_002",
+        "ram_slide_003"
+      ],
+      "resources": [
+        "docs_home",
+        "course-context-graphs",
+        "memory_types",
+        "graph_architecture"
+      ],
+      "labels": [
+        "Memory docs",
+        "GraphAcademy: memory",
+        "Memory types",
+        "Graph model"
+      ]
+    },
+    {
+      "section_number": 3,
+      "title": "Agenda \u00b7 150 min",
+      "native_slide_ids": [
+        "ram_slide_004"
+      ],
+      "resources": [
+        "course-python-workshop",
+        "docs_home"
+      ],
+      "labels": [
+        "GraphAcademy: Python",
+        "Memory docs"
+      ]
+    },
+    {
+      "section_number": 4,
+      "title": "Add memory, then build on it",
+      "native_slide_ids": [
+        "ram_design_005",
+        "ram_slide_006"
+      ],
+      "resources": [
+        "memory_types",
+        "blog-lennys-memory",
+        "skills-concepts"
+      ],
+      "labels": [
+        "Memory types",
+        "Lenny\u2019s Memory",
+        "Skill concepts"
+      ]
+    },
+    {
+      "section_number": 5,
+      "title": "Module 0 \u2014 Your environment",
+      "native_slide_ids": [
+        "ram_design_007",
+        "ram_slide_008"
+      ],
+      "resources": [
+        "memory_client_api",
+        "nams-console",
+        "backend-capabilities",
+        "nams-connect"
+      ],
+      "labels": [
+        "Client API",
+        "NAMS console",
+        "Backend capabilities",
+        "Connect to NAMS"
+      ]
+    },
+    {
+      "section_number": 6,
+      "title": "Module 0 \u2014 Credential checklist",
+      "native_slide_ids": [
+        "ram_design_009"
+      ],
+      "resources": [
+        "provider_settings",
+        "nams-console"
+      ],
+      "labels": [
+        "Configuration",
+        "NAMS console"
+      ]
+    },
+    {
+      "section_number": 7,
+      "title": "Module 0 \u2014 Smoke test, live",
+      "native_slide_ids": [
+        "ram_design_010"
+      ],
+      "resources": [
+        "memory_client_api",
+        "provider_settings"
+      ],
+      "labels": [
+        "Client API",
+        "Configuration"
+      ]
+    },
+    {
+      "section_number": 8,
+      "title": "Module 1 \u2014 Two stores, two jobs",
+      "native_slide_ids": [
+        "ram_design_011",
+        "ram_slide_012"
+      ],
+      "resources": [
+        "graph_architecture",
+        "memory_types",
+        "backend-capabilities"
+      ],
+      "labels": [
+        "Graph model",
+        "Memory types",
+        "Backend capabilities"
+      ]
+    },
+    {
+      "section_number": 9,
+      "title": "Module 1 \u2014 Meet the agent",
+      "native_slide_ids": [
+        "ram_design_013"
+      ],
+      "resources": [
+        "pydantic_agent",
+        "pydantic_tools"
+      ],
+      "labels": [
+        "PydanticAI agents",
+        "Function tools"
+      ]
+    },
+    {
+      "section_number": 10,
+      "title": "The baseline: PydanticAI + business tools",
+      "native_slide_ids": [
+        "ram_code_m1"
+      ],
+      "resources": [
+        "pydantic_agent",
+        "pydantic_deps"
+      ],
+      "labels": [
+        "PydanticAI agents",
+        "Dependencies"
+      ]
+    },
+    {
+      "section_number": 11,
+      "title": "Module 1 \u2014 The failure: statelessness",
+      "native_slide_ids": [
+        "ram_design_014",
+        "ram_slide_015"
+      ],
+      "resources": [
+        "pydantic_history",
+        "memory_types",
+        "pydantic_agent"
+      ],
+      "labels": [
+        "Chat history",
+        "Memory types",
+        "PydanticAI agents"
+      ]
+    },
+    {
+      "section_number": 12,
+      "title": "Module 1 \u2014 Live demo: the stateless baseline",
+      "native_slide_ids": [
+        "ram_design_016"
+      ],
+      "resources": [
+        "pydantic_tools",
+        "pydantic_history"
+      ],
+      "labels": [
+        "Function tools",
+        "Chat history"
+      ]
+    },
+    {
+      "section_number": 13,
+      "title": "Module 1 \u2014 The eval baseline",
+      "native_slide_ids": [
+        "ram_design_017"
+      ],
+      "resources": [
+        "course-context-graphs",
+        "memory_types"
+      ],
+      "labels": [
+        "GraphAcademy: memory",
+        "Memory types"
+      ]
+    },
+    {
+      "section_number": 14,
+      "title": "Meet neo4j-agent-memory",
+      "native_slide_ids": [
+        "ram_mem_intro"
+      ],
+      "resources": [
+        "memory_types",
+        "sdk_github"
+      ],
+      "labels": [
+        "Memory types",
+        "SDK GitHub"
+      ]
+    },
+    {
+      "section_number": 15,
+      "title": "Where memory meets PydanticAI",
+      "native_slide_ids": [
+        "ram_mem_seam"
+      ],
+      "resources": [
+        "pydantic_history",
+        "pydantic_integration"
+      ],
+      "labels": [
+        "Chat history",
+        "Integration guide"
+      ]
+    },
+    {
+      "section_number": 16,
+      "title": "Configure and open one memory client",
+      "native_slide_ids": [
+        "ram_code_client"
+      ],
+      "resources": [
+        "memory_client_api",
+        "provider_settings"
+      ],
+      "labels": [
+        "Client API",
+        "Configuration"
+      ]
+    },
+    {
+      "section_number": 17,
+      "title": "Module 2 \u2014 Concept: short-term memory",
+      "native_slide_ids": [
+        "ram_design_018"
+      ],
+      "resources": [
+        "memory_types",
+        "messages_api",
+        "short_term_api"
+      ],
+      "labels": [
+        "Memory types",
+        "Message API",
+        "Short-term API index"
+      ]
+    },
+    {
+      "section_number": 18,
+      "title": "Module 2 \u2014 Message chains in the graph",
+      "native_slide_ids": [
+        "ram_design_019",
+        "ram_slide_020"
+      ],
+      "resources": [
+        "messages_api",
+        "graph_architecture",
+        "pydantic_history"
+      ],
+      "labels": [
+        "Message API",
+        "Graph model",
+        "Chat history"
+      ]
+    },
+    {
+      "section_number": 19,
+      "title": "Persist both sides of a conversation",
+      "native_slide_ids": [
+        "ram_code_m2_write"
+      ],
+      "resources": [
+        "messages_api",
+        "memory_client_api"
+      ],
+      "labels": [
+        "Message API",
+        "Client API"
+      ]
+    },
+    {
+      "section_number": 20,
+      "title": "Module 2 \u2014 Context assembly",
+      "native_slide_ids": [
+        "ram_design_021",
+        "ram_slide_022"
+      ],
+      "resources": [
+        "message_search_api",
+        "pydantic_history"
+      ],
+      "labels": [
+        "Search + scope",
+        "Chat history"
+      ]
+    },
+    {
+      "section_number": 21,
+      "title": "Retrieve evidence, then call the agent",
+      "native_slide_ids": [
+        "ram_code_m2_inject"
+      ],
+      "resources": [
+        "pydantic_history",
+        "message_search_api"
+      ],
+      "labels": [
+        "Chat history",
+        "Search + scope"
+      ]
+    },
+    {
+      "section_number": 22,
+      "title": "Module 2 \u2014 Live demo: the returning customer",
+      "native_slide_ids": [
+        "ram_design_023"
+      ],
+      "resources": [
+        "message_search_api",
+        "messages_api"
+      ],
+      "labels": [
+        "Search + scope",
+        "Message API"
+      ]
+    },
+    {
+      "section_number": 23,
+      "title": "Module 2 \u2014 The restart beat",
+      "native_slide_ids": [
+        "ram_design_024"
+      ],
+      "resources": [
+        "messages_api",
+        "pydantic_history"
+      ],
+      "labels": [
+        "Message API",
+        "Chat history"
+      ]
+    },
+    {
+      "section_number": 24,
+      "title": "Module 2 \u2014 Exploration brief",
+      "native_slide_ids": [
+        "ram_design_025"
+      ],
+      "resources": [
+        "course-cypher-fundamentals",
+        "message_search_api"
+      ],
+      "labels": [
+        "Cypher course",
+        "Search + scope"
+      ]
+    },
+    {
+      "section_number": 25,
+      "title": "Module 3 \u2014 Concept: long-term memory",
+      "native_slide_ids": [
+        "ram_design_026"
+      ],
+      "resources": [
+        "entity_api",
+        "preference_api"
+      ],
+      "labels": [
+        "Entity API",
+        "Preference API"
+      ]
+    },
+    {
+      "section_number": 26,
+      "title": "Module 3 \u2014 Ontology-driven extraction",
+      "native_slide_ids": [
+        "ram_design_027",
+        "ram_slide_028"
+      ],
+      "resources": [
+        "ontology_extraction",
+        "poleo_model",
+        "extraction_concepts"
+      ],
+      "labels": [
+        "Ontology guide",
+        "POLE+O",
+        "Extraction"
+      ]
+    },
+    {
+      "section_number": 27,
+      "title": "Turn on ontology-driven extraction",
+      "native_slide_ids": [
+        "ram_code_m3_extract"
+      ],
+      "resources": [
+        "ontology_extraction",
+        "provider_settings"
+      ],
+      "labels": [
+        "Ontology guide",
+        "Configuration"
+      ]
+    },
+    {
+      "section_number": 28,
+      "title": "Module 3 \u2014 Before / after: default vs. custom ontology",
+      "native_slide_ids": [
+        "ram_design_029",
+        "ram_slide_030"
+      ],
+      "resources": [
+        "poleo_model",
+        "ontology_extraction",
+        "entity_api"
+      ],
+      "labels": [
+        "POLE+O",
+        "Ontology guide",
+        "Entity API"
+      ]
+    },
+    {
+      "section_number": 29,
+      "title": "Module 3 \u2014 The hybrid pipeline (the design-principle slide)",
+      "native_slide_ids": [
+        "ram_design_031",
+        "ram_slide_032"
+      ],
+      "resources": [
+        "extraction_concepts",
+        "entity_api"
+      ],
+      "labels": [
+        "Extraction",
+        "Entity API"
+      ]
+    },
+    {
+      "section_number": 30,
+      "title": "Ground extracted entities in SQL facts",
+      "native_slide_ids": [
+        "ram_code_m3_ground"
+      ],
+      "resources": [
+        "entity_api",
+        "memory_client_api"
+      ],
+      "labels": [
+        "Entity API",
+        "Client API"
+      ]
+    },
+    {
+      "section_number": 31,
+      "title": "Module 3 \u2014 Entity resolution & aliases",
+      "native_slide_ids": [
+        "ram_design_033",
+        "ram_slide_034"
+      ],
+      "resources": [
+        "resolution_concepts",
+        "entity_api",
+        "graph_architecture"
+      ],
+      "labels": [
+        "Resolution",
+        "Entity API",
+        "Graph model"
+      ]
+    },
+    {
+      "section_number": 32,
+      "title": "Module 3 \u2014 Live demo: watch the graph bloom",
+      "native_slide_ids": [
+        "ram_design_035"
+      ],
+      "resources": [
+        "ontology_extraction",
+        "extraction_concepts"
+      ],
+      "labels": [
+        "Ontology guide",
+        "Extraction"
+      ]
+    },
+    {
+      "section_number": 33,
+      "title": "Module 3 \u2014 Under the hood: hydration & enrichment",
+      "native_slide_ids": [
+        "ram_design_036"
+      ],
+      "resources": [
+        "entity_api",
+        "provider_settings"
+      ],
+      "labels": [
+        "Entity API",
+        "Configuration"
+      ]
+    },
+    {
+      "section_number": 34,
+      "title": "Expose memory tools to PydanticAI",
+      "native_slide_ids": [
+        "ram_code_m3_tools"
+      ],
+      "resources": [
+        "pydantic_tools",
+        "pydantic_integration"
+      ],
+      "labels": [
+        "Function tools",
+        "Integration guide"
+      ]
+    },
+    {
+      "section_number": 35,
+      "title": "Save and recall one customer\u2019s preferences",
+      "native_slide_ids": [
+        "ram_code_m3_preferences"
+      ],
+      "resources": [
+        "preference_api",
+        "pydantic_deps"
+      ],
+      "labels": [
+        "Preference API",
+        "Dependencies"
+      ]
+    },
+    {
+      "section_number": 36,
+      "title": "Module 3 \u2014 Exploration brief (40-min module, tiered)",
+      "native_slide_ids": [
+        "ram_design_037"
+      ],
+      "resources": [
+        "course-python-workshop",
+        "preference_api"
+      ],
+      "labels": [
+        "GraphAcademy: Python",
+        "Preference API"
+      ]
+    },
+    {
+      "section_number": 37,
+      "title": "Module 4 \u2014 Concept: reasoning memory",
+      "native_slide_ids": [
+        "ram_design_038"
+      ],
+      "resources": [
+        "memory_types",
+        "reasoning-traces",
+        "reasoning-overview"
+      ],
+      "labels": [
+        "Memory types",
+        "Trace API",
+        "Reasoning API index"
+      ]
+    },
+    {
+      "section_number": 38,
+      "title": "Module 4 \u2014 Anatomy of a trace",
+      "native_slide_ids": [
+        "ram_design_039",
+        "ram_slide_040"
+      ],
+      "resources": [
+        "reasoning-steps",
+        "reasoning-models",
+        "reasoning-audit"
+      ],
+      "labels": [
+        "Steps + tools",
+        "Outcome models",
+        "Audit provenance"
+      ]
+    },
+    {
+      "section_number": 39,
+      "title": "Open the trace before execution",
+      "native_slide_ids": [
+        "ram_code_m4_lifecycle"
+      ],
+      "resources": [
+        "reasoning-traces",
+        "reasoning-failure"
+      ],
+      "labels": [
+        "Trace API",
+        "Record failures"
+      ]
+    },
+    {
+      "section_number": 40,
+      "title": "Attach observations and provenance",
+      "native_slide_ids": [
+        "ram_code_m4_tools"
+      ],
+      "resources": [
+        "reasoning-steps",
+        "reasoning-audit"
+      ],
+      "labels": [
+        "Steps + tools",
+        "Audit provenance"
+      ]
+    },
+    {
+      "section_number": 41,
+      "title": "Complete the trace with an outcome",
+      "native_slide_ids": [
+        "ram_code_m4_outcome"
+      ],
+      "resources": [
+        "reasoning-models",
+        "reasoning-traces"
+      ],
+      "labels": [
+        "Outcome models",
+        "Trace API"
+      ]
+    },
+    {
+      "section_number": 42,
+      "title": "Module 4 \u2014 Similar-task retrieval",
+      "native_slide_ids": [
+        "ram_design_041",
+        "ram_slide_042"
+      ],
+      "resources": [
+        "reasoning-search",
+        "reasoning-failure",
+        "reasoning-traces"
+      ],
+      "labels": [
+        "Trace search",
+        "Record failures",
+        "Trace API"
+      ]
+    },
+    {
+      "section_number": 43,
+      "title": "Recall completed executions",
+      "native_slide_ids": [
+        "ram_code_m4_recall"
+      ],
+      "resources": [
+        "reasoning-search",
+        "reasoning-traces"
+      ],
+      "labels": [
+        "Trace search",
+        "Trace API"
+      ]
+    },
+    {
+      "section_number": 44,
+      "title": "Module 4 \u2014 Live demo: record, decline, compare",
+      "native_slide_ids": [
+        "ram_design_043"
+      ],
+      "resources": [
+        "reasoning-failure",
+        "reasoning-audit"
+      ],
+      "labels": [
+        "Record failures",
+        "Audit provenance"
+      ]
+    },
+    {
+      "section_number": 45,
+      "title": "Module 4 \u2014 The provenance question",
+      "native_slide_ids": [
+        "ram_design_044"
+      ],
+      "resources": [
+        "reasoning-audit",
+        "reasoning-steps"
+      ],
+      "labels": [
+        "Audit provenance",
+        "Steps + tools"
+      ]
+    },
+    {
+      "section_number": 46,
+      "title": "Module 4 \u2014 Exploration brief",
+      "native_slide_ids": [
+        "ram_design_045"
+      ],
+      "resources": [
+        "reasoning-audit",
+        "course-cypher-fundamentals"
+      ],
+      "labels": [
+        "Audit provenance",
+        "Cypher course"
+      ]
+    },
+    {
+      "title": "Module 5 \u2014 Build skills on top of agent memory",
+      "native_slide_ids": [
+        "ram_design_046"
+      ],
+      "section_number": 47,
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ]
+    },
+    {
+      "title": "Build procedures on top of agent memory",
+      "native_slide_ids": [
+        "ram_m5_concepts"
+      ],
+      "section_number": 48,
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ]
+    },
+    {
+      "title": "Build reusable procedures on agent memory",
+      "native_slide_ids": [
+        "ram_m5_pipeline"
+      ],
+      "section_number": 49,
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ]
+    },
+    {
+      "title": "Module 5 \u2014 The app, hosted workspace and consumer",
+      "native_slide_ids": [
+        "ram_design_048"
+      ],
+      "section_number": 50,
+      "resources": [
+        "backend-capabilities",
+        "nams-console"
+      ],
+      "labels": [
+        "Backend capabilities",
+        "NAMS console"
+      ]
+    },
+    {
+      "title": "Open your NAMS workspace",
+      "native_slide_ids": [
+        "ram_m5_signup"
+      ],
+      "section_number": 51,
+      "resources": [
+        "nams-console",
+        "nams-service-api"
+      ],
+      "labels": [
+        "NAMS sign in",
+        "Setup docs"
+      ]
+    },
+    {
+      "title": "Create a key for the workshop workspace",
+      "native_slide_ids": [
+        "ram_m5_key"
+      ],
+      "section_number": 52,
+      "resources": [
+        "nams-api-keys",
+        "nams-service-api"
+      ],
+      "labels": [
+        "API key dashboard",
+        "Authentication docs"
+      ]
+    },
+    {
+      "title": "Connect the workshop and check capabilities",
+      "native_slide_ids": [
+        "ram_m5_connect"
+      ],
+      "section_number": 53,
+      "resources": [
+        "nams-service-api",
+        "skills-api"
+      ],
+      "labels": [
+        "NAMS docs",
+        "Skills API"
+      ]
+    },
+    {
+      "title": "Seed a small, inspectable memory corpus",
+      "native_slide_ids": [
+        "ram_m5_seed"
+      ],
+      "section_number": 54,
+      "resources": [
+        "nams-openapi",
+        "nams-service-api"
+      ],
+      "labels": [
+        "NAMS OpenAPI",
+        "Live NAMS API"
+      ]
+    },
+    {
+      "title": "Complete the traces before distilling them",
+      "native_slide_ids": [
+        "ram_code_m5_seed_complete"
+      ],
+      "section_number": 55,
+      "resources": [
+        "nams-openapi",
+        "nams-service-api"
+      ],
+      "labels": [
+        "NAMS OpenAPI",
+        "Live NAMS API"
+      ]
+    },
+    {
+      "title": "Distill one conversation into a versioned skill",
+      "native_slide_ids": [
+        "ram_code_m5_distill"
+      ],
+      "section_number": 56,
+      "resources": [
+        "nams-openapi",
+        "nams-service-api"
+      ],
+      "labels": [
+        "NAMS OpenAPI",
+        "Live NAMS API"
+      ]
+    },
+    {
+      "title": "Approve, publish and unpack the skill package",
+      "native_slide_ids": [
+        "ram_code_m5_publish"
+      ],
+      "section_number": 57,
+      "resources": [
+        "nams-openapi",
+        "nams-service-api"
+      ],
+      "labels": [
+        "NAMS OpenAPI",
+        "Live NAMS API"
+      ]
+    },
+    {
+      "title": "Inspect the downloaded skill package",
+      "native_slide_ids": [
+        "ram_m5_package"
+      ],
+      "section_number": 58,
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ]
+    },
+    {
+      "title": "Inspect the versioned skill graph",
+      "native_slide_ids": [
+        "ram_slide_047"
+      ],
+      "section_number": 59,
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ]
+    },
+    {
+      "title": "Quality signals support review",
+      "native_slide_ids": [
+        "ram_m5_evaluate"
+      ],
+      "section_number": 60,
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ]
+    },
+    {
+      "title": "Give the skill to a fresh PydanticAI agent",
+      "native_slide_ids": [
+        "ram_code_m5_agent"
+      ],
+      "section_number": 61,
+      "resources": [
+        "pydantic_agent",
+        "skills-concepts"
+      ],
+      "labels": [
+        "PydanticAI agents",
+        "Skill concepts"
+      ]
+    },
+    {
+      "title": "Compare the fresh agent with and without a skill",
+      "native_slide_ids": [
+        "ram_design_049"
+      ],
+      "section_number": 62,
+      "resources": [
+        "skills-quickstart",
+        "nams-console"
+      ],
+      "labels": [
+        "Skills tutorial",
+        "NAMS console"
+      ]
+    },
+    {
+      "title": "Governance follows the evidence",
+      "native_slide_ids": [
+        "ram_design_050"
+      ],
+      "section_number": 63,
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ]
+    },
+    {
+      "title": "Follow provenance to the memory a skill uses",
+      "native_slide_ids": [
+        "ram_code_m5_drift"
+      ],
+      "section_number": 64,
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ]
+    },
+    {
+      "title": "Govern the evidence behind a skill",
+      "native_slide_ids": [
+        "ram_slide_051"
+      ],
+      "section_number": 65,
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ]
+    },
+    {
+      "title": "Run the drift loop and restore the policy",
+      "native_slide_ids": [
+        "ram_m5_governance_demo"
+      ],
+      "section_number": 66,
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ]
+    },
+    {
+      "title": "Hosted capability, explicit boundaries",
+      "native_slide_ids": [
+        "ram_design_052"
+      ],
+      "section_number": 67,
+      "resources": [
+        "backend-capabilities",
+        "nams-service-api"
+      ],
+      "labels": [
+        "Backend capabilities",
+        "Live NAMS API"
+      ]
+    },
+    {
+      "title": "Module 5 \u2014 Exploration brief",
+      "native_slide_ids": [
+        "ram_design_053"
+      ],
+      "section_number": 68,
+      "resources": [
+        "skills-concepts",
+        "skills-api"
+      ],
+      "labels": [
+        "Skill concepts",
+        "Skills API"
+      ]
+    },
+    {
+      "section_number": 69,
+      "title": "Wrap \u2014 The eval scoreboard, re-run",
+      "native_slide_ids": [
+        "ram_design_054"
+      ],
+      "resources": [
+        "course-context-graphs",
+        "reasoning-models"
+      ],
+      "labels": [
+        "GraphAcademy: memory",
+        "Outcome models"
+      ]
+    },
+    {
+      "section_number": 70,
+      "title": "Wrap \u2014 Memory is the foundation; skills build on it",
+      "native_slide_ids": [
+        "ram_design_055",
+        "ram_slide_056"
+      ],
+      "resources": [
+        "memory_types",
+        "graph_architecture",
+        "skills-concepts"
+      ],
+      "labels": [
+        "Memory types",
+        "Graph model",
+        "Skill concepts"
+      ]
+    },
+    {
+      "section_number": 71,
+      "title": "Wrap \u2014 Bolt memory and hosted skill workflows",
+      "native_slide_ids": [
+        "ram_design_057",
+        "ram_slide_058"
+      ],
+      "resources": [
+        "backend-capabilities",
+        "nams-connect",
+        "nams-console"
+      ],
+      "labels": [
+        "Backend capabilities",
+        "Connect to NAMS",
+        "NAMS console"
+      ]
+    },
+    {
+      "section_number": 72,
+      "title": "Wrap \u2014 Your Monday morning path",
+      "native_slide_ids": [
+        "ram_design_059"
+      ],
+      "resources": [
+        "sdk_github",
+        "docs_home",
+        "course-context-graphs"
+      ],
+      "labels": [
+        "SDK GitHub",
+        "Memory docs",
+        "GraphAcademy: memory"
+      ]
+    }
+  ],
+  "source_deck": "slides/deck.md",
+  "source_content_sections": 72,
+  "source_appendix_sections": 15,
+  "source_total_sections": 87,
+  "hosted_contract_note": "Module 5 now uses nameHint and an explicit scope.type. Normal generation uses the saved seeded conversation; without it the script warns and scopes to the workspace. Review approval is automatic before publication; the downloaded ZIP contains the procedure, references and provenance. No authenticated hosted service calls were performed during this slide refresh.",
+  "native_slide_count": 102,
+  "delivered_revision": "MFho-EresCn7HA",
+  "module5_review_record": "docs/deck-module5-2026-11-04.md"
+}

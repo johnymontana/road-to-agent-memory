@@ -22,9 +22,11 @@ async def main(mode: str) -> None:
         raise SystemExit(str(exc)) from exc
     label = "WITH distilled skill" if result["with_skill"] else "WITHOUT skill (control)"
     print(f"Fresh agent {label}\n\ncustomer: {TICKET}\nagent: {result['reply']}")
-    print("\ntool calls:")
+    print("\ntool calls (in order):")
     for call in result["tool_calls"]:
-        print(f"  ↳ {call['name']} → {str(call['output'])[:120]}")
+        output = call["output"]
+        status = output.get("status") if isinstance(output, dict) else None
+        print(f"  ↳ {call['name']}" + (f" → {status}" if status else ""))
 
 
 if __name__ == "__main__":

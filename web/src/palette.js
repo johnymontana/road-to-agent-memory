@@ -7,9 +7,9 @@ const REASONING = { fill: '#D0BFFF', stroke: '#9C36B5' }
 const SKILLS = { fill: '#6366F1', stroke: '#4338CA' }
 const DEFAULT = { fill: '#A5D8FF', stroke: '#1971C2' }
 
-const LONG_TERM_LABELS = ['Customer', 'Organization', 'Product', 'Plan', 'Feature', 'Incident']
+const LONG_TERM_LABELS = ['Customer', 'Organization', 'Product', 'Plan', 'Feature', 'Incident', 'Preference', 'Fact', 'User']
 const SHORT_TERM_LABELS = ['Message', 'Conversation']
-const REASONING_LABELS = ['ReasoningTrace', 'ReasoningStep', 'ToolCall', 'Tool']
+const REASONING_LABELS = ['ReasoningTrace', 'ReasoningStep', 'ToolCall', 'Tool', 'AgentStep']
 
 /**
  * Return { fill, stroke } colors for a node based on its Neo4j labels.
