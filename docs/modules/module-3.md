@@ -1,36 +1,18 @@
 # Module 3 — Structured, grounded long-term memory
 
-Start commands from the repository root. Keep `make dev MODULE=3` in one
-terminal and run the lesson commands in another. Before switching modules, stop
-the server with Ctrl+C, launch the next module, and reload the browser.
+Start at the [full Module 3 agent](../../module_3/app/agent.py). Compare its behavior with the adjacent module using the [code map](../../module_3/README.md). The [app guide](../running-the-app.md) explains replay views, refund authorization and the isolated evaluation.
 
-Browser chat has a visible conversation ID, New conversation and Resume controls.
-It preserves turn history locally across reloads; clearing browser storage removes
-that local history. Neo4j memory remains persistent. Terminal commands print their
-own dialogue, tools and timing. Use **Refresh graph → Saved replay** to inspect their
-immutable output projection; choose **Live memory** for the replay's persisted
-Neo4j message/entity/trace links. CLI runs do not append turns to browser chat. Choose Current
-conversation for browser evidence, or All stored memory deliberately.
-
-Refund actions require a selected Customer and Billing case plus **Authorize selected
-refund for this message**. Confirmation resets after each turn. The server checks
-case identity, amount, current SQL plan limit and incident uniqueness. Asking for
-an update reads refund history. A request ID returns its saved operation receipt on
-retry; replaying a billing case cannot create a second refund. No escalation tool
-exists. Status values are seeded examples with timestamps, never a live monitoring feed.
-
-Run `make eval MODULE=3` explicitly. The evaluation lab starts only on POST/action;
-opening or reopening it reads results. Each run uses private SQL, unique memory
-fixtures and disabled business tools. Exact facts and source IDs are checked. This
-is a controlled retrieval probe, not an end-to-end support-quality score or a promise
-of monotonic improvement. A dependency error preserves completed questions.
+Terminal 1 at the repository root. Stop the old server with Ctrl+C first.
 
 ```bash
 make dev MODULE=3
-# Second terminal:
+```
+
+Reload the browser on port 5173 and confirm the **Module 3** badge. In terminal 2 run the lesson commands.
+
+```bash
 make s3-default
 make s3-ontology
-make s3-enrich
 make eval MODULE=3
 ```
 
@@ -54,6 +36,8 @@ within a category across all users. The receipt shows the actual stored object,
 context and deduplication flag. Customer
 choices remain separate. Prior preference rows are not a new source of current policy.
 
+In **Current conversation**, follow `User → HAS_PREFERENCE → Preference` for a customer whose email is on an entity mentioned in this conversation. Choosing the customer scopes saving and recall. Use **All stored memory** for broader graph inspection.
+
 `ONTOLOGY=acme_cloud` loads `module_3/ontology/acme_cloud.yaml`; `default-poleo`
 loads the local generic file. `ONTOLOGY=active` uses the database version after
 `scripts/activate_ontology.py`. Both shell and `.env` settings resolve on restart.
@@ -70,7 +54,7 @@ companies automatically or proves Stripe operational status. Continue without it
 
 ### Q1: Where did this entity come from?
 
-Follow Message MENTIONS Entity and inspect that message.
+In browser chat enter “I’m Maya Chen from Northwind Robotics.” Choose **Current conversation**, select the user message, and follow a `MENTIONS` edge. Name the extracted entity. On a matching customer inspect email, plan or signup date and the SQL source marker. If this run produced no matching customer, record what was extracted and compare an instructor’s labeled example.
 
 ### Q2: What changed with the ontology?
 
@@ -79,6 +63,15 @@ Compare only the two Saved replay snapshots. Verify transcript hashes before int
 ### Q3: Which source supplied Customer fields?
 
 Email, plan and signup_date come from SQL hydration; types/relations come from extraction. hydrated_from is a source marker, not per-field temporal lineage.
+
+### Where can I inspect each experiment?
+
+| Input | Output / writes | View |
+|---|---|---|
+| Fixed transcript and one ontology per run | Two extractor-only replay snapshots with comparable transcript hashes | **Refresh graph → Saved replay · Extractor only** |
+| Browser message introducing Maya | Live graph message and any typed mentions. Matching entities can receive SQL-grounded fields. | **Current conversation** and execution evidence |
+| Instructor’s invalid relationship | Local validator drops the edge or raises, according to the explicit test mode | Instructor terminal output |
+| Optional Wikimedia lookup | Cached provider result/status and saved replay | Optional `make s3-enrich` replay |
 
 ### Q4: What changed since module 2?
 
@@ -90,7 +83,7 @@ Read the YAML and rerun the fixed extractor after a local edit. They guide the m
 
 ### Q6: How do validation modes differ?
 
-Run `uv run scripts/instructor.py strict`: permissive drops an invalid relation, strict raises.
+The instructor runs `uv run scripts/instructor.py strict` on a deliberately invalid relationship. The explicit `drop` and `raise` modes show two validator outcomes. The fixed-transcript extractor filters undeclared types and invalid relations before saving its projection. Browser ingestion uses the app’s configured ontology and validation mode to write the live graph. Compare each experiment in its own view.
 
 ### Q7: What happens after a plan upgrade?
 

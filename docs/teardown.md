@@ -1,8 +1,6 @@
 # Teardown — cleaning up after the workshop
 
-Ten minutes of cleanup keeps your free quotas free and your old credentials dead.
-Everything here is safe to do as soon as the session ends — the workshop's data is
-disposable by design.
+Decide after the final capstone exercise and take-home discussion. To run the [Monday example](../scripts/monday_memory.py) later, retain your workshop environment and credentials and stop the codespace between sessions. When you finish, save any artifacts you plan to keep, verify the database/workspace names, then clean up the workshop resources below. Deleting a codespace removes its local uncommitted files, generated package and receipts.
 
 ## 1. Delete your codespace
 
@@ -25,7 +23,7 @@ be surprised by it later. Note that free instances also auto-pause after inactiv
 
 ## 3. Revoke your NAMS API key
 
-1. Go to the console at [memory.neo4jlabs.com](https://memory.neo4jlabs.com).
+1. Open the [NAMS API Keys dashboard](https://memory.neo4jlabs.com/dashboard/api-keys) in the workshop workspace.
 2. Find the `nams_` key you created for the workshop and revoke (or delete) it.
 
 ## 4. Rotate your OpenAI key (if you created one for the workshop)
@@ -50,8 +48,4 @@ products.
   `neo4j-agent-memory` package and NAMS.
 - **Course:** the **Context Graphs** course on
   [GraphAcademy](https://graphacademy.neo4j.com) — the natural next step.
-- **This repo:** every module folder (`module_1/` … `module_5/`) is a self-contained,
-  runnable stage — `make module-N` replays any module, `make reset-memory` gives you a
-  clean graph, and the answer keys in `docs/modules/` cover every exploration question.
-
-Thanks for coming — now go give your own agent a memory.
+- **This repo** includes a [module reading map](../README.md#read-and-compare-the-agents) and [participant exercises](modules/). To revisit a previous hosted result, inspect the downloaded package directly. Running `make module-5` starts a full hosted replay with new seed records and a new generation/publication.

@@ -1,33 +1,16 @@
 # Module 4 — Execution memory and controlled retrieval
 
-Start commands from the repository root. Keep `make dev MODULE=4` in one
-terminal and run the lesson commands in another. Before switching modules, stop
-the server with Ctrl+C, launch the next module, and reload the browser.
+Start at the [full Module 4 agent](../../module_4/app/agent.py). Compare its behavior with the adjacent module using the [code map](../../module_4/README.md). The [app guide](../running-the-app.md) explains replay views, refund authorization and the isolated evaluation.
 
-Browser chat has a visible conversation ID, New conversation and Resume controls.
-It preserves turn history locally across reloads; clearing browser storage removes
-that local history. Neo4j memory remains persistent. Terminal commands print their
-own dialogue, tools and timing. Use **Refresh graph → Saved replay** to inspect their
-immutable output projection; choose **Live memory** for the replay's persisted
-Neo4j message/entity/trace links. CLI runs do not append turns to browser chat. Choose Current
-conversation for browser evidence, or All stored memory deliberately.
-
-Refund actions require a selected Customer and Billing case plus **Authorize selected
-refund for this message**. Confirmation resets after each turn. The server checks
-case identity, amount, current SQL plan limit and incident uniqueness. Asking for
-an update reads refund history. A request ID returns its saved operation receipt on
-retry; replaying a billing case cannot create a second refund. No escalation tool
-exists. Status values are seeded examples with timestamps, never a live monitoring feed.
-
-Run `make eval MODULE=4` explicitly. The evaluation lab starts only on POST/action;
-opening or reopening it reads results. Each run uses private SQL, unique memory
-fixtures and disabled business tools. Exact facts and source IDs are checked. This
-is a controlled retrieval probe, not an end-to-end support-quality score or a promise
-of monotonic improvement. A dependency error preserves completed questions.
+Terminal 1 at the repository root. Stop the old server with Ctrl+C first.
 
 ```bash
 make dev MODULE=4
-# Second terminal:
+```
+
+Reload the browser on port 5173 and confirm the **Module 4** badge. In terminal 2 run the lesson commands.
+
+```bash
 make s4-refund
 make s4-fail
 make s4-refund-repeat
@@ -67,13 +50,15 @@ Inspect ordered ReasoningSteps and ToolCalls, exact SQL and trace outcome.
 
 Compare evidence, business result, tool calls, measured tokens and timing. Do not infer benefit from different prose.
 
+One archived November 1 run offers a comparison when the live measurement is unavailable. On the first ticket, control and treatment each called `issue_refund` once and returned `issued`. They started with equal input SQL hashes. Control used 2,712 input tokens and 31.470 seconds. Treatment used 3,456 input tokens and 33.589 seconds. For that ticket the business action matched and treatment consumed more context. Compare your own rows separately. [Archived output](../reviews/2026-11-01-workshop-fixes/command-09.log).
+
 ### Q3: What does failure mean?
 
 A declined business request may have a successful execution. A model/dependency exception has execution_status failed. Inspect both fields and warnings.
 
 ### Q4: How do provenance links differ?
 
-MENTIONS is source text about an entity. TOUCHED records case dependencies; INITIATED_BY identifies the initiating user message.
+`MENTIONS` links message to entity. `INITIATED_BY` links trace to initiating message. `TOUCHED` links a step to selected-case entities. The recorder computes Customer/Plan references for the case and attaches that same set to the captured calls. To establish what an operation read or changed, inspect its tool output, captured SQL and receipt in **Saved replay**. Trace relationships are visible under **Live memory**.
 
 ## Read the code
 

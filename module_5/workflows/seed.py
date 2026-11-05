@@ -4,7 +4,7 @@ reasoning memory (module 5). Pre-seeded snapshot approach (decision D2).
 
 Writes in realistic agent-loop order: entities → conversation → messages →
 reasoning traces (steps + tool calls with JSON-string payloads) → trace completion.
-Entity upserts may merge; conversations and traces are newly seeded on each run.
+Each run gets a fresh user scope for its entities and conversation.
 The seeded conversation ID is saved for `make nams-distill`, which distills from
 exactly this history.
 """
@@ -15,8 +15,11 @@ import asyncio
 import json
 import sys
 from pathlib import Path
+from uuid import uuid4
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+POLICY_NAME = "Acme Cloud Refund Policy"
 
 ENTITIES = [
     {
@@ -38,6 +41,11 @@ ENTITIES = [
         "name": "Pro",
         "type": "custom",
         "description": "Mid-tier plan; no-approval refund limit $250.",
+    },
+    {
+        "name": POLICY_NAME,
+        "type": "custom",
+        "description": "Duplicate charges qualify for a refund; Pro's no-approval limit is $250.",
     },
 ]
 
@@ -146,16 +154,17 @@ async def main() -> None:
     from module_5.workflows.nams import call, client, seed_state_path, write_json
 
     settings = get_settings()
+    user_id = f"workshop-maya-{uuid4()}"
     async with client(settings) as http:
         print("Seeding entities…")
         entity_ids: dict[str, str] = {}
         for entity in ENTITIES:
-            body = await call(http, "POST", "/v1/entities", entity)
+            body = await call(http, "POST", "/v1/entities", {**entity, "userId": user_id})
             # 201 creates it; 200 means it resolved onto an existing entity.
             entity_ids[entity["name"]] = body.get("id") or body.get("merged_into")
 
         print("Creating conversation + messages…")
-        conversation = await call(http, "POST", "/v1/conversations", {"userId": "maya.chen"})
+        conversation = await call(http, "POST", "/v1/conversations", {"userId": user_id})
         conv_id = conversation["id"]
         added = await call(
             http, "POST", f"/v1/conversations/{conv_id}/messages/bulk", {"messages": MESSAGES}
@@ -189,6 +198,7 @@ async def main() -> None:
                     },
                 )
                 tool = step["tool"]
+                touched = POLICY_NAME if tool["toolName"] == "fetch_policy" else "Maya Chen"
                 await call(
                     http,
                     "POST",
@@ -200,7 +210,7 @@ async def main() -> None:
                         "input": json.dumps(tool["input"]),
                         "output": json.dumps(tool["output"]),
                         "status": "success",
-                        "touchedEntityIds": [entity_ids["Maya Chen"]],
+                        "touchedEntityIds": [entity_ids[touched]],
                     },
                 )
             # A completed, successful trace is what distillation learns a procedure from.
@@ -211,12 +221,20 @@ async def main() -> None:
                 {
                     "outcome": trace["outcome"],
                     "success": True,
-                    "relatedEntityIds": [entity_ids["Maya Chen"]],
+                    "relatedEntityIds": [entity_ids["Maya Chen"], entity_ids[POLICY_NAME]],
                 },
             )
             trace_ids.append(trace_id)
 
-    write_json(seed_state_path(settings), {"conversationId": conv_id, "traceIds": trace_ids})
+    write_json(
+        seed_state_path(settings),
+        {
+            "conversationId": conv_id,
+            "traceIds": trace_ids,
+            "userId": user_id,
+            "policyEntityId": entity_ids[POLICY_NAME],
+        },
+    )
     print(
         f"Done. Conversation {conv_id}, {len(TRACES)} completed traces, "
         f"{len(ENTITIES)} entities. Next: make nams-distill"

@@ -29,7 +29,7 @@ def main() -> int:
 
     print("Road to Agent Memory — environment check\n")
 
-    report(bool(s.neo4j_uri), "NEO4J_URI set", s.neo4j_uri[:40] or "missing — see .env.example")
+    report(bool(s.neo4j_uri), "NEO4J_URI set")
     report(bool(s.neo4j_password), "NEO4J_PASSWORD set")
     report(bool(s.openai_api_key), "OPENAI_API_KEY set (env or personal Codespaces secret)")
     try:
@@ -40,6 +40,8 @@ def main() -> int:
     except Exception as error:
         report(False, "SQLite schema and lesson data", type(error).__name__)
 
+    bolt_ready = False
+    model_ready = False
     if s.neo4j_uri and s.neo4j_password:
         try:
             from neo4j import GraphDatabase
@@ -55,14 +57,14 @@ def main() -> int:
                     driver.execute_query("RETURN 1", database_=s.neo4j_database)
                     timings.append(time.monotonic() - started)
                 query_ms = round(sorted(timings)[2] * 1000)
+            bolt_ready = True
             report(True, "AuraDB reachable (Bolt)", f"{query_ms} ms per query")
-            if query_ms > 150:
-                print(
-                    "  ⚠️  Each chat turn makes dozens of memory queries, so turns will be slow.\n"
-                    "     An AuraDB region closer to where this code runs fixes that."
-                )
         except Exception as exc:  # noqa: BLE001 — report anything to the attendee
-            report(False, "AuraDB reachable (Bolt)", f"{type(exc).__name__}: {exc}")
+            report(
+                False,
+                "AuraDB reachable (Bolt)",
+                f"{type(exc).__name__} — check network, database and credentials",
+            )
 
     if s.openai_api_key:
         try:
@@ -78,10 +80,11 @@ def main() -> int:
                     model=s.embedding_model, input="workshop capability check"
                 )
                 assert result.data[0].embedding
+            model_ready = True
             report(True, "Configured chat model and embeddings")
         except Exception as error:
             report(False, "Configured chat model and embeddings", type(error).__name__)
-    if s.neo4j_uri and s.neo4j_password and s.openai_api_key:
+    if bolt_ready and model_ready:
 
         async def memory_capability():
             from lib.graph import bolt_graph
@@ -103,6 +106,9 @@ def main() -> int:
         except Exception as error:
             report(False, "Memory startup and graph transport", type(error).__name__)
 
+    else:
+        print(f"  {WARN} Memory startup skipped until Bolt, chat and embeddings pass")
+
     if os.environ.get("MODULE") == "5" and s.nams_api_key:
         try:
             import httpx
@@ -115,7 +121,7 @@ def main() -> int:
             )
             report(resp.status_code == 200, "NAMS key valid (module 5)", f"HTTP {resp.status_code}")
         except Exception as exc:  # noqa: BLE001
-            report(False, "NAMS key valid (module 5)", str(exc))
+            report(False, "NAMS key valid (module 5)", type(exc).__name__)
     else:
         print(f"  {WARN} NAMS is optional here; validate separately for module 5")
 
@@ -124,7 +130,7 @@ def main() -> int:
         + (
             "All required checks passed. Try: make dev"
             if not failures
-            else f"{failures} check(s) failed — fix .env and re-run make check"
+            else f"{failures} check(s) failed — resolve the failed checks and re-run make check"
         )
     )
     return 1 if failures else 0

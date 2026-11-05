@@ -1,76 +1,80 @@
-# Module 5 — Skill Distillation on NAMS
+# Module 5 — Build a portable skill from agent memory
 
-Code-reading map: [module_5/README.md](../../module_5/README.md). Start with
-[`module_5/app/agent.py`](../../module_5/app/agent.py); the full agent is local to this lesson.
+In the first four modules you met the support agent, accumulated conversation and entity memory, and recorded tool executions. A distillation run can use selected evidence to derive a reusable procedure. A fresh PydanticAI agent can load that procedure and bring its own tools, permissions and current SQLite policy.
 
+The support app continues to use your Bolt/AuraDB memory. A separate hosted NAMS workspace holds the authored workshop fixtures, skill versions and their evidence links. The workflow uses the NAMS HTTP API. Start with the [module code map](../../module_5/README.md).
 
-The payoff: turn one agent's accumulated experience into a portable, versioned
-*skill* — then hand it to a fresh agent that has never seen any of the history, and
-watch it resolve the ticket cold.
+## Before class
 
-**The seam, made explicit:** your memory from modules 1–4 lives in *your* AuraDB over
-the Bolt backend. NAMS is a separate, hosted, managed workspace — `make nams-seed`
-loads the canonical history into it. You're not moving your graph; you're seeding a
-fresh one.
+Sign in to the [NAMS console](https://memory.neo4jlabs.com/) and select Sign up if you need a Neo4j account. In the [API Keys dashboard](https://memory.neo4jlabs.com/dashboard/api-keys), choose the workshop workspace and create a workspace-bound data key. Keep the value private in a personal Codespaces secret or your local `.env`. The service origin is `https://memory.neo4jlabs.com`. The [pre-work guide](../prework-email.md) distinguishes private configuration from terminal commands.
 
-## What you'll learn
+Run `make nams-check`. It reads workspace reachability and then checks whether distillation is enabled. It exits successfully only with confirmed distillation and prints the publish thresholds. If the check fails, follow its fallback command. Stop pre-work here. Seeding, generating and publishing are workshop actions.
 
-- What NAMS is, and how a hosted memory workspace differs from your own Bolt-backed AuraDB.
-- How skill distillation turns many similar traces into a step-by-step SKILL.md with evidence links.
-- What grounding and coverage scores tell you about whether to trust a distilled skill.
-- The governance loop: how drift is detected when the memory under a skill changes — and its honest blind spot.
+## Choose your route
 
-## Run it
+In terminal 1, stop the prior server with Ctrl+C, run `make dev MODULE=5`, reload port 5173 and confirm the **Module 5** badge. Use terminal 2 for the following commands. Both consumer modes need the normal model and seeded SQLite environment.
 
-| Command | What it does |
-|---|---|
-| `make nams-check` | Verifies your `nams_` API key and workspace are reachable (you created both in pre-work). |
-| `make nams-seed` | Seeds your NAMS workspace with the canonical reasoning memory (~1 min) — the refund-procedure history, in realistic agent-loop order. |
-| `make nams-distill` | Triggers skill distillation over the accumulated refund-procedure memory. |
-| `make s5-fresh-agent` | **The payoff:** a fresh agent — no session history, no prior traces — loads the distilled skill and resolves the refund ticket cold. |
-| `make policy-change` | Flips the refund limit in SQLite (the system of record) — watch governance flag *nothing*. |
-| `make nams-drift` | Retires the refund policy by deleting its entity from workspace memory — now the skill's evidence links break and drift is flagged. |
-| `make nams-redistill` | Re-distills the skill against the current memory, closing the governance loop. |
+| What you have | Do this | What you can inspect |
+|---|---|---|
+| Hosted capability and an existing downloaded package | Open the package directly and run the off/on comparison below. | Local procedure, references, provenance and receipt. A valid key for the same workspace enables hosted graph inspection. |
+| Hosted capability, starting fresh | Once in your designated workshop workspace, run the two hosted write commands below. | The seed state, generation status and downloaded package. |
+| Hosted access unavailable, capabilities disabled, generation failed, or **no downloaded package by capstone minute five** | Compare off and fallback. Record both rows, then go to the wrap (Google Slides 75 → 82, repo slides [62](../../slides/deck.html#62) → [69](../../slides/deck.html#69)). | The checked-in SKILL.md and your consumer output. Hosted graph, provenance and drift exercises require the hosted route. |
 
-## Explore
+In Google’s HTML view, use browser Find for the comparison or scorecard title when a slide link opens at the start of the deck. These links open the destinations directly in presentation mode. [Slide 75 · Compare a fresh agent on Ravi’s $49 case](https://docs.google.com/presentation/d/1qBsciAQf7s3BUdQleJJ39-4RDKAoqqoVfodPDDg63z8/present?slide=id.ram_design_049) · [Slide 82 · The controlled retrieval scorecard](https://docs.google.com/presentation/d/1qBsciAQf7s3BUdQleJJ39-4RDKAoqqoVfodPDDg63z8/present?slide=id.ram_design_054)
 
-**Core**
+### Hosted writes
 
-1. Open the distilled SKILL.md. Which steps correspond to which observed tool calls? Follow a `GROUNDED_IN` edge from a claim back to its evidence.
-2. What do the grounding and coverage scores tell you? What would a low-grounding step mean, and would you trust it?
-
-**Instructor-led**
-
-3. **The drift beat, made concrete:** first `make policy-change` (flips the refund limit in SQLite — the system of record) — what does governance flag? *(Nothing: it watches the memory graph, not your database — the honest boundary.)* Then `make nams-drift` (ops retires the refund policy — the policy **entity is deleted** from the workspace memory): the skill's `GROUNDED_IN` claims lose their source nodes. What does the governance loop flag now? What happens on re-distillation (`make nams-redistill`)? *Stretch variant: instead of deleting the entity, mark a grounding `issue_refund` tool call as failed — same governance view, different provenance story.*
-
-**Stretch**
-
-4. How is a distilled skill different from a hand-written runbook? From a raw trace? What does each optimize for?
-5. Who else could load this skill? What does it mean that procedural knowledge is now a portable, versioned artifact rather than trapped in one workspace?
-6. Full-circle: which of the three memory types did distillation draw on for this skill? And which store changed in the drift beat — SQLite or Neo4j? Why?
-
-## Answer key
-
-1. Each SKILL.md step maps to a tool-call pattern that recurred across the seeded traces — "look up the account" from `lookup_account` calls, "validate against policy" from `fetch_policy("refund")`, "issue the refund" from `issue_refund`. A `GROUNDED_IN` edge runs from each step/claim node back to the exact traces, tool calls, and entities it was distilled from — every claim has receipts.
-2. Grounding measures how much of the skill is backed by evidence edges; coverage measures how much of the evidence the skill actually used. A low-grounding step is an unsupported claim — treat it as a hypothesis to review, not a procedure to run. High grounding with high coverage is what makes a distilled skill trustworthy enough to hand to a fresh agent.
-3. `make policy-change` flags **nothing** — governance watches the memory graph, not your database, and that's the honest boundary of the system. `make nams-drift` deletes the refund-policy entity, so the skill's `GROUNDED_IN` claims lose their source nodes — and now drift is flagged: the skill's evidence has gone stale. `make nams-redistill` regenerates the skill against the current memory, producing a new version whose claims are grounded again.
-4. A hand-written runbook is authoritative but stale-prone and expensive to maintain; a raw trace is complete evidence but not reusable as instructions. A distilled skill is generated from real executions — fresher than a runbook, more actionable than a trace — and it's versioned, so changes are explicit.
-5. Any agent that can read the workspace (or the exported SKILL.md) can load it: a fresh agent, a teammate's agent, a different product's support bot. Procedural knowledge stops being trapped in one agent's chat history and becomes a portable, versioned artifact — one agent's Tuesday becomes everyone's Tuesday.
-6. Distillation drew mainly on reasoning memory (the traces and tool calls), plus the long-term entities those traces touched. In the drift beat, *both* stores changed at different steps: SQLite for `make policy-change` (invisible to governance), and the Neo4j/NAMS memory graph for `make nams-drift` (which fired the signal) — because governance watches memory, not systems of record.
-
-## If you fell behind
-
-From the repo root, run:
-
-```
-make module-5
+```bash
+make nams-seed
+make nams-distill
 ```
 
-That replays this module's beats in order (check, seed, distill and fresh-agent payoff) and reproduces the room's current state. If your dev server is still
-running an older stage, stop it first with `Ctrl+C`, then restart with
-`make dev MODULE=5`. If NAMS itself is unreachable, ask a helper for the fallback path
-(`make s5-fresh-agent WITH_SKILL=fallback` loads the pre-distilled skill from `artifacts/pre-distilled-skill/`).
+The seed assigns a fresh user ID to five entities and one four-message conversation. The entities represent Maya, Northwind, Compute, Pro and the Acme Cloud Refund Policy. Two completed traces each record three tool steps. The receipt in `DATA_DIR/nams-workspace.json` records `userId`, `policyEntityId`, `conversationId` and `traceIds`. Each seed starts a new run. Generation and re-distillation require the saved `conversationId`. If it is missing, the command stops before sending a generation request. Use the checked-in comparison or seed once in the designated workshop workspace.
 
-## Glossary
+The generator uses the saved conversation, polls the run, automatically approves a successful version, publishes, and downloads a ZIP into `artifacts/distilled/`. A matching named skill receives a new version. The local receipt `skill.json` records the skill, version, run and conversation IDs. `make module-5` is a **full hosted replay** that checks, seeds, generates/publishes and runs the consumer. To catch up with an existing package, proceed directly to inspection. When using fallback, go directly to the comparison.
 
-- [Skill distillation](../glossary.md#skill-distillation) · [Grounding score](../glossary.md#grounding-score) · [Coverage score](../glossary.md#coverage-score) · [NAMS](../glossary.md#nams) · [Bolt backend](../glossary.md#bolt-backend)
+### Compare a fresh agent
+
+**With a downloaded package**
+
+```bash
+make s5-fresh-agent WITH_SKILL=off
+make s5-fresh-agent WITH_SKILL=on
+```
+
+**With the checked-in procedure**
+
+```bash
+make s5-fresh-agent WITH_SKILL=off
+make s5-fresh-agent WITH_SKILL=fallback
+```
+
+Both calls use the same Ravi $49 duplicate Compute charge, an authorized incident, the same business tools and a fresh private SQL copy. The procedure is supplied as instructions in on or fallback mode. The CLI prints the model reply, ordered tool names and a status where the tool returned one.
+
+| Mode used | Ordered tool names | Visible returned status | Does the reply agree? |
+|---|---|---|---|
+| off | | | |
+| on **or** fallback | | | |
+
+A matching pair of outcomes is a valid result. State which procedure the consumer received and which operation you actually observed. The experiment shows how to transfer an instruction artifact between agents on a similar case. A different case or a policy threshold test requires a separate comparison. **Fallback participants finish here and join the wrap.**
+
+## Explore the hosted artifact
+
+1. Open `artifacts/distilled/SKILL.md` and choose one procedure step. Find a supporting ID in the downloaded `provenance.json`. Look under both `claims` and `steps`. The package also includes `references/`. The fresh consumer reads only SKILL.md.
+2. In the Module 5 browser, tick **NAMS**. Follow **Skill → HAS_VERSION → SkillVersion → HAS_STEP → SkillStep → GROUNDED_IN → source evidence**. Look for a source entity, agent step or tool call. A newer version can point to its predecessor with SUPERSEDES. Claim entries live in the provenance JSON.
+3. Compare generated grounding and coverage scores with one actual link and the procedure text. What supports that step? Which condition was absent from the two similar successful seed traces? Document what a denied or unauthorized case would need to establish in a separate test. Scores help prioritize review. The receiving app’s SQL policy and authorization govern actions.
+
+## Instructor extension — provenance and drift
+
+Participants observe the instructor using a **disposable workshop workspace**. Use a seed and downloaded package from the same run. Confirm the version is still published. Compare the seed’s explicit `policyEntityId` with the package’s `groundedIn` IDs. NAMS can extract additional records named Acme Cloud Refund Policy under that same seed user; a claim or step may cite one of those IDs. The [drift workflow](../../module_5/workflows/drift.py) can delete only exact-name policy records in that seed user’s scope whose IDs the version cites. It first verifies the original policy and hosted conversation. If the evidence or receipts do not match, record the explanation and skip the deletion. An older package can still supply SKILL.md for the consumer comparison.
+
+1. Establish the starting SQL Pro limit using the current policy lookup or SQL row. If it is $250, run `make policy-change` and read the printed **$250 → $150** transition. The lowering path requests drift for the downloaded version when its receipt includes skillId and versionId and the hosted key is available. A legacy or missing version receipt leaves the observation SQL-only. Record the status actually returned. If you start at $150, the demonstration is already in its lowered state.
+2. In the verified disposable workspace, run `make nams-drift` once. Record each deleted policy ID and type printed by the command, the current skill’s status, and the stale claims and steps. The report fields are `status`, `staleClaims` and `staleSteps`. Use the downloaded provenance and graph to look up supporting IDs. If nothing is eligible, record the command’s explanation. An SQL policy change and a deleted hosted source are independent events.
+3. If time and evidence permit, run `make nams-redistill`. Inspect the new version, SKILL.md diff and evidence IDs. A new version reflects the selected memory. SQLite is the authority for the current limit.
+4. Check the current SQL limit. If it is $150, run `make policy-change` once and verify the printed **$150 → $250** restoration. If already $250, stop. This restores the workshop’s SQL default. A deleted hosted policy stays deleted.
+
+**November 4 rehearsal.** Changing SQLite alone left the hosted version current. NAMS cited two same-name policy records in this run, one Object and one Concept. After their deletion, the first version reported two of five claims and one of three steps stale. The new version received full grounding and coverage scores and still referred to $250 while local SQL held $150. Inspect your own package and status.
+
+**Interpretation.** The $49 consumer case is below both $250 and $150. Use the printed SQL change to show the policy edit and the actual NAMS response to show hosted drift. A separate authorized Pro duplicate charge strictly between the two amounts would distinguish policy enforcement. That would be a new fixture.
+
+Finish the wrap and make the keep-or-clean-up decision before following [teardown](../teardown.md). Detailed code, including seed, review, publish and drift payloads, is in the [Module 5 implementation](../../module_5/README.md).

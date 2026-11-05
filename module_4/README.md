@@ -25,9 +25,15 @@ retrieval-on/off comparison. The agent does not use it.
 
 ## Run it
 
+Terminal 1 at the repository root. Stop the old server with Ctrl+C first.
+
 ```bash
 make dev MODULE=4
-# Second terminal:
+```
+
+Reload the browser on port 5173 and confirm the **Module 4** badge. In terminal 2 run the lesson commands.
+
+```bash
 make s4-refund
 make s4-fail
 make s4-refund-repeat
@@ -36,7 +42,7 @@ make eval MODULE=4
 
 - **The trace graph:** ReasoningTrace → HAS_STEP → ReasoningStep → USES_TOOL →
   ToolCall → INSTANCE_OF → Tool. INITIATED_BY links the trace to its user
-  message; TOUCHED links tool calls to the case's Customer and Plan. A trace
+  message; TOUCHED links each captured step to its case’s Customer and Plan. A trace
   opens before execution and completes on success *and* on exception.
 - **Execution vs business status:** a declined refund can be a successful
   execution. A model or dependency error has `execution_status: failed`.
@@ -67,10 +73,12 @@ Inspect ordered ReasoningSteps and ToolCalls, exact SQL and trace outcome.
 
 Compare evidence, business result, tool calls, measured tokens and timing. Do not infer benefit from different prose.
 
+One archived November 1 run offers a comparison when the live measurement is unavailable. On the first ticket, control and treatment each called `issue_refund` once and returned `issued`. They started with equal input SQL hashes. Control used 2,712 input tokens and 31.470 seconds. Treatment used 3,456 input tokens and 33.589 seconds. For that ticket the business action matched and treatment consumed more context. Compare your own rows separately. [Archived output](../docs/reviews/2026-11-01-workshop-fixes/command-09.log).
+
 ### Q3: What does failure mean?
 
 A declined business request may have a successful execution. A model/dependency exception has execution_status failed. Inspect both fields and warnings.
 
 ### Q4: How do provenance links differ?
 
-MENTIONS is source text about an entity. TOUCHED records case dependencies; INITIATED_BY identifies the initiating user message.
+`MENTIONS` links message to entity. `INITIATED_BY` links trace to initiating message. `TOUCHED` links a step to selected-case entities. The recorder computes Customer/Plan references for the case and attaches that same set to the captured calls. To establish what an operation read or changed, inspect its tool output, captured SQL and receipt in **Saved replay**. Trace relationships are visible under **Live memory**.

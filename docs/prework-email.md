@@ -51,23 +51,19 @@ The default of 30 minutes can stop your codespace during a talk segment.
 
 ## Step 3 — Sign up for NAMS and create an API key (~5 min)
 
-Module 5 uses the hosted Neo4j Agent Memory Service.
+Module 5 can use a hosted NAMS workspace or the workshop’s checked-in procedure.
 
-1. Go to [memory.neo4jlabs.com](https://memory.neo4jlabs.com) and sign up.
-2. Create an API key — it will have the prefix `nams_`.
-3. Save it somewhere safe alongside your AuraDB credentials.
+1. Open the [NAMS console](https://memory.neo4jlabs.com/) and choose **Sign In**. Sign in with your Neo4j account or choose **Sign up** (email or Google). First login provisions a default workspace and key.
+2. Open **Dashboard → API Keys**, select your workshop workspace and create a workspace-bound data key. [API Keys dashboard](https://memory.neo4jlabs.com/dashboard/api-keys).
+3. Store its `nams_` value privately in a personal Codespaces secret named `NAMS_API_KEY` scoped to the workshop repo, or in the workshop’s private `.env`. The default `NAMS_BASE_URL` is `https://memory.neo4jlabs.com`. Keep the key out of chat, tickets, Git and screenshots.
 
-## Step 4 (optional but appreciated) — Smoke-test your environment (~5 min)
+## Step 4 — Check readiness
 
-1. Open the workshop repository and click the **"Open in GitHub Codespaces"** badge in the README.
-2. Wait for the codespace to finish starting (the first open takes a couple of minutes).
-3. `.env` opens automatically. Paste your AuraDB `NEO4J_URI` and `NEO4J_PASSWORD` into it
-   and save. (Your OpenAI key already comes from the secret.)
-4. In the terminal, run `make check`.
-5. If every line is green — you're done. **If anything is red, reply to this email and paste the full output.**
-
-When you're finished, stop the codespace (it also auto-stops on idle) so it doesn't
-consume your free quota.
+1. [Open this workshop in Codespaces](https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory), or use the local setup in the [workshop README](../README.md). Wait for setup to complete.
+2. Set `NEO4J_URI`, `NEO4J_USERNAME` and `NEO4J_PASSWORD` in your private `.env` if your personal secrets do not already supply them.
+3. Run `make check` from the repo root. It measures the median of five Bolt queries and checks required services. Record the failing check name if you need help. Share only redacted diagnostics.
+4. For the hosted route run `make nams-check`. Read both **workspace reachable** and **distillation enabled**. An unavailable or unconfirmed capability stops the check and prints the fallback command. A successful check reports the hosted publish thresholds.
+5. Stop here. Save hosted seeding, generation and publication for class. With a disabled capability or no key, plan to use the supplied procedure for the fresh-agent comparison. When finished, stop the codespace until the workshop.
 
 ## What will this cost me?
 
@@ -85,9 +81,8 @@ teach all of it from zero.
 
 ## Deadline
 
-Please complete **steps 1–3 at least 48 hours before the workshop** (step 4 is
-optional). When you're done — or if you hit any snag — **reply to this email** with
-"ready" (or with your `make check` output if anything was red), and we'll get you
+Please complete **the core setup and readiness check at least 48 hours before the workshop**. Complete the NAMS check if you plan to follow the hosted route. When you're done — or if you hit any snag — **reply to this email** with
+"ready" (or with the failing check name and redacted details), and we'll get you
 sorted before the session.
 
 See you soon!

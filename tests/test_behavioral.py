@@ -155,7 +155,13 @@ async def test_module_3_grounding_and_two_customer_preferences(live_settings, mo
         )
         assert maya[0]["preference"] == "Email only" and dana[0]["preference"] == "Phone only"
         graph = await graph_http(chat, live_settings, result["session_id"], monkeypatch)
-        assert any("Preference" in n["labels"] for n in graph["long_term"]["nodes"])
+        shown_ids = {
+            n["properties"]["id"]
+            for n in graph["long_term"]["nodes"]
+            if "Preference" in n["labels"]
+        }
+        assert maya[0]["id"] in shown_ids and dana[0]["id"] not in shown_ids
+        assert "HAS_PREFERENCE" in {r["type"] for r in graph["long_term"]["relationships"]}
 
 
 async def test_module_4_receipts_guards_provenance_and_failure(live_settings, monkeypatch):

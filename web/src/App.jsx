@@ -22,6 +22,7 @@ export default function App() {
   const [authorize, setAuthorize] = useState(false)
   const [plan, setPlan] = useState('')
   const [graphRefreshKey, setGraphRefreshKey] = useState(0)
+  const [savedReplay, setSavedReplay] = useState(null)
   const [evalOpen, setEvalOpen] = useState(false)
 
   useEffect(() => {
@@ -97,14 +98,14 @@ export default function App() {
       <button className="btn" disabled={!health || sending} onClick={() => switchSession(crypto.randomUUID())}>New conversation</button>
       <label>Resume <select aria-label="Resume conversation" disabled={!health || sending} value={sessionId ?? ''} onChange={e => switchSession(e.target.value)}>
         {[...new Map([{ id: sessionId, messages }, ...history].filter(s => s.id).map(s => [s.id, s])).values()].map(s => <option key={s.id} value={s.id}>{s.id.slice(-12)}</option>)}</select></label>
-      <label>Customer <select aria-label="Customer" value={account} onChange={e => { setAccount(e.target.value); setIncident(''); setAuthorize(false) }}><option value="">Unidentified</option>{accounts.map(a => <option key={a.email} value={a.email}>{a.name}</option>)}</select></label>
+      <label>Customer <select aria-label="Customer" value={account} onChange={e => { setAccount(e.target.value); setIncident(''); setAuthorize(false) }}><option value="">Unidentified</option>{accounts.map(a => <option key={a.email} value={a.email}>{a.name} · {a.email}</option>)}</select></label>
       <label>Billing case <select aria-label="Billing case" value={incident} onChange={e => { const c = cases.find(c => c.id === e.target.value); setIncident(c?.id || ''); if (c) setAccount(c.email); setAuthorize(false) }}><option value="">No refund action</option>{cases.map(c => <option key={c.id} value={c.id}>{c.customer} · {c.plan} · ${c.amount} · {c.description}</option>)}</select></label>
       <label><input type="checkbox" checked={authorize} disabled={!incident || sending} onChange={e => setAuthorize(e.target.checked)} /> Authorize selected refund for this message</label>
       <label>Policy question <select aria-label="Policy plan" value={plan} onChange={e => setPlan(e.target.value)}><option value="">No specific plan</option>{['Free', 'Pro', 'Enterprise'].map(p => <option key={p}>{p}</option>)}</select></label>
     </div>
     <main className="main"><section className="panel chat-panel-container"><ChatPanel messages={messages} onSend={handleSend} sending={sending || !health} health={health} /></section>
-      <div className="right-column"><section className="panel graph-panel-container"><GraphPanel refreshKey={graphRefreshKey} onError={setError} ready={Boolean(health)} module={health?.module} sessionId={sessionId} /></section>
-        <section className="panel trace-panel-container"><TracePanel turns={traces} /></section></div></main>
+      <div className="right-column"><section className="panel graph-panel-container"><GraphPanel refreshKey={graphRefreshKey} onError={setError} ready={Boolean(health)} module={health?.module} sessionId={sessionId} savedReplay={savedReplay} onReplayChange={setSavedReplay} /></section>
+        <section className="panel trace-panel-container"><TracePanel turns={traces} replay={savedReplay} /></section></div></main>
     <EvalScorecard module={health?.module} open={evalOpen} onClose={() => setEvalOpen(false)} />
   </div>
 }

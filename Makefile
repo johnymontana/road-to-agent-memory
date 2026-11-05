@@ -38,7 +38,7 @@ help: ## Show this command surface
 setup: ## Install locked Python deps (uv sync) + frontend deps (npm ci)
 	uv sync --frozen
 	npm --prefix web ci
-	$(MAKE) seed
+	uv run scripts/seed_sqlite.py --if-missing
 
 check: ## Smoke test: env vars, AuraDB, OpenAI key, SQLite, (module 5) NAMS
 	uv run scripts/check_env.py

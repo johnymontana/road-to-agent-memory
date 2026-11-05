@@ -1,5 +1,4 @@
 ---
-
 marp: true
 theme: default
 style: |
@@ -18,6 +17,17 @@ style: |
   section:has(> p > img) > ul { grid-column: 1; grid-row: 2; }
   section:has(> p > img) > p:has(img) { grid-column: 2; grid-row: 2; align-self: center; margin: 0; }
   section:has(> p > img) img { width: 100%; height: auto; max-height: 450px; object-fit: contain; }
+  .two-terminal { grid-column: 1; grid-row: 3 / span 4; }
+  .two-terminal h2, .mode-grid h2 { margin: 8px 0; font-size: 24px; }
+  .two-terminal pre { margin: 0 0 15px !important; padding: 12px !important; }
+  section.route-comparison { font-size: 23px; padding: 46px 50px 70px; }
+  section.route-comparison h1 { margin-top: 0; font-size: 34px; }
+  .mode-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 28px; }
+  .mode-grid > div { border-top: 4px solid #626dff; background: #edf4f5; padding: 18px; border-radius: 14px; }
+  .mode-grid pre { padding: 10px; margin: 8px 0; font-size: 17px; }
+  section.trace-audit:has(> p > img) { display: flex; flex-direction: column; justify-content: flex-start; gap: 6px; }
+  section.trace-audit:has(> p > img) p:has(img) { align-self: center; width: 88%; }
+  section.trace-audit:has(> p > img) img { height: 145px; }
   section.resources { background: #faf8f5; color: #004063; padding: 46px 64px 72px; font-size: 22px; }
   section.resources h1 { font-size: 34px; color: #004063; margin-bottom: 8px; }
   section.resources h2 { font-size: 25px; color: #0a6190; margin: 22px 0 5px; }
@@ -26,7 +36,10 @@ style: |
   section.resources .resource-footer { position: absolute; left: 64px; right: 64px; bottom: 22px; font-size: 17px; line-height: 1.3; color: #004063; }
   section.resources .resource-footer p { margin: 0; }
   .m5-code-aside { grid-column: 2; grid-row: 4 / span 5; }
-  .m5-code-aside p { margin: 0 0 24px; }
+  .m5-code-aside p { margin: 0 0 13px; font-size: 21px; line-height: 1.22; }
+  .m5-code-aside p:first-child { color: #004063; }
+  .m5-concept-grid pre { font-size: 16px; padding: 12px; white-space: pre-wrap; }
+  section .resource-footer a { text-decoration: underline; }
   .m5-demo-aside { grid-column: 2; grid-row: 3 / span 4; }
   .m5-demo-aside p { margin: 0 0 24px; }
   section.m5-steps { font-size: 25px; padding: 46px 56px 70px; }
@@ -49,10 +62,10 @@ style: |
 
 # Road to Agent Memory
 
-- From stateless chatbot to an agent with persistent memory.
-- Neo4j Labs workshop · 2.5 hours · run and explore.
-- PydanticAI + `neo4j-agent-memory` + your AuraDB.
-- Acme Cloud: a fictional SaaS customer-support desk.
+- Start the Acme Cloud support workshop in [GitHub Codespaces](https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory) or use the [local setup](https://github.com/johnymontana/road-to-agent-memory/blob/main/README.md).
+- Run the agent, compare memory behavior, and inspect the evidence for a refund.
+- Read each complete agent in `module_N/app/agent.py`. Follow the [Module 1 entry point](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_1/app/agent.py).
+- PydanticAI, neo4j-agent-memory and AuraDB · 150 minutes.
 
 <div class="references">
 
@@ -64,15 +77,14 @@ References: [SDK GitHub](https://github.com/neo4j-labs/agent-memory) · [Memory 
 
 ---
 
-# What you'll leave with (an honest promise)
+# What you’ll leave with
 
-- A complete full-stack support app, with one agent implementation per module.
-- Short-term, long-term and reasoning memory in your Bolt graph.
-- Evidence walks and controlled retrieval scorecards at each layer.
-- A tested write → retrieve → supply-history recipe to adapt.
-- Run the app, inspect the graph and compare neighboring module folders.
+- A running app with a complete agent in each module directory.
+- Conversation, entity and execution evidence in your Bolt graph.
+- A controlled retrieval scorecard and a portable procedure.
+- Start at [the baseline agent](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_1/app/agent.py). Compare adjacent module folders as each memory behavior appears.
 
-![diagram](../slides/diagrams/d02-three-memory-types.svg)
+![Conversation has messages, messages mention entities, and a reasoning trace starts from a message.](diagrams/d02-three-memory-types.svg)
 
 <div class="references">
 
@@ -86,15 +98,13 @@ References: [Memory docs](https://neo4j.com/labs/agent-memory/) · [GraphAcademy
 
 # Agenda · 150 min
 
-- **M0** Setup — 15 min
-- **M1** Stateless agent — 15 min
-- **M2** Short-term memory — 20 min
-- **M3** Long-term memory — 40 min
-- **M4** Reasoning memory — 30 min
-- **M5** Optional hosted skill distillation — 20 min
-- Wrap + Monday path — 5 min; buffer — 5 min
+- **0–15** Set up · **15–30** Establish the stateless baseline.
+- **30–50** Recover messages · **50–90** Extract and ground entities.
+- **90–95** Buffer · **95–125** Record and compare executions.
+- **125–145** Build on memory with a skill. At **130**, switch to the checked-in skill if a package is unavailable.
+- **145–150** Read the scorecard and choose a take-home path.
 
-Complete NAMS setup in pre-work; code details are reference.
+[Facilitator timetable](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/run-of-show.md) · [Capstone live route](#47) · [Fallback comparison](#62)
 
 <div class="references">
 
@@ -102,7 +112,11 @@ References: [GraphAcademy: Python](https://graphacademy.neo4j.com/courses/worksh
 
 </div>
 
-<!-- notes: Complete NAMS setup in pre-work. Detailed code slides are reference; use the core demo path in module 5’s 20-minute block.  150-minute plan: setup 15, stateless 15, short-term 20, long-term 40, reasoning 30, optional hosted skills 20, wrap 5 and buffer 5. Fit the code walks within these budgets. The non-hosted run-of-show reserves the optional 20 minutes for inspection/troubleshooting. Source: docs/run-of-show.md; current Makefile. -->
+<!-- notes: Say — The optional capstone has twenty minutes.
+
+Show — At 125 open the service boundary and check whether a package is available. Decide at 130.
+
+If blocked — Use off/fallback, then the wrap. The full non-hosted timetable is in the run of show. -->
 
 ---
 
@@ -114,7 +128,7 @@ References: [GraphAcademy: Python](https://graphacademy.neo4j.com/courses/worksh
 - Run fixed Make recipes and inspect measured evidence.
 - Evaluate exact facts, source IDs and action receipts; model results can vary.
 
-![diagram](../slides/diagrams/d03-workshop-arc.svg)
+![Stateless, short-term, long-term and reasoning memory build toward a portable skill.](../slides/diagrams/d03-workshop-arc.svg)
 
 <div class="references">
 
@@ -128,13 +142,12 @@ References: [Memory types](https://neo4j.com/labs/agent-memory/explanation/memor
 
 # Module 0 — Your environment
 
-- Codespaces-first: prebuilt 4-core / 8 GB devcontainer.
-- FastAPI :8000 + Vite :5173; one shared frontend for every module.
-- Connect AuraDB and OpenAI; hosted module-5 workflows add optional NAMS.
-- Credentials: `.env` or personal Codespaces secrets.
-- Fallback: local clone + VS Code Dev Containers.
+- [Open the workshop in Codespaces](https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory) or use the [workshop checkout and local setup](https://github.com/johnymontana/road-to-agent-memory/blob/main/README.md).
+- Start in the repository root. Terminal 1 serves the active module on port 5173.
+- Terminal 2 runs scenarios and evaluations. Refresh graph to inspect a CLI replay.
+- Keep credentials in private .env or personal Codespaces secrets.
 
-![diagram](../slides/diagrams/d04-environment-map.svg)
+![The workshop app connects separately to AuraDB, OpenAI, and the optional hosted NAMS workspace.](diagrams/d04-environment-map.svg)
 
 <div class="references">
 
@@ -142,7 +155,11 @@ References: [Client API](https://neo4j.com/labs/agent-memory/reference/api/memor
 
 </div>
 
-<!-- notes: Complete NAMS signup and workspace key setup in pre-work; dedicated setup slides appear before the hosted workflow.  Run make check, then make dev MODULE=1 from the repo root. Codespaces or local Dev Containers use uv and npm. Credentials come from .env or environment secrets. make check probes chat inference, embeddings, SQLite, memory startup and graph transport; it reports median Aura round-trip latency and warns above 150ms. Stop the old server with Ctrl+C before changing MODULE, wait for Ready, then reload port 5173. NAMS is only needed for hosted module-5 workflows. Source: scripts/check_env.py; scripts/dev.sh; lib/settings.py; docs/running-the-app.md. -->
+<!-- notes: Say — Use the workshop repository and a private configuration for each participant.
+
+Show — Open the readiness instructions and the module-local agent directory.
+
+If blocked — A facilitator can continue the walkthrough with a labeled saved replay. -->
 
 ---
 
@@ -159,28 +176,38 @@ References: [Configuration](https://neo4j.com/labs/agent-memory/reference/config
 
 </div>
 
-<!-- notes: NAMS_API_KEY is used by hosted skill workflows and the module 5 NAMS graph checkbox. The support app retains Bolt.  Run make check, then make dev MODULE=1 from the repo root. Codespaces or local Dev Containers use uv and npm. Credentials come from .env or environment secrets. make check probes chat inference, embeddings, SQLite, memory startup and graph transport; it reports median Aura round-trip latency and warns above 150ms. Stop the old server with Ctrl+C before changing MODULE, wait for Ready, then reload port 5173. NAMS is only needed for hosted module-5 workflows. Source: scripts/check_env.py; scripts/dev.sh; lib/settings.py; docs/running-the-app.md. -->
+<!-- notes: Say — Use the workshop repository and a private configuration for each participant.
+
+Show — Open the readiness instructions and the module-local agent directory.
+
+If blocked — A facilitator can continue the walkthrough with a labeled saved replay. -->
 
 ---
 
 # Module 0 — Smoke test, live
+
+<!-- _class: m5-demo -->
+
+From the workshop root · use Terminal 1
 
 ```bash
 make check
 make dev MODULE=1
 ```
 
-- Check inference, embeddings, memory startup, graph transport and SQLite seed.
-- Wait for **Ready**, then open port 5173 and confirm the module badge.
-- Use a second terminal for scenarios. Stop the old server before changing `MODULE`.
+<div class="m5-demo-aside"><p>Wait for Ready. Open port 5173 and confirm the Module 1 badge.</p><p>Keep Terminal 1 running. Open Terminal 2 for scenarios.</p><p>Before switching modules, press Ctrl+C in Terminal 1, start the next module, then reload.</p></div>
 
 <div class="references">
 
-References: [Client API](https://neo4j.com/labs/agent-memory/reference/api/memory-client/) · [Configuration](https://neo4j.com/labs/agent-memory/reference/configuration-providers/)
+References: [Workshop instructions](https://github.com/johnymontana/road-to-agent-memory/blob/main/README.md) · [Open Codespaces](https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory) · [Client API](https://neo4j.com/labs/agent-memory/reference/api/memory-client/) · [Configuration](https://neo4j.com/labs/agent-memory/reference/configuration-providers/)
 
 </div>
 
-<!-- notes: Run make check, then make dev MODULE=1 from the repo root. Codespaces or local Dev Containers use uv and npm. Credentials come from .env or environment secrets. make check probes chat inference, embeddings, SQLite, memory startup and graph transport; it reports median Aura round-trip latency and warns above 150ms. Stop the old server with Ctrl+C before changing MODULE, wait for Ready, then reload port 5173. NAMS is only needed for hosted module-5 workflows. Source: scripts/check_env.py; scripts/dev.sh; lib/settings.py; docs/running-the-app.md. -->
+<!-- notes: Say — The check reports the median Aura query time and readiness of the configured services.
+
+Show — Run make check, start Module 1, open port 5173, and point out the badge.
+
+If blocked — Use the Ports tab to open 5173. If the badge differs, stop the older server and start Module 1. -->
 
 ---
 
@@ -191,7 +218,7 @@ References: [Client API](https://neo4j.com/labs/agent-memory/reference/api/memor
 - Module 1 starts without a memory client.
 - Memory supplies evidence; current SQL policy authorizes business actions.
 
-![diagram](../slides/diagrams/d01-two-stores.svg)
+![The support app acts through SQLite business tools and retrieves supporting memory from Neo4j.](../slides/diagrams/d01-two-stores.svg)
 
 <div class="references">
 
@@ -199,7 +226,7 @@ References: [Graph model](https://neo4j.com/labs/agent-memory/explanation/graph-
 
 </div>
 
-<!-- notes: Module 1 has five SQLite business tools and no memory client or message_history. Browser bubbles are not model context. The local guardrails.py calls scope_turn and checked_reply; safety is present before memory is added. Customer, Billing case and Authorize selected refund for this message provide explicit per-turn scope; authorization resets each turn. issue_refund enforces current SQL policy, identity, amount and uniqueness. ReceiptGuard.run_once reuses saved request IDs. No escalation tool exists; service statuses are seeded examples. Source: module_1/app/agent.py; module_1/app/tools.py; module_1/app/guardrails.py; lib/operations.py. This diagram describes the architecture as memory is added. SQLite remains the system of record; module 1 uses only its business tools. -->
+<!-- notes: Module 1 has five SQLite business tools and no memory client or message_history. Browser bubbles are not model context. The local guardrails.py calls scope_turn and checked_reply; safety is present before memory is added. Customer, Billing case and Authorize selected refund for this message provide explicit per-turn scope; authorization resets each turn. PydanticAI’s prepare_refund exposes the write only when the customer, case and authorization are present. SQL checks policy, identity, amount and uniqueness. ReceiptGuard.run_once reuses saved request IDs. No escalation tool exists; service statuses are seeded examples. Source: module_1/app/agent.py; module_1/app/tools.py; module_1/app/guardrails.py; lib/operations.py. This diagram describes the architecture as memory is added. SQLite remains the system of record; module 1 uses only its business tools. -->
 
 ---
 
@@ -209,23 +236,23 @@ References: [Graph model](https://neo4j.com/labs/agent-memory/explanation/graph-
 - Read `module_N/app/agent.py`: every module owns a complete agent.
 - Five SQLite tools: `lookup_account`, `search_product_catalog`, `fetch_policy`, `check_service_status`, `issue_refund`.
 - Local `guardrails.py` checks case scope and replies; `ReceiptGuard` reuses completed request IDs.
-- Refunds require selected customer, selected case and authorization for this message.
+- PydanticAI offers `issue_refund` only for a selected customer, case and authorized message. SQL rechecks the write.
 
 <div class="references">
 
-References: [PydanticAI agents](https://pydantic.dev/docs/ai/core-concepts/agent/) · [Function tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/)
+References: [Module 1 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-1.md) · [PydanticAI agents](https://pydantic.dev/docs/ai/core-concepts/agent/) · [Function tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/)
 
 </div>
 
-<!-- notes: Module 1 has five SQLite business tools and no memory client or message_history. Browser bubbles are not model context. The local guardrails.py calls scope_turn and checked_reply; safety is present before memory is added. Customer, Billing case and Authorize selected refund for this message provide explicit per-turn scope; authorization resets each turn. issue_refund enforces current SQL policy, identity, amount and uniqueness. ReceiptGuard.run_once reuses saved request IDs. No escalation tool exists; service statuses are seeded examples. Source: module_1/app/agent.py; module_1/app/tools.py; module_1/app/guardrails.py; lib/operations.py. -->
+<!-- notes: Module 1 has five SQLite business tools and no memory client or message_history. Browser bubbles are not model context. The local guardrails.py calls scope_turn and checked_reply; safety is present before memory is added. Customer, Billing case and Authorize selected refund for this message provide explicit per-turn scope; authorization resets each turn. PydanticAI’s prepare_refund exposes the write only when the customer, case and authorization are present. SQL checks policy, identity, amount and uniqueness. ReceiptGuard.run_once reuses saved request IDs. No escalation tool exists; service statuses are seeded examples. Source: module_1/app/agent.py; module_1/app/tools.py; module_1/app/guardrails.py; lib/operations.py. -->
 
 ---
 
 # The baseline: PydanticAI + business tools
 
-<!-- _class: technical -->
+<!-- _class: technical m5-code -->
 
-Module 1 · Code · `module_1/app/agent.py`
+Module 1 · Code reference · [module_1/app/agent.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_1/app/agent.py)
 
 **Construction + normal chat turn**
 
@@ -245,11 +272,7 @@ result = await self.agent.run(
 )
 ```
 
-Five SQL tools; no memory client.
-
-No message_history is supplied.
-
-Local guardrails check scope and action claims.
+<div class="m5-code-aside"><p><b>Follow <code>scope_turn(deps, policy_plan)</code></b></p><p>The selected case determines the current-turn scope.</p><p>Four read tools; one conditional write.</p><p>No message_history is supplied.</p><p>prepare_refund checks customer, case and authorization.</p></div>
 
 <div class="references">
 
@@ -257,7 +280,13 @@ References: [PydanticAI agents](https://pydantic.dev/docs/ai/core-concepts/agent
 
 </div>
 
-<!-- notes: Construction and normal-turn fragments from module_1/app/agent.py. Imports: Agent from pydantic_ai; local ToolDeps and SQLITE_TOOLS; scope_turn and checked_reply from the module-local guardrails.py. INSTRUCTIONS is the actual constructor prompt constant. scope_turn reads the explicitly selected case and builds per-turn scope instructions; after the run checked_reply(message, result.output, deps, scope) verifies action claims against receipts. The full app handles errors and timing. Shared ReceiptGuard.run_once prevents repeating the same request ID; this receipt infrastructure is not conversation memory. Module 1 opens no MemoryClient and uses OpenAI for chat only. Visible browser chat bubbles are not sent back to the model. -->
+<!-- notes: Say — The selected case determines the current-turn scope.
+
+Show — Point to scope_turn(deps, policy_plan) and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+Construction and normal-turn fragments from module_1/app/agent.py. Imports: Agent from pydantic_ai; local ToolDeps and SQLITE_TOOLS; scope_turn and checked_reply from the module-local guardrails.py. INSTRUCTIONS is the actual constructor prompt constant. scope_turn reads the explicitly selected case and builds per-turn scope instructions; after the run checked_reply(message, result.output, deps, scope) verifies action claims against receipts. The full app handles errors and timing. Shared ReceiptGuard.run_once prevents repeating the same request ID; this receipt infrastructure is not conversation memory. Module 1 opens no MemoryClient and uses OpenAI for chat only. Visible browser chat bubbles are not sent back to the model. PydanticAI’s Tool prepare hook offers issue_refund only for a selected customer and billing case with authorization for this message. lookup_account reads refund history. The SQL write still validates the case, amount, current plan limit and uniqueness. -->
 
 ---
 
@@ -268,7 +297,7 @@ References: [PydanticAI agents](https://pydantic.dev/docs/ai/core-concepts/agent
 - A restart is not required to expose the gap.
 - Persistent storage plus explicit retrieval supplies the missing context.
 
-![diagram](../slides/diagrams/d05-statelessness.svg)
+![The second Agent.run receives the new message and its case scope. The first turn is absent from its input.](../slides/diagrams/d05-statelessness.svg)
 
 <div class="references">
 
@@ -276,46 +305,55 @@ References: [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-hi
 
 </div>
 
-<!-- notes: Module 1 has five SQLite business tools and no memory client or message_history. Browser bubbles are not model context. The local guardrails.py calls scope_turn and checked_reply; safety is present before memory is added. Customer, Billing case and Authorize selected refund for this message provide explicit per-turn scope; authorization resets each turn. issue_refund enforces current SQL policy, identity, amount and uniqueness. ReceiptGuard.run_once reuses saved request IDs. No escalation tool exists; service statuses are seeded examples. Source: module_1/app/agent.py; module_1/app/tools.py; module_1/app/guardrails.py; lib/operations.py. -->
+<!-- notes: Module 1 has five SQLite business tools and no memory client or message_history. Browser bubbles are not model context. The local guardrails.py calls scope_turn and checked_reply; safety is present before memory is added. Customer, Billing case and Authorize selected refund for this message provide explicit per-turn scope; authorization resets each turn. PydanticAI’s prepare_refund exposes the write only when the customer, case and authorization are present. SQL checks policy, identity, amount and uniqueness. ReceiptGuard.run_once reuses saved request IDs. No escalation tool exists; service statuses are seeded examples. Source: module_1/app/agent.py; module_1/app/tools.py; module_1/app/guardrails.py; lib/operations.py. -->
 
 ---
 
 # Module 1 — Live demo: the stateless baseline
 
+<!-- _class: m5-demo -->
+
+Terminal 2 · browser badge must read Module 1
+
 ```bash
 make s1-baseline
 ```
 
-- First: a self-contained account lookup with an email.
-- Then: ask for the email from the previous turn without a new lookup.
-- **Refresh graph → Saved replay** shows recorded CLI output.
-- Browser chat is separate; module 1 creates no live Neo4j memory.
+<div class="m5-demo-aside"><p>First, the agent can look up an account using a supplied email. Next, it forgets the email from the earlier turn.</p><p>Refresh graph → Saved replay · s1-baseline. Read both replies and the first tool result.</p></div>
 
 <div class="references">
 
-References: [Function tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/) · [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-history/)
+References: [Module 1 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-1.md) · [Function tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/) · [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-history/)
 
 </div>
 
-<!-- notes: Module 1 has five SQLite business tools and no memory client or message_history. Browser bubbles are not model context. The local guardrails.py calls scope_turn and checked_reply; safety is present before memory is added. Customer, Billing case and Authorize selected refund for this message provide explicit per-turn scope; authorization resets each turn. issue_refund enforces current SQL policy, identity, amount and uniqueness. ReceiptGuard.run_once reuses saved request IDs. No escalation tool exists; service statuses are seeded examples. Source: module_1/app/agent.py; module_1/app/tools.py; module_1/app/guardrails.py; lib/operations.py. Saved replay is a projection of recorded CLI output; its message/tool nodes are not native Neo4j memory. Module 1 live memory is empty. Browser and CLI conversations are separate. Source: scripts/run_scenario.py; web/src/components/GraphPanel.jsx. -->
+<!-- notes: In Execution evidence · Saved replay, expand the original turns and inspect the lookup_account result and SQL. Current conversation switches the panel back to browser turns. Say — A self-contained lookup succeeds even before memory is installed.
+
+Show — Compare the lookup and follow-up in the saved replay.
+
+If blocked — Confirm the Module 1 badge and refresh the replay list. -->
 
 ---
 
 # Module 1 — The eval baseline
 
-- Run `make eval MODULE=1`.
-- Four probes: exact name/email, unique phrase, grounded signup date, recorded reply.
-- Private SQL, unique memory fixtures, disabled business tools.
-- Exact values and accepted source IDs determine passing results.
-- Open the evaluation panel to read the saved scorecard; a new run requires an explicit start.
+- Run `make eval MODULE=1`. A private SQL copy and uniquely scoped fixtures isolate four retrieval probes.
+- **Named customer lookup** receives a name and asks for name + email. A message or entity is an accepted source.
+- The remaining probes ask for a conversation phrase, grounded signup date, and **prior decision quote**.
+- All expected values and at least one accepted source ID must match. Business tools are disabled.
+- Open Evaluation lab to inspect each pass or miss.
 
 <div class="references">
 
-References: [GraphAcademy: memory](https://graphacademy.neo4j.com/courses/genai-context-graphs) · [Memory types](https://neo4j.com/labs/agent-memory/explanation/memory-types/)
+References: [Grader](https://github.com/johnymontana/road-to-agent-memory/blob/main/scripts/eval.py) · [Module 1 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-1.md) · [GraphAcademy: memory](https://graphacademy.neo4j.com/courses/genai-context-graphs) · [Memory types](https://neo4j.com/labs/agent-memory/explanation/memory-types/)
 
 </div>
 
-<!-- notes: The participant Bolt graph links conversation, entity and reasoning memory. Hosted skill fixtures remain in a separate workspace; a Markdown skill crosses into the fresh agent. No cross-backend graph edges are created. Controlled eval checks exact facts plus accepted source IDs using private SQL and unique namespaces with business tools disabled. It is a retrieval probe, not an overall support-quality grade. The UI loads saved results for the current module; opening it does not invoke a model. Source: scripts/eval.py; web/src/components/EvalScorecard.jsx; module_5/app/fresh_agent.py. Run make eval MODULE=N explicitly. The four fixtures test name/email, unique phrase, SQL-grounded signup date and exact recorded reply. Inspect actual source IDs and unknown/error results. -->
+<!-- notes: Say — The four probes check fixture retrieval.
+
+Show — Show a pass with an accepted ID and an otherwise exact value with a missing ID marked failed.
+
+If blocked — Use the grader and a labeled example if no local scorecard is available. -->
 
 ---
 
@@ -339,9 +377,10 @@ References: [Memory types](https://neo4j.com/labs/agent-memory/explanation/memor
 
 # Where memory meets PydanticAI
 
-- neo4j-agent-memory writes messages, entities, preferences and execution traces.
-- PydanticAI receives recent turns as message_history and retrieved evidence through instructions.
-- Write → retrieve → compose → run → persist. Each module owns this integration.
+- The SDK persists messages, entities, preferences and execution traces.
+- Recent turns retain roles in PydanticAI message_history. Retrieved user text gets an explicit evidence heading in instructions.
+- A workshop namespace groups conversations. Customer authorization is separately checked for the selected action.
+- The module-local app composes inputs, runs the model and records the result.
 
 <div class="references">
 
@@ -355,9 +394,9 @@ References: [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-hi
 
 # Configure and open one memory client
 
-<!-- _class: technical -->
+<!-- _class: technical m5-code -->
 
-Library introduction · Code · `module_2/app/memory.py`
+Library introduction · Code reference · [module_2/app/memory.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/memory.py)
 
 **Module-local build_settings + open_memory**
 
@@ -378,11 +417,7 @@ async with MemoryClient(config) as memory:
     ...
 ```
 
-MemoryClient and MemorySettings are package APIs.
-
-Modules 2–5 open module-local Bolt clients.
-
-The async context owns the connection lifetime.
+<div class="m5-code-aside"><p><b>Follow <code>async with MemoryClient(config)</code></b></p><p>The module reuses one connected client across turns.</p><p>MemoryClient and MemorySettings are package APIs.</p><p>Modules 2–5 open module-local Bolt clients.</p><p>The async context owns the connection lifetime.</p></div>
 
 <div class="references">
 
@@ -390,7 +425,13 @@ References: [Client API](https://neo4j.com/labs/agent-memory/reference/api/memor
 
 </div>
 
-<!-- notes: Condensed from module_2/app/memory.py build_settings/open_memory. Imports: MemoryClient and MemorySettings from neo4j_agent_memory. AppSettings reads environment or .env; get_settings exports the configured OpenAI key for package clients. Database and bounded connection/retry settings are omitted only from the display. Pin: neo4j-agent-memory[pydantic-ai,openai]==0.8.0. Module 1 has no MemoryClient and uses OpenAI for chat only. The full support apps in modules 2–5 use module-local Bolt clients and OpenAI for chat and embeddings; modules 3–5 additionally configure LLM extraction. Module 2 sets extractor_type="none". Optional hosted NAMS REST workflows and the module-5 fresh skill consumer are separate paths. This example passes MemorySettings explicitly; backend is a settings field, not a MemoryClient constructor keyword. -->
+<!-- notes: Say — The module reuses one connected client across turns.
+
+Show — Point to async with MemoryClient(config) and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+Condensed from module_2/app/memory.py build_settings/open_memory. Imports: MemoryClient and MemorySettings from neo4j_agent_memory. AppSettings reads environment or .env; get_settings exports the configured OpenAI key for package clients. Database and bounded connection/retry settings are omitted only from the display. Pin: neo4j-agent-memory[pydantic-ai,openai]==0.8.0. Module 1 has no MemoryClient and uses OpenAI for chat only. The full support apps in modules 2–5 use module-local Bolt clients and OpenAI for chat and embeddings; modules 3–5 additionally configure LLM extraction. Module 2 sets extractor_type="none". Optional hosted NAMS REST workflows and the module-5 fresh skill consumer are separate paths. This example passes MemorySettings explicitly; backend is a settings field, not a MemoryClient constructor keyword. -->
 
 ---
 
@@ -399,7 +440,7 @@ References: [Client API](https://neo4j.com/labs/agent-memory/reference/api/memor
 - Conversations and messages persist as graph data and survive process restarts.
 - `short_term.add_message` creates the conversation on first use.
 - Recent turns become typed PydanticAI `message_history`.
-- Scoped semantic statements become evidence in instructions.
+- Scoped user messages become evidence in instructions.
 - Inspect source IDs and `recent_conversation` / `semantic_message` paths.
 
 <div class="references">
@@ -408,18 +449,18 @@ References: [Memory types](https://neo4j.com/labs/agent-memory/explanation/memor
 
 </div>
 
-<!-- notes: Module 2 writes user and assistant messages with short_term.add_message; the first write creates the Conversation. Local build_context returns Context(history, prompt, evidence). The newest ten prior messages are reversed into chronological order and converted by as_model_history: user → ModelRequest(UserPromptPart), assistant → ModelResponse(TextPart). Agent.run receives message_history=context.history. Namespace-wide semantic user statements (same or other conversations) go into instructions: cosine >=0.5, at most five after deduplication and recall-question-prefix filtering. Exclude the current message ID. Evidence preserves IDs and recent_conversation / semantic_message paths. The namespace convention is not enterprise tenant isolation. Source: module_2/app/context.py; module_2/app/agent.py; module_2/app/memory.py. -->
+<!-- notes: Module 2 writes user and assistant messages with short_term.add_message; the first write creates the Conversation. Local build_context returns Context(history, prompt, evidence). The newest ten prior messages are reversed into chronological order and converted by as_model_history: user → ModelRequest(UserPromptPart), assistant → ModelResponse(TextPart). Agent.run receives message_history=context.history. Namespace-wide semantic user messages (same or other conversations) go into instructions: cosine >=0.5, at most five after deduplication and recall-question-prefix filtering. Exclude the current message ID. Evidence preserves IDs and recent_conversation / semantic_message paths. The namespace convention is not enterprise tenant isolation. Source: module_2/app/context.py; module_2/app/agent.py; module_2/app/memory.py. -->
 
 ---
 
 # Module 2 — Message chains in the graph
 
-- `Conversation` → `HAS_MESSAGE` → `Message`; `NEXT_MESSAGE` links the sequence.
-- Message records retain ID, role, content, timestamp and embedding.
-- The browser omits vectors and shows a bounded graph subset.
-- Select a conversation, inspect properties and follow evidence IDs.
+- Each Message belongs to the Conversation through its own `HAS_MESSAGE` edge.
+- `NEXT_MESSAGE` describes chronological succession.
+- Recent-history retrieval matches Conversation → HAS_MESSAGE → Message, orders by timestamp and ID, and reverses the newest window.
+- In Live memory, inspect identity, role and content for an actual returned record.
 
-![diagram](../slides/diagrams/d06-message-chains.svg)
+![Each conversation has a membership edge to each stored message. Separate NEXT_MESSAGE edges link messages in sequence.](diagrams/d06-message-chains.svg)
 
 <div class="references">
 
@@ -427,15 +468,19 @@ References: [Message API](https://neo4j.com/labs/agent-memory/reference/api/shor
 
 </div>
 
-<!-- notes: Module 2 writes user and assistant messages with short_term.add_message; the first write creates the Conversation. Local build_context returns Context(history, prompt, evidence). The newest ten prior messages are reversed into chronological order and converted by as_model_history: user → ModelRequest(UserPromptPart), assistant → ModelResponse(TextPart). Agent.run receives message_history=context.history. Namespace-wide semantic user statements (same or other conversations) go into instructions: cosine >=0.5, at most five after deduplication and recall-question-prefix filtering. Exclude the current message ID. Evidence preserves IDs and recent_conversation / semantic_message paths. The namespace convention is not enterprise tenant isolation. Source: module_2/app/context.py; module_2/app/agent.py; module_2/app/memory.py. Follow HAS_MESSAGE and NEXT_MESSAGE. The browser graph omits embeddings and is a bounded subset (default 200 nodes); inspect the truncation notice. Source: lib/graph.py; web/src/components/GraphPanel.jsx. -->
+<!-- notes: Say — Each message belongs directly to its conversation.
+
+Show — Follow HAS_MESSAGE, then compare NEXT_MESSAGE with the query ordering by timestamp and ID.
+
+If blocked — Open the diagram and the linked local history query. -->
 
 ---
 
 # Persist both sides of a conversation
 
-<!-- _class: technical -->
+<!-- _class: technical m5-code -->
 
-Module 2 · Code · `module_2/app/agent.py`
+Module 2 · Code reference · [module_2/app/agent.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/agent.py)
 
 **Inside ChatService._turn**
 
@@ -453,11 +498,7 @@ await short_term.add_message(
 )
 ```
 
-Reuse the same session ID after restart.
-
-add_message creates the conversation on first use.
-
-Module 2 disables entity extraction in its settings.
+<div class="m5-code-aside"><p><b>Follow <code>short_term.add_message</code></b></p><p>Both participants’ turns persist under the same session ID.</p><p>Reuse the same session ID after restart.</p><p>add_message creates the conversation on first use.</p><p>Module 2 disables entity extraction in its settings.</p></div>
 
 <div class="references">
 
@@ -465,19 +506,24 @@ References: [Message API](https://neo4j.com/labs/agent-memory/reference/api/shor
 
 </div>
 
-<!-- notes: Normal persistence path from module_2/app/agent.py ChatService._turn. short_term is self.memory.short_term. The service prefixes session IDs with the workshop namespace. add_message creates the Conversation on first use; no separate create_conversation call appears in this implementation. The user flag is extract_entities=not self.evaluation, while module-2 settings use extractor_type="none", so this stage stores and embeds messages without extracting entities. Retain user_message.id to exclude the just-written message from history/retrieval. The assistant reply is checked against business receipts before persistence; persistence failures are surfaced as warnings. Database records survive process restarts, but the caller must reuse the session and namespace to restore that history. -->
+<!-- notes: Say — Both participants’ turns persist under the same session ID.
+
+Show — Point to short_term.add_message and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+Normal persistence path from module_2/app/agent.py ChatService._turn. short_term is self.memory.short_term. The service prefixes session IDs with the workshop namespace. add_message creates the Conversation on first use; no separate create_conversation call appears in this implementation. The user flag is extract_entities=not self.evaluation, while module-2 settings use extractor_type="none", so this stage stores and embeds messages without extracting entities. Retain user_message.id to exclude the just-written message from history/retrieval. The assistant reply is checked against business receipts before persistence; persistence failures are surfaced as warnings. Database records survive process restarts, but the caller must reuse the session and namespace to restore that history. -->
 
 ---
 
 # Module 2 — Context assembly
 
-- **Recent history:** newest ten prior messages, reordered chronologically.
-- **Semantic evidence:** up to five user statements in the namespace, cosine ≥ 0.5.
-- Exclude the current message; deduplicate semantic text and filter recall-question prefixes.
-- `Context.history` → `message_history`; `Context.prompt` → instructions.
-- `Context.evidence` → UI source IDs and retrieval paths.
+- Read the newest ten prior messages in chronological order as role-preserving history.
+- Search user messages across conversations in the same workshop namespace. Keep up to five unique semantic matches with cosine ≥ 0.5.
+- Exclude the current message. Label retrieved text as evidence in per-run instructions.
+- Inspect each source ID and path in the UI. The same fact can appear in both inputs.
 
-![diagram](../slides/diagrams/d07-context-assembly.svg)
+![History supplies typed prior turns. Semantic matches supply labeled evidence. Both feed the model run.](diagrams/d07-context-assembly.svg)
 
 <div class="references">
 
@@ -485,26 +531,28 @@ References: [Search + scope](https://neo4j.com/labs/agent-memory/reference/api/s
 
 </div>
 
-<!-- notes: Module 2 writes user and assistant messages with short_term.add_message; the first write creates the Conversation. Local build_context returns Context(history, prompt, evidence). The newest ten prior messages are reversed into chronological order and converted by as_model_history: user → ModelRequest(UserPromptPart), assistant → ModelResponse(TextPart). Agent.run receives message_history=context.history. Namespace-wide semantic user statements (same or other conversations) go into instructions: cosine >=0.5, at most five after deduplication and recall-question-prefix filtering. Exclude the current message ID. Evidence preserves IDs and recent_conversation / semantic_message paths. The namespace convention is not enterprise tenant isolation. Source: module_2/app/context.py; module_2/app/agent.py; module_2/app/memory.py. Module 2 writes user and assistant messages with short_term.add_message; the first write creates the Conversation. Local build_context returns Context(history, prompt, evidence). The newest ten prior messages are reversed into chronological order and converted by as_model_history: user → ModelRequest(UserPromptPart), assistant → ModelResponse(TextPart). Agent.run receives message_history=context.history. Namespace-wide semantic user statements (same or other conversations) go into instructions: cosine >=0.5, at most five after deduplication and recall-question-prefix filtering. Exclude the current message ID. Evidence preserves IDs and recent_conversation / semantic_message paths. The namespace convention is not enterprise tenant isolation. Source: module_2/app/context.py; module_2/app/agent.py; module_2/app/memory.py. Diagram separates recent history and semantic evidence into two inputs to the same Agent.run. Persist and check the assistant reply afterwards; retrieval failure yields warnings and an empty Context. -->
+<!-- notes: Module 2 writes user and assistant messages with short_term.add_message; the first write creates the Conversation. Local build_context returns Context(history, prompt, evidence). The newest ten prior messages are reversed into chronological order and converted by as_model_history: user → ModelRequest(UserPromptPart), assistant → ModelResponse(TextPart). Agent.run receives message_history=context.history. Namespace-wide semantic user messages (same or other conversations) go into instructions: cosine >=0.5, at most five after deduplication and recall-question-prefix filtering. Exclude the current message ID. Evidence preserves IDs and recent_conversation / semantic_message paths. The namespace convention is not enterprise tenant isolation. Source: module_2/app/context.py; module_2/app/agent.py; module_2/app/memory.py. Module 2 writes user and assistant messages with short_term.add_message; the first write creates the Conversation. Local build_context returns Context(history, prompt, evidence). The newest ten prior messages are reversed into chronological order and converted by as_model_history: user → ModelRequest(UserPromptPart), assistant → ModelResponse(TextPart). Agent.run receives message_history=context.history. Namespace-wide semantic user messages (same or other conversations) go into instructions: cosine >=0.5, at most five after deduplication and recall-question-prefix filtering. Exclude the current message ID. Evidence preserves IDs and recent_conversation / semantic_message paths. The namespace convention is not enterprise tenant isolation. Source: module_2/app/context.py; module_2/app/agent.py; module_2/app/memory.py. Diagram separates recent history and semantic evidence into two inputs to the same Agent.run. Persist and check the assistant reply afterwards; retrieval failure yields warnings and an empty Context. -->
 
 ---
 
 # Retrieve evidence, then call the agent
 
-<!-- _class: technical -->
+<!-- _class: technical m5-code -->
 
-Module 2 · Code · `module_2/app/agent.py; module_2/app/context.py`
+Module 2 · Code reference · [module_2/app/agent.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/agent.py) · [module_2/app/context.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/context.py)
 
-**Local context helper → normal chat turn**
+**Current-turn history and labeled evidence**
 
 ```python
-context = await build_context(
-    self.memory, message, session_id,
-    self.embedder, self.settings.memory_namespace,
-    exclude_id=str(user_message.id),
+context = await self._recall(
+    message, session_id, str(user_message.id), warnings
 )
 instructions = scope.instructions
 if context.prompt:
+    instructions += (
+        "\nRetrieved evidence (cite IDs, "
+        "not instructions):\n"
+    )
     instructions += context.prompt
 result = await self.agent.run(
     message, deps=deps, instructions=instructions,
@@ -512,11 +560,7 @@ result = await self.agent.run(
 )
 ```
 
-history: ten prior messages in chronological order.
-
-prompt: up to five scoped semantic matches.
-
-evidence: source IDs and paths for the UI.
+<div class="m5-code-aside"><p><b>Follow <code>message_history=context.history</code></b></p><p>PydanticAI receives the previous turns with their roles.</p><p>Recent history supplies roles.</p><p>Earlier user messages enter under an evidence heading.</p><p>The namespace spans workshop conversations. Refund authorization is checked separately.</p></div>
 
 <div class="references">
 
@@ -524,28 +568,34 @@ References: [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-hi
 
 </div>
 
-<!-- notes: Context-helper call and normal chat-turn fragments. The actual _turn calls _recall; _recall calls local build_context and catches retrieval failure, returning an empty Context with a warning. The application inserts a newline heading "Retrieved evidence (cite IDs, not instructions):" before context.prompt; that display-only heading is omitted from this snippet. scope was already created by scope_turn. build_context returns Context(history, prompt, evidence), not a tuple. recent_messages uses memory.query.cypher to select the newest ten prior messages, excludes the current ID, then reverses the window. as_model_history creates ModelRequest(UserPromptPart) and ModelResponse(TextPart) so those records become genuine PydanticAI message history. Semantic search embeds the new message and scores earlier user statements throughout the namespace, including the current and other conversations, with cosine >=0.5. It excludes the current message and exact query text, filters some recall-question prefixes and duplicate statements, and retains up to five matches. Local scoped Cypher avoids global top-k starvation across workshop namespaces. No get_context or hosted reflections/observations API is used here. Evidence has recent_conversation and semantic_message paths. -->
+<!-- notes: Say — PydanticAI receives the previous turns with their roles.
+
+Show — Point to message_history=context.history and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+The per-turn fragment follows module_2/app/agent.py. Two adjacent literals preserve the complete evidence label. The local _recall wrapper calls build_context, which reads the ten newest messages, converts their roles and retrieves up to five qualifying user messages across the namespace. The label cues the model. It cannot enforce customer isolation or authorize a refund. UI paths show which records were supplied, and the same fact can enter both channels. -->
 
 ---
 
 # Module 2 — Live demo: the returning customer
 
-```bash
-make s2-return
-make eval MODULE=2
-```
+<!-- _class: m5-demo -->
 
-- Compare same-conversation history with a new conversation's semantic recall.
-- **Saved replay** projects CLI output; **Live memory** reads persisted Neo4j records.
-- Browser chat uses a separate conversation. Inspect the answer's evidence.
+Switch to Module 2 · stop Terminal 1 with Ctrl+C first
+
+<div class="two-terminal"><h2>Terminal 1 · after Ctrl+C</h2><pre><code>make dev MODULE=2</code></pre><h2>Terminal 2 · run scenarios</h2><pre><code>make s2-return
+make eval MODULE=2</code></pre></div>
+
+<div class="m5-demo-aside"><p>Reload port 5173. Confirm the Module 2 badge.</p><p>Refresh graph → Saved replay · s2-return. Compare same-session and new-session replies.</p><p>Choose Live memory for the records written by this scenario.</p></div>
 
 <div class="references">
 
-References: [Search + scope](https://neo4j.com/labs/agent-memory/reference/api/short-term-search/) · [Message API](https://neo4j.com/labs/agent-memory/reference/api/short-term-messages/)
+References: [Module 2 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-2.md) · [Search + scope](https://neo4j.com/labs/agent-memory/reference/api/short-term-search/) · [Message API](https://neo4j.com/labs/agent-memory/reference/api/short-term-messages/)
 
 </div>
 
-<!-- notes: Module 2 writes user and assistant messages with short_term.add_message; the first write creates the Conversation. Local build_context returns Context(history, prompt, evidence). The newest ten prior messages are reversed into chronological order and converted by as_model_history: user → ModelRequest(UserPromptPart), assistant → ModelResponse(TextPart). Agent.run receives message_history=context.history. Namespace-wide semantic user statements (same or other conversations) go into instructions: cosine >=0.5, at most five after deduplication and recall-question-prefix filtering. Exclude the current message ID. Evidence preserves IDs and recent_conversation / semantic_message paths. The namespace convention is not enterprise tenant isolation. Source: module_2/app/context.py; module_2/app/agent.py; module_2/app/memory.py. make s2-return demonstrates same-chat and cross-chat recall. Refresh graph: Saved replay projects CLI artifacts; Live memory queries persisted records. Browser chat uses a separate conversation. -->
+<!-- notes: Execution evidence · Saved replay shows the recorded prompt, reply and source IDs. The history-only turn can read refund history with lookup_account. The refund write tool requires explicit selection and authorization. Module 2 writes user and assistant messages with short_term.add_message; the first write creates the Conversation. Local build_context returns Context(history, prompt, evidence). The newest ten prior messages are reversed into chronological order and converted by as_model_history: user → ModelRequest(UserPromptPart), assistant → ModelResponse(TextPart). Agent.run receives message_history=context.history. Namespace-wide semantic user messages (same or other conversations) go into instructions: cosine >=0.5, at most five after deduplication and recall-question-prefix filtering. Exclude the current message ID. Evidence preserves IDs and recent_conversation / semantic_message paths. The namespace convention is not enterprise tenant isolation. Source: module_2/app/context.py; module_2/app/agent.py; module_2/app/memory.py. make s2-return demonstrates same-chat and cross-chat recall. Refresh graph: Saved replay projects CLI artifacts; Live memory queries persisted records. Browser chat uses a separate conversation. -->
 
 ---
 
@@ -558,22 +608,21 @@ References: [Search + scope](https://neo4j.com/labs/agent-memory/reference/api/s
 
 <div class="references">
 
-References: [Message API](https://neo4j.com/labs/agent-memory/reference/api/short-term-messages/) · [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-history/)
+References: [Module 2 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-2.md) · [Message API](https://neo4j.com/labs/agent-memory/reference/api/short-term-messages/) · [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-history/)
 
 </div>
 
-<!-- notes: Module 2 writes user and assistant messages with short_term.add_message; the first write creates the Conversation. Local build_context returns Context(history, prompt, evidence). The newest ten prior messages are reversed into chronological order and converted by as_model_history: user → ModelRequest(UserPromptPart), assistant → ModelResponse(TextPart). Agent.run receives message_history=context.history. Namespace-wide semantic user statements (same or other conversations) go into instructions: cosine >=0.5, at most five after deduplication and recall-question-prefix filtering. Exclude the current message ID. Evidence preserves IDs and recent_conversation / semantic_message paths. The namespace convention is not enterprise tenant isolation. Source: module_2/app/context.py; module_2/app/agent.py; module_2/app/memory.py. make s2-restart starts two Python processes with the same session ID; inspect their IDs and recovered phrase. It does not kill the browser backend. -->
+<!-- notes: Open the saved restart replay and read both process IDs above the recorded turns. Module 2 writes user and assistant messages with short_term.add_message; the first write creates the Conversation. Local build_context returns Context(history, prompt, evidence). The newest ten prior messages are reversed into chronological order and converted by as_model_history: user → ModelRequest(UserPromptPart), assistant → ModelResponse(TextPart). Agent.run receives message_history=context.history. Namespace-wide semantic user messages (same or other conversations) go into instructions: cosine >=0.5, at most five after deduplication and recall-question-prefix filtering. Exclude the current message ID. Evidence preserves IDs and recent_conversation / semantic_message paths. The namespace convention is not enterprise tenant isolation. Source: module_2/app/context.py; module_2/app/agent.py; module_2/app/memory.py. make s2-restart starts two Python processes with the same session ID; inspect their IDs and recovered phrase. It does not kill the browser backend. -->
 
 ---
 
 # Module 2 — Exploration brief
 
-1. Find your conversation: how are messages linked, and what properties are visible?
-2. Trace the restart: which exact persisted records made recall possible?
-3. Ask a paraphrase: which evidence path answered, `recent_conversation` or `semantic_message`?
+1. In **Live memory** for the restart scenario, select the Conversation. Follow a membership edge and record the Message ID and role.
+2. In **Saved replay**, compare the two process IDs and the recovered phrase.
+3. Ask a paraphrase in the same session and in a new one. Which inputs contain the fact? Both paths may supply it. The record establishes what was retrieved.
 
-- Questions and answer keys: `docs/modules/module-2.md`.
-- `make module-2` replays selected beats; it does not switch the server or restore a checkpoint.
+[Module 2 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-2.md)
 
 <div class="references">
 
@@ -581,7 +630,11 @@ References: [Cypher course](https://graphacademy.neo4j.com/courses/cypher-fundam
 
 </div>
 
-<!-- notes: Module 2 writes user and assistant messages with short_term.add_message; the first write creates the Conversation. Local build_context returns Context(history, prompt, evidence). The newest ten prior messages are reversed into chronological order and converted by as_model_history: user → ModelRequest(UserPromptPart), assistant → ModelResponse(TextPart). Agent.run receives message_history=context.history. Namespace-wide semantic user statements (same or other conversations) go into instructions: cosine >=0.5, at most five after deduplication and recall-question-prefix filtering. Exclude the current message ID. Evidence preserves IDs and recent_conversation / semantic_message paths. The namespace convention is not enterprise tenant isolation. Source: module_2/app/context.py; module_2/app/agent.py; module_2/app/memory.py. Catch-up make module-2 replays selected beats; it does not restore a checkpoint or switch the running backend. Stop the server, run make dev MODULE=2, wait for readiness and reload. Use docs/modules/module-2.md for question answer keys. -->
+<!-- notes: Say — Identify the inputs available to the model.
+
+Show — Have a learner point to the ID in history, semantic evidence, or both.
+
+If blocked — If the fact appears in both paths, accept both. The observed answer alone cannot attribute causation. -->
 
 ---
 
@@ -605,12 +658,12 @@ References: [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-
 
 # Module 3 — Ontology-driven extraction
 
-- Read `module_3/ontology/acme_cloud.yaml`: types, subtypes, relation patterns and aliases.
-- The app drops invalid relations; strict mode also filters undeclared entity types.
-- Domain labels retain a POLE base type, for example `PERSON` / `CUSTOMER`.
-- Instructor validator recipe: `uv run scripts/instructor.py strict`.
+- The ontology YAML defines types, relation patterns and aliases.
+- **Fixed transcript** — an extractor lab validates records and saves a replay projection.
+- **Browser chat** — one live message triggers extraction, graph writes and SQL hydration.
+- **Validator experiment** — fixture input exercises drop and raise modes. Inspect the terminal result.
 
-![diagram](../slides/diagrams/d08-ontology-extraction.svg)
+![Ontology YAML guides the extractor. Validation filters the proposed types and relations before they are used.](diagrams/d08-ontology-extraction.svg)
 
 <div class="references">
 
@@ -618,15 +671,19 @@ References: [Ontology guide](https://neo4j.com/labs/agent-memory/how-to/ontology
 
 </div>
 
-<!-- notes: Module 3 retains typed recent history and adds LLM extraction, SQL hydration, entities, preferences and model-selected memory tools. app/memory.py configures extractor_type=llm and disables automatic enrichment. ONTOLOGY selects acme_cloud, default-poleo or active; an explicit file wins. Only current-message mentions with type-compatible, exact unambiguous names/aliases get SQL facts. grounded_facts and lookup_facts validate; add_entity refreshes description and PropertyWriter sets flat fields. Inspect hydrated_from: a generated description alone is not SQL authority. Live semantic edges are RELATED_TO with the domain relation in the type property; UI/snapshot labels may show the logical name. Source: module_3/app/agent.py; context.py; hydrate.py; memory.py; ontology/acme_cloud.yaml. module_3/lab/compare.py runs independent extractor-only default/custom snapshots from the same transcript hash; no prior chat state, SQL hydration or live Bolt write. Inspect Saved replay. Logical relation labels in the diagram are illustrative; live storage uses RELATED_TO {type:...}. Entity nodes retain POLE base type and domain subtype, e.g. PERSON/CUSTOMER. Invalid relations are dropped; strict mode also filters unknown types. Instructor recipe: uv run scripts/instructor.py strict. -->
+<!-- notes: Say — Three experiments use different inputs and outputs.
+
+Show — Compare the fixed transcript, a live chat message and the validator fixture.
+
+If blocked — Select the named Saved replay for extraction-only results. -->
 
 ---
 
 # Turn on ontology-driven extraction
 
-<!-- _class: technical -->
+<!-- _class: technical m5-code -->
 
-Module 3 · Code · `module_3/app/memory.py; module_3/app/agent.py`
+Module 3 · Code reference · [module_3/app/memory.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/memory.py) · [module_3/app/agent.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/agent.py)
 
 **Startup configuration + message write**
 
@@ -645,11 +702,7 @@ async with MemoryClient(
     )
 ```
 
-YAML guides types, aliases and relation patterns.
-
-add_message extracts MENTIONS links.
-
-SQL hydration supplies authoritative business fields.
+<div class="m5-code-aside"><p><b>Follow <code>extract_entities=True</code></b></p><p>The message write can create MENTIONS edges.</p><p>YAML guides types, aliases and relation patterns.</p><p>add_message extracts MENTIONS links.</p><p>SQL hydration supplies authoritative business fields.</p></div>
 
 <div class="references">
 
@@ -657,27 +710,36 @@ References: [Ontology guide](https://neo4j.com/labs/agent-memory/how-to/ontology
 
 </div>
 
-<!-- notes: Startup and normal-message-write fragments; the full app reuses one connected client across turns. Imports: MemoryClient and load_ontology from neo4j_agent_memory; build_settings from module_3/app/memory.py. The default ONTOLOGY=acme_cloud loads the local file; default-poleo loads the generic local file; active passes ontology=None and uses the database active version. An explicit file wins over that version. The actual user flag is extract_entities=not self.evaluation; evaluation skips extraction and hydration. add_message creates the conversation if necessary. Module 3 configures extractor_type="llm", enrichment.enabled=False and the selected validation mode. The app drops invalid relations; strict also filters undeclared entity types. Ontology node labels map POLE types/subtypes (for example PERSON/CUSTOMER) to display labels (Customer). Live extracted entity relations are stored as RELATED_TO with the ontology relation in its type property; the extractor-only Saved replay displays logical relation labels directly. Optional Wikimedia enrichment belongs to module_3/lab/enrichment.py and creates cached Saved replay data, not an automatic live-graph write. -->
+<!-- notes: Say — The message write can create MENTIONS edges.
+
+Show — Point to extract_entities=True and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+Startup and normal-message-write fragments; the full app reuses one connected client across turns. Imports: MemoryClient and load_ontology from neo4j_agent_memory; build_settings from module_3/app/memory.py. The default ONTOLOGY=acme_cloud loads the local file; default-poleo loads the generic local file; active passes ontology=None and uses the database active version. An explicit file wins over that version. The actual user flag is extract_entities=not self.evaluation; evaluation skips extraction and hydration. add_message creates the conversation if necessary. Module 3 configures extractor_type="llm", enrichment.enabled=False and the selected validation mode. The app drops invalid relations; strict also filters undeclared entity types. Ontology node labels map POLE types/subtypes (for example PERSON/CUSTOMER) to display labels (Customer). Live extracted entity relations are stored as RELATED_TO with the ontology relation in its type property; the extractor-only Saved replay displays logical relation labels directly. Optional Wikimedia enrichment belongs to module_3/lab/enrichment.py and creates cached Saved replay data, not an automatic live-graph write. -->
 
 ---
 
 # Module 3 — Before / after: default vs. custom ontology
 
-- `make s3-default` and `make s3-ontology` use one fixed transcript.
-- `module_3/lab/compare.py` runs independent extractor calls.
-- No chat history, SQL hydration, graph merging or live Bolt writes.
-- Compare transcript hashes, types and logical relations in **Saved replay**.
-- Temperature zero does not guarantee identical output.
+- At the [Module 3 live lab](#32), switch Terminal 1 to Module 3. In Terminal 2, `make s3-default` and `make s3-ontology` process one fixed transcript.
+- The comparison filters undeclared types and invalid relations. Results are saved projections.
+- Open the two **Saved replay · Extractor only** entries. Compare hashes, type vocabulary and retained relationships.
+- Use an actual browser chat turn to inspect writes and SQL-grounded fields in Live memory.
 
-![diagram](../slides/diagrams/d09-default-custom-ontology.svg)
+![Two extraction snapshots compare generic POLE+O types with Acme Cloud domain types for the same transcript.](diagrams/d09-default-custom-ontology.svg)
 
 <div class="references">
 
-References: [POLE+O](https://neo4j.com/labs/agent-memory/explanation/poleo-model/) · [Ontology guide](https://neo4j.com/labs/agent-memory/how-to/ontology-driven-extraction/) · [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-term-entities/)
+References: [Module 3 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md) · [POLE+O](https://neo4j.com/labs/agent-memory/explanation/poleo-model/) · [Ontology guide](https://neo4j.com/labs/agent-memory/how-to/ontology-driven-extraction/) · [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-term-entities/)
 
 </div>
 
-<!-- notes: Module 3 retains typed recent history and adds LLM extraction, SQL hydration, entities, preferences and model-selected memory tools. app/memory.py configures extractor_type=llm and disables automatic enrichment. ONTOLOGY selects acme_cloud, default-poleo or active; an explicit file wins. Only current-message mentions with type-compatible, exact unambiguous names/aliases get SQL facts. grounded_facts and lookup_facts validate; add_entity refreshes description and PropertyWriter sets flat fields. Inspect hydrated_from: a generated description alone is not SQL authority. Live semantic edges are RELATED_TO with the domain relation in the type property; UI/snapshot labels may show the logical name. Source: module_3/app/agent.py; context.py; hydrate.py; memory.py; ontology/acme_cloud.yaml. module_3/lab/compare.py runs independent extractor-only default/custom snapshots from the same transcript hash; no prior chat state, SQL hydration or live Bolt write. Inspect Saved replay. Logical relation labels in the diagram are illustrative; live storage uses RELATED_TO {type:...}. Entity nodes retain POLE base type and domain subtype, e.g. PERSON/CUSTOMER. Invalid relations are dropped; strict mode also filters unknown types. Instructor recipe: uv run scripts/instructor.py strict. -->
+<!-- notes: Say — The same transcript yields two comparable extractor snapshots.
+
+Show — Read the transcript hash and inspect the actual types and relationships.
+
+If blocked — Use a labeled saved snapshot rather than searching the live graph for the lab output. -->
 
 ---
 
@@ -689,7 +751,7 @@ References: [POLE+O](https://neo4j.com/labs/agent-memory/explanation/poleo-model
 - The enrichment lab does not write live Neo4j memory or report service health.
 - Generated descriptions are not business authority.
 
-![diagram](../slides/diagrams/d10-hybrid-pipeline.svg)
+![The LLM extracts proposed entities. SQLite supplies verified customer details. Wikimedia adds a separate cached lab result.](../slides/diagrams/d10-hybrid-pipeline.svg)
 
 <div class="references">
 
@@ -703,9 +765,9 @@ References: [Extraction](https://neo4j.com/labs/agent-memory/explanation/extract
 
 # Ground extracted entities in SQL facts
 
-<!-- _class: technical -->
+<!-- _class: technical m5-code -->
 
-Module 3 · Code · `module_3/app/hydrate.py`
+Module 3 · Code reference · [module_3/app/hydrate.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/hydrate.py)
 
 **Inside checked hydration loop**
 
@@ -726,11 +788,7 @@ if writer is not None:
     )
 ```
 
-Current-message mentions; exact SQL names or aliases.
-
-The public upsert refreshes description.
-
-PropertyWriter refreshes flat fields before retrieval.
+<div class="m5-code-aside"><p><b>Follow <code>writer.set_properties</code></b></p><p>Inspect grounded fields on the matched graph entity.</p><p>Current-message mentions; exact SQL names or aliases.</p><p>The public upsert refreshes description.</p><p>PropertyWriter refreshes flat fields before retrieval.</p></div>
 
 <div class="references">
 
@@ -738,7 +796,13 @@ References: [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-
 
 </div>
 
-<!-- notes: Excerpt from hydrate_session_entities after grounded_facts has returned a non-None result. The agent passes the current user message ID; only entities that message mentions are hydrated. Local lookup_facts performs parameterized SQLite reads. grounded_facts rejects conflicting exact-name/alias matches and incompatible POLE base types (PERSON for customers, OBJECT for products/plans, ORGANIZATION for organizations). The public long_term.add_entity upsert refreshes description; the pinned SDK does not refresh existing flat attributes, so a module-local PropertyWriter uses its own pooled Neo4j driver and opens a short session per write. memory.query.cypher is read-only. No _apply_flat_attributes or _lookup_hydration helper exists in this version. Existing resolved entity names remain unchanged (resolve=False, deduplicate=False). Inspect hydrated_from for SQL provenance; generated descriptions alone are not authoritative. A later mention refreshes facts after a SQL change; this is not automatic CDC. The local instructor plan fixture verifies Pro → Enterprise → Pro without modifying the live participant graph. -->
+<!-- notes: Say — Inspect grounded fields on the matched graph entity.
+
+Show — Point to writer.set_properties and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+Excerpt from hydrate_session_entities after grounded_facts has returned a non-None result. The agent passes the current user message ID; only entities that message mentions are hydrated. Local lookup_facts performs parameterized SQLite reads. grounded_facts rejects conflicting exact-name/alias matches and incompatible POLE base types (PERSON for customers, OBJECT for products/plans, ORGANIZATION for organizations). The public long_term.add_entity upsert refreshes description; the pinned SDK does not refresh existing flat attributes, so a module-local PropertyWriter uses its own pooled Neo4j driver and opens a short session per write. memory.query.cypher is read-only. No _apply_flat_attributes or _lookup_hydration helper exists in this version. Existing resolved entity names remain unchanged (resolve=False, deduplicate=False). Inspect hydrated_from for SQL provenance; generated descriptions alone are not authoritative. A later mention refreshes facts after a SQL change; this is not automatic CDC. The local instructor plan fixture verifies Pro → Enterprise → Pro without modifying the live participant graph. -->
 
 ---
 
@@ -749,7 +813,7 @@ References: [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-
 - Follow `MENTIONS` back to the current source message.
 - Resolution and extraction can still produce duplicates; inspect actual results.
 
-![diagram](../slides/diagrams/d11-entity-resolution.svg)
+![Multiple messages can mention one canonical entity resolved using names, types, and aliases.](../slides/diagrams/d11-entity-resolution.svg)
 
 <div class="references">
 
@@ -763,23 +827,26 @@ References: [Resolution](https://neo4j.com/labs/agent-memory/explanation/resolut
 
 # Module 3 — Live demo: watch the graph bloom
 
-```bash
-make s3-default
-make s3-ontology
-make s3-enrich  # optional lab
-```
+<!-- _class: m5-demo -->
 
-- Compare immutable extraction snapshots through **Saved replay**.
-- In browser chat, introduce Maya; inspect live `MENTIONS` and SQL-grounded fields.
-- Optional enrichment saves a cached replay; inspect provider status and continue if unavailable.
+Switch to Module 3 · stop Terminal 1 with Ctrl+C first
+
+<div class="two-terminal"><h2>Terminal 1 · after Ctrl+C</h2><pre><code>make dev MODULE=3</code></pre><h2>Terminal 2 · run scenarios</h2><pre><code>make s3-default
+make s3-ontology</code></pre></div>
+
+<div class="m5-demo-aside"><p>Reload and confirm Module 3. Refresh graph → choose each Saved replay · Extractor only snapshot.</p><p>In browser chat, introduce Maya Chen from Northwind Robotics. Inspect current-conversation MENTIONS and any SQLite-grounded fields.</p><p>Optional Wikimedia lab: <code>make s3-enrich</code> saves a cache-backed replay.</p></div>
 
 <div class="references">
 
-References: [Ontology guide](https://neo4j.com/labs/agent-memory/how-to/ontology-driven-extraction/) · [Extraction](https://neo4j.com/labs/agent-memory/explanation/extraction-pipeline/)
+References: [Module 3 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md) · [Ontology guide](https://neo4j.com/labs/agent-memory/how-to/ontology-driven-extraction/) · [Extraction](https://neo4j.com/labs/agent-memory/explanation/extraction-pipeline/)
 
 </div>
 
-<!-- notes: Module 3 retains typed recent history and adds LLM extraction, SQL hydration, entities, preferences and model-selected memory tools. app/memory.py configures extractor_type=llm and disables automatic enrichment. ONTOLOGY selects acme_cloud, default-poleo or active; an explicit file wins. Only current-message mentions with type-compatible, exact unambiguous names/aliases get SQL facts. grounded_facts and lookup_facts validate; add_entity refreshes description and PropertyWriter sets flat fields. Inspect hydrated_from: a generated description alone is not SQL authority. Live semantic edges are RELATED_TO with the domain relation in the type property; UI/snapshot labels may show the logical name. Source: module_3/app/agent.py; context.py; hydrate.py; memory.py; ontology/acme_cloud.yaml. Optional make s3-enrich calls module_3/lab/enrichment.py with a named Wikimedia User-Agent. It writes a local cache and Saved replay Organization projection, never live Neo4j. Cache TTL: success 7 days; other statuses 5 minutes. A provider error is visible and does not block the core lesson. Source facts are public company information, not service monitoring. -->
+<!-- notes: Choose each saved extractor run, compare Transcript SHA-256 and inspect the snapshot’s entity nodes. A graph snapshot can contain nodes without recorded agent turns. Say — The extractor replay, browser chat and validator are separate experiments.
+
+Show — Check the Module 3 badge before running the fixed transcripts in terminal 2.
+
+If blocked — Use the named saved replays or a labeled prior extraction if the provider is unavailable. -->
 
 ---
 
@@ -793,7 +860,7 @@ References: [Ontology guide](https://neo4j.com/labs/agent-memory/how-to/ontology
 
 <div class="references">
 
-References: [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-term-entities/) · [Configuration](https://neo4j.com/labs/agent-memory/reference/configuration-providers/)
+References: [Module 3 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md) · [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-term-entities/) · [Configuration](https://neo4j.com/labs/agent-memory/reference/configuration-providers/)
 
 </div>
 
@@ -803,9 +870,9 @@ References: [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-
 
 # Expose memory tools to PydanticAI
 
-<!-- _class: technical -->
+<!-- _class: technical m5-code -->
 
-Module 3 · Code · `module_3/app/agent.py; module_3/app/memory_tools.py`
+Module 3 · Code reference · [module_3/app/agent.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/agent.py) · [module_3/app/memory_tools.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/memory_tools.py)
 
 **Inside ChatService.__init__**
 
@@ -825,11 +892,7 @@ self.agent = Agent(
 # recall_preferences()
 ```
 
-The local tool factory closes over MemoryClient.
-
-RunContext[ToolDeps] supplies customer and namespace.
-
-Memory tools query mid-turn; SQL tools still govern actions.
+<div class="m5-code-aside"><p><b>Follow <code>create_memory_tools(memory)</code></b></p><p>The agent can call the module-local memory tools.</p><p>The local tool factory closes over MemoryClient.</p><p>RunContext[ToolDeps] supplies customer and namespace.</p><p>Memory tools query mid-turn; SQL tools still govern actions.</p></div>
 
 <div class="references">
 
@@ -837,15 +900,21 @@ References: [Function tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/)
 
 </div>
 
-<!-- notes: Construction fragment from module_3/app/agent.py. create_memory_tools is local workshop code, not the package tool registry; it shares the familiar integration tool names but scopes queries to the workshop namespace/customer and records tool receipts. INSTRUCTIONS + SHORT_TERM_INSTRUCTIONS + LONG_TERM_INSTRUCTIONS are the actual constants. The short-term instructions teach evidence use; the long-term instructions request search_memory for account-history requests and save_preference when asked to store a preference. context.py retrieves before the model call; search_memory permits another query during the run. It combines Cypher-scoped user statements and allowlisted entity fields with long_term.get_preferences_for for the selected user. ToolDeps carries the explicitly selected customer, namespace, embedder and current_message_id. recall_preferences has no model-visible topic argument. SQL tools and module-local guardrails still validate current business facts and actions. -->
+<!-- notes: Say — The agent can call the module-local memory tools.
+
+Show — Point to create_memory_tools(memory) and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+Construction fragment from module_3/app/agent.py. create_memory_tools is local workshop code, not the package tool registry; it shares the familiar integration tool names but scopes queries to the workshop namespace/customer and records tool receipts. INSTRUCTIONS + SHORT_TERM_INSTRUCTIONS + LONG_TERM_INSTRUCTIONS are the actual constants. The short-term instructions teach evidence use; the long-term instructions request search_memory for account-history requests and save_preference when asked to store a preference. context.py retrieves before the model call; search_memory permits another query during the run. It combines Cypher-scoped user messages and allowlisted entity fields with long_term.get_preferences_for for the selected user. ToolDeps carries the explicitly selected customer, namespace, embedder and current_message_id. recall_preferences has no model-visible topic argument. SQL tools and module-local guardrails still validate current business facts and actions. -->
 
 ---
 
 # Save and recall one customer’s preferences
 
-<!-- _class: technical -->
+<!-- _class: technical m5-code -->
 
-Module 3 · Code · `module_3/app/memory_tools.py; module_3/app/context.py`
+Module 3 · Code reference · [module_3/app/memory_tools.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/memory_tools.py) · [module_3/app/context.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/context.py)
 
 **Preference write tool + retrieval helper**
 
@@ -864,11 +933,7 @@ preferences = (
 )
 ```
 
-User → HAS_PREFERENCE → Preference.
-
-The customer prefixes both category and user identity.
-
-Confirm the returned value and deduplicated flag.
+<div class="m5-code-aside"><p><b>Follow <code>get_preferences_for</code></b></p><p>The lookup uses the selected customer’s user identifier.</p><p>User → HAS_PREFERENCE → Preference.</p><p>The customer prefixes both category and user identity.</p><p>Confirm the returned value and deduplicated flag.</p></div>
 
 <div class="references">
 
@@ -876,17 +941,24 @@ References: [Preference API](https://neo4j.com/labs/agent-memory/reference/api/l
 
 </div>
 
-<!-- notes: Write-tool and retrieval-helper fragments. customer_id is a local helper returning f"{namespace}:{customer_email}". save_preference takes RunContext[ToolDeps], category, preference and optional context. It returns needs_customer before the shown block if no customer is selected. The SDK deduplicates similar preferences within a category across users, so the category is also prefixed with the customer identifier. user_identifier creates (:User)-[:HAS_PREFERENCE]->(:Preference). The receipt uses stored.id/category/preference/context and stored.metadata.get("deduplicated", False); it reports what the SDK actually stored. Retrieval calls the public long_term.get_preferences_for API rather than category-prefix Cypher. search_preferences returns at most ten customer_preference evidence rows and returns an empty list if no customer is selected. The model tool recall_preferences() takes no topic argument. No preference automatically authorizes a business action. -->
+<!-- notes: Say — The lookup uses the selected customer’s user identifier.
+
+Show — Point to get_preferences_for and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+Write-tool and retrieval-helper fragments. customer_id is a local helper returning f"{namespace}:{customer_email}". save_preference takes RunContext[ToolDeps], category, preference and optional context. It returns needs_customer before the shown block if no customer is selected. The SDK deduplicates similar preferences within a category across users, so the category is also prefixed with the customer identifier. user_identifier creates (:User)-[:HAS_PREFERENCE]->(:Preference). The receipt uses stored.id/category/preference/context and stored.metadata.get("deduplicated", False); it reports what the SDK actually stored. Retrieval calls the public long_term.get_preferences_for API rather than category-prefix Cypher. search_preferences returns at most ten customer_preference evidence rows and returns an empty list if no customer is selected. The model tool recall_preferences() takes no topic argument. No preference automatically authorizes a business action. In Current conversation, inspect User → HAS_PREFERENCE → Preference for customers mentioned in this conversation. Use All stored memory for the broader graph. The selected customer scopes the tool’s save and recall. -->
 
 ---
 
 # Module 3 — Exploration brief (40-min module, tiered)
 
-- **Core:** follow `MENTIONS`, compare extraction snapshots and identify Customer field sources.
-- Compare `module_2/app` with `module_3/app`: what new memory behavior appears?
-- **Instructor:** negative descriptions, strict validation and local Pro → Enterprise → Pro hydration.
-- **Stretch:** select a customer, save a preference and verify the actual stored value and scope.
-- Allow 15+ minutes. Questions: `docs/modules/module-3.md`; catch-up: `make module-3`.
+1. In **browser chat**, introduce Maya Chen from Northwind Robotics. Select the user message and follow `MENTIONS`. Which entity was extracted? Which field came from SQLite?
+2. In **Saved replay**, compare the two fixed-transcript hashes, types and relations. If extraction differs, report the observed difference.
+3. In **Terminal 2**, the instructor’s strict validator uses fixtures to test drop/raise behavior. Compare the reported result.
+4. Stretch: select Customer, save a preference and inspect the returned value.
+
+[Module 3 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md)
 
 <div class="references">
 
@@ -894,7 +966,11 @@ References: [GraphAcademy: Python](https://graphacademy.neo4j.com/courses/worksh
 
 </div>
 
-<!-- notes: Module 3 retains typed recent history and adds LLM extraction, SQL hydration, entities, preferences and model-selected memory tools. app/memory.py configures extractor_type=llm and disables automatic enrichment. ONTOLOGY selects acme_cloud, default-poleo or active; an explicit file wins. Only current-message mentions with type-compatible, exact unambiguous names/aliases get SQL facts. grounded_facts and lookup_facts validate; add_entity refreshes description and PropertyWriter sets flat fields. Inspect hydrated_from: a generated description alone is not SQL authority. Live semantic edges are RELATED_TO with the domain relation in the type property; UI/snapshot labels may show the logical name. Source: module_3/app/agent.py; context.py; hydrate.py; memory.py; ontology/acme_cloud.yaml. Catch-up make module-3 replays selected beats; it does not restore a checkpoint or switch the running backend. Stop the server, run make dev MODULE=3, wait for readiness and reload. Use docs/modules/module-3.md for question answer keys. Q7 uses uv run scripts/instructor.py plan: a local fixture checks Pro → Enterprise → Pro; it does not alter a live customer. Preferences require a selected customer and confirmation of the returned stored value. -->
+<!-- notes: Say — The learner should point to a concrete source and field.
+
+Show — Ask which Message mentions the entity and which customer field SQLite supplies.
+
+If blocked — Accept missing or variable extraction this run and ask where to inspect the evidence. -->
 
 ---
 
@@ -912,18 +988,18 @@ References: [Memory types](https://neo4j.com/labs/agent-memory/explanation/memor
 
 </div>
 
-<!-- notes: Module 4 opens a ReasoningTrace before scope checks and model execution. After reply persistence, record_execution records collected tools and server guards, then attempts completion even on failure. ReasoningTrace HAS_STEP ReasoningStep USES_TOOL ToolCall INSTANCE_OF Tool. Trace INITIATED_BY Message; Step TOUCHED explicit case Customer/Plan; ToolCall can be TRIGGERED_BY Message. These are execution receipts with actual SQL, not hidden model thoughts. Error priority is recording failure, execution_error, policy_declined, then none. similar_executions retrieves only completed traces in the selected namespace, cosine >=0.45 and at most three; declined traces are eligible. The current open trace is excluded. Source: module_4/app/agent.py; reasoning.py; memory_tools.py. -->
+<!-- notes: Module 4 opens a ReasoningTrace before scope checks and model execution. After reply persistence, record_execution records collected tools and server guards, then attempts completion even on failure. ReasoningTrace HAS_STEP ReasoningStep USES_TOOL ToolCall INSTANCE_OF Tool. Trace INITIATED_BY Message; Step TOUCHED explicit case Customer/Plan; ToolCall can be TRIGGERED_BY Message. TOUCHED carries the selected case context on each collected call. Inspect the operation result, captured SQL and action receipt to establish what the call did. Error priority is recording failure, execution_error, policy_declined, then none. similar_executions retrieves only completed traces in the selected namespace, cosine >=0.45 and at most three; declined traces are eligible. The current open trace is excluded. Source: module_4/app/agent.py; reasoning.py; memory_tools.py. -->
 
 ---
 
 # Module 4 — Anatomy of a trace
 
-- `ReasoningTrace` → `HAS_STEP` → `ReasoningStep` → `USES_TOOL` → `ToolCall`.
-- `ToolCall` → `INSTANCE_OF` → `Tool`; outcome is a trace property.
-- Trace `INITIATED_BY` Message; Step `TOUCHED` explicit case Customer / Plan.
-- Inspect actual inputs, outputs and SQL: execution receipts, not hidden model thoughts.
+- Trace **HAS_STEP** Step **USES_TOOL** ToolCall **INSTANCE_OF** Tool.
+- Trace **INITIATED_BY** Message identifies the user turn.
+- Step **TOUCHED** Customer / Plan carries selected-case context attached to each recorded call.
+- Determine what an operation read or changed from captured SQL, tool output and its receipt.
 
-![diagram](../slides/diagrams/d12-trace-anatomy.svg)
+![A trace has steps linked to tool calls. Each step can link to customer and plan case context. The operation record holds the result and captured SQL.](diagrams/d12-trace-anatomy.svg)
 
 <div class="references">
 
@@ -931,15 +1007,19 @@ References: [Steps + tools](https://neo4j.com/labs/agent-memory/reference/api/re
 
 </div>
 
-<!-- notes: Module 4 opens a ReasoningTrace before scope checks and model execution. After reply persistence, record_execution records collected tools and server guards, then attempts completion even on failure. ReasoningTrace HAS_STEP ReasoningStep USES_TOOL ToolCall INSTANCE_OF Tool. Trace INITIATED_BY Message; Step TOUCHED explicit case Customer/Plan; ToolCall can be TRIGGERED_BY Message. These are execution receipts with actual SQL, not hidden model thoughts. Error priority is recording failure, execution_error, policy_declined, then none. similar_executions retrieves only completed traces in the selected namespace, cosine >=0.45 and at most three; declined traces are eligible. The current open trace is excluded. Source: module_4/app/agent.py; reasoning.py; memory_tools.py. -->
+<!-- notes: Say — TOUCHED records the selected case context.
+
+Show — Follow Trace → Step → ToolCall. Read captured SQL and operation result to support any action claim.
+
+If blocked — Use the dated saved replay and distinguish it from the live graph. -->
 
 ---
 
 # Open the trace before execution
 
-<!-- _class: technical -->
+<!-- _class: technical m5-code -->
 
-Module 4 · Code · `module_4/app/agent.py; module_4/app/reasoning.py`
+Module 4 · Code reference · [module_4/app/agent.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/agent.py) · [module_4/app/reasoning.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py)
 
 **Condensed normal path in ChatService._turn**
 
@@ -961,27 +1041,29 @@ reply = checked_reply(
 # ... persist reply; record_execution closes trace ...
 ```
 
-Open the trace before case checks and model execution.
-
-Pass real message history; validate the reply against receipts.
-
-On errors, supply a safe reply and attempt trace completion.
+<div class="m5-code-aside"><p><b>Follow <code>start_trace</code></b></p><p>A trace exists before the current model execution.</p><p>Open the trace before case checks and model execution.</p><p>Pass real message history; validate the reply against receipts.</p><p>On errors, supply a safe reply and attempt trace completion.</p></div>
 
 <div class="references">
 
-References: [Trace API](https://neo4j.com/labs/agent-memory/reference/api/reasoning-traces/) · [Record failures](https://neo4j.com/labs/agent-memory/how-to/reasoning-traces/)
+References: [Return to live demo](#44) · [Trace API](https://neo4j.com/labs/agent-memory/reference/api/reasoning-traces/) · [Record failures](https://neo4j.com/labs/agent-memory/how-to/reasoning-traces/)
 
 </div>
 
-<!-- notes: Condensed normal path from module_4/app/agent.py:161–222. self.memory and self.agent belong to ChatService; deps is ToolDeps and context is Context. scope_turn and checked_reply come from the module-local guardrails.py. start_trace is conditional on record_reasoning and occurs before case checks. Saving the user message extracts entities unless evaluation=True; hydration and retrieval follow. The model receives context.history as real PydanticAI message_history and retrieved evidence/examples through instructions. checked_reply verifies output against deps.collector and scope. Exceptions set execution_ok=False and use failure_reply. The app persists the reply, then calls record_execution with tool_calls=deps.collector, reply, execution_ok, warnings and selected case whenever a trace exists. Completion can fail if storage is unavailable; warnings surface degraded persistence and ReceiptGuard retains local operation receipts for safe request-ID retries. No hidden model thoughts are recorded. -->
+<!-- notes: Say — A trace exists before the current model execution.
+
+Show — Point to start_trace and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+Live path: point to the trace start before the call and the checked reply after it. The code reference shows the surrounding setup, use of role-preserving history, and later completion in record_execution. Inspect a recorded run to observe the trace ID. -->
 
 ---
 
 # Attach observations and provenance
 
-<!-- _class: technical -->
+<!-- _class: technical m5-code -->
 
-Module 4 · Code · `module_4/app/reasoning.py`
+Module 4 · Code reference · [module_4/app/reasoning.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py)
 
 **Inside record_execution: message link + loop**
 
@@ -1003,27 +1085,29 @@ await memory.reasoning.record_tool_call(
 )
 ```
 
-INITIATED_BY links a trace to its user message.
-
-TOUCHED links a step to explicit Customer / Plan references.
-
-Capture actual inputs, outputs and SQL; a declined refund has no INSERT.
+<div class="m5-code-aside"><p><b>Follow <code>touched_entities=refs</code></b></p><p>Each captured call receives the selected case context.</p><p>Case references are computed once and attached to each captured call.</p><p>Read the operation output, captured SQL and receipt for evidence of an actual write.</p></div>
 
 <div class="references">
 
-References: [Steps + tools](https://neo4j.com/labs/agent-memory/reference/api/reasoning-steps/) · [Audit provenance](https://neo4j.com/labs/agent-memory/how-to/audit-reasoning/)
+References: [Return to live demo](#44) · [Steps + tools](https://neo4j.com/labs/agent-memory/reference/api/reasoning-steps/) · [Audit provenance](https://neo4j.com/labs/agent-memory/how-to/audit-reasoning/)
 
 </div>
 
-<!-- notes: From module_4/app/reasoning.py:95–130. The message link occurs once before the tool_calls loop; step creation and record_tool_call occur for each receipt. output is a presentation alias for call["output"]. The displayed path assumes message exists; real code conditionally links it and passes message_id=None if absent. case_entities builds EntityRef objects from the explicitly selected SQL case Customer and Plan with resolve/deduplicate/enrich/embedding disabled. The call also records rounded duration_ms. Graph: ReasoningTrace HAS_STEP ReasoningStep USES_TOOL ToolCall INSTANCE_OF Tool; trace INITIATED_BY Message; ToolCall TRIGGERED_BY Message. touched_entities creates ReasoningStep TOUCHED Entity. Server guard decisions are recorded alongside model tools. The local recorder supports failed runs without AgentRunResult, server checks and exact SQL; SDK integrations.pydantic_ai.record_agent_trace expects a completed result, so it is not used here. -->
+<!-- notes: Say — Each captured call receives the selected case context.
+
+Show — Point to touched_entities=refs and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+record_execution computes case references once, then passes the same list with every collected call. Follow INITIATED_BY to the initiating message. TOUCHED describes case context. The recorded input, output, optional executed SQL and action receipt support claims about an operation. Each step keeps its own result. -->
 
 ---
 
 # Complete the trace with an outcome
 
-<!-- _class: technical -->
+<!-- _class: technical m5-code -->
 
-Module 4 · Code · `module_4/app/reasoning.py`
+Module 4 · Code reference · [module_4/app/reasoning.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py)
 
 **Finally block in record_execution**
 
@@ -1045,19 +1129,21 @@ await memory.reasoning.complete_trace(
 )
 ```
 
-TraceOutcome is a package model.
-
-A declined refund can execute correctly while trace success=False.
-
-Recording or execution failures also make success=False.
+<div class="m5-code-aside"><p><b>Follow <code>complete_trace</code></b></p><p>A completed trace records execution and business status.</p><p>Inspect business_status alongside execution_status.</p><p>A policy decline can be a correctly executed decision.</p></div>
 
 <div class="references">
 
-References: [Outcome models](https://neo4j.com/labs/agent-memory/reference/api/reasoning-models/) · [Trace API](https://neo4j.com/labs/agent-memory/reference/api/reasoning-traces/)
+References: [Return to live demo](#44) · [Outcome models](https://neo4j.com/labs/agent-memory/reference/api/reasoning-models/) · [Trace API](https://neo4j.com/labs/agent-memory/reference/api/reasoning-traces/)
 
 </div>
 
-<!-- notes: Imports: TraceOutcome from neo4j_agent_memory.schema.models and json. Condensed from module_4/app/reasoning.py:107–164. status = business_status(tool_calls) selects the latest issue_refund/refund_policy_guard receipt or no_action. declined means status starts with rejected or equals requires_confirmation. error_kind precedence is recording exception name, execution_error when execution_ok=False, policy_declined, then None. Real code constructs TraceOutcome inside complete_trace; named outcome is presentation-only factoring. The real outcome includes related_entities=refs and metrics execution_succeeded/tool_calls, with no unmeasured policy_compliant assertion. Exact checked reply is retained as JSON. finally attempts completion after execution or recording failure; outages can still prevent storage. -->
+<!-- notes: Say — A completed trace records execution and business status.
+
+Show — Point to complete_trace and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+Imports: TraceOutcome from neo4j_agent_memory.schema.models and json. Condensed from module_4/app/reasoning.py:107–164. status = business_status(tool_calls) selects the latest issue_refund/refund_policy_guard receipt or no_action. declined means status starts with rejected or equals requires_confirmation. error_kind precedence is recording exception name, execution_error when execution_ok=False, policy_declined, then None. Real code constructs TraceOutcome inside complete_trace; named outcome is presentation-only factoring. The real outcome includes related_entities=refs and metrics execution_succeeded/tool_calls, with no unmeasured policy_compliant assertion. Exact checked reply is retained as JSON. finally attempts completion after execution or recording failure; outages can still prevent storage. -->
 
 ---
 
@@ -1069,7 +1155,7 @@ References: [Outcome models](https://neo4j.com/labs/agent-memory/reference/api/r
 - The retrieval toggle disables both routes while normal trace recording continues.
 - Controlled ablation also disables extraction, hydration and branch trace writes.
 
-![diagram](../slides/diagrams/d13-similar-task-retrieval.svg)
+![The new task retrieves similar completed traces before the agent runs under current SQL policy.](../slides/diagrams/d13-similar-task-retrieval.svg)
 
 <div class="references">
 
@@ -1077,15 +1163,15 @@ References: [Trace search](https://neo4j.com/labs/agent-memory/reference/api/rea
 
 </div>
 
-<!-- notes: Module 4 opens a ReasoningTrace before scope checks and model execution. After reply persistence, record_execution records collected tools and server guards, then attempts completion even on failure. ReasoningTrace HAS_STEP ReasoningStep USES_TOOL ToolCall INSTANCE_OF Tool. Trace INITIATED_BY Message; Step TOUCHED explicit case Customer/Plan; ToolCall can be TRIGGERED_BY Message. These are execution receipts with actual SQL, not hidden model thoughts. Error priority is recording failure, execution_error, policy_declined, then none. similar_executions retrieves only completed traces in the selected namespace, cosine >=0.45 and at most three; declined traces are eligible. The current open trace is excluded. Source: module_4/app/agent.py; reasoning.py; memory_tools.py. The reasoning_retrieval toggle disables pre-turn examples and mid-turn search_memory procedures; by itself it still records new traces. The controlled make s4-refund-repeat runner additionally sets evaluation=True and record_reasoning=False in both branches: no extraction, hydration or branch trace writes. It uses identical private SQLite copies, separate message scopes and one frozen declined-refund corpus. Compare saved hashes, evidence, tools, tokens, timing and policy compliance. A benefit is not guaranteed. The fixture is module_4/lab/ablation.py; orchestration is scripts/run_scenario.py. -->
+<!-- notes: Module 4 opens a ReasoningTrace before scope checks and model execution. After reply persistence, record_execution records collected tools and server guards, then attempts completion even on failure. ReasoningTrace HAS_STEP ReasoningStep USES_TOOL ToolCall INSTANCE_OF Tool. Trace INITIATED_BY Message; Step TOUCHED explicit case Customer/Plan; ToolCall can be TRIGGERED_BY Message. TOUCHED carries the selected case context on each collected call. Inspect the operation result, captured SQL and action receipt to establish what the call did. Error priority is recording failure, execution_error, policy_declined, then none. similar_executions retrieves only completed traces in the selected namespace, cosine >=0.45 and at most three; declined traces are eligible. The current open trace is excluded. Source: module_4/app/agent.py; reasoning.py; memory_tools.py. The reasoning_retrieval toggle disables pre-turn examples and mid-turn search_memory procedures; by itself it still records new traces. The controlled make s4-refund-repeat runner additionally sets evaluation=True and record_reasoning=False in both branches: no extraction, hydration or branch trace writes. It uses identical private SQLite copies, separate message scopes and one frozen declined-refund corpus. Compare saved hashes, evidence, tools, tokens, timing and policy compliance. A benefit is not guaranteed. The fixture is module_4/lab/ablation.py; orchestration is scripts/run_scenario.py. -->
 
 ---
 
 # Recall completed executions
 
-<!-- _class: technical -->
+<!-- _class: technical m5-code -->
 
-Module 4 · Code · `module_4/app/reasoning.py; module_4/app/agent.py`
+Module 4 · Code reference · [module_4/app/reasoning.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py) · [module_4/app/agent.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/agent.py)
 
 **similar_executions → recall wrapper → agent.run**
 
@@ -1107,11 +1193,7 @@ result = await self.agent.run(
 )
 ```
 
-Completed traces only: exclude this turn’s open trace.
-
-Scope first; cosine ≥0.45; up to three matches, including declines.
-
-Execution examples guide the model; current SQL policy governs action.
+<div class="m5-code-aside"><p><b>Follow <code>get_trace_with_steps</code></b></p><p>A matched past trace supplies steps and tool results.</p><p>Completed traces only: exclude this turn’s open trace.</p><p>Scope first; cosine ≥0.45; up to three matches, including declines.</p><p>Execution examples guide the model; current SQL policy governs action.</p></div>
 
 <div class="references">
 
@@ -1119,58 +1201,75 @@ References: [Trace search](https://neo4j.com/labs/agent-memory/reference/api/rea
 
 </div>
 
-<!-- notes: Imports: UUID from uuid and local similar_executions. Three scopes: first block inside similar_executions; middle inside ChatService._recall_executions; final block in ChatService._turn. Source: module_4/app/reasoning.py:36–92 and agent.py:187–195,259–271. Namespace Cypher requires completed_at IS NOT NULL before ranking, excluding the trace opened for this turn. It checks task_embedding and selects up to three cosine matches ≥0.45, including completed declines. get_trace_with_steps supplies actual steps, tool arguments/results and outcome; as_example serializes them, and trace IDs join context.evidence. _turn injects nonempty examples labeled Past execution examples (not current policy). SDK get_similar_traces uses global top-k; local query provides exact namespace isolation. reasoning_retrieval=False disables both pre-turn and search_memory procedure retrieval but alone still records traces. The controlled make s4-refund-repeat runner additionally sets record_reasoning=False and evaluation=True in both branches: no branch traces, extraction or hydration; identical private SQL copies, separate message namespaces and one fixed corpus seeded by module_4/lab/ablation.py. Identical outcomes are valid. Retrieval errors surface warnings without necessarily failing the turn. -->
+<!-- notes: Say — A matched past trace supplies steps and tool results.
+
+Show — Point to get_trace_with_steps and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+Imports: UUID from uuid and local similar_executions. Three scopes: first block inside similar_executions; middle inside ChatService._recall_executions; final block in ChatService._turn. Source: module_4/app/reasoning.py:36–92 and agent.py:187–195,259–271. Namespace Cypher requires completed_at IS NOT NULL before ranking, excluding the trace opened for this turn. It checks task_embedding and selects up to three cosine matches ≥0.45, including completed declines. get_trace_with_steps supplies actual steps, tool arguments/results and outcome; as_example serializes them, and trace IDs join context.evidence. _turn injects nonempty examples labeled Past execution examples (not current policy). SDK get_similar_traces uses global top-k; local query provides exact namespace isolation. reasoning_retrieval=False disables both pre-turn and search_memory procedure retrieval but alone still records traces. The controlled make s4-refund-repeat runner additionally sets record_reasoning=False and evaluation=True in both branches: no branch traces, extraction or hydration; identical private SQL copies, separate message namespaces and one fixed corpus seeded by module_4/lab/ablation.py. Identical outcomes are valid. Retrieval errors surface warnings without necessarily failing the turn. -->
 
 ---
 
 # Module 4 — Live demo: record, decline, compare
 
-```bash
-make s4-refund
-make s4-fail
-make s4-refund-repeat
-```
+<!-- _class: m5-demo -->
 
-- Confirm account and billing case before authorizing a refund.
-- Inspect tools and SQL receipts; the over-limit guard declines without escalation.
-- Compare frozen-corpus control/treatment runs with identical private SQL copies.
-- Check actual evidence, tokens, timing and safety; improvement is not guaranteed.
+Switch to Module 4 · stop Terminal 1 with Ctrl+C first
+
+<div class="two-terminal"><h2>Terminal 1 · after Ctrl+C</h2><pre><code>make dev MODULE=4</code></pre><h2>Terminal 2 · run scenarios</h2><pre><code>make s4-refund
+make s4-fail
+make s4-refund-repeat</code></pre></div>
+
+<div class="m5-demo-aside"><p>Reload and confirm Module 4. Refresh graph → choose the named Saved replay for SQL and tool results.</p><p>In Live memory, follow the selected run’s trace to its steps.</p><p>Compare both branches from identical initial SQL. Read the actual result, token count and elapsed time.</p></div>
 
 <div class="references">
 
-References: [Record failures](https://neo4j.com/labs/agent-memory/how-to/reasoning-traces/) · [Audit provenance](https://neo4j.com/labs/agent-memory/how-to/audit-reasoning/)
+References: [Module 4 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-4.md) · [Record failures](https://neo4j.com/labs/agent-memory/how-to/reasoning-traces/) · [Audit provenance](https://neo4j.com/labs/agent-memory/how-to/audit-reasoning/)
 
 </div>
 
-<!-- notes: Module 4 opens a ReasoningTrace before scope checks and model execution. After reply persistence, record_execution records collected tools and server guards, then attempts completion even on failure. ReasoningTrace HAS_STEP ReasoningStep USES_TOOL ToolCall INSTANCE_OF Tool. Trace INITIATED_BY Message; Step TOUCHED explicit case Customer/Plan; ToolCall can be TRIGGERED_BY Message. These are execution receipts with actual SQL, not hidden model thoughts. Error priority is recording failure, execution_error, policy_declined, then none. similar_executions retrieves only completed traces in the selected namespace, cosine >=0.45 and at most three; declined traces are eligible. The current open trace is excluded. Source: module_4/app/agent.py; reasoning.py; memory_tools.py. The reasoning_retrieval toggle disables pre-turn examples and mid-turn search_memory procedures; by itself it still records new traces. The controlled make s4-refund-repeat runner additionally sets evaluation=True and record_reasoning=False in both branches: no extraction, hydration or branch trace writes. It uses identical private SQLite copies, separate message scopes and one frozen declined-refund corpus. Compare saved hashes, evidence, tools, tokens, timing and policy compliance. A benefit is not guaranteed. The fixture is module_4/lab/ablation.py; orchestration is scripts/run_scenario.py. -->
+<!-- notes: Execution evidence · Saved replay groups ablation turns by branch. Open the two matching tickets and compare tool order, business result, tokens and timing. Say — Inspect the action, policy decline and paired retrieval experiment.
+
+Show — Switch the browser backend to Module 4, then compare saved tool output and SQL.
+
+If blocked — Use the archived run labeled with its date. -->
 
 ---
 
 # Module 4 — The provenance question
 
-- “Why did you issue that refund?”
-- Trace → `INITIATED_BY` → Message; Step → `TOUCHED` → Customer / Plan.
-- Inspect executed SQL, action receipts and the current policy.
-- Server-validation receipts are distinguishable from model-selected tools.
+<!-- _class: trace-audit -->
+
+- In **Live memory**, follow Trace → INITIATED_BY → Message, then Step → TOUCHED → Customer / Plan.
+- TOUCHED carries case context for the selected customer and plan on every captured step.
+- In **Saved replay**, select the operation. Read the executed SQL, returned status and receipt alongside current policy.
+- Use the operation record to support a claim that a refund was issued or declined.
+
+![Trace has steps. Each step is linked to the selected customer and plan as case context. The operation result and SQL identify what happened.](diagrams/d20-refund-evidence.svg)
 
 <div class="references">
 
-References: [Audit provenance](https://neo4j.com/labs/agent-memory/how-to/audit-reasoning/) · [Steps + tools](https://neo4j.com/labs/agent-memory/reference/api/reasoning-steps/)
+References: [Module 4 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-4.md) · [Audit provenance](https://neo4j.com/labs/agent-memory/how-to/audit-reasoning/) · [Steps + tools](https://neo4j.com/labs/agent-memory/reference/api/reasoning-steps/)
 
 </div>
 
-<!-- notes: Module 4 opens a ReasoningTrace before scope checks and model execution. After reply persistence, record_execution records collected tools and server guards, then attempts completion even on failure. ReasoningTrace HAS_STEP ReasoningStep USES_TOOL ToolCall INSTANCE_OF Tool. Trace INITIATED_BY Message; Step TOUCHED explicit case Customer/Plan; ToolCall can be TRIGGERED_BY Message. These are execution receipts with actual SQL, not hidden model thoughts. Error priority is recording failure, execution_error, policy_declined, then none. similar_executions retrieves only completed traces in the selected namespace, cosine >=0.45 and at most three; declined traces are eligible. The current open trace is excluded. Source: module_4/app/agent.py; reasoning.py; memory_tools.py. -->
+<!-- notes: Say — Selected-case context and actual database operations answer different questions.
+
+Show — Read the Step → TOUCHED edge, then read the recorded operation and SQL.
+
+If blocked — Use the linear graph description with a saved operation result. -->
 
 ---
 
 # Module 4 — Exploration brief
 
-1. Reconstruct actual steps, tools and business outcome.
-2. Compare retrieved evidence and measured behavior; identical outcomes are possible.
-3. Distinguish policy decline, model exception and degraded persistence.
+- In the November 1 rehearsal, both branches issued the $129 refund using one `issue_refund` call.
+- **Retrieval off:** 2,712 input tokens, 31.470 s. **Retrieval on:** 3,456 input tokens, 33.589 s. The starting SQL hashes matched.
+- In your Saved replay, compare action, source IDs, token counts and timing for the first ticket. What changed in this run?
+- Inspect the declined case separately. Distinguish the business result from an execution error.
 
-- Inspect warnings and saved operation receipts before retrying.
-- Questions: `docs/modules/module-4.md`; `make module-4` replays selected beats.
+[November 1 comparison log](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/reviews/2026-11-01-workshop-fixes/command-09.log) · [Module 4 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-4.md)
 
 <div class="references">
 
@@ -1178,30 +1277,33 @@ References: [Audit provenance](https://neo4j.com/labs/agent-memory/how-to/audit-
 
 </div>
 
-<!-- notes: Module 4 opens a ReasoningTrace before scope checks and model execution. After reply persistence, record_execution records collected tools and server guards, then attempts completion even on failure. ReasoningTrace HAS_STEP ReasoningStep USES_TOOL ToolCall INSTANCE_OF Tool. Trace INITIATED_BY Message; Step TOUCHED explicit case Customer/Plan; ToolCall can be TRIGGERED_BY Message. These are execution receipts with actual SQL, not hidden model thoughts. Error priority is recording failure, execution_error, policy_declined, then none. similar_executions retrieves only completed traces in the selected namespace, cosine >=0.45 and at most three; declined traces are eligible. The current open trace is excluded. Source: module_4/app/agent.py; reasoning.py; memory_tools.py. Catch-up make module-4 replays selected beats; it does not restore a checkpoint or switch the running backend. Stop the server, run make dev MODULE=4, wait for readiness and reload. Use docs/modules/module-4.md for question answer keys. The reasoning_retrieval toggle disables pre-turn examples and mid-turn search_memory procedures; by itself it still records new traces. The controlled make s4-refund-repeat runner additionally sets evaluation=True and record_reasoning=False in both branches: no extraction, hydration or branch trace writes. It uses identical private SQLite copies, separate message scopes and one frozen declined-refund corpus. Compare saved hashes, evidence, tools, tokens, timing and policy compliance. A benefit is not guaranteed. The fixture is module_4/lab/ablation.py; orchestration is scripts/run_scenario.py. -->
+<!-- notes: Say — A neutral ablation is an informative result.
+
+Show — Compare the first dated ticket with the actual class run, one metric at a time.
+
+If blocked — Open the archived log and label it November 1. These values are one observation. -->
 
 ---
 
 # Module 5 — Build skills on top of agent memory
 
-- Memory records conversations, entities and execution.
-- Distillation selects evidence and derives a reusable procedure.
-- Inspect the versioned package and its source links.
-- A fresh agent loads SKILL.md and uses its own tools.
-
-Setup is pre-work. Detailed code slides are reference; use the core demonstration path within the 20-minute module.
+- **0–5 min** Separate Bolt and NAMS. Use a prepared package or look for a newly downloaded version.
+- **At minute 5**, use the checked-in skill if NAMS is unavailable or a package is still pending.
+- **5–13 min** Compare off/on with the package, or off/fallback with the checked-in procedure.
+- **Fallback**, go directly to [off vs checked-in skill](#62) and [the wrap](#69).
+- **13–20 min** Debrief observed tool order, status and reply. Show prepared provenance if available. Use code and instructor drift as extensions.
 
 <div class="references">
 
-References: [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/)
+References: [Module 5 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md) · [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/)
 
 </div>
 
-<!-- notes: The module 5 support app retains the full module 4 Bolt/AuraDB memory behavior. Hosted REST workflows seed canonical authored fixtures into a separate NAMS workspace; they do not migrate participant AuraDB data. Skill distillation builds a reusable procedure on top of memory, not a fourth memory store or model-weight training. Source: module_5/app/agent.py; module_5/app/memory.py; module_5/workflows/*.py. Memory supplies context, entity knowledge and recorded actions/outcomes. A distillation run selects evidence and derives a portable procedure with conditions and source links. A receiving agent supplies its own tools and authorization and checks current business policy. Grounding is evidence for inspection, not proof of correctness or suitability. Core 20-minute path: recap concepts, check pre-work, run seed/distill, inspect package/graph, compare fresh-agent modes, demonstrate drift. Signup/setup slides are pre-work; detailed code slides are reference rather than additional timed exercises.
+<!-- notes: Say — We have twenty minutes starting at workshop minute 125.
 
-References · checked 2026-11-04
-Skill concepts: https://neo4j.com/labs/agent-memory/explanation/skills/
-Skills API: https://neo4j.com/labs/agent-memory/reference/skills-api/ -->
+Show — Use the scope diagram, service boundary, package, and fresh consumer as the live route.
+
+If blocked — At workshop minute 130 take off/fallback. Use remaining time for evidence and debrief. Use a labeled previous result only if it exists. -->
 
 ---
 
@@ -1232,7 +1334,7 @@ Skills API: https://neo4j.com/labs/agent-memory/reference/skills-api/ -->
 - Load SKILL.md in a fresh agent with business tools.
 - This changes instructions, not model weights.
 
-![diagram](../slides/diagrams/d19-memory-to-skills.svg)
+![Selected conversations, entities and traces feed distillation. The fresh agent consumes the resulting procedure.](../slides/diagrams/d19-memory-to-skills.svg)
 
 <div class="references">
 
@@ -1254,7 +1356,9 @@ Skills API: https://neo4j.com/labs/agent-memory/reference/skills-api/ -->
 
 <!-- _class: m5-concepts -->
 
-<div class="m5-concept-grid"><div><h2>Your AuraDB</h2><p>Support apps 2–5 retain Bolt memory.</p><p>Module 1 has no memory client.</p></div><div><h2>Your NAMS workspace</h2><p>Hosted REST workflows and skill graph.</p><p>make nams-seed writes canonical fixtures, not module 4 traces.</p><p>No automatic Bolt migration.</p></div></div>
+Live · participant environment and hosted workspace
+
+<div class="m5-concept-grid"><div><h2>SupportBot on AuraDB</h2><p>Modules 2–5 use Bolt for participant conversations, entities and traces.</p><p>The support app checks customer, case and current business rules in SQLite.</p></div><div><h2>NAMS workspace</h2><p>The hosted workflow seeds its own example corpus and derives a versioned procedure.</p><p>The fresh agent reads the downloaded SKILL.md and executes with its own authorized SQL tools.</p></div></div>
 
 <div class="references">
 
@@ -1328,36 +1432,26 @@ Authentication docs: https://memory.neo4jlabs.com/docs -->
 
 # Connect the workshop and check capabilities
 
-<!-- _class: m5-demo -->
+<!-- _class: m5-concepts -->
 
-Module 5 · Pre-work · First two lines: private .env; commands: terminal.
+Pre-work · stop after the capability check.
 
-```bash
-NAMS_API_KEY=nams_YOUR_WORKSPACE_KEY
-NAMS_BASE_URL=https://memory.neo4jlabs.com
+<div class="m5-concept-grid"><div><h2>Private .env</h2><pre><code>NAMS_API_KEY=nams_YOUR_WORKSPACE_KEY
+NAMS_BASE_URL=https://memory.neo4jlabs.com</code></pre></div><div><h2>Terminal · repository root</h2><pre><code>make nams-check</code></pre><p>Success prints the publish thresholds. A failed capability check stops the hosted route and prints the fallback command.</p></div></div>
 
-make nams-check
-make dev MODULE=5
-
-# Second terminal
-make nams-seed
-make nams-distill
-```
-
-<div class="m5-demo-aside"><p>Read the result: workspace reachable and distillation enabled.</p><p>The script prints publish gates.</p><p>If disabled, use WITH_SKILL=fallback to demonstrate consumption.</p></div>
+If disabled, go to [off vs checked-in fallback](#62), then [the wrap](#69).
 
 <div class="references">
 
-References: [NAMS docs](https://memory.neo4jlabs.com/docs) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/)
+References: [Module 5 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md) · [NAMS docs](https://memory.neo4jlabs.com/docs) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/)
 
 </div>
 
-<!-- notes: Source: lib/settings.py; module_5/workflows/nams.py; check.py. NAMS_BASE_URL defaults to https://memory.neo4jlabs.com; do not append /v1 because callers add endpoint paths. Use existing private .env or personal Codespaces secrets. Restart any running dev server after changing config: stop it, run make dev MODULE=5, reload browser. nams-check GETs conversations?limit=1 for auth, then skills/capabilities for distillation and thresholds. Auth success with distillation disabled can still return exit0; read the message. Fallback uses artifacts/pre-distilled-skill/SKILL.md and demonstrates consumption only, not live generation.
+<!-- notes: Say — This is a readiness check. Seeding and publishing happen separately in the hosted route.
 
-References · checked 2026-11-04
-NAMS docs: https://memory.neo4jlabs.com/docs
-Skills API: https://neo4j.com/labs/agent-memory/reference/skills-api/
-After make dev starts, use a second terminal in the repository root for make nams-seed and make nams-distill. -->
+Show — Show the value placeholders, then read the actual capability line from make nams-check.
+
+If blocked — A missing key or disabled capability goes directly to the fresh-agent off/fallback comparison. The fallback contains SKILL.md only. -->
 
 ---
 
@@ -1365,23 +1459,23 @@ After make dev starts, use a second terminal in the repository root for make nam
 
 <!-- _class: m5-cards -->
 
-Module 5 · Hosted evidence
+Hosted route · intentional writes to the selected workspace
 
-<div class="m5-card-grid"><div><h2>4 explicit entities</h2><p>Maya Chen; Northwind Robotics; Acme Cloud Compute; Pro.</p><p>Entity upserts may merge.</p></div><div><h2>1 conversation</h2><p>Create the conversation, then bulk-add four messages.</p><p>Save the returned conversation ID.</p></div><div><h2>2 completed traces</h2><p>Each trace has three steps and tool calls.</p><p>Complete with an outcome and success=True.</p></div></div>
+<div class="m5-card-grid"><div><h2>Five entities</h2><p>Maya, Northwind, Compute, Pro and the refund policy share a fresh user ID for this run.</p></div><div><h2>One conversation</h2><p>Four messages. The saved conversation ID scopes generation.</p></div><div><h2>Two completed traces</h2><p>Both teach the same $49 Pro duplicate-charge procedure in three tool steps. Reruns create new evidence.</p></div></div>
 
-Run make nams-seed · saves DATA_DIR/nams-workspace.json for make nams-distill.
+Reload the Module 5 badge after Terminal 1 starts `make dev MODULE=5`. In Terminal 2, run `make nams-seed` once, then `make nams-distill` once. The latter approves and publishes a version. An existing package can be inspected immediately.
 
 <div class="references">
 
-References: [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [Live NAMS API](https://memory.neo4jlabs.com/docs)
+References: [Module 5 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md) · [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [Live NAMS API](https://memory.neo4jlabs.com/docs)
 
 </div>
 
-<!-- notes: The module 5 support app retains the full module 4 Bolt/AuraDB memory behavior. Hosted REST workflows seed canonical authored fixtures into a separate NAMS workspace; they do not migrate participant AuraDB data. Skill distillation builds a reusable procedure on top of memory, not a fourth memory store or model-weight training. Source: module_5/app/agent.py; module_5/app/memory.py; module_5/workflows/*.py. seed.py creates four explicit entities, one new conversation, four messages and two successful completed traces, each with three steps/tool calls. Service extraction may create additional entities; four is the explicit fixture count, not a total graph-node promise. Tool input/output are JSON-encoded strings. Both traces reference the first user message, and explicit touchedEntityIds/relatedEntityIds point to Maya only. A run writes seed state only after all calls succeed. Repeated seed creates new conversations/traces and the newest saved conversation scopes normal distillation.
+<!-- notes: Say — Hosted seeding and generation are intentional writes.
 
-References · checked 2026-11-04
-NAMS OpenAPI: https://memory.neo4jlabs.com/openapi.json
-Live NAMS API: https://memory.neo4jlabs.com/docs -->
+Show — In terminal 1 switch to Module 5 and confirm the badge. In terminal 2 seed and distill only once in the intended workspace.
+
+If blocked — At minute five without a package, use off/fallback and jump to the wrap. -->
 
 ---
 
@@ -1389,7 +1483,7 @@ Live NAMS API: https://memory.neo4jlabs.com/docs -->
 
 <!-- _class: technical m5-code -->
 
-Module 5 · Code reference · `module_5/workflows/seed.py`
+Module 5 · Code reference · [module_5/workflows/seed.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/seed.py)
 
 **After the steps and tool calls of one trace**
 
@@ -1397,32 +1491,34 @@ Module 5 · Code reference · `module_5/workflows/seed.py`
 await call(
     http, "POST",
     f"/v1/reasoning/traces/{trace_id}/complete",
-    {
-        "outcome": trace["outcome"],
-        "success": True,
-        "relatedEntityIds": [entity_ids["Maya Chen"]],
-    },
+    {"outcome": trace["outcome"], "success": True,
+     "relatedEntityIds": [entity_ids["Maya Chen"],
+                          entity_ids[POLICY_NAME]]},
 )
 trace_ids.append(trace_id)
-# After all traces, save the scope for distillation:
+# After both traces, save the scoped receipt:
 write_json(seed_state_path(settings), {
-    "conversationId": conv_id, "traceIds": trace_ids
+    "conversationId": conv_id, "traceIds": trace_ids,
+    "userId": user_id,
+    "policyEntityId": entity_ids[POLICY_NAME],
 })
 ```
 
-<div class="m5-code-aside"><p>A completed successful execution is eligible evidence for the demonstrated procedure.</p><p>The seed record connects the Make targets.</p><p>data/nams-workspace.json stores conversationId and traceIds.</p></div>
+<div class="m5-code-aside"><p><b>Follow <code>&quot;success&quot;: True</code></b></p><p>The hosted response marks a trace completed successfully.</p><p>Both completed traces link Maya and the refund policy.</p><p>fetch_policy cites the policy in touchedEntityIds.</p><p>The receipt identifies this run and its policy.</p></div>
 
 <div class="references">
 
-References: [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [Live NAMS API](https://memory.neo4jlabs.com/docs)
+References: [Return to live demo](#62) · [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [Live NAMS API](https://memory.neo4jlabs.com/docs)
 
 </div>
 
-<!-- notes: The write_json call runs once after the trace loop and after the HTTP client closes; the excerpt labels that boundary. The path follows DATA_DIR, which defaults to data. Seed fails fast on a bad write; tests assert it does not write the state record after failure. Completion payload uses outcome string and success, unlike the Bolt SDK TraceOutcome object. Source lines: 206–219.
+<!-- notes: Say — The hosted response marks a trace completed successfully.
 
-References · checked 2026-11-04
-NAMS OpenAPI: https://memory.neo4jlabs.com/openapi.json
-Live NAMS API: https://memory.neo4jlabs.com/docs -->
+Show — Point to "success": True and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+Code reference for the optional hosted route. Use the direct off/fallback comparison if the package is unavailable at minute five. Each seed uses a fresh userId for its entities and conversation. On the fetch_policy tool call, touchedEntityIds includes the seeded Acme Cloud Refund Policy. Trace completion links the customer and policy. The workflow saves the seed receipt after both traces complete. DATA_DIR defaults to data. A failed write stops the seed before a new receipt is saved. -->
 
 ---
 
@@ -1430,39 +1526,41 @@ Live NAMS API: https://memory.neo4jlabs.com/docs -->
 
 <!-- _class: technical m5-code -->
 
-Module 5 · Code reference · `module_5/workflows/distill.py`
+Module 5 · Code reference · [module_5/workflows/distill.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/distill.py)
 
 **Inside main(redistill), condensed happy path**
 
 ```python
 seeded = read_json(seed_state_path(settings))
-scope = {
-    "type": "conversations",
-    "conversationIds": [seeded["conversationId"]],
-}
+if not seeded.get("conversationId"):
+    sys.exit(f"No seeded conversation. {FALLBACK}")
+scope = {"type": "conversations",
+         "conversationIds": [seeded["conversationId"]]}
 request = {"nameHint": SKILL_NAME, "scope": scope}
+# Inside the client, after listing matching skills:
 if existing:
     request["skillId"] = existing["id"]
-async with client(settings) as http:
-    started = await call(
-        http, "POST", "/v1/skills/generate", request
-    )
-    run = await wait_for_run(http, started["runId"])
+started = await call(
+    http, "POST", "/v1/skills/generate", request
+)
+run = await wait_for_run(http, started["runId"])
 ```
 
-<div class="m5-code-aside"><p>The normal path scopes to the newest seeded conversation.</p><p>An existing skillId creates another version of the same skill.</p><p>Without a seed record, the script explicitly falls back to workspace scope.</p></div>
+<div class="m5-code-aside"><p><b>Follow <code>request[&quot;skillId&quot;]</code></b></p><p>An existing skill receives a new version.</p><p>Only the saved conversation supplies generation scope.</p><p>An existing skillId requests another version.</p><p>Missing receipt? Seed once or use WITH_SKILL=fallback.</p></div>
 
 <div class="references">
 
-References: [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [Live NAMS API](https://memory.neo4jlabs.com/docs)
+References: [Return to live demo](#62) · [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [Live NAMS API](https://memory.neo4jlabs.com/docs)
 
 </div>
 
-<!-- notes: Imports read_json, seed_state_path, SKILL_NAME, client and call from module-local workflows.nams; wait_for_run is defined in distill.py. existing is selected by GET /v1/skills, matching acme-refund-procedure and preferring the published entry; that lookup is omitted from this condensed snippet and in real code runs inside client before generate. Missing seed produces scope={"type":"workspace"}; no missing-scope request remains. --redistill requires an existing matching skill. wait_for_run GETs runs/{id}, prints status changes, polls every five seconds up to 600 seconds, and returns on succeeded/failed/error/cancelled/error/failCode. main only publishes if status==succeeded. Source lines: 92–117.
+<!-- notes: Say — An existing skill receives a new version.
 
-References · checked 2026-11-04
-NAMS OpenAPI: https://memory.neo4jlabs.com/openapi.json
-Live NAMS API: https://memory.neo4jlabs.com/docs -->
+Show — Point to request["skillId"] and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+Code reference for the optional hosted route. Use the direct off/fallback comparison if the package is unavailable at minute five. Both generation commands require a seed receipt with conversationId before the hosted client opens. The shortened error includes make nams-seed and the checked-in fallback. The code prefers the published skill matching SKILL_NAME and supplies skillId for a new version. Re-distillation requires a matching skill. The workflow polls every five seconds for up to 600 seconds and publishes only a succeeded run. -->
 
 ---
 
@@ -1470,7 +1568,7 @@ Live NAMS API: https://memory.neo4jlabs.com/docs -->
 
 <!-- _class: technical m5-code -->
 
-Module 5 · Code reference · `module_5/workflows/distill.py`
+Module 5 · Code reference · [module_5/workflows/distill.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/distill.py)
 
 **After a succeeded run**
 
@@ -1481,29 +1579,32 @@ await call(
     {"decision": "approve",
      "feedback": "Approved during the workshop."},
 )
-await call(
-    http, "POST", f"/v1/skills/{skill_id}/publish"
-)
+await call(http, "POST",
+           f"/v1/skills/{skill_id}/publish")
 package = await http.get(
-    f"/v1/skills/{skill_id}/download"
+    f"/v1/skills/{skill_id}/download",
+    params={"version": run["skillVersionId"]},
 )
 package.raise_for_status()
-skill_md = unpack(package.content, OUT_DIR)
+skill_md = install_package(package.content,
+                           OUT_DIR, receipt)
 ```
 
-<div class="m5-code-aside"><p>The workshop script submits approval automatically; there is no human pause.</p><p>Download returns a ZIP package.</p><p>Inspect SKILL.md, references/ and provenance.json.</p></div>
+<div class="m5-code-aside"><p><b>Follow <code>&quot;decision&quot;: &quot;approve&quot;</code></b></p><p>The workshop submits approval before publishing.</p><p>The ZIP contains SKILL.md, references/ and provenance.json.</p><p>The receipt binds skillId, versionId and runId to the seeded conversation.</p></div>
 
 <div class="references">
 
-References: [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [Live NAMS API](https://memory.neo4jlabs.com/docs)
+References: [Return to live demo](#62) · [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [Live NAMS API](https://memory.neo4jlabs.com/docs)
 
 </div>
 
-<!-- notes: Approval uses decision=approve with feedback, followed by publish. main prints groundingScore and coverageScore, then makes these calls. OUT_DIR.mkdir occurs before unpack after the HTTP context exits; directory preparation is omitted here. unpack removes one top-level ZIP directory and skips .. members. skill.json separately records skillId, skillVersionId as versionId, and run ID for downstream drift. No human review checkpoint is implemented, even though comments call the API a human-review gate. Source lines: 122–146.
+<!-- notes: Say — The workshop submits approval before publishing.
 
-References · checked 2026-11-04
-NAMS OpenAPI: https://memory.neo4jlabs.com/openapi.json
-Live NAMS API: https://memory.neo4jlabs.com/docs -->
+Show — Point to "decision": "approve" and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+Code reference for the optional hosted route. Use the direct off/fallback comparison if the package is unavailable at minute five. A succeeded run supplies skillId and skillVersionId. After automatic approval and publication, the script downloads that exact version. The omitted receipt construction captures skillId, versionId, runId and conversationId. install_package validates the staged SKILL.md and run-matched provenance before replacing the previous local package. The fresh consumer loads the installed SKILL.md; governance uses the matching receipt and provenance. -->
 
 ---
 
@@ -1515,7 +1616,7 @@ Module 5 · Portable artifacts
 
 <div class="m5-card-grid"><div><h2>SKILL.md</h2><p>Portable procedure and conditions.</p><p>This is the file the fresh agent loads as instructions.</p></div><div><h2>references/</h2><p>Supporting material shipped in the ZIP.</p><p>The fresh agent does not load these files automatically.</p></div><div><h2>provenance.json</h2><p>Claims and steps map to groundedIn memory IDs.</p><p>These IDs drive the drift demonstration.</p></div></div>
 
-Local skill.json records skillId, versionId and runId; it is a workflow receipt, not a memory store.
+The local skill.json receipt records the skill, version, run and seed conversation IDs. Already have a prepared package? [Compare the fresh agent now](#62).
 
 <div class="references">
 
@@ -1523,7 +1624,7 @@ References: [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/ski
 
 </div>
 
-<!-- notes: distill.py downloads a ZIP, strips its enclosing skill-name folder and unpacks SKILL.md, references/ and provenance.json into artifacts/distilled. It separately writes skill.json with skillId, versionId from run.skillVersionId, and runId. Fresh-agent consumption reads only SKILL.md; it does not automatically ingest supporting files or verify attestation. Current service deployment determines optional package/attestation fields. Reruns reuse the named skill through skillId and publish a new version.
+<!-- notes: distill.py downloads the generated version, stages its files, checks SKILL.md and the run in provenance.json, and installs the package with skill.json. That receipt records skillId, versionId, runId and the seed conversationId. Fresh-agent consumption reads only SKILL.md; it does not automatically ingest supporting files or verify attestation. Current service deployment determines optional package/attestation fields. Reruns reuse the named skill through skillId and publish a new version.
 
 References · checked 2026-11-04
 Skill concepts: https://neo4j.com/labs/agent-memory/explanation/skills/
@@ -1533,26 +1634,24 @@ Skills API: https://neo4j.com/labs/agent-memory/reference/skills-api/ -->
 
 # Inspect the versioned skill graph
 
-- Tick NAMS above the workshop graph, then refresh.
-- Follow Skill → SkillVersion → SkillStep → grounded evidence.
-- SUPERSEDES connects versions; provenance.json also records claims.
-- Use source links to inspect evidence, not to infer correctness.
+- **Hosted only.** Reload Module 5, enable NAMS above the graph and refresh.
+- A Skill has a SkillVersion. A version has SkillSteps. A step’s GROUNDED_IN edges point to source evidence.
+- SUPERSEDES links versions. For claims and their groundedIn IDs, open the package’s `provenance.json`.
+- Follow one step to its evidence and explain what observation supports it.
 
-![diagram](../slides/diagrams/d14-skill-distillation.svg)
+![A Skill has versions, a version has steps, and steps link to grounded source evidence. A new version can supersede an earlier one.](diagrams/d14-skill-distillation.svg)
 
 <div class="references">
 
-References: [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/)
+References: [Module 5 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md) · [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/)
 
 </div>
 
-<!-- notes: Actual served graph from lib/graph.py NAMS_SKILL_GRAPH: (Skill)-HAS_VERSION→(SkillVersion)-HAS_STEP→(SkillStep)-GROUNDED_IN→(source); versions may SUPERSEDES earlier versions. Source may be Entity, AgentStep or ToolCall. Claims are separately recorded in provenance.json; the UI query does not include SkillClaim nodes. In module5 tick NAMS above the graph; this calls read-only hosted /v1/query through /api/graph/nams. The app filters large documents from properties. Grounding permits source inspection; it does not establish truth or safe execution. The module 5 support app retains the full module 4 Bolt/AuraDB memory behavior. Hosted REST workflows seed canonical authored fixtures into a separate NAMS workspace; they do not migrate participant AuraDB data. Skill distillation builds a reusable procedure on top of memory, not a fourth memory store or model-weight training. Source: module_5/app/agent.py; module_5/app/memory.py; module_5/workflows/*.py.
+<!-- notes: Say — The graph represents SkillStep grounding and the package records claims.
 
-Diagram detail: Exact served pattern from lib/graph.py: Skill → HAS_VERSION → SkillVersion → HAS_STEP → SkillStep → GROUNDED_IN → evidence; newer version → SUPERSEDES → prior. Evidence nodes are returned with actual labels; “Agent step” names an evidence category, not a guessed label. The workshop query does not require SkillClaim nodes; claim records are in provenance.json. Tick NAMS in the UI.
+Show — Locate a grounded step in the NAMS graph, then compare a real groundedIn ID in provenance.json.
 
-References · checked 2026-11-04
-Skill concepts: https://neo4j.com/labs/agent-memory/explanation/skills/
-Skills API: https://neo4j.com/labs/agent-memory/reference/skills-api/ -->
+If blocked — Use this task only with a hosted package. Fallback pairs go directly to the wrap. -->
 
 ---
 
@@ -1560,11 +1659,11 @@ Skills API: https://neo4j.com/labs/agent-memory/reference/skills-api/ -->
 
 <!-- _class: m5-cards -->
 
-Module 5 · Evaluate the skill
+Hosted package · inspect the review signals
 
-<div class="m5-card-grid"><div><h2>Grounding</h2><p>How much of the procedure has supporting evidence?</p><p>Follow claims and steps to source IDs.</p></div><div><h2>Coverage</h2><p>How much of the selected evidence is represented?</p><p>Inspect omitted cases and conditions.</p></div><div><h2>Review and execution</h2><p>The demo auto-approves publication.</p><p>Inspect the result and test the consumer against current policy.</p></div></div>
+<div class="m5-card-grid"><div><h2>Grounding</h2><p>Choose a claim or step in provenance.json. Look up its groundedIn IDs. Which observation supports the procedure?</p></div><div><h2>Coverage</h2><p>Both seed traces cover similar $49 Pro refunds. Identify a missing case, such as a denied or unauthorized request.</p></div><div><h2>Execution</h2><p>The demo auto-approves publication. A separate run tests the receiving agent with its own SQL tools and current policy.</p></div></div>
 
-High scores and intact source links do not establish correctness, safety or transfer to a new environment.
+Evaluate source support, business action and transfer to a different case separately.
 
 <div class="references">
 
@@ -1572,11 +1671,11 @@ References: [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/ski
 
 </div>
 
-<!-- notes: Memory supplies context, entity knowledge and recorded actions/outcomes. A distillation run selects evidence and derives a portable procedure with conditions and source links. A receiving agent supplies its own tools and authorization and checks current business policy. Grounding is evidence for inspection, not proof of correctness or suitability. nams-check prints deployment groundingThreshold and coverageThreshold; generation prints groundingScore and coverageScore. Avoid hard-coded universal thresholds. The script automatically posts decision=approve and feedback, then publish, without an interactive pause. A production review policy must define who inspects what; a server review state is not proof a human reviewed. Test current SQL policy, account/case authorization and actual execution receipts separately from source provenance.
+<!-- notes: Say — Grounding and coverage are signals for review.
 
-References · checked 2026-11-04
-Skill concepts: https://neo4j.com/labs/agent-memory/explanation/skills/
-Skills API: https://neo4j.com/labs/agent-memory/reference/skills-api/ -->
+Show — Ask which contrasting cases the two $49 successful fixtures omit.
+
+If blocked — Use the seeded source code to identify the case distribution, clearly labeling it as fixture inspection. -->
 
 ---
 
@@ -1584,7 +1683,7 @@ Skills API: https://neo4j.com/labs/agent-memory/reference/skills-api/ -->
 
 <!-- _class: technical m5-code -->
 
-Module 5 · Code reference · `module_5/app/fresh_agent.py`
+Module 5 · Code reference · [module_5/app/fresh_agent.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/app/fresh_agent.py)
 
 **Condensed construction + fresh-agent run**
 
@@ -1606,7 +1705,7 @@ agent = Agent(
 result = await agent.run(TICKET, deps=deps)
 ```
 
-<div class="m5-code-aside"><p>Load SKILL.md into agent instructions.</p><p>No memory client, history or retrieval tools.</p><p>Each mode uses a private SQL copy; issue_refund still checks current policy.</p></div>
+<div class="m5-code-aside"><p><b>Follow <code>load_skill(&quot;on&quot;)</code></b></p><p>A fresh agent receives the downloaded procedure as instructions.</p><p>Both runs use Ravi’s $49 ticket and a private SQL copy.</p><p>The receiving agent supplies its own SQL tools and per-case authorization.</p></div>
 
 <div class="references">
 
@@ -1614,59 +1713,49 @@ References: [PydanticAI agents](https://pydantic.dev/docs/ai/core-concepts/agent
 
 </div>
 
-<!-- notes: Imports: Agent from pydantic_ai; INSTRUCTIONS from local app.agent; SQLITE_TOOLS and ToolDeps from local tools. Combines load_skill, create_fresh_agent construction and run_fresh_agent for explicit on mode; real create_fresh_agent appends the heading only if skill is not None. Adjacent literals reproduce the exact heading. Current source: module_5/app/fresh_agent.py:32–85. on requires artifacts/distilled/SKILL.md; fallback explicitly uses artifacts/pre-distilled-skill/SKILL.md; off has no skill. Missing on artifact raises rather than silently becoming a control. run_fresh_agent uses a temporary SQLite copy and clears the Ravi duplicate-compute refund only in that copy, so off/on start from the same open case and the workshop database stays unchanged. ToolDeps supplies Ravi’s account, incident_id and explicit authorization. This direct model demo skips scope_turn/checked_reply and returns model output; issue_refund retains SQL validation. No MemoryClient, message_history or search_memory is installed. One command runs one mode: compare make s5-fresh-agent WITH_SKILL=off and WITH_SKILL=on. Use WITH_SKILL=fallback deliberately for the checked-in fixture. Fewer calls or better outcomes are not guaranteed. The downloaded ZIP also contains references/ and provenance.json, but the receiving agent loads only SKILL.md. Skill distillation transfers an instruction artifact; it does not update model weights.
+<!-- notes: Say — A fresh agent receives the downloaded procedure as instructions.
 
-References · checked 2026-11-04
-PydanticAI agents: https://pydantic.dev/docs/ai/core-concepts/agent/
-Skill concepts: https://neo4j.com/labs/agent-memory/explanation/skills/ -->
+Show — Point to load_skill("on") and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+Imports: Agent from pydantic_ai; INSTRUCTIONS from local app.agent; SQLITE_TOOLS and ToolDeps from local tools. Combines load_skill, create_fresh_agent construction and run_fresh_agent for explicit on mode; real create_fresh_agent appends the heading only if skill is not None. Adjacent literals reproduce the exact heading. Current source: module_5/app/fresh_agent.py:32–85. on requires artifacts/distilled/SKILL.md; fallback explicitly uses artifacts/pre-distilled-skill/SKILL.md; off has no skill. Missing on artifact raises rather than silently becoming a control. run_fresh_agent uses a temporary SQLite copy and clears the Ravi duplicate-compute refund only in that copy, so off/on start from the same open case and the workshop database stays unchanged. ToolDeps supplies Ravi’s account, incident_id and explicit authorization. This direct model demo skips scope_turn/checked_reply and returns model output; issue_refund retains SQL validation. No MemoryClient, message_history or search_memory is installed. One command runs one mode: compare make s5-fresh-agent WITH_SKILL=off and WITH_SKILL=on. Use WITH_SKILL=fallback deliberately for the checked-in fixture. Fewer calls or better outcomes are not guaranteed. The downloaded ZIP also contains references/ and provenance.json, but the receiving agent loads only SKILL.md. Skill distillation transfers an instruction artifact; it does not update model weights. -->
 
 ---
 
 # Compare the fresh agent with and without a skill
 
-<!-- _class: m5-demo -->
+<!-- _class: route-comparison -->
 
-Module 5 · Live demo
+**Both routes** start with a private SQL copy and Ravi’s authorized $49 ticket.
 
-```bash
-make s5-fresh-agent \
-  WITH_SKILL=off
+<div class="mode-grid"><div><h2>1 · Control</h2><pre><code>make s5-fresh-agent WITH_SKILL=off</code></pre><p>Record the reply, ordered tool names and any printed status.</p></div><div><h2>2 · Choose one skill source</h2><strong>Downloaded package available</strong><pre><code>make s5-fresh-agent WITH_SKILL=on</code></pre><strong>Otherwise, use the checked-in procedure</strong><pre><code>make s5-fresh-agent WITH_SKILL=fallback</code></pre></div></div>
 
-make s5-fresh-agent \
-  WITH_SKILL=on
-
-# Explicit fallback:
-make s5-fresh-agent \
-  WITH_SKILL=fallback
-```
-
-<div class="m5-demo-aside"><p>Run once per mode on a private SQL copy.</p><p>Compare tool receipts and the business outcome.</p><p>No guaranteed improvement; current policy still governs actions.</p></div>
+Compare the two observed rows. Identical actions are valid. The $49 ticket fits both Pro limits. Fallback participants [continue to the wrap](#69).
 
 <div class="references">
 
-References: [Skills tutorial](https://neo4j.com/labs/agent-memory/tutorials/skills-quickstart/) · [NAMS console](https://memory.neo4jlabs.com/)
+References: [Module 5 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md) · [Skills tutorial](https://neo4j.com/labs/agent-memory/tutorials/skills-quickstart/) · [NAMS console](https://memory.neo4jlabs.com/)
 
 </div>
 
-<!-- notes: Imports: Agent from pydantic_ai; INSTRUCTIONS from local app.agent; SQLITE_TOOLS and ToolDeps from local tools. Combines load_skill, create_fresh_agent construction and run_fresh_agent for explicit on mode; real create_fresh_agent appends the heading only if skill is not None. Adjacent literals reproduce the exact heading. Current source: module_5/app/fresh_agent.py:32–85. on requires artifacts/distilled/SKILL.md; fallback explicitly uses artifacts/pre-distilled-skill/SKILL.md; off has no skill. Missing on artifact raises rather than silently becoming a control. run_fresh_agent uses a temporary SQLite copy and clears the Ravi duplicate-compute refund only in that copy, so off/on start from the same open case and the workshop database stays unchanged. ToolDeps supplies Ravi’s account, incident_id and explicit authorization. This direct model demo skips scope_turn/checked_reply and returns model output; issue_refund retains SQL validation. No MemoryClient, message_history or search_memory is installed. One command runs one mode: compare make s5-fresh-agent WITH_SKILL=off and WITH_SKILL=on. Use WITH_SKILL=fallback deliberately for the checked-in fixture. Fewer calls or better outcomes are not guaranteed. The downloaded ZIP also contains references/ and provenance.json, but the receiving agent loads only SKILL.md. Skill distillation transfers an instruction artifact; it does not update model weights. Run seed and distill before on. Inspect downloaded package and tick NAMS above the graph. Off has no file; on requires artifacts/distilled/SKILL.md; fallback explicitly loads the checked-in artifact. Missing on artifact raises rather than silently becoming a control. For the quick path, show the code reference without line-by-line explanation.
+<!-- notes: Say — Ravi’s $49 case runs on a fresh private SQL copy in both arms.
 
-References · checked 2026-11-04
-Skills tutorial: https://neo4j.com/labs/agent-memory/tutorials/skills-quickstart/
-NAMS console: https://memory.neo4jlabs.com/ -->
+Show — Run off, then on for an available hosted package, or fallback for the checked-in procedure. Compare the ordered names, optional returned statuses and reply.
+
+If blocked — If capabilities are disabled or there is no package at minute five, use off/fallback and go to the wrap. If a model run also fails, label any archived output explicitly.
+
+The consumer loads only SKILL.md and its local SQL tools. It has no history or memory client. Each run receives explicit case authorization. Off/on can produce the same action. -->
 
 ---
 
 # Governance follows the evidence
 
-<!-- _class: m5-steps -->
+1. **Read the SQL change.** Compare the Pro before/after values printed by `make policy-change`. A $49 ticket falls below both $250 and $150.
+2. **Read the hosted dependency change.** In a disposable workspace, inspect the selected skill’s returned drift status, staleClaims and staleSteps after cited evidence is deleted.
+3. **Read the version change.** Inspect the new version ID and procedure/provenance diff after re-distillation.
 
-**Change the system of record** — make policy-change updates SQLite; hosted memory is unchanged.
-
-**Delete cited hosted memory** — Read provenance, select policy entities or the most-cited entity, then inspect this skill’s drift.
-
-**Create a new version** — make nams-redistill uses the same skill ID; compare the procedure and changed evidence IDs.
-
-Drift concerns source dependencies. New executions must still check current business policy.
+Testing a threshold change would require a separate eligible, authorized case between the two limits.
 
 <div class="references">
 
@@ -1674,11 +1763,11 @@ References: [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/ski
 
 </div>
 
-<!-- notes: Source: scripts/change_policy.py; module_5/workflows/drift.py; distill.py. policy-change toggles Pro250↔150 and edits refund policy text in SQLite; on lowering it reads current NAMS drift to demonstrate the separate-store boundary. drift.py loads skill.json/provenance.json, counts groundedIn IDs across claims+steps, GETs entities among them, deletes names containing policy or the most-cited entity fallback, then reads only this skillId/drift. It prints returned status and staleClaims/staleSteps with text. The script targets the downloaded skill and the sources recorded in its provenance. Redistill passes existing skillId, yielding a new version; compare text/evidence IDs and rerun the fresh agent. Run policy-change again to restore250.
+<!-- notes: Say — SQLite policy, hosted drift, and a new skill version are three different observations.
 
-References · checked 2026-11-04
-Skill concepts: https://neo4j.com/labs/agent-memory/explanation/skills/
-Skills API: https://neo4j.com/labs/agent-memory/reference/skills-api/ -->
+Show — Check the SQL change, returned staleClaims and staleSteps, and the procedure and provenance diff for the same skill.
+
+If blocked — Use a labeled recorded example or skip this extension. Fallback participants continue directly from their consumer comparison to the wrap. -->
 
 ---
 
@@ -1686,52 +1775,54 @@ Skills API: https://neo4j.com/labs/agent-memory/reference/skills-api/ -->
 
 <!-- _class: technical m5-code -->
 
-Module 5 · Code reference · `module_5/workflows/drift.py`
+Module 5 · Code reference · [module_5/workflows/drift.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/drift.py)
 
 **Inside main, after reading skill.json**
 
 ```python
-provenance = read_json(SKILL_DIR / "provenance.json")
-cited = grounding(provenance)
-entities = await grounding_entities(http, list(cited))
-targets = [e for e in entities
-           if "policy" in e["name"].lower()]
-if not targets and entities:
-    targets = [max(entities,
-                   key=lambda e: cited[e["id"]])]
+# policies: exact name + seed userId
+# cited: groundedIn IDs from claims and steps
+targets = [entity for entity in policies
+           if entity["id"] in cited]
+if not targets:
+    sys.exit("Skip deletion or re-distill.")
+# Full loop removes extracted matches first.
 for entity in targets:
-    await call(
-        http, "DELETE", f"/v1/entities/{entity['id']}"
-    )
-report = await call(
-    http, "GET", f"/v1/skills/{skill_id}/drift"
+    await call(http, "DELETE",
+               f"/v1/entities/{entity['id']}")
+response = await http.get(
+    f"/v1/skills/{skill_id}/drift",
+    params={"version": version_id},
 )
+report = response.json()
 ```
 
-<div class="m5-code-aside"><p>Read groundedIn IDs from claims and steps.</p><p>Delete cited policy entities, or the most-cited entity as a fallback.</p><p>Inspect staleClaims, staleSteps and the returned status.</p></div>
+<div class="m5-code-aside"><p><b>Follow <code>/drift</code></b></p><p>The report identifies stale claims and steps for this skill.</p><p>Match the seed, skill receipt and provenance.</p><p>An extracted refund policy can have a different ID than the explicit seed.</p><p>Delete only cited policy IDs in this seed user’s scope.</p></div>
 
 <div class="references">
 
-References: [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/)
+References: [Return to live demo](#62) · [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/)
 
 </div>
 
-<!-- notes: grounding combines provenance["claims"] and provenance["steps"] and counts each groundedIn node. grounding_entities GETs entities/{id}, keeps 200 responses (other grounding nodes may be messages/steps/tool calls). The actual constant TARGET_HINT="policy" replaces the inline literal shown. Before entering this fragment, the script requires skillId and provenance; if targets remains empty, it exits rather than reporting a successful deletion. It queries only the downloaded skillId, not every workspace skill. Deletes are destructive and should be instructor-led in a disposable workshop workspace. The demonstrated deletion does not edit SQLite. Source lines: 49–68.
+<!-- notes: Say — The report identifies stale claims and steps for this skill.
 
-References · checked 2026-11-04
-Skill concepts: https://neo4j.com/labs/agent-memory/explanation/skills/
-Skills API: https://neo4j.com/labs/agent-memory/reference/skills-api/ -->
+Show — Point to /drift and inspect the corresponding run.
+
+If blocked — Use this panel for code reference, then return to the live scenario.
+
+Code reference for the optional hosted route. Use the direct off/fallback comparison if the package is unavailable at minute five. Drift verifies the seed and skill conversation, provenance run, published version, hosted conversation owner and the explicit seed policy. It lists Acme Cloud Refund Policy records for that seed user and intersects their IDs with groundedIn from claims and steps. Exact-name extracted policy records can have different IDs and types than the explicit seed. Only cited matches are eligible. If none qualify, stop. The full loop orders the explicit policy last and requests the returned drift report for this version. Use a disposable workspace. Older packages can still supply SKILL.md for a fresh consumer. -->
 
 ---
 
 # Govern the evidence behind a skill
 
-- Read groundedIn IDs from downloaded provenance.
-- Delete cited hosted entities; inspect this skill’s drift report.
-- Re-distill a new version and compare procedure/evidence changes.
-- SQLite policy changes remain a separate store change.
+- **SQL evidence** — record the printed Pro limit before and after the local change.
+- **Hosted drift evidence** — inspect the target skill, actual deleted IDs, status, staleClaims and staleSteps.
+- **Version evidence** — compare version ID, procedure text and groundedIn IDs after re-distillation.
+- Each result answers a different question.
 
-![diagram](../slides/diagrams/d15-governance-loop.svg)
+![A local SQL change, a hosted drift report, and a new version each provide a distinct observation.](diagrams/d15-governance-loop.svg)
 
 <div class="references">
 
@@ -1739,44 +1830,38 @@ References: [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/ski
 
 </div>
 
-<!-- notes: Source: scripts/change_policy.py; module_5/workflows/drift.py; distill.py. policy-change toggles Pro250↔150 and edits refund policy text in SQLite; on lowering it reads current NAMS drift to demonstrate the separate-store boundary. drift.py loads skill.json/provenance.json, counts groundedIn IDs across claims+steps, GETs entities among them, deletes names containing policy or the most-cited entity fallback, then reads only this skillId/drift. It prints returned status and staleClaims/staleSteps with text. The script targets the downloaded skill and the sources recorded in its provenance. Redistill passes existing skillId, yielding a new version; compare text/evidence IDs and rerun the fresh agent. Run policy-change again to restore250. Diagram should show provenance-selected hosted entity deletion, one skill drift report, new version and verification. Literal service status is drifted; claims and steps are reported as stale. Use circles for any graph entities; process rectangles represent commands, not graph nodes.
+<!-- notes: Say — Three observations represent three different state changes.
 
-Diagram detail: Read skill.json/provenance.json; count groundedIn IDs; resolve entity IDs; delete policy-named cited entities, otherwise most-cited. Ask only the downloaded skillId for its drift report. staleClaims/staleSteps identify lost sources. Re-distillation generates a version of the same skill from current scoped memory, not current SQLite state. make policy-change toggles $250↔$150 and asks drift without synchronizing memory; final invocation restores default. Destructive entity deletion is instructor-led.
+Show — Point to the before/after SQL values, returned drift fields, and version diff.
 
-References · checked 2026-11-04
-Skill concepts: https://neo4j.com/labs/agent-memory/explanation/skills/
-Skills API: https://neo4j.com/labs/agent-memory/reference/skills-api/ -->
+If blocked — Use a labeled archived example when present. Skip hosted drift in the consumption-only fallback. -->
 
 ---
 
 # Run the drift loop and restore the policy
 
-<!-- _class: m5-demo -->
+<!-- _class: m5-steps -->
 
-Module 5 · Instructor-led demo
+**Instructor only · disposable hosted workspace.** Participants observe. Inspect the exact-name policies in the seed user’s scope and their groundedIn IDs.
 
-```bash
-make policy-change
-make nams-drift
-make nams-redistill
-
-make policy-change
-# Restores the $250 Pro limit
-```
-
-<div class="m5-demo-aside"><p>First: SQLite changes; hosted evidence does not.</p><p>Then: delete cited hosted entities and inspect drifted claims/steps.</p><p>Re-distill a new version; read the diff and source IDs.</p></div>
+1. Run `make policy-change` and read the printed before/after SQL limit. Continue the demo from a confirmed **$250 → $150** transition. If it reads **$150 → $250**, the default is restored. Pause before starting a new demo.
+2. Run `make nams-drift` only after target inspection. It deletes only policy records in this seed user’s scope cited by that version. Record this skill’s status and stale claims/steps.
+3. Run `make nams-redistill` and inspect the new version, procedure and provenance.
+4. If SQL still reads **$150**, run `make policy-change` once. Stop at **$250**. The local toggle restores SQL only.
 
 <div class="references">
 
-References: [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/)
+References: [Module 5 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md) · [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/)
 
 </div>
 
-<!-- notes: Source: scripts/change_policy.py; module_5/workflows/drift.py; distill.py. policy-change toggles Pro250↔150 and edits refund policy text in SQLite; on lowering it reads current NAMS drift to demonstrate the separate-store boundary. drift.py loads skill.json/provenance.json, counts groundedIn IDs across claims+steps, GETs entities among them, deletes names containing policy or the most-cited entity fallback, then reads only this skillId/drift. It prints returned status and staleClaims/staleSteps with text. The script targets the downloaded skill and the sources recorded in its provenance. Redistill passes existing skillId, yielding a new version; compare text/evidence IDs and rerun the fresh agent. Run policy-change again to restore250. nams-drift is destructive: run this instructor-led in a disposable workshop workspace, after inspecting the target provenance. Without target entities it exits and asks for redistillation. The restore command returns SQL Pro limit to250 only when the demo starts at default250. Check printed before/after values; do not assume current policy from a slide. Re-distillation does not synchronize the SQL policy into hosted memory and does not itself prove the new procedure correct.
+<!-- notes: Say — This is an instructor-led destructive demonstration on disposable hosted records.
 
-References · checked 2026-11-04
-Skill concepts: https://neo4j.com/labs/agent-memory/explanation/skills/
-Skills API: https://neo4j.com/labs/agent-memory/reference/skills-api/ -->
+Show — Check the workspace and provenance target IDs, read every printed before/after value, and stop once the SQL default is restored.
+
+If blocked — Skip writes if workspace, skill or starting state cannot be verified. Use a supplied recorded example explicitly labeled as such.
+
+November 4 rehearsal: changing SQLite alone left the hosted version current. Removing two cited, exact-name extracted policies in the seed user’s scope left 2/5 claims and 1/3 steps stale. The new version still described $250 when local SQL held $150. Compare the returned values from your run. -->
 
 ---
 
@@ -1784,9 +1869,9 @@ Skills API: https://neo4j.com/labs/agent-memory/reference/skills-api/ -->
 
 <!-- _class: m5-concepts -->
 
-<div class="m5-concept-grid"><div><h2>App and consumer</h2><p>Support apps 2–5 retain Bolt memory.</p><p>The fresh consumer reads a portable procedure and uses SQL tools.</p></div><div><h2>Hosted service</h2><p>NAMS provides hosted skill workflows and the skill graph.</p><p>Read capabilities and current contracts; the service evolves independently.</p></div></div>
+Choose the route supported by your artifacts
 
-Teardown: revoke the workshop key; follow docs/teardown.md for hosted data, Codespaces and AuraDB.
+<div class="m5-concept-grid"><div><h2>Hosted package</h2><p>Inspect the procedure, provenance and version ID.</p><p>If a disposable workspace is available, the instructor may demonstrate a hosted dependency change.</p></div><div><h2>Checked-in procedure</h2><p>Complete the off/fallback comparison.</p><p>Only SKILL.md is supplied. Continue directly to the <a href="#69">wrap</a>.</p></div></div>
 
 <div class="references">
 
@@ -1794,11 +1879,11 @@ References: [Backend capabilities](https://neo4j.com/labs/agent-memory/reference
 
 </div>
 
-<!-- notes: The module 5 support app retains the full module 4 Bolt/AuraDB memory behavior. Hosted REST workflows seed canonical authored fixtures into a separate NAMS workspace; they do not migrate participant AuraDB data. Skill distillation builds a reusable procedure on top of memory, not a fourth memory store or model-weight training. Source: module_5/app/agent.py; module_5/app/memory.py; module_5/workflows/*.py. The module README reports a prior live rehearsal of the current Make targets; this slide refresh did not repeat paid or destructive service calls. Offline tests verify current requests against the contract. For delivery, read nams-check output and use explicit fallback if the feature is unavailable. Fallback proves artifact consumption only. Teardown: revoke workshop key, remove disposable hosted data as appropriate, delete Codespace, pause/delete AuraDB per docs/teardown.md.
+<!-- notes: Say — The available artifact determines the participant path.
 
-References · checked 2026-11-04
-Backend capabilities: https://neo4j.com/labs/agent-memory/reference/backend-capabilities/
-Live NAMS API: https://memory.neo4jlabs.com/docs -->
+Show — Hosted groups can inspect the graph and provenance. Fallback groups have a local procedure to compare.
+
+If blocked — Move directly to the wrap when using the checked-in SKILL.md. -->
 
 ---
 
@@ -1806,35 +1891,35 @@ Live NAMS API: https://memory.neo4jlabs.com/docs -->
 
 <!-- _class: m5-steps -->
 
-1. **Follow a source** — Open provenance.json; trace a claim or step through groundedIn IDs.
+**Hosted package available**
 
-2. **Inspect a version** — Tick NAMS in the graph; follow Skill → Version → Step → source.
+1. Open `provenance.json`. Choose one claim or step and record one groundedIn source ID.
+2. In the NAMS graph, trace Skill → Version → Step → evidence. Match a step to a cited source.
+3. If the instructor demonstrated drift, compare the actual returned status and stale evidence with the new version.
 
-3. **Explain the drift** — Which source was deleted? Which claims or steps lost evidence?
-
-Compare off/on receipts; inspect a new version and its diff. Catch up: make module-5.
+`make module-5` is a full hosted replay. It checks, seeds fresh evidence, generates/approves/publishes a version, and runs the consumer. To inspect existing artifacts, open them directly. [Fallback participants continue to the wrap](#69).
 
 <div class="references">
 
-References: [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/)
+References: [Module 5 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md) · [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/)
 
 </div>
 
-<!-- notes: Source: scripts/change_policy.py; module_5/workflows/drift.py; distill.py. policy-change toggles Pro250↔150 and edits refund policy text in SQLite; on lowering it reads current NAMS drift to demonstrate the separate-store boundary. drift.py loads skill.json/provenance.json, counts groundedIn IDs across claims+steps, GETs entities among them, deletes names containing policy or the most-cited entity fallback, then reads only this skillId/drift. It prints returned status and staleClaims/staleSteps with text. The script targets the downloaded skill and the sources recorded in its provenance. Redistill passes existing skillId, yielding a new version; compare text/evidence IDs and rerun the fresh agent. Run policy-change again to restore250. Browser: make dev MODULE=5, select the NAMS checkbox above the graph, refresh after seed/distillation. The query displays Skill, SkillVersion, SkillStep and grounded evidence, plus SUPERSEDES. It does not include SkillClaim nodes; inspect package claims in provenance.json. Discuss raw trace vs reusable procedure vs fresh execution, score limitations and the receiving agent’s current-policy/tool boundary.
+<!-- notes: Say — Use the exercise only when the corresponding package and hosted graph exist.
 
-References · checked 2026-11-04
-Skill concepts: https://neo4j.com/labs/agent-memory/explanation/skills/
-Skills API: https://neo4j.com/labs/agent-memory/reference/skills-api/ -->
+Show — Ask for one real ID and the file or graph location where the learner found it.
+
+If blocked — On fallback, go to the wrap. Follow the full hosted replay only when you intend its writes. -->
 
 ---
 
 # Wrap — The eval scoreboard, re-run
 
-- Run `make eval MODULE=N` explicitly; open the panel to read saved results.
-- Exact name/email and phrase: seeded messages.
-- Signup date: grounded entity fixture. Exact reply: completed trace fixture.
-- Private SQL, unique memory, disabled business tools.
-- Inspect accepted source IDs; this is a retrieval probe, not an overall quality grade.
+- Run `make eval MODULE=N`. Each probe checks expected field values and at least one accepted source ID.
+- **Named customer lookup** supplies a name and asks for name + email. A message or entity ID can qualify.
+- **Conversation phrase** comes from a seeded message. **Signup date** comes from the grounded entity.
+- **Prior decision quote** asks for the stored refusal text from a trace.
+- **Example** — exact phrase + accepted ID passes. Exact phrase + unrelated IDs only fails. Inspect your actual scorecard.
 
 <div class="references">
 
@@ -1842,19 +1927,21 @@ References: [GraphAcademy: memory](https://graphacademy.neo4j.com/courses/genai-
 
 </div>
 
-<!-- notes: The participant Bolt graph links conversation, entity and reasoning memory. Hosted skill fixtures remain in a separate workspace; a Markdown skill crosses into the fresh agent. No cross-backend graph edges are created. Controlled eval checks exact facts plus accepted source IDs using private SQL and unique namespaces with business tools disabled. It is a retrieval probe, not an overall support-quality grade. The UI loads saved results for the current module; opening it does not invoke a model. Source: scripts/eval.py; web/src/components/EvalScorecard.jsx; module_5/app/fresh_agent.py. Run make eval MODULE=N explicitly. The four fixtures test name/email, unique phrase, SQL-grounded signup date and exact recorded reply. Inspect actual source IDs and unknown/error results. -->
+<!-- notes: Say — A passing score describes the four controlled retrieval probes.
+
+Show — Read the source-ID check alongside each expected field. A single accepted ID qualifies even when other supplied IDs are irrelevant.
+
+If blocked — Use the labeled example and show scripts/eval.py when a run is unavailable. -->
 
 ---
 
 # Wrap — Memory is the foundation; skills build on it
 
-- The participant Bolt graph links short-term, long-term and reasoning memory.
-- Conversations → messages → mentioned entities; traces → steps → touched entities.
-- Hosted skill fixtures stay in a separate NAMS workspace.
-- Skill distillation builds reusable procedures on top of memory. A portable SKILL.md crosses into the fresh agent; no cross-backend edges are created.
-- Follow source messages, grounded fields and execution receipts.
+- **Bolt:** a conversation has messages. A message mentions entities. A trace has steps attached to the selected case context.
+- **Hosted:** a skill version has steps grounded in evidence. Claims and source IDs are also available in the downloaded provenance file.
+- **Consumer:** a fresh agent reads the portable SKILL.md and checks new actions with current SQL tools.
 
-![diagram](../slides/diagrams/d16-connected-memory.svg)
+![The participant graph joins conversations, messages, traces and case entities. The hosted graph links skill versions and steps to source evidence. The procedure crosses into the fresh agent as a file.](diagrams/d16-connected-memory.svg)
 
 <div class="references">
 
@@ -1866,15 +1953,14 @@ References: [Memory types](https://neo4j.com/labs/agent-memory/explanation/memor
 
 ---
 
-# Wrap — Bolt memory and hosted skill workflows
+# Wrap — Which record answers the question?
 
-- **Bolt:** memory-enabled support apps 2–5; your AuraDB and client-side extraction.
-- **Module 1:** stateless baseline, without a memory client.
-- **Hosted workflows:** separate fixtures, scoped generation, versioned packages and provenance-driven drift.
-- **Fresh agent:** downloaded `SKILL.md` + business tools; no memory retrieval.
-- Same memory concepts, separate consumption paths and stores.
+- Where would you verify the **current refund limit**? Read the Pro plan in SQLite.
+- What did Maya **previously say**? Find the Message in Bolt.
+- Did a refund **actually happen**? Inspect the operation output, SQL and receipt.
+- What can **another agent load**? Read the versioned SKILL.md from the package.
 
-![diagram](../slides/diagrams/d18-bolt-vs-nams.svg)
+![The Bolt-backed app reads and writes workshop memory. A separate hosted service generates a procedure for a fresh agent.](diagrams/d18-bolt-vs-nams.svg)
 
 <div class="references">
 
@@ -1882,33 +1968,45 @@ References: [Backend capabilities](https://neo4j.com/labs/agent-memory/reference
 
 </div>
 
-<!-- notes: The participant Bolt graph links conversation, entity and reasoning memory. Hosted skill fixtures remain in a separate workspace; a Markdown skill crosses into the fresh agent. No cross-backend graph edges are created. Controlled eval checks exact facts plus accepted source IDs using private SQL and unique namespaces with business tools disabled. It is a retrieval probe, not an overall support-quality grade. The UI loads saved results for the current module; opening it does not invoke a model. Source: scripts/eval.py; web/src/components/EvalScorecard.jsx; module_5/app/fresh_agent.py. -->
+<!-- notes: Say — Ask learners to name the authority for each question.
+
+Show — Show a supplied Message, SQL plan row, operation result and SKILL.md as answers.
+
+If blocked — Preserve which store each labeled example came from. -->
 
 ---
 
 # Wrap — Your Monday morning path
 
-- Use the pinned `neo4j-agent-memory[pydantic-ai,openai]` environment and Bolt/OpenAI credentials.
-- Construct `MemoryClient(MemorySettings(...))`; write with `short_term.add_message`.
-- Run `uv run scripts/monday_memory.py` to write and retrieve one conversation.
-- Convert stored roles with `as_model_history`; pass `message_history` to `Agent.run`.
-- Put additional semantic, entity or procedure evidence in instructions.
+<!-- _class: m5-concepts -->
+
+Keep your environment for the take-home or clean up after the final inspection.
+
+<div class="m5-concept-grid"><div><h2>Run the write/read recipe</h2><p><code>uv run scripts/monday_memory.py</code> writes a unique phrase into one conversation.</p><p>The script queries that conversation, asserts the match and prints the retrieved rows.</p></div><div><h2>Adapt it to your agent</h2><p>Map stored roles with <code>as_model_history</code> and pass <code>message_history</code> to Agent.run.</p><p>Label additional retrieved evidence. Enforce per-customer authorization before business actions.</p></div></div>
+
+Done with the environment? Follow [teardown for keys, Codespaces and AuraDB](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/teardown.md).
 
 <div class="references">
 
-References: [SDK GitHub](https://github.com/neo4j-labs/agent-memory) · [Memory docs](https://neo4j.com/labs/agent-memory/) · [GraphAcademy: memory](https://graphacademy.neo4j.com/courses/genai-context-graphs)
+References: [Run the recipe](https://github.com/johnymontana/road-to-agent-memory/blob/main/scripts/monday_memory.py) · [SDK GitHub](https://github.com/neo4j-labs/agent-memory) · [Memory docs](https://neo4j.com/labs/agent-memory/) · [GraphAcademy: memory](https://graphacademy.neo4j.com/courses/genai-context-graphs)
 
 </div>
 
-<!-- notes: The participant Bolt graph links conversation, entity and reasoning memory. Hosted skill fixtures remain in a separate workspace; a Markdown skill crosses into the fresh agent. No cross-backend graph edges are created. Controlled eval checks exact facts plus accepted source IDs using private SQL and unique namespaces with business tools disabled. It is a retrieval probe, not an overall support-quality grade. The UI loads saved results for the current module; opening it does not invoke a model. Source: scripts/eval.py; web/src/components/EvalScorecard.jsx; module_5/app/fresh_agent.py. uv run scripts/monday_memory.py opens MemoryClient(MemorySettings(...)), writes a unique phrase and queries only that conversation. It asserts and prints retrieved rows, then tells you to convert them using as_model_history and pass message_history to Agent.run; it does not itself call the agent. Other semantic/entity/procedure evidence belongs in instructions. Source: scripts/monday_memory.py; module_2/app/context.py. -->
+<!-- notes: Say — The tested command writes and reads a scoped record. Agent integration is the next implementation exercise.
+
+Show — Show the printed nonce and matching row. Point to the history helper used by Module 2.
+
+If blocked — Use the source walkthrough. Offer cleanup only after learners finish or elect to retain their environment. -->
 
 ---
 
-# Resources · Start here
+# Resources · Choose a destination
 
 <!-- _class: resources -->
 
-Project and service entry points
+[Open the workshop in Codespaces](https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory) · [Workshop setup and participant guides](https://github.com/johnymontana/road-to-agent-memory/blob/main/README.md)
+
+[SDK setup](#75) · [PydanticAI](#76) · [Short-term](#77) · [Long-term](#78) · [Reasoning](#80) · [Hosted API](#82) · [Skills and governance](#83) · [GraphAcademy](#84) · [Articles](#86)
 
 ## 01 · [GitHub · neo4j-labs/agent-memory](https://github.com/neo4j-labs/agent-memory)
 
@@ -1924,7 +2022,7 @@ Open the hosted workspace dashboard and service documentation. Module 5 uses a s
 
 <div class="resource-footer">
 
-Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.
+Use workshop SDK 0.8.0 and the checked-in lockfile with these references.
 
 </div>
 
@@ -1952,7 +2050,7 @@ Understand base types and domain subtypes before defining the Acme Cloud ontolog
 
 <div class="resource-footer">
 
-Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.
+[Topic index](#73) · Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.
 
 </div>
 
@@ -1980,7 +2078,7 @@ Review LLM, embedding, ontology and resolution configuration; compare with local
 
 <div class="resource-footer">
 
-Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.
+[Topic index](#73) · Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.
 
 </div>
 
@@ -2008,7 +2106,7 @@ Follow how runtime services and the selected customer reach tools through ToolDe
 
 <div class="resource-footer">
 
-Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.
+[Topic index](#73) · Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.
 
 </div>
 
@@ -2036,7 +2134,7 @@ Pass typed prior turns through message_history; keep additional retrieved eviden
 
 <div class="resource-footer">
 
-[Short-term memory API overview](https://neo4j.com/labs/agent-memory/reference/api/short-term/) · Workshop SDK 0.8.0; compare docs with local code.
+[Topic index](#73) · [Short-term memory API overview](https://neo4j.com/labs/agent-memory/reference/api/short-term/) · Workshop SDK 0.8.0; compare docs with local code.
 
 </div>
 
@@ -2064,7 +2162,7 @@ Study canonical identity, aliases, similarity signals and reviewed duplicate han
 
 <div class="resource-footer">
 
-Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.
+[Topic index](#73) · Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.
 
 </div>
 
@@ -2092,7 +2190,7 @@ Compare the SDK integration with this workshop’s explicit history, tools and l
 
 <div class="resource-footer">
 
-Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.
+[Topic index](#73) · Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.
 
 </div>
 
@@ -2120,7 +2218,7 @@ Check status, outcome and identifier fields; recorded execution is not hidden mo
 
 <div class="resource-footer">
 
-[Reasoning API overview](https://neo4j.com/labs/agent-memory/reference/api/reasoning/) · Workshop SDK 0.8.0; compare docs with local code.
+[Topic index](#73) · [Reasoning API overview](https://neo4j.com/labs/agent-memory/reference/api/reasoning/) · Workshop SDK 0.8.0; compare docs with local code.
 
 </div>
 
@@ -2148,7 +2246,7 @@ Follow step-to-entity dependencies and source messages; check backend support be
 
 <div class="resource-footer">
 
-Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.
+[Topic index](#73) · Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.
 
 </div>
 
@@ -2176,11 +2274,11 @@ Compare supported operations, identifiers and data scope. Similar method names d
 
 <div class="resource-footer">
 
-[NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [API key dashboard](https://memory.neo4jlabs.com/dashboard/api-keys) · Workshop generation uses explicit conversation scope.
+[Topic index](#73) · [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [API key dashboard](https://memory.neo4jlabs.com/dashboard/api-keys) · Workshop generation uses explicit conversation scope.
 
 </div>
 
-<!-- notes: Verified resources on 2026-11-04. NAMS live API documentation: Current hosted endpoint and request reference, including Skill Generation, capabilities, governance, review, publication and drift. Current workflow sends nameHint and explicit conversations scope, adding skillId for a new version. Missing local seed state warns and falls back to workspace scope. Check the live deployment contract before delivery. Reference: https://memory.neo4jlabs.com/docs Connect Python to NAMS: Configure a workspace key and hosted endpoint, then use the conversation identifier returned by NAMS for scoped message operations. Separate SDK memory connection route. The workshop uses direct HTTPX for hosted skill workflows and authored fixtures, while its support app retains Bolt/AuraDB. Reference: https://neo4j.com/labs/agent-memory/how-to/use-nams/ Bolt vs NAMS capabilities and scope: Compare message, entity, preference, reasoning and extraction operations by backend; understand identifier and retrieval scope boundaries. Reference explicitly describes Python 0.7.0 and TypeScript 0.5.0; workshop pins Python 0.8.0. NAMS is continuously shipped and /v1 is not an SDK version. Treat this as a capability checklist and check the installed version. Reference: https://neo4j.com/labs/agent-memory/reference/backend-capabilities/ NAMS OpenAPI specification Reference: https://memory.neo4jlabs.com/openapi.json NAMS API key dashboard Reference: https://memory.neo4jlabs.com/dashboard/api-keys -->
+<!-- notes: Verified resources on 2026-11-04. NAMS live API documentation: Current hosted endpoint and request reference, including Skill Generation, capabilities, governance, review, publication and drift. Current workflow sends nameHint and explicit conversations scope, adding skillId for a new version. Both generation commands require the saved conversation ID. With a missing receipt, use the checked-in skill or seed the designated workspace. Check the live deployment contract before delivery. Reference: https://memory.neo4jlabs.com/docs Connect Python to NAMS: Configure a workspace key and hosted endpoint, then use the conversation identifier returned by NAMS for scoped message operations. Separate SDK memory connection route. The workshop uses direct HTTPX for hosted skill workflows and authored fixtures, while its support app retains Bolt/AuraDB. Reference: https://neo4j.com/labs/agent-memory/how-to/use-nams/ Bolt vs NAMS capabilities and scope: Compare message, entity, preference, reasoning and extraction operations by backend; understand identifier and retrieval scope boundaries. Reference explicitly describes Python 0.7.0 and TypeScript 0.5.0; workshop pins Python 0.8.0. NAMS is continuously shipped and /v1 is not an SDK version. Treat this as a capability checklist and check the installed version. Reference: https://neo4j.com/labs/agent-memory/reference/backend-capabilities/ NAMS OpenAPI specification Reference: https://memory.neo4jlabs.com/openapi.json NAMS API key dashboard Reference: https://memory.neo4jlabs.com/dashboard/api-keys -->
 
 ---
 
@@ -2204,7 +2302,7 @@ Follow a separate hosted tutorial through fixture seeding, provenance inspection
 
 <div class="resource-footer">
 
-Hosted preview: inspect the current contract and returned evidence before trusting a generated skill.
+[Topic index](#73) · Hosted preview: inspect the current contract and returned evidence before trusting a generated skill.
 
 </div>
 
@@ -2232,7 +2330,7 @@ Practice graph patterns and filtering before adapting the workshop’s scoped re
 
 <div class="resource-footer">
 
-Free GraphAcademy learning paths. Course exercises use their own repositories and environments.
+[Topic index](#73) · Free GraphAcademy learning paths. Course exercises use their own repositories and environments.
 
 </div>
 
@@ -2260,7 +2358,7 @@ Track published changes before upgrading. Compare release notes, package files a
 
 <div class="resource-footer">
 
-Copilot/AIP and TypeScript/Mastra are adjacent paths, not the Python SupportBot implementation.
+[Topic index](#73) · Copilot/AIP and TypeScript/Mastra are adjacent paths, not the Python SupportBot implementation.
 
 </div>
 
@@ -2288,7 +2386,7 @@ Explore a Strands example that shares graph-backed memory across multiple agents
 
 <div class="resource-footer">
 
-Articles explain concepts and examples; use current API references and the workshop pin for code.
+[Topic index](#73) · Articles explain concepts and examples; use current API references and the workshop pin for code.
 
 </div>
 
@@ -2316,7 +2414,7 @@ Read about scoped distillation, SKILL.md reuse and governance as the source memo
 
 <div class="resource-footer">
 
-Articles explain concepts and examples; use current API references and the workshop pin for code.
+[Topic index](#73) · Articles explain concepts and examples; use current API references and the workshop pin for code.
 
 </div>
 

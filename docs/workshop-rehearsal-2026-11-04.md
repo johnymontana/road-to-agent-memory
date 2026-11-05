@@ -1,0 +1,54 @@
+# Road to Agent Memory live rehearsal · November 4, 2026
+
+We ran the participant commands from the repository root, switched the browser backend through Modules 1–5, and exercised both Module 5 routes. The controlled retrieval scorecards test four questions against seeded sources. The browser exercises below used real model turns and separate conversations.
+
+## What to expect in the room
+
+| Stage | Participant action | Observation from this run |
+| --- | --- | --- |
+| 0 · Setup | `make setup`, `make check`, then `make dev MODULE=1` | The lockfile installed, SQLite seeded, and the Bolt, chat, embeddings and graph checks passed. Initial preflight took 44 s. The median trivial Bolt query took 446 ms. |
+| 1 · Baseline | `make s1-baseline`, open Saved replay, then `make eval MODULE=1` | Maya's lookup returned Northwind Robotics, Pro and a $250 limit. On the next turn the model answered “Unknown” to her email. The first turn's SQL was visible in the browser. The replay took 4 s and the eval scored 0/4. |
+| 2 · Short-term | `make s2-return`, `make s2-restart`, `make eval MODULE=2` | Both replays recovered “violet comet” across conversations. In the corrected returning-customer replay the cited ID matched the original user message, and the history request used only `lookup_account`. The restart used two OS processes and recovered the phrase in the second. The original return and restart commands took 75 s and 108 s. The eval scored 2/4. |
+| 3 · Long-term | `make s3-default`, `make s3-ontology`, then introduce Maya in browser chat and save a preference | Both snapshots used transcript SHA-256 beginning `752d85d09cfa`. The generic projection had six entities and two relations. The Acme projection had seven entities and five relations, including Customer → SUBSCRIBES_TO → Plan. Those counts exclude the transcript message and its MENTIONS edges. The browser exercise produced three MENTIONS, SQL-grounded Maya's email, plan and signup date, and recovered “email me before calling” in a new conversation with Maya selected. `make eval MODULE=3` scored 3/4. |
+| 3 · Extensions | Run the guide's strict-validation and plan-change demonstrations, then `make s3-enrich` | The local validator dropped the invented relationship in permissive mode and raised in strict mode. The real hydrator updated one local fixture entity from Pro to Enterprise and back. Wikimedia returned a fresh attributed description of Stripe, Inc. The public enrichment and the two extraction snapshots appeared in the replay picker. |
+| 4 · Actions | `make s4-refund`, `make s4-fail`, inspect the graph and receipts | The agent issued Maya's $49 duplicate-charge refund. The server rejected her $400 Pro case against the current $250 ceiling. Each replay took 73 s. In a separate browser case Dana received $129. The authorization checkbox cleared, and a repeat returned information about the existing refund. |
+| 4 · Ablation | Run `make s4-refund-repeat` and open the saved comparison | The two branches started from identical SQL hashes. Only treatment retrieved the fixed trace. Both issued Dana’s $129 refund and took no action on the follow-up Pro policy question. The command took 147 s. The subsequent Module 4 eval scored 4/4, including the exact refusal quote and a verified trace ID. |
+| 5 · Hosted | `make nams-check`, `make nams-seed`, `make nams-distill`, then `make s5-fresh-agent WITH_SKILL=on` | The service reported grounding and coverage gates of 0.90 and 0.60. The first generated package took 102 s, had five claims and three steps, and scored 1.00 on both gates. The fresh agent with the downloaded procedure issued Ravi's $49 refund. |
+| 5 · Fallback | Compare `make s5-fresh-agent WITH_SKILL=off` with `WITH_SKILL=fallback` | Both agents called lookup_account → fetch_policy → issue_refund and returned `issued` on private copies of the same starting SQL data. The revised fallback also passed on a fresh run. It loads the checked-in procedure and still needs model access. Participants can switch to this route at minute five without waiting for hosted generation. |
+| 5 · Governance extension | In the rehearsal workspace, change SQL policy, demonstrate hosted drift, re-distill and restore SQL | Changing Pro from $250 to $150 left the hosted version current. Removing two cited policy representations owned by this rehearsal made 2/5 claims and 1/3 steps stale. Re-distillation produced version 1.1.0 with new evidence and the historical $250 procedure. Version 1.0.0 remained drifted, 1.1.0 was current, and the private SQL limit was restored to $250. The hosted graph showed both versions, six steps, 31 evidence nodes and one SUPERSEDES edge. |
+
+The closing `uv run scripts/monday_memory.py` example wrote one uniquely named ticket phrase and read it back from exactly one message in the same conversation. It took 38 s.
+
+## What the ablation measured
+
+| Turn | Retrieval | Model-selected tools, in order | Input / output tokens | Total turn time |
+| --- | --- | --- | --- | --- |
+| Dana’s duplicate charge | Off | lookup_account → issue_refund | 1,649 / 105 | 10.626 s |
+| Dana’s duplicate charge | On | issue_refund | 2,296 / 64 | 12.187 s |
+| Pro policy question | Off | fetch_policy → lookup_account | 1,843 / 97 | 9.165 s |
+| Pro policy question | On | fetch_policy → lookup_account | 2,591 / 123 | 11.440 s |
+
+For Dana’s refund, retrieval saved one model-selected tool call. It also added 647 input tokens and took about 1.6 seconds longer. Both branches enforced current SQL policy. The two private databases were byte-identical before execution, and neither branch could add traces to the fixed reasoning corpus.
+
+## What changed during the rehearsal
+
+- A read-only history question prompted the model to attempt a zero-dollar refund. SQLite rejected the write, but the rejection displaced the answer. All five agent snapshots now offer the refund tool only on a turn with a selected customer, selected incident and explicit authorization. Current SQL still decides the business outcome. The repaired replay returned Maya's actual history.
+- A browser agent persisted a ticket phrase and then told its customer it could not save it. The short-term instructions now describe the write that precedes the model call. The new replay acknowledged the phrase, recalled it in both conversations and cited the right source.
+- The single-process replay used to claim a restart in its question. Both routes now ask the same neutral recall question. The restart artifact records the two actual process IDs.
+- The saved-replay graph omitted the original turn evidence from the evidence panel. Its dedicated view now shows per-turn tool results, IDs, timing and branch labels. Extraction-only snapshots expose their transcript hash. The node inspector lets a participant follow a named edge in either direction. On narrow screens the panels stack so the NAMS checkbox stays accessible.
+- The conversation graph previously included every preference in its namespace and omitted the owning User. It now follows the mentioned customer to their scoped User and preferences. The multi-customer regression checks which preference IDs are visible.
+- Running setup again previously replaced a participant's SQL data. Setup and container creation now initialize missing data. Explicit `make seed` remains the command to rebuild the teaching database. Preflight also suppresses connection details and skips dependent startup checks when a required service is unreachable.
+- An absent seed receipt used to broaden hosted generation to a whole workspace. Generation now requires the seed conversation. The hosted preflight stops the umbrella command when distillation is unavailable. The drift exercise verifies the active package, version, conversation, and seed-owned policy evidence before deletion. This matters in practice because the service can cite extracted policy representations with different IDs from the explicitly seeded policy.
+- The fallback procedure now explains how to report issued, previously issued and rejected receipts and when to seek manager approval. Participants can inspect the fallback procedure locally. The hosted exercise supplies the versioned provenance package.
+- Re-distillation used to unpack a new archive over the old one. A missing procedure could silently reuse the previous version's text, and removed references could survive. The installer now stages and validates the procedure and matching provenance before replacing the package. We downloaded both real rehearsal versions in succession and verified that the new package removed an old-only file. The policy demonstration also queried those exact versions and returned “drifted” for 1.0.0 and “current” for 1.1.0.
+
+## Verification
+
+- The four live behavioral tests passed, including a ten-message history window, separate Maya and Dana preferences, an idempotent refund retry, and a failed trace. The tests used live storage. Some targeted tool/error cases used a deterministic model so the exact failure could be exercised.
+- All five module badges and the corresponding browser graph/evidence views were exercised in Chromium. The Module 5 browser followed Skill → SkillVersion → SkillStep → source evidence and switched back to the saved Bolt replay.
+- The offline suite passed 165 tests. The opt-in browser fixture was skipped there and passed separately, including the 390 px capstone controls. Ruff, the lockfile check, the production frontend build and whitespace checks passed. The build reported the existing bundle-size advisory. A second `make setup` preserved both rehearsal refunds.
+- The participant README, guides, local slide source and native Google Slides were updated together. Final native readback verified all 102 page IDs, 17 code excerpts and 469 link texts/destinations. The full deck was rendered for visual inspection. The rebuilt local HTML contained 87 sections and all 17 excerpts. [Open the instructor deck](https://docs.google.com/presentation/d/1qBsciAQf7s3BUdQleJJ39-4RDKAoqqoVfodPDDg63z8/edit).
+
+## Scope of this rehearsal
+
+The rehearsal used the local repository and configured service accounts. Codespaces provisioning, new-account signup and key issuance were outside this run. SQLite, receipts, evaluations and replay files lived in a private rehearsal directory. The live Bolt agent wrote workshop records into fresh conversation and evaluation namespaces. The hosted run used a dedicated seed identity and a distinct rehearsal skill name. Only cited policy evidence owned by that run was deleted. The existing instructor package and participant SQL were preserved. Both rehearsal versions remain available under `acme-refund-procedure-rehearsal-bnpbsf`. The dev server was stopped after browser verification. A network-restricted first attempt was separated from the connected measurements above.

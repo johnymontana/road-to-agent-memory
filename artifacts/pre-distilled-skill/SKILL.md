@@ -1,22 +1,10 @@
-# Acme Cloud Refund Procedure (pre-distilled fallback)
+# Acme Cloud duplicate-charge refund procedure
 
-> Fallback artifact (review B2): checked into the repo so the module 5 payoff
-> survives a NAMS outage. Regenerate with `make nams-distill` against a healthy
-> workspace and diff before committing.
+Checked-in workshop example for the fresh support agent. Use this procedure when a customer reports a duplicate charge.
 
-**When a customer requests a refund for a duplicate charge:**
+1. **Identify the customer and the case.** Call `lookup_account(customer_email)`. Match the selected customer and incident to the charge. Check existing refunds before attempting a new one.
+2. **Read the current policy.** Call `fetch_policy("refund")` and read the customer's current no-approval limit from the account lookup. A duplicate charge can be eligible for reimbursement even when its amount requires manager approval.
+3. **Act within this turn's authorization.** For a selected and authorized case within the live limit, call `issue_refund(customer_email, amount, reason)`. If the amount exceeds the limit, explain that a manager must approve it. The support agent has no escalation tool.
+4. **Report the actual receipt.** For `issued`, report the amount and refund ID. For `already_issued`, identify the existing refund. For a rejection, give the returned reason. An approval requirement is a next step for the operator.
 
-1. **Identify the customer and plan first.** Call `lookup_account(customer_email)`
-   before touching money. Note the plan's no-approval refund limit.
-2. **Check the refund policy.** Call `fetch_policy("refund")`. Duplicate charges
-   are always refundable; amounts within the plan's no-approval limit
-   (Pro: $250, Enterprise: $500) need no escalation.
-3. **Issue within the limit; escalate above it.** Call
-   `issue_refund(customer_email, amount, reason)` when the amount is within the
-   limit. If the tool reports `rejected_over_limit`, explain the escalation path
-   (engineering-manager approval) instead of retrying.
-4. **Confirm in writing.** State the amount, the reason, and the refund id.
-
-*Grounding: distilled from 2 recorded refund traces (6 tool calls) in the Acme
-Cloud workspace memory. Grounding score and per-claim provenance: see the skill
-subgraph (`GROUNDED_IN` edges) in the NAMS console.*
+The hosted exercise downloads a versioned procedure with evidence references. This fallback contains the procedure text only. Compare the observed SQL tool calls and business result for Ravi's $49 case with the control run.

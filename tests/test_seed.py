@@ -27,6 +27,22 @@ def seeded_db(tmp_path: Path) -> sqlite3.Connection:
         seed.DB_PATH = original
 
 
+def test_setup_keeps_existing_workshop_state(tmp_path, monkeypatch):
+    from scripts import seed_sqlite
+
+    path = tmp_path / "acme_cloud.db"
+    monkeypatch.setattr(seed_sqlite, "DB_PATH", path)
+    seed_sqlite.main(if_missing=True)
+    with sqlite3.connect(path) as db:
+        db.execute("UPDATE plans SET refund_limit=123 WHERE name='Pro'")
+    seed_sqlite.main(if_missing=True)
+    with sqlite3.connect(path) as db:
+        assert db.execute("SELECT refund_limit FROM plans WHERE name='Pro'").fetchone() == (123,)
+    seed_sqlite.main()
+    with sqlite3.connect(path) as db:
+        assert db.execute("SELECT refund_limit FROM plans WHERE name='Pro'").fetchone() == (250,)
+
+
 def test_all_tables_seeded(tmp_path):
     conn = seeded_db(tmp_path)
     for table, minimum in {

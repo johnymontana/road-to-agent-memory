@@ -382,6 +382,26 @@ def test_lesson_imports_do_not_hide_behavior_in_shared_or_previous_agents():
 
 
 @pytest.mark.parametrize("number", range(1, 6))
+async def test_model_sees_refund_tool_only_with_full_scope(number, settings, monkeypatch):
+    if number > 1:
+        install_memory(monkeypatch, number, Memory())
+    selected = {
+        "account_email": "maya.chen@northwind.example",
+        "incident_id": "maya-duplicate-compute",
+        "authorize_refund": True,
+    }
+    async with open_agent(number, settings) as chat:
+        for missing in [*selected, None]:
+            scope = {key: value for key, value in selected.items() if key != missing}
+            model, seen = responder()
+            with chat.agent.override(model=model):
+                await chat.chat("Show my refund history", "history", **scope)
+            names = {tool.name for tool in seen[0].function_tools}
+            assert "lookup_account" in names
+            assert ("issue_refund" in names) == (missing is None)
+
+
+@pytest.mark.parametrize("number", range(1, 6))
 async def test_every_local_business_tool_returns_grounded_results(number, settings, monkeypatch):
     memory = Memory()
     if number > 1:
@@ -514,7 +534,15 @@ def test_http_nonfinite_refund_rejection_remains_json_safe(amount, settings, mon
         },
     )
     with TestClient(app) as client, app.state.chat.agent.override(model=model):
-        response = client.post("/api/chat", json={"message": "Refund the charge"})
+        response = client.post(
+            "/api/chat",
+            json={
+                "message": "Refund the charge",
+                "account_email": "maya.chen@northwind.example",
+                "incident_id": "maya-duplicate-compute",
+                "authorize_refund": True,
+            },
+        )
     assert response.status_code == 200
     data = response.json()
     assert data["business_status"] == "rejected_invalid_amount"

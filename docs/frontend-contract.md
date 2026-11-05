@@ -35,5 +35,12 @@ NVL shape: nodes[{id,labels,properties}], relationships[{id,from,to,type,propert
 truncated, session_id. Relationship endpoints are in the returned induced subgraph.
 Current conversation, All stored memory, saved output projections and Live memory
 for each replay conversation are explicit choices.
-Keyboard node inspection complements pan/zoom/drag. Browser conversation history
-is stored per module in localStorage; it is not automatically synchronized to CLI runs.
+A session-scoped graph includes the User and HAS_PREFERENCE edges for a customer
+mentioned in that conversation. The owner identifier ties the customer's SQL
+email to the memory namespace. The broader All stored memory view includes other
+customers. Selecting a node exposes its incoming and outgoing edges for keyboard navigation.
+
+Choosing a saved replay switches the evidence panel to its recorded turns.
+A comparison separates the control and treatment, a restart exposes its process
+IDs, and a fixed-transcript extraction exposes its SHA-256. Returning to Current
+conversation restores evidence from browser turns, stored per module in localStorage.

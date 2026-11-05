@@ -12,7 +12,7 @@ from .settings import AppSettings
 
 _LAYER_LABELS = {
     "short_term": ["Conversation", "Message"],
-    "long_term": ["Entity", "Preference", "Fact"],
+    "long_term": ["Entity", "User", "Preference", "Fact"],
     "reasoning": ["ReasoningTrace", "ReasoningStep", "ToolCall", "Tool"],
 }
 
@@ -61,8 +61,13 @@ async def bolt_graph(
               WHERE n = s OR (s)-[:USES_TOOL]->(n) OR (s)-[:TOUCHED]->(n)
                 OR EXISTS { MATCH (s)-[:USES_TOOL]->(:ToolCall)-[:INSTANCE_OF]->(n) }
             }
-            OR (n:Preference AND $session_id IS NOT NULL AND
-                n.category STARTS WITH $preference_namespace)
+            OR EXISTS {
+              MATCH (:Conversation {session_id: $session_id})-[:HAS_MESSAGE]->(:Message)
+                -[:MENTIONS]->(customer:Entity)
+              MATCH (owner:User {identifier: $preference_namespace + customer.email})
+                -[:HAS_PREFERENCE]->(preference:Preference)
+              WHERE n = owner OR n = preference
+            }
             OR EXISTS {
               MATCH (:Conversation {session_id: $session_id})-[:HAS_MESSAGE]->(:Message)
                 -[:MENTIONS]->(e)<-[:ABOUT]-(n:Preference)

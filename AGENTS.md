@@ -18,7 +18,9 @@ Neo4j through the `neo4j-agent-memory` package.
 | 4 | `module_4/` | Reasoning memory: recorded task traces, similar-task retrieval, ablation |
 | 5 | `module_5/` | Skill distillation on the hosted Neo4j Agent Memory Service (NAMS), plus a fresh agent that loads the distilled skill |
 
-Module 0 is environment setup only (`make check`). It has no folder.
+Module 0 is environment setup only (`make check`). It has no folder. The workshop
+runs in a 150-minute slot (`docs/run-of-show.md`); module 5 has a hosted route and a
+fallback route that uses `artifacts/pre-distilled-skill/SKILL.md`.
 
 ## The most important rule: modules are isolated on purpose
 
@@ -54,7 +56,8 @@ module_N/
   app/main.py          # FastAPI entry: create_app(open_agent, ...) on :8000
   app/agent.py         # agent construction + ChatService._turn (numbered memory steps)
   app/tools.py         # business tools (lookup_account, search_product_catalog,
-                       #   fetch_policy, check_service_status, issue_refund) + ToolDeps
+                       #   fetch_policy, check_service_status, issue_refund) + ToolDeps;
+                       #   issue_refund is a Tool(prepare=prepare_refund)
   app/guardrails.py    # refund/reply safety checks; identical in every module
   app/memory.py        # (2+) MemoryClient configuration (Bolt backend)
   app/context.py       # (2+) pre-turn retrieval → message_history + evidence
@@ -65,7 +68,7 @@ module_N/
   ontology/*.yaml      # (3+) default-poleo and acme_cloud ontologies
   lab/                 # experiments behind make targets, not used by the agent:
                        #   module_3/lab/{compare,enrichment}.py, module_4/lab/ablation.py
-  workflows/           # (5) NAMS check / seed / distill / drift
+  workflows/           # (5) NAMS check / seed / distill / drift + nams.py (shared client)
 ```
 
 Copied files stay byte-identical until the stage that changes them, so
@@ -99,8 +102,13 @@ Only infrastructure is shared. Agent prompts and memory policy are not.
   on :8000. The API contract is in `docs/frontend-contract.md`. A backend
   change that affects the API must keep every module compatible with this one
   frontend.
-- `scripts/`: the scenario runner, seeders, eval and NAMS scripts that the
-  Makefile drives. The scenario definitions are in `scripts/scenarios/*.json`.
+- `scripts/`: the scenario runner, seeders, eval and thin wrappers (`nams_*.py`)
+  around `module_5/workflows/`, all driven by the Makefile. Scenario definitions
+  are in `scripts/scenarios/*.json`.
+
+Runtime state is git-ignored: `data/` (SQLite, receipts, replays, evaluations,
+`nams-workspace.json` seed receipt) and `artifacts/distilled/` (downloaded skill
+package and `skill.json` receipt).
 
 ## Commands
 
@@ -108,8 +116,9 @@ The **Makefile is the only command surface participants use** (ADR 002). Run
 everything from the repo root.
 
 ```bash
-make setup                 # uv sync --frozen + npm ci in web/ + seed SQLite
-make check                 # env / AuraDB / OpenAI / SQLite / NAMS smoke test
+make setup                 # uv sync --frozen + npm ci; creates SQLite only if missing
+make seed                  # rebuild the SQLite teaching data (overwrites workshop rows)
+make check                 # env / AuraDB (time per query) / OpenAI / SQLite / memory
 make dev MODULE=N          # backend :8000 (module N) + frontend :5173
 make s1-baseline ...       # scenario beats per module (see `make help`)
 make eval MODULE=N         # continuity eval scorecard
@@ -142,47 +151,68 @@ RUN_BEHAVIORAL=1 uv run pytest tests/test_behavioral.py -v   # live: Neo4j + Ope
   the user asks, because they cost money.
 - CI (`.github/workflows/ci.yml`) runs ruff, the offline tests, the lock check,
   the frontend build and the UI tests on every push and PR.
+  `.github/workflows/devcontainer.yml` builds the Codespaces image when
+  `.devcontainer/`, dependency files or the SQLite seed change.
+- NAMS workflow tests mock the published contract
+  (`https://memory.neo4jlabs.com/openapi.json`). If you change a NAMS request, check
+  the spec and update the mock to match; do not invent response fields.
 
 ## Environment and secrets
 
 - Copy `.env.example` to `.env`. It needs `NEO4J_URI/USERNAME/PASSWORD` (AuraDB,
   modules 1–4), `OPENAI_API_KEY`, and `NAMS_API_KEY` (`nams_...`, module 5 only).
+  Environment variables (including Codespaces secrets) override `.env`.
+- Leave `NEO4J_DATABASE` unset unless needed: `lib/settings.py` asks the server for
+  the home database, because newer AuraDB instances name it after the instance ID.
+  Never set it in `.devcontainer/devcontainer.json`.
+- Codespaces serves the UI from `*.app.github.dev`; `web/vite.config.js` allows that
+  host and points HMR at port 443. Keep both if you touch the Vite config.
 - Optional lesson knobs: `ONTOLOGY`, `VALIDATION_MODE`, `MEMORY_NAMESPACE`,
   `AGENT_REASONING_RETRIEVAL`, `DATA_DIR`.
 - **Never** read out, print, commit or log the contents of `.env`.
-- Do not run `make reset-memory`, `policy-change`, `nams-drift` or anything else
-  that changes a participant's or instructor's live graph or NAMS workspace
-  unless the user explicitly asks.
+- Do not run `make reset-memory`, `make seed`, `policy-change`, `nams-seed`,
+  `nams-distill`, `nams-drift`, `nams-redistill`, `module-5` or anything else that
+  changes local SQLite, the live graph or a hosted NAMS workspace unless the user
+  explicitly asks. `nams-drift` deletes hosted entities and is an instructor-only
+  demo for a disposable workspace.
 
 ## Domain invariants worth preserving
 
 These are part of the workshop's safety story. Tests cover them, so do not
 weaken them:
 
-- A refund (`issue_refund`) needs an explicitly selected customer, an explicitly
-  selected billing case, and authorization for that one message. The server
-  re-checks the case identity, the amount, the current SQL plan limit and that
-  the incident has not already been refunded. Retrying the same request ID
-  returns the saved receipt instead of a second refund.
+- A refund needs an explicitly selected customer, an explicitly selected billing
+  case, and authorization for that one message. `prepare_refund` only offers
+  `issue_refund` to the model when all three are set. The server re-checks the case
+  identity, the amount, the current SQL plan limit and that the incident has not
+  already been refunded. Retrying the same request ID returns the saved receipt
+  instead of a second refund.
 - The agent has no escalation tool. Service status values are seeded examples,
   not live monitoring.
 - Eval runs use private SQLite data, namespaced memory and disabled business
   tools.
 - The graph API never returns embeddings.
-- Module 4 ablation turns off both routes to reasoning retrieval but still
-  records traces.
+- Module 4 ablation turns off both routes to reasoning retrieval and only
+  retrieves *completed* traces, so a turn never retrieves its own open trace.
+- Module 5 distillation is scoped to the seeded conversation in the seed receipt
+  and stops if that receipt is missing. Drift verifies the seed, skill version and
+  provenance receipts before deleting anything.
 
 ## Docs map
 
-- `README.md`: participant quick start and repo layout
+- `README.md`: participant quick start and the module-by-module command guide
 - `WORKSHOP_OUTLINE.md`: the canonical workshop spec (timing, arc, target table)
 - `docs/modules/module-N.md`: participant guides with tiered questions and answer keys
 - `docs/frontend-contract.md`: HTTP API contract between backend and `web/`
 - `docs/adr/`: decisions (LLM extraction, uv + Makefile, Codespaces-first,
   folder-per-module)
+- `docs/running-the-app.md`: notes shared by every module (terminals, replays,
+  refunds, evaluation)
 - `docs/run-of-show.md`, `docs/teardown.md`, `docs/prework-email.md`: instructor
   and logistics docs
-- `slides/`: Marp instructor deck and Excalidraw/SVG diagrams
+- `docs/workshop-rehearsal-2026-11-04.md`: latest live rehearsal (timings, results)
+- `slides/`: Marp instructor deck and Excalidraw/SVG diagrams (a Google Slides copy
+  is the projected deck; keep code excerpts in sync with the modules)
 - `artifacts/pre-distilled-skill/SKILL.md`: module 5 fallback when live NAMS
   distillation is unavailable (`make s5-fresh-agent WITH_SKILL=fallback`)
 

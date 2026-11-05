@@ -20,7 +20,11 @@ async def main(mode: str) -> None:
         result = await run_fresh_agent(get_settings(), mode=mode)
     except FileNotFoundError as exc:
         raise SystemExit(str(exc)) from exc
-    label = "WITH distilled skill" if result["with_skill"] else "WITHOUT skill (control)"
+    label = {
+        "off": "WITHOUT skill (control)",
+        "on": "WITH downloaded NAMS skill",
+        "fallback": "WITH checked-in fallback skill",
+    }[mode]
     print(f"Fresh agent {label}\n\ncustomer: {TICKET}\nagent: {result['reply']}")
     print("\ntool calls (in order):")
     for call in result["tool_calls"]:

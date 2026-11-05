@@ -8,7 +8,7 @@
       "messages": [
         "Remember that I am Maya Chen, maya.chen@northwind.example, at Northwind Robotics. My ticket phrase is violet comet.",
         "What name, email, and ticket phrase did I give you?",
-        "After restarting this process, what ticket phrase did I give you?",
+        "What was the exact ticket phrase I shared earlier in this conversation?",
         "Please look up my account and refund history; do not issue a new refund."
       ]
     },

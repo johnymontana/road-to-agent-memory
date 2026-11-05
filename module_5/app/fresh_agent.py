@@ -1,8 +1,8 @@
 """A fresh agent with no memory that loads a distilled skill as instructions.
 
-It has the business tools and base instructions, but no memory client, history
-or retrieval. Everything it knows about handling refunds comes from SKILL.md,
-which is how distilled experience moves to an agent that never saw the tickets.
+Every mode starts with the same business tools, base instructions and authorized
+case. Loading SKILL.md adds the written procedure. The agent calls its own tools
+against current SQL data and receives no conversation history or memory client.
 
 Note: this demo calls the model directly with an authorized billing case. It skips
 the per-turn guardrails (guardrails.py), but `issue_refund` still enforces SQL policy.

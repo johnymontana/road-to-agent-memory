@@ -36,11 +36,11 @@ Neo4j, graphs, or PydanticAI. Linked from every module README.
 - <a id="enrichment"></a>**Enrichment** — Adding outside knowledge (here, Wikipedia summaries and links) to entities about real-world third parties like Stripe.
 - <a id="trace"></a>**Trace** — A recorded play-by-play of one agent run: the task, each step, each tool call with its inputs and outputs, and the outcome.
 - <a id="provenance"></a>**Provenance** — Being able to point at exactly which message, tool call, or trace a piece of knowledge came from — the graph's receipts.
-- <a id="skill-distillation"></a>**Skill distillation** — Turning many similar traces into one reusable, step-by-step procedure (a SKILL.md) that a fresh agent can load and follow.
-- <a id="grounding-score"></a>**Grounding score** — How much of a distilled skill is backed by `GROUNDED_IN` edges to real evidence — high means every step has receipts.
-- <a id="coverage-score"></a>**Coverage score** — How much of the observed evidence a distilled skill actually captures — high means few traces were ignored.
+- <a id="skill-distillation"></a>**Skill distillation** — Deriving a reusable procedure from selected agent memory, packaging it as SKILL.md, and retaining source links for review.
+- <a id="grounding-score"></a>**Grounding score** — A signal of how much of a generated skill is supported by source evidence. Inspect individual links and test the procedure against current policy.
+- <a id="coverage-score"></a>**Coverage score** — A signal of how much of the selected evidence the generated procedure represents.
 - <a id="nams"></a>**NAMS** — The Neo4j Agent Memory Service (memory.neo4jlabs.com): a hosted, managed version of the same memory system, used in module 5.
-- <a id="bolt-backend"></a>**Bolt backend** — Running the memory system against *your own* Neo4j database over the Bolt protocol (modules 1–4), instead of the hosted NAMS service.
+- <a id="bolt-backend"></a>**Bolt backend** — Running the memory system against *your own* Neo4j database over the Bolt protocol (support apps in modules 2–5), instead of the hosted NAMS service.
 
 ## The workshop machinery
 

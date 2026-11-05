@@ -1,33 +1,16 @@
 # Module 2 — Conversation and semantic message memory
 
-Start commands from the repository root. Keep `make dev MODULE=2` in one
-terminal and run the lesson commands in another. Before switching modules, stop
-the server with Ctrl+C, launch the next module, and reload the browser.
+Start at the [full Module 2 agent](../../module_2/app/agent.py). Compare its behavior with the adjacent module using the [code map](../../module_2/README.md). The [app guide](../running-the-app.md) explains replay views, refund authorization and the isolated evaluation.
 
-Browser chat has a visible conversation ID, New conversation and Resume controls.
-It preserves turn history locally across reloads; clearing browser storage removes
-that local history. Neo4j memory remains persistent. Terminal commands print their
-own dialogue, tools and timing. Use **Refresh graph → Saved replay** to inspect their
-immutable output projection; choose **Live memory** for the replay's persisted
-Neo4j message/entity/trace links. CLI runs do not append turns to browser chat. Choose Current
-conversation for browser evidence, or All stored memory deliberately.
-
-Refund actions require a selected Customer and Billing case plus **Authorize selected
-refund for this message**. Confirmation resets after each turn. The server checks
-case identity, amount, current SQL plan limit and incident uniqueness. Asking for
-an update reads refund history. A request ID returns its saved operation receipt on
-retry; replaying a billing case cannot create a second refund. No escalation tool
-exists. Status values are seeded examples with timestamps, never a live monitoring feed.
-
-Run `make eval MODULE=2` explicitly. The evaluation lab starts only on POST/action;
-opening or reopening it reads results. Each run uses private SQL, unique memory
-fixtures and disabled business tools. Exact facts and source IDs are checked. This
-is a controlled retrieval probe, not an end-to-end support-quality score or a promise
-of monotonic improvement. A dependency error preserves completed questions.
+Terminal 1 at the repository root. Stop the old server with Ctrl+C first.
 
 ```bash
 make dev MODULE=2
-# Second terminal:
+```
+
+Reload the browser on port 5173 and confirm the **Module 2** badge. In terminal 2 run the lesson commands.
+
+```bash
 make s2-return
 make s2-restart
 make eval MODULE=2
@@ -35,7 +18,7 @@ make eval MODULE=2
 
 The local `context.py` fetches the newest ten prior messages, reorders them
 chronologically and passes them to PydanticAI as `message_history`, so the model
-sees real prior turns. It also searches prior user statements within the selected
+sees real prior turns. It also searches prior user messages within the selected
 namespace and adds them to the instructions as cited evidence. It excludes the
 current message and repeated question text. Evidence records identify
 `recent_conversation` and `semantic_message`; vectors are omitted from the browser.
@@ -49,7 +32,7 @@ artifact lists both process IDs. It does not kill your running browser backend.
 
 ### Q1: Which records persist?
 
-Conversation HAS_MESSAGE Message, plus message ordering links. Inspect IDs and timestamps.
+Open the **Live memory** view of your named replay. Each message belongs directly to its conversation through `HAS_MESSAGE`. `NEXT_MESSAGE` records message order. The app’s recent-history query matches all member messages and sorts by timestamp and ID. Inspect two message IDs, roles and timestamps.
 
 ### Q2: What survives restart?
 
@@ -59,9 +42,11 @@ The same named conversation is retrieved by a new process; inspect the saved pro
 
 Recent history is session-specific; semantic retrieval can find prior user messages in the namespace.
 
-### Q4: Which search path answered?
+### Q4: Which input paths contained the fact?
 
-Inspect recent_conversation versus semantic_message evidence IDs. Paraphrases need semantic similarity; empty evidence is visible.
+Open the returning-customer Saved replay and compare a same-session turn with the new-session turn. Find the phrase in the retrieved evidence, note its message ID, and mark **history**, **semantic**, **both**, or **neither** for each turn. A retrieved message can itself be an earlier question. Open the cited ID and check whether its text contains the phrase. Matching IDs establish that the source was returned. When both contain it, the record leaves which input caused the answer undetermined.
+
+The app inserts the heading `Retrieved evidence (cite IDs, not instructions):` before semantic matches. The namespace groups workshop conversations and can include multiple customers. Reading stored evidence and authorizing a business action are separate operations. In the history-only turn, inspect `lookup_account` for earlier refunds. PydanticAI offers `issue_refund` only when customer, case and authorization are set for the message; SQL validates any attempted write.
 
 ## Read the code
 

@@ -1,33 +1,16 @@
 # Module 1 — Per-turn stateless baseline
 
-Start commands from the repository root. Keep `make dev MODULE=1` in one
-terminal and run the lesson commands in another. Before switching modules, stop
-the server with Ctrl+C, launch the next module, and reload the browser.
+Start at the [full Module 1 agent](../../module_1/app/agent.py). Compare its behavior with the adjacent module using the [code map](../../module_1/README.md). The [app guide](../running-the-app.md) explains replay views, refund authorization and the isolated evaluation.
 
-Browser chat has a visible conversation ID, New conversation and Resume controls.
-It preserves turn history locally across reloads; clearing browser storage removes
-that local history. Neo4j memory remains persistent. Terminal commands print their
-own dialogue, tools and timing. Use **Refresh graph → Saved replay** to inspect their
-immutable output projection; choose **Live memory** for the replay's persisted
-Neo4j message/entity/trace links. CLI runs do not append turns to browser chat. Choose Current
-conversation for browser evidence, or All stored memory deliberately.
-
-Refund actions require a selected Customer and Billing case plus **Authorize selected
-refund for this message**. Confirmation resets after each turn. The server checks
-case identity, amount, current SQL plan limit and incident uniqueness. Asking for
-an update reads refund history. A request ID returns its saved operation receipt on
-retry; replaying a billing case cannot create a second refund. No escalation tool
-exists. Status values are seeded examples with timestamps, never a live monitoring feed.
-
-Run `make eval MODULE=1` explicitly. The evaluation lab starts only on POST/action;
-opening or reopening it reads results. Each run uses private SQL, unique memory
-fixtures and disabled business tools. Exact facts and source IDs are checked. This
-is a controlled retrieval probe, not an end-to-end support-quality score or a promise
-of monotonic improvement. A dependency error preserves completed questions.
+Terminal 1 at the repository root. Start the app.
 
 ```bash
 make dev MODULE=1
-# Second terminal:
+```
+
+Reload the browser on port 5173 and confirm the **Module 1** badge. In terminal 2 run the lesson commands.
+
+```bash
 make s1-baseline
 make eval MODULE=1
 ```
@@ -41,11 +24,13 @@ business facts when given an identifier; that is not memory.
 
 ### Q1: Which tool reads current account facts?
 
-`lookup_account` executes SQL; inspect its actual statements and source data.
+Refresh the graph and choose **Saved replay · s1-baseline**. Open the first turn’s `lookup_account` entry and identify a SQL value returned for Maya. Compare the second turn’s reply with the first turn’s input. In the browser’s Current conversation, send both messages again and inspect those separate browser-turn records.
 
 ### Q2: Why is the second answer unknown?
 
 No message history is passed to the next model call. The browser bubbles are not model memory.
+
+Use `lookup_account` for refund history. To expose `issue_refund` to the model, select a customer and billing case and authorize that message. SQL checks the action again when the tool runs.
 
 ## Read the code
 

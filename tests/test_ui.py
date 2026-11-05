@@ -67,6 +67,7 @@ def test_cold_workers_startup_sessions_and_retained_trace(tmp_path):
                 errors = []
                 counts = {"health": 0, "chat": 0, "eval": 0}
                 requests = []
+                fixture_module = 2
                 page.on(
                     "pageerror",
                     lambda error: (
@@ -113,7 +114,9 @@ def test_cold_workers_startup_sessions_and_retained_trace(tmp_path):
                         counts["health"] += 1
                         if counts["health"] == 1:
                             status = 503
-                        data = {"module": 2, "memory_layers": ["short_term"]}
+                        data = {"module": fixture_module, "memory_layers": ["short_term"]}
+                    elif path == "graph/nams":
+                        data = {"nodes": [], "relationships": [], "unavailable": True}
                     elif path.startswith("graph"):
                         data = graph
                     elif path == "accounts":
@@ -141,7 +144,22 @@ def test_cold_workers_startup_sessions_and_retained_trace(tmp_path):
                             ]
                         }
                     elif path.startswith("replays/"):
-                        data = {"graph": graph, "protocol": "Saved measured fixture"}
+                        data = {
+                            "id": "cli",
+                            "title": "Fixture replay",
+                            "graph": graph,
+                            "protocol": "Saved measured fixture",
+                            "turns": [
+                                {
+                                    "message": "Which phrase did I give you?",
+                                    "result": {
+                                        "request_id": "cli-op",
+                                        "reply": "Violet comet.",
+                                        "context": {"evidence": [{"source_id": "cli-message-17"}]},
+                                    },
+                                }
+                            ],
+                        }
                     elif path == "chat":
                         counts["chat"] += 1
                         body = route.request.post_data_json
@@ -186,15 +204,24 @@ def test_cold_workers_startup_sessions_and_retained_trace(tmp_path):
                     "notice')?.textContent.includes('saved projection')"
                 )
                 assert page.get_by_label("Memory layer").is_disabled()
+                evidence_panel = page.locator(".trace-panel")
+                evidence_panel.get_by_text("Retrieved evidence and memory writes").click()
+                assert "cli-message-17" in page.locator(".trace-panel").inner_text()
                 page.get_by_label("Graph view").select_option("session:m2-cli")
                 assert not page.get_by_label("Memory layer").is_disabled()
                 page.wait_for_function(
                     "document.querySelector('.graph-notice')?.textContent.includes('m2-cli')"
                 )
+                evidence_panel.get_by_text("Execution evidence · browser conversation").wait_for()
+                assert "cli-message-17" not in page.locator(".trace-panel").inner_text()
                 page.locator(".graph-accessible-list summary").click()
                 page.get_by_role("button", name="Fixture node 1", exact=True).focus()
                 page.keyboard.press("Enter")
                 assert page.locator(".details-drawer").inner_text().find("Fixture node 1") >= 0
+                page.get_by_role("button", name="Outgoing · NEXT · Fixture node 2").click()
+                assert page.locator(".details-header strong").inner_text() == "Fixture node 2"
+                page.get_by_role("button", name="Incoming · NEXT · Fixture node 1").click()
+                assert page.locator(".details-header strong").inner_text() == "Fixture node 1"
                 page.get_by_role("button", name="Close node details").click()
                 page.get_by_label("Billing case", exact=True).select_option("case-1")
                 page.get_by_label("Authorize selected refund for this message").check()
@@ -236,6 +263,20 @@ def test_cold_workers_startup_sessions_and_retained_trace(tmp_path):
                 assert page.evaluate("window.drawnGraphLabels.length > 0"), (
                     "NVL node captions were not drawn"
                 )
+                fixture_module = 5
+                page.reload()
+                page.get_by_label("Graph view").select_option("replay:cli")
+                page.get_by_role("checkbox", name="NAMS").check()
+                page.get_by_text("NAMS workspace unavailable", exact=False).wait_for()
+                graph_view = page.get_by_label("Graph view")
+                assert graph_view.is_disabled()
+                assert page.locator(".graph-notice").count() == 0
+                page.get_by_role("checkbox", name="NAMS").uncheck()
+                evidence_panel.get_by_text("Fixture replay", exact=True).wait_for()
+                fixture_module = 1
+                page.reload()
+                graph_view.locator("option[value='replay:cli']").wait_for(state="attached")
+                assert graph_view.locator("option[value^='session:']").count() == 0
                 assert workers, "No NVL worker request was exercised"
                 for worker in workers:
                     if isinstance(worker, tuple):

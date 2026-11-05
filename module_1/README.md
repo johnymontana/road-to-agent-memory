@@ -8,8 +8,7 @@ then ask what you just told it: it cannot say.
 
 1. [`app/agent.py`](app/agent.py): the agent and one chat turn. The key line
    is `self.agent.run(message, ...)` with only the new message, and no history.
-2. [`app/tools.py`](app/tools.py): five business tools as plain PydanticAI tool
-   functions (`RunContext[ToolDeps]`, docstring = tool description).
+2. [`app/tools.py`](app/tools.py): four read tools and one conditional write tool. `Tool(issue_refund, prepare=prepare_refund)` exposes the write only for a selected customer, selected billing case and authorization on this turn. SQL rechecks the amount, identity, current limit and duplicate status.
 3. [`app/guardrails.py`](app/guardrails.py) *(skim)*: refund and reply safety
    checks. It is the same in every module and is not about memory.
 
@@ -17,9 +16,15 @@ then ask what you just told it: it cannot say.
 
 ## Run it
 
+Terminal 1 at the repository root. Start the app.
+
 ```bash
 make dev MODULE=1
-# Second terminal:
+```
+
+Reload the browser on port 5173 and confirm the **Module 1** badge. In terminal 2 run the lesson commands.
+
+```bash
 make s1-baseline
 make eval MODULE=1
 ```

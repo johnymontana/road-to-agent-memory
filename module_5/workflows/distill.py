@@ -16,8 +16,12 @@ from __future__ import annotations
 
 import asyncio
 import difflib
+import fcntl
 import io
+import os
+import shutil
 import sys
+import tempfile
 import time
 import zipfile
 from pathlib import Path, PurePosixPath
@@ -69,6 +73,60 @@ def unpack(package: bytes, destination: Path) -> str:
     return (destination / "SKILL.md").read_text()
 
 
+def install_package(package: bytes, destination: Path, receipt: dict) -> str:
+    """Validate a fresh download before replacing the previous version and its references."""
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(dir=destination.parent) as temp:
+        staged = Path(temp) / "package"
+        skill_md = unpack(package, staged)
+        provenance = read_json(staged / "provenance.json")
+        if (
+            not skill_md.strip()
+            or not isinstance(provenance, dict)
+            or provenance.get("distillationRun") != receipt["runId"]
+        ):
+            raise ValueError("Downloaded skill or provenance does not match the completed run")
+        for collection, id_key, text_key in (
+            ("claims", "claimId", "text"),
+            ("steps", "id", "name"),
+        ):
+            rows = provenance.get(collection)
+            if not isinstance(rows, list) or any(
+                not isinstance(row, dict)
+                or not row.get(id_key)
+                or not row.get(text_key)
+                or not isinstance(row.get("groundedIn"), list)
+                for row in rows
+            ):
+                raise ValueError(f"Invalid {collection} in the downloaded provenance")
+        write_json(staged / "skill.json", receipt)
+
+        # Serialize the short directory swap. A previous interrupted swap can
+        # leave the old version at the backup path, ready to recover here.
+        backup = destination.with_name(f".{destination.name}.previous")
+        directory_fd = os.open(destination.parent, os.O_RDONLY)
+        try:
+            fcntl.flock(directory_fd, fcntl.LOCK_EX)
+            if backup.exists():
+                if destination.exists():
+                    shutil.rmtree(backup)
+                else:
+                    backup.rename(destination)
+            if destination.exists():
+                destination.rename(backup)
+            try:
+                staged.rename(destination)
+            except OSError:
+                if backup.exists():
+                    backup.rename(destination)
+                raise
+            if backup.exists():
+                shutil.rmtree(backup)
+        finally:
+            os.close(directory_fd)
+    return skill_md
+
+
 def print_diff(old: str, new: str) -> None:
     """Show changed procedure text; summarize the long evidence-ID lines instead."""
 
@@ -91,11 +149,9 @@ async def main(redistill: bool) -> None:
 
     settings = get_settings()
     seeded = read_json(seed_state_path(settings))
-    if seeded.get("conversationId"):
-        scope = {"type": "conversations", "conversationIds": [seeded["conversationId"]]}
-    else:
-        print("No seed record found (run make nams-seed); distilling the whole workspace.")
-        scope = {"type": "workspace"}
+    if not seeded.get("conversationId"):
+        sys.exit(f"No seeded conversation. Run make nams-seed first.\n{FALLBACK}")
+    scope = {"type": "conversations", "conversationIds": [seeded["conversationId"]]}
     request = {"nameHint": SKILL_NAME, "scope": scope}
     previous = (OUT_DIR / "SKILL.md").read_text() if (OUT_DIR / "SKILL.md").exists() else None
 
@@ -135,15 +191,23 @@ async def main(redistill: bool) -> None:
         await call(http, "POST", f"/v1/skills/{skill_id}/publish")
         print("  …approved and published")
 
-        package = await http.get(f"/v1/skills/{skill_id}/download")
+        package = await http.get(
+            f"/v1/skills/{skill_id}/download", params={"version": run["skillVersionId"]}
+        )
         package.raise_for_status()
 
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    skill_md = unpack(package.content, OUT_DIR)
-    write_json(
-        OUT_DIR / "skill.json",
-        {"skillId": skill_id, "versionId": run.get("skillVersionId"), "runId": run["id"]},
-    )
+    receipt = {
+        "skillId": skill_id,
+        "versionId": run["skillVersionId"],
+        "runId": run["id"],
+        "conversationId": seeded["conversationId"],
+    }
+    try:
+        skill_md = install_package(package.content, OUT_DIR, receipt)
+    except (FileNotFoundError, ValueError, zipfile.BadZipFile) as error:
+        sys.exit(
+            f"Incomplete download for published version {receipt['versionId']}: {error}\n{FALLBACK}"
+        )
     print(f"\nDownloaded → {OUT_DIR}/SKILL.md (+ references/, provenance.json)")
     if redistill and previous is not None:
         if previous == skill_md:

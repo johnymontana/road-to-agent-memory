@@ -50,7 +50,7 @@ body {
 .main {
   flex: 1;
   display: grid;
-  grid-template-columns: minmax(320px, 400px) 1fr;
+  grid-template-columns: minmax(320px, 400px) minmax(0, 1fr);
   gap: 12px;
   padding: 12px;
   min-height: 0;
@@ -346,6 +346,23 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.graph-panel .panel-header {
+  flex-wrap: wrap;
+}
+
+#graph-view {
+  max-width: min(100%, 28rem);
+}
+
+@media (max-width: 900px) {
+  .app { height: auto; min-height: 100vh; }
+  .main { grid-template-columns: minmax(0, 1fr); }
+  .chat-panel-container { height: clamp(320px, 55vh, 520px); }
+  .right-column { grid-template-rows: max(420px, 60vh) max(260px, 38vh); }
 }
 
 .graph-toggle {
@@ -470,6 +487,20 @@ body {
   border-collapse: collapse;
 }
 
+.node-connections {
+  display: grid;
+  gap: 4px;
+  padding: 8px 14px;
+  max-height: 10rem;
+  overflow-y: auto;
+}
+
+.node-connections .btn {
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 .details-table td {
   padding: 7px 14px;
   border-bottom: 1px solid #f1f3f5;
@@ -499,6 +530,7 @@ body {
   overflow-y: auto;
   padding: 12px 14px;
   min-height: 0;
+  overflow-wrap: anywhere;
 }
 
 .trace-empty {
@@ -703,7 +735,7 @@ body {
 .starting-banner {padding:12px;background:#e7f5ff;color:#1864ab}
 .sr-only {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 .trace-body pre {white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%;font-size:11px}
-.trace-body > details {padding:10px;border-bottom:1px solid var(--border)}
+.trace-body .trace-details {padding:10px;border-bottom:1px solid var(--border)}
 .graph-notice {position:absolute;top:8px;left:8px;z-index:2;padding:6px;background:#fff3bf;max-width:90%}
 .graph-accessible-list {position:absolute;right:8px;bottom:46px;max-height:130px;overflow:auto;max-width:220px;background:#ffffffdd;padding:4px}
 .graph-accessible-list button {display:block;font-size:11px;margin:2px;border:1px solid #ddd;background:white;max-width:210px;overflow:hidden;text-overflow:ellipsis}

@@ -37,32 +37,35 @@ def main() -> None:
     if new_limit == 250.0:
         print("Restored the workshop default. (Run it again to repeat the demo.)")
         return
-    print("Note: this changed the system of record only — the memory graph (and any")
-    print("distilled skill grounded in it) still references the old limit.")
+    print("The SQL policy changed. Compare it with the downloaded procedure and version.")
     report_drift(s)
-    print("That's the governance blind spot. Next: make nams-drift")
 
 
 def report_drift(settings) -> None:
-    """Ask NAMS whether the distilled skill noticed. It cannot: SQLite isn't memory."""
+    """Show the hosted drift status for the exact downloaded version, when available."""
     import httpx
 
     from module_5.workflows.nams import SKILL_DIR, read_json
 
-    skill_id = read_json(SKILL_DIR / "skill.json").get("skillId")
-    if not (skill_id and settings.nams_api_key):
+    receipt = read_json(SKILL_DIR / "skill.json")
+    skill_id, version_id = receipt.get("skillId"), receipt.get("versionId")
+    if not (skill_id and version_id and settings.nams_api_key):
+        print(
+            "Hosted drift status unavailable. A versioned download receipt and NAMS key are needed."
+        )
         return
     try:
         response = httpx.get(
             f"{settings.nams_base_url}/v1/skills/{skill_id}/drift",
             headers={"Authorization": f"Bearer {settings.nams_api_key}"},
+            params={"version": version_id},
             timeout=30,
         )
         response.raise_for_status()
     except httpx.HTTPError as error:
         print(f"(Could not read the skill's drift report: {error})")
         return
-    print(f"NAMS drift check for the distilled skill: {response.json()['status']}")
+    print(f"NAMS drift check for downloaded version {version_id}: {response.json()['status']}")
 
 
 if __name__ == "__main__":

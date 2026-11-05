@@ -1,21 +1,26 @@
 #!/usr/bin/env python3
-"""Seed the Acme Cloud system of record (SQLite, stdlib only).
+"""Seed the Acme Cloud SQLite system of record.
 
 Creates data/acme_cloud.db with deterministic seed data so every agent tool
 returns meaningful results from the very first message (Module 1 design note).
-Idempotent: drops and recreates all tables on each run.
+Setup preserves existing workshop data. An explicit reseed replaces it.
 """
 
 from __future__ import annotations
 
+import argparse
 import os
 import sqlite3
+import sys
+import tempfile
 from pathlib import Path
 
-DB_PATH = (
-    Path(os.environ.get("DATA_DIR", Path(__file__).resolve().parent.parent / "data"))
-    / "acme_cloud.db"
-)
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from lib.db import ensure_case_schema
+from lib.settings import AppSettings
+
+DB_PATH = AppSettings().db_path
 
 SCHEMA = """
 CREATE TABLE organizations (
@@ -176,11 +181,8 @@ SERVICE_STATUS = [
 ]
 
 
-def main() -> None:
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-    if DB_PATH.exists():
-        DB_PATH.unlink()
-    conn = sqlite3.connect(DB_PATH)
+def seed(path: Path) -> None:
+    conn = sqlite3.connect(path)
     try:
         conn.executescript(SCHEMA)
         conn.executemany("INSERT INTO organizations (name, industry) VALUES (?, ?)", ORGANIZATIONS)
@@ -223,13 +225,27 @@ def main() -> None:
         conn.commit()
     finally:
         conn.close()
-    import sys
-
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    from lib.db import ensure_case_schema
-
-    with sqlite3.connect(DB_PATH) as migration:
+    with sqlite3.connect(path) as migration:
         ensure_case_schema(migration)
+
+
+def main(*, if_missing: bool = False) -> None:
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if if_missing and DB_PATH.exists():
+        print(f"Using existing workshop SQLite database at {DB_PATH}")
+        return
+    # Build a complete seed before replacing a database or exposing a new one.
+    with tempfile.TemporaryDirectory(dir=DB_PATH.parent) as folder:
+        staged = Path(folder) / "seed.db"
+        seed(staged)
+        if if_missing:
+            try:
+                os.link(staged, DB_PATH)
+            except FileExistsError:
+                print(f"Using existing workshop SQLite database at {DB_PATH}")
+                return
+        else:
+            staged.replace(DB_PATH)
     counts = sqlite3.connect(DB_PATH)
     summary = {
         t: counts.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
@@ -251,4 +267,6 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--if-missing", action="store_true", help="Keep an existing workshop database")
+    main(if_missing=parser.parse_args().if_missing)

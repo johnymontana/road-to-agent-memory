@@ -31,12 +31,17 @@ not use them: `compare.py` (extract one fixed transcript with each ontology) and
 
 ## Run it
 
+Terminal 1 at the repository root. Stop the old server with Ctrl+C first.
+
 ```bash
 make dev MODULE=3
-# Second terminal:
+```
+
+Reload the browser on port 5173 and confirm the **Module 3** badge. In terminal 2 run the lesson commands.
+
+```bash
 make s3-default      # fixed transcript, generic POLE+O ontology
 make s3-ontology     # same transcript, Acme Cloud ontology
-make s3-enrich       # optional
 make eval MODULE=3
 ```
 
@@ -49,7 +54,7 @@ make eval MODULE=3
   retrieval and the answer.
 - **Preferences:** select a customer before saving one. The receipt shows the
   stored object and whether it was deduplicated. Preferences are linked to a
-  per-customer `(:User)` and read back with `long_term.get_preferences_for()`.
+  per-customer `(:User)` and read back with `long_term.get_preferences_for()`. In **Current conversation**, follow `User → HAS_PREFERENCE → Preference` for a customer whose email is on an entity mentioned in this conversation. Choosing the customer scopes saving and recall. Use **All stored memory** for broader graph inspection.
 - **Ontology selection:** `ONTOLOGY=acme_cloud` (default) or `default-poleo`
   loads the local YAML. `ONTOLOGY=active` uses the version stored in AuraDB
   (`scripts/activate_ontology.py`). `VALIDATION_MODE=strict` also drops entity
@@ -65,7 +70,7 @@ Questions and answers: [participant guide](../docs/modules/module-3.md).
 
 ### Q1: Where did this entity come from?
 
-Follow Message MENTIONS Entity and inspect that message.
+In browser chat enter “I’m Maya Chen from Northwind Robotics.” Choose **Current conversation**, select the user message, and follow a `MENTIONS` edge. Name the extracted entity. On a matching customer inspect email, plan or signup date and the SQL source marker. If this run produced no matching customer, record what was extracted and compare an instructor’s labeled example.
 
 ### Q2: What changed with the ontology?
 
@@ -74,6 +79,15 @@ Compare only the two Saved replay snapshots. Verify transcript hashes before int
 ### Q3: Which source supplied Customer fields?
 
 Email, plan and signup_date come from SQL hydration; types/relations come from extraction. hydrated_from is a source marker, not per-field temporal lineage.
+
+### Where can I inspect each experiment?
+
+| Input | Output / writes | View |
+|---|---|---|
+| Fixed transcript and one ontology per run | Two extractor-only replay snapshots with comparable transcript hashes | **Refresh graph → Saved replay · Extractor only** |
+| Browser message introducing Maya | Live graph message and any typed mentions. Matching entities can receive SQL-grounded fields. | **Current conversation** and execution evidence |
+| Instructor’s invalid relationship | Local validator drops the edge or raises, according to the explicit test mode | Instructor terminal output |
+| Optional Wikimedia lookup | Cached provider result/status and saved replay | Optional `make s3-enrich` replay |
 
 ### Q4: What changed since module 2?
 
@@ -85,7 +99,7 @@ Read the YAML and rerun the fixed extractor after a local edit. They guide the m
 
 ### Q6: How do validation modes differ?
 
-Run `uv run scripts/instructor.py strict`: permissive drops an invalid relation, strict raises.
+The instructor runs `uv run scripts/instructor.py strict` on a deliberately invalid relationship. The explicit `drop` and `raise` modes show two validator outcomes. The fixed-transcript extractor filters undeclared types and invalid relations before saving its projection. Browser ingestion uses the app’s configured ontology and validation mode to write the live graph. Compare each experiment in its own view.
 
 ### Q7: What happens after a plan upgrade?
 

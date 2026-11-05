@@ -68,24 +68,39 @@ def render(element: dict) -> str:
 
 
 def main() -> None:
-    """Write the 17 vector diagrams without changing presentation content."""
+    """Write the full-slide illustrations and any graph-only detail views."""
     design = json.loads((ROOT.parent / "visual-design.json").read_text())
     for diagram in design["diagrams"]:
+        x, y, width, height = diagram.get("view_box", [0, 0, 720, 405])
+        background = diagram.get("background", "faf8f5")
+        arrow_color = "ffffff" if background == "0a6190" else "0a6190"
+        description = diagram.get("description")
         content = (
-            '<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="810" '
-            'viewBox="0 0 720 405" role="img">'
+            f'<svg xmlns="http://www.w3.org/2000/svg" width="{width * 2}" height="{height * 2}" '
+            f'viewBox="{x} {y} {width} {height}" role="img">'
             f'<title>{escape(diagram["title"])}</title>'
+        )
+        if description:
+            content += f'<desc>{escape(description)}</desc>'
+        content += (
             '<defs><marker id="arrow" markerWidth="8" markerHeight="8" '
             'refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" '
-            'fill="#0a6190"/></marker></defs>'
-            '<rect width="720" height="405" fill="#faf8f5"/>'
-            '<rect width="5" height="405" fill="#4e9ca6"/>'
-            f'<text x="29" y="24" font-family="Public Sans, sans-serif" '
-            f'font-size="10" font-weight="700" fill="#0a6190">'
-            f'{escape(diagram["section"])}</text>'
-            f'<text x="29" y="62" font-family="Syne, sans-serif" '
-            f'font-size="26" fill="#004063">{escape(diagram["title"])}</text>'
+            f'fill="#{arrow_color}"/></marker></defs>'
         )
+        if "view_box" in diagram:
+            content += (
+                f'<rect x="{x}" y="{y}" width="{width}" height="{height}" fill="#{background}"/>'
+            )
+        else:
+            content += (
+                f'<rect width="720" height="405" fill="#{background}"/>'
+                '<rect width="5" height="405" fill="#4e9ca6"/>'
+                '<text x="29" y="24" font-family="Public Sans, sans-serif" '
+                'font-size="10" font-weight="700" fill="#0a6190">'
+                f'{escape(diagram["section"])}</text>'
+                '<text x="29" y="62" font-family="Syne, sans-serif" '
+                f'font-size="26" fill="#004063">{escape(diagram["title"])}</text>'
+            )
         content += "".join(render(element) for element in diagram["elements"])
         (ROOT / diagram["file"]).write_text(content + "</svg>\n")
     print(f"Rendered {len(design['diagrams'])} branded diagram mirrors")

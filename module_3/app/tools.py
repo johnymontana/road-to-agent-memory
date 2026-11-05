@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from pydantic_ai import RunContext
+from pydantic_ai import RunContext, Tool, ToolDefinition
 
 from lib import db as dbx
 
@@ -68,7 +68,7 @@ def _record(
 
 
 async def lookup_account(ctx: RunContext[ToolDeps], customer_email: str) -> dict[str, Any]:
-    """Look up a customer's account (plan, organization, refund limit) by email."""
+    """Read a customer's plan, organization, refund limit and refund history by email."""
     started = time.monotonic()
     statements: list[str] = []
     with dbx.connect(ctx.deps.db_path, audit=statements) as conn:
@@ -164,10 +164,19 @@ async def issue_refund(
     )
 
 
+async def prepare_refund(
+    ctx: RunContext[ToolDeps], definition: ToolDefinition
+) -> ToolDefinition | None:
+    """Offer the write tool only for an explicitly selected and authorized case."""
+    if ctx.deps.authorize_refund and ctx.deps.account_email and ctx.deps.incident_id:
+        return definition
+    return None
+
+
 SQLITE_TOOLS = [
     lookup_account,
     search_product_catalog,
     fetch_policy,
     check_service_status,
-    issue_refund,
+    Tool(issue_refund, prepare=prepare_refund),
 ]

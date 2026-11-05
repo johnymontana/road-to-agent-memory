@@ -1,31 +1,22 @@
 # Road to Agent Memory — Workshop Outline (v1)
 
-> Status: planning document. No code or assets have been built yet.
+> Delivery outline. Use the [150-minute run of show](docs/run-of-show.md) for live timing and recovery, and the [module guides](docs/modules/) for exercises and answer keys.
 
 ## Overview
 
-- **Format:** 2.5-hour live workshop · run-and-explore (complete code, guided exploration) — 150 min = M0 15 + M1 15 + M2 25 + M3 40 + M4 25 + M5 20 + Wrap 5 + 5 min buffer
+- **Format:** 2.5-hour live workshop · run-and-explore (complete code, guided exploration) — 150 min = M0 15 + M1 15 + M2 20 + M3 40 + M4 30 + M5 20 + Wrap 5 + 5 min buffer
 - **Delivery:** **Codespaces-first** — README badge opens a prebuilt devcontainer (4-core/8 GB via `hostRequirements`, dependencies pre-installed, UI auto-opens); local clone + VS Code Dev Containers is the supported fallback (ADR 003)
 - **App:** Full-stack chat application — FastAPI + PydanticAI backend, React + NVL frontend (chat / graph / trace panels)
-- **Backend:** `neo4j-agent-memory` Python package, **Bolt backend** on attendee's own AuraDB instance (modules 1–4); **NAMS** hosted service at memory.neo4jlabs.com (module 5)
+- **Backend:** `neo4j-agent-memory` Python package, **Bolt backend** on the attendee’s AuraDB for support apps 2–5. Module 1 has five SQLite tools and per-turn scope. Separate Module 5 workflows use the **NAMS** hosted service.
 - **Models:** OpenAI — chat model + `text-embedding-3-small` + LLM entity extraction (`extractor_type="llm"`, temperature 0 — no local ML models; ADR 001)
 - **Tooling:** **uv** for Python dependencies and virtual environments (committed `uv.lock`; ADR 002) and a **Makefile as the sole attendee command surface** — every setup step, scenario beat, and utility is a `make` target
 - **Running scenario:** **"Acme Cloud"** — customer support agent for a fictional SaaS company
 
 ## The Arc
 
-Each module opens by **demonstrating a failure** of the current agent, adds one memory
-layer, then **re-runs the same scripted scenario** to show the fix. The NVL graph panel
-makes each memory layer visually appear in the graph as it is added. Scripted scenario
-beats are **make targets** (`make s1-baseline`, `make s3-ontology`, …), so demos are
-deterministic, don't depend on live typing, and attendees always have a one-command
-answer to "what do I run now?" — including `make module-N` to catch up if they fall
-behind.
+Start with a stateless support agent. Add persistent messages, structured entities and execution records in successive modules. In Module 5 derive a portable skill from a separate hosted fixture corpus. At each stage, switch the browser backend, run a named scenario and inspect the evidence it actually produced.
 
-**Continuity thread (eval questions, to be refined):** a fixed set of questions asked of
-the agent at every module — e.g., *"Do you know who I am? / What did we discuss last
-time? / What do you know about my account? / Have you handled a ticket like this
-before?"* — showing progressive capability as each memory layer lands.
+The four controlled probes test named-customer lookup, a conversation phrase, a SQL-grounded date and an exact prior refusal quote. Each checks expected fields and at least one allowed source ID. The example actions, SQL receipts and fresh-agent runs answer different questions from these retrieval probes. [Scorecard details](docs/running-the-app.md#evaluation).
 
 ## Modules
 
@@ -65,7 +56,7 @@ per-turn forgetting control. Browser bubbles do not become model history. Run
 
 Run `make s2-return` for same-conversation and cross-conversation contrasts, then
 `make s2-restart` for two separate Python processes using the same session. Local
-context uses the newest ten prior messages plus scoped semantic user statements.
+context uses the newest ten prior messages plus scoped semantic user messages.
 Inspect evidence paths and source IDs. Bolt observations/reflections are not taught
 as available context tiers. Run `make eval MODULE=2` explicitly.
 
@@ -95,8 +86,7 @@ plan limit and incident uniqueness. Updates read history; no escalation is perfo
 
 Trace before execution and complete on success/exception. ReasoningTrace HAS_STEP
 ReasoningStep USES_TOOL ToolCall INSTANCE_OF Tool. Outcome and reply are trace
-properties. INITIATED_BY links trace to message; TOUCHED links steps to case Customer
-and Plan. Record actual executed SQL. Distinguish execution failure from a declined
+properties. INITIATED_BY links trace to message. TOUCHED links each step to the same selected-case Customer/Plan references. Inspect captured SQL and tool results for the individual operation. Distinguish execution failure from a declined
 business result. Retrieved procedures include bounded steps and observations, never
 current policy authority. The ablation uses equal private SQL copies, separate
 message scopes, a frozen corpus and no branch recording. Inspect actual safety,
@@ -104,39 +94,17 @@ retrieval, calls, tokens and timing; improvement is not guaranteed.
 
 ### Module 5 — Skill Distillation on NAMS *(20 min)*
 
-**Concepts:** From memory to portable skills; grounded skill distillation; the governance
-loop (drift detection, re-distillation); Bolt vs. NAMS backends.
-
-**Flow:**
-1. NAMS signup + `nams_` API key were done in **pre-work** (moved out of session — review B4); `make nams-check` verifies the key + workspace
-2. Run the provided seed script (`make nams-seed`) — populates the attendee's NAMS workspace with the canonical reasoning memory (~1 min). **Narrated seam:** the slides make the boundary explicit — the attendee's Bolt memory lives in their AuraDB; NAMS is a fresh, managed workspace, and the seed loads the canonical history into it (attendees understand the seam rather than discovering it)
-3. Trigger skill distillation over the accumulated refund-procedure memory (`make nams-distill`)
-4. Inspect the distilled skill: SKILL.md artifact + skill subgraph with `GROUNDED_IN` edges, grounding and coverage scores
-5. **The payoff:** a *fresh* agent — no session history, no prior traces — loads the distilled skill and resolves the refund ticket cold (`make s5-fresh-agent`)
-
-**NVL moment:** The skill subgraph, with `GROUNDED_IN` edges pointing back to the exact
-traces, tool calls, and entities that justify each step.
-
-**Guided exploration questions:**
-
-1. Open the distilled SKILL.md. Which steps correspond to which observed tool calls? Follow a `GROUNDED_IN` edge from a claim back to its evidence.
-2. What do the grounding and coverage scores tell you? What would a low-grounding step mean, and would you trust it?
-3. How is a distilled skill different from a hand-written runbook? From a raw trace? What does each optimize for?
-4. **The drift beat, made concrete:** first `make policy-change` (flips the refund limit in SQLite — the system of record) — what does governance flag? *(Nothing: it watches the memory graph, not your database — the honest boundary.)* Then `make nams-drift` (ops retires the refund policy — the policy **entity is deleted** from the workspace memory): the skill's `GROUNDED_IN` claims lose their source nodes. What does the governance loop flag now? What happens on re-distillation (`make nams-redistill`)? *Stretch variant: instead of deleting the entity, mark a grounding `issue_refund` tool call as failed — same governance view, different provenance story.*
-5. Who else could load this skill? What does it mean that procedural knowledge is now a portable, versioned artifact rather than trapped in one workspace?
-6. Full-circle: which of the three memory types did distillation draw on for this skill? And which store changed in the drift beat — SQLite or Neo4j? Why?
-
-*Design notes these questions inform: the seed script must write traces/steps/tool-calls in realistic agent-loop order, with tool-call inputs/outputs carrying the actual SQL and policy text observed in modules 1–4; the refund procedure must be consistent across seeded traces so distillation converges; the drift beat is a two-step demo — `make policy-change` (SQLite) establishes the boundary (governance watches the memory graph, not the system of record), then `make nams-drift` deletes the refund-policy entity so `GROUNDED_IN` claims lose their source nodes and the documented drift signal fires (verified live in spike 0.6 before content is written); SKILL.md format and `GROUNDED_IN` subgraph shape drive the NVL rendering work.*
-
----
+1. **Pre-work.** Create a workshop workspace key and run `make nams-check`. Confirm both reachability and distillation capability. Save all hosted writes for the workshop.
+2. **Minutes 0–5.** Switch to the Module 5 browser and confirm its badge. Explain the separate stores and where the skill comes from. Use a prepared downloaded package, or deliberately run `make nams-seed` and `make nams-distill` once in the designated workspace. The seed creates a new conversation and traces. The generator selects the saved conversation, approves and publishes a version and downloads it.
+3. **Minutes 5–13.** With the package ready, inspect SKILL.md, references, provenance and the local skill receipt. Follow Skill → version → step → GROUNDED_IN → evidence. Claim entries live in `provenance.json`. Compare `make s5-fresh-agent WITH_SKILL=off` then `make s5-fresh-agent WITH_SKILL=on`. If hosted capability is unavailable or the package is missing at minute five, use `make s5-fresh-agent WITH_SKILL=fallback` for the second run. This route needs just the checked-in procedure and the local consumer’s prerequisites.
+4. **Minutes 13–20.** Record ordered tool names, visible statuses and reply on the authorized $49 case. Identical outcomes are valid. On the hosted route, discuss one prepared provenance example. Fallback participants go from the comparison to the wrap (Google Slides 75 → 82, repo slides 62 → 69). Keep live hosted deletion and re-distillation as a disposable-workspace instructor extension.
+5. **Instructor extension.** Use a returned SQL before/after value for the policy edit, a hosted report for dependency drift, and the version and procedure diff for re-distillation. The script checks the seed, downloaded package and current published version before it can delete cited, exact-name policy records in that run’s user scope. Conditionally restore SQL from $150 to $250 according to its actual state. Ravi’s $49 case is below both thresholds. [Detailed commands and answer key](docs/modules/module-5.md).
 
 ### Wrap *(5 min)*
 
-- Three memory types recap (short-term / long-term / reasoning — one knowledge graph)
-- Bolt vs. NAMS trade-offs; when to choose which
-- Pointers: docs (neo4j.com/labs/agent-memory), GraphAcademy "Context Graphs" course, examples repo
+Ask for four concrete sources: the SQLite policy row for today’s limit, the message ID for the earlier customer statement, the tool result and SQL for an observed action, and SKILL.md for the portable instructions. Show where the Monday example writes and reads a single phrase. Mapping records to PydanticAI history and running the next agent call is the follow-up integration. Decide whether to keep the environment for this or [clean it up](docs/teardown.md).
 
-## Repo Plan (build phase)
+## Repository and command surface
 
 ### Tooling (ADR 002)
 
@@ -148,27 +116,27 @@ traces, tool calls, and entities that justify each step.
 | Group | Targets | Purpose |
 |---|---|---|
 | Setup & env | `make setup` · `make check` · `make seed` · `make dev` | `uv sync` install; smoke test (env vars, AuraDB reachable, OpenAI key valid, SQLite seeded — doubles as the pre-work verification command); re-seed SQLite; run FastAPI + Vite together |
-| Module beats | `make module-0` … `make module-5` | Run a module's beats in order — also the **catch-up lane** for attendees who fall behind |
+| Module beats | `make module-0` … `make module-5` | Run selected module beats. Module 5 performs a full hosted replay with fresh seed records and generation/publication. |
 | Scenarios | `make s1-baseline` · `make s2-return` · `make s2-restart` · `make s3-default` · `make s3-ontology` · `make s3-enrich` · `make s4-refund` · `make s4-refund-repeat` · `make s4-fail` · `make s5-fresh-agent` | One target per scripted scenario beat; paced/serialized OpenAI calls (ADR 001) |
 | NAMS | `make nams-check` · `make nams-seed` · `make nams-distill` · `make nams-drift` · `make policy-change` · `make nams-redistill` | Module 5: verify key/workspace, seed, distill, drift beat (entity delete + the SQLite boundary demo), re-distill |
 | Utilities | `make eval` · `make reset-memory` · `make clean` | Run the continuity eval-question set and print the per-module scorecard; wipe the Neo4j memory graph for clean re-runs; clean build artifacts |
 
 ### Content & assets
 
-- **Folder per module** (ADR 004): `module_1/` … `module_5/`, each a self-contained copy of the full app at that stage — attendees diff folders to see what a memory layer adds and never `git checkout` mid-session; shared root `.env`, root venv (uv), and `data/acme_cloud.db` so state carries across folders; `make module-N` runs that module's beats from its folder (catch-up lane)
+- **Folder per module** (ADR 004): `module_1/` … `module_5/`, each a self-contained copy of the full app at that stage — attendees diff folders to see what a memory layer adds and never `git checkout` mid-session; shared root `.env`, root venv (uv), and `data/acme_cloud.db` so state carries across folders; `make module-N` runs selected module beats
 - Per-module README: concepts, **the `make` targets to run**, the guided exploration questions above, expected NVL screenshots
-- `data/acme_cloud.db` + `scripts/seed_sqlite.py` — embedded SQLite system of record (customers, organizations, products, features, plans, subscriptions, policies, service_status, refunds) with deterministic seed data; auto-seeded on app boot if missing (`make seed` re-seeds)
-- `app/tools/` — SQLite-backed agent tools (`lookup_account`, `search_product_catalog`, `fetch_policy`, `check_service_status`, `issue_refund`) using parameterized SQL via stdlib `sqlite3`
+- `data/acme_cloud.db` and `scripts/seed_sqlite.py` hold the Acme Cloud system of record. Setup or Dev Container creation initializes an absent database. Re-running setup preserves the current business rows. An explicit `make seed` rebuilds SQLite and keeps the separately stored replays and request receipts.
+- `module_N/app/tools.py` — SQLite-backed agent tools (`lookup_account`, `search_product_catalog`, `fetch_policy`, `check_service_status`, `issue_refund`) using parameterized SQL via stdlib `sqlite3`
 - `module_3/ontology/acme_cloud.yaml` — the custom Acme Cloud ontology (entity types, typed relationships, aliases, constraints); a `default-poleo` variant for the module 3 before/after beat
-- `app/memory/hydrate.py` — post-extraction property hydration hook: maps extracted entities to SQLite rows and upserts grounded properties (`email`, `plan`, `plan_tier`, `description`, … — all facts, including categoricals) via `add_entity` MERGE semantics
-- Enrichment config (Wikimedia, background, ORGANIZATION-only allowlist) baked into the module 3 settings
+- `module_3/app/hydrate.py` — post-extraction property hydration checks type and identity, reads through SQLite and refreshes flat fields via PropertyWriter
+- Optional Wikimedia lab in `module_3/lab/enrichment.py` writes a cache and saved replay.
 - `scripts/run_scenario.py` — deterministic canned conversations per scenario (short, turn-bounded messages), invoked by the scenario make targets via `uv run`
-- `scripts/seed_nams.py` — module 5 NAMS workspace seeding (activates a matching Acme Cloud ontology server-side first)
+- `scripts/seed_nams.py` — wrapper for the hosted fixture writer in `module_5/workflows/seed.py`
 - `scripts/change_policy.py` — module 5 drift beat (updates a policy row in SQLite)
 - `scripts/eval.py` — the continuity eval-question runner behind `make eval`
 - `.devcontainer/` (ADR 003, Codespaces-first): `Dockerfile` (Python 3.12 + sqlite3 + uv), `devcontainer.json` (Node LTS Feature, `hostRequirements` 4 CPU/8 GB, labeled forwarded ports — 5173 auto-opens the UI, 8000 silent; non-secret env defaults), `on-create.sh` (`uv sync --frozen` + `npm ci` + SQLite seed — **captured in prebuilds**), `post-create.sh` (`.env` scaffolding + welcome banner — user-scoped, sees personal Codespaces secrets)
 - `.env.example` — AuraDB credentials, OpenAI (personal Codespaces secret preferred), NAMS key (module 5); `post-create.sh` copies it to `.env` on first creation
-- **Codespaces prebuilds** — configured in repo Settings → Codespaces (not a repo file): prebuild the default branch's devcontainer, trigger *on configuration change*, restrict to the audience's regions, retain 2 versions, notify on failure; verified green during the pre-workshop rehearsal
+- **Codespaces prebuilds** — configured in repo Settings → Codespaces (not a repo file): prebuild the default branch's devcontainer, trigger *on configuration change*, restrict to the audience's regions, retain 2 versions, notify on failure; verify the configuration before delivery
 - `README.md` — "Open in GitHub Codespaces" badge as the primary entry point; local clone + VS Code Dev Containers documented as fallback
 - Seed data: Acme Cloud products, plans, policies, canned ticket scripts (shared source of truth between `seed_sqlite.py` and the scenario scripts)
 
@@ -176,25 +144,15 @@ traces, tool calls, and entities that justify each step.
 
 | Risk | Mitigation |
 |---|---|
-| Aura provisioning time during live session | Pre-work email (create free AuraDB before the workshop); shared fallback instance |
+| Aura provisioning time during live session | Provision in pre-work. If service startup runs long, use the instructor’s labeled example while a helper checks the connection. |
 | Codespaces prebuild stale or failing | Trigger on configuration change; rehearsal verifies the prebuild is green before the session; fallback: local VS Code Dev Containers (same config) |
-| Codespaces unavailable for an attendee (org-managed account disables it, or quota exhausted) | Local clone fallback with the same `.devcontainer/` config; `make module-N` catch-up targets |
+| Codespaces unavailable for an attendee (org-managed account disables it, or quota exhausted) | Local clone with the same `.devcontainer/` config. Open a named saved replay or use the explicit module 5 consumer fallback. |
 | Whole-room OpenAI bursts (chat + embeddings + one extraction call per turn) hitting tier-1 rate limits — 429s look like "broken setup" to attendees | Scenario scripts pace/serialize OpenAI calls; pre-work states the key/billing requirement and expected cost (<$1); instructor watches for 429s; extraction at temperature 0 on a small model (ADR 001) keeps call volume and cost minimal |
-| Extraction variability live | temperature 0 + structured outputs = near-deterministic; identical on every attendee machine (no local ML); "expected graph" screenshots per module; ontology descriptions written as tight annotation guidelines |
+| Extraction variability live | Compare the returned graphs and input transcript hashes. Use a labeled instructor example when live extraction differs. |
 | Wikimedia enrichment is async + network-dependent in live delivery | Enrichment cached (1-week TTL) and explicitly requested and cached by s3-enrich; fallback: stored provider-status replay; hydration (SQLite) is synchronous and carries the demo if enrichment lags |
-| NAMS is early-access | Rehearsed fallback: pre-recorded distillation demo if signups hiccup |
-| Content load vs. the 150-minute slot | Times reallocated per review consensus (M0 15 / M1 15 / M2 25 / M3 40 / M4 25 / M5 20 / Wrap 5) + 5-minute buffer after module 3; module 4 exploration is the droppable section; run-of-show marks trim points |
+| NAMS is early-access | Use off and checked-in fallback, record output, then join wrap. Label any prepared hosted example. |
+| Content load vs. the 150-minute slot | Budget (M0 15 / M1 15 / M2 20 / M3 40 / M4 30 / M5 20 / Wrap 5) + 5-minute buffer after module 3; module 4 exploration is the droppable section; run-of-show marks trim points |
 
-## Open Items
+## Instructor readiness
 
-- [ ] Refine the eval-question continuity set (deferred — draft proposed above)
-- [ ] Design the SQLite schema + seed dataset (tables per the module 1 design notes; tool vocabulary mirrors ontology labels; every tool returns meaningful results immediately)
-- [ ] Draft the full `acme_cloud.yaml` ontology document (entity types, descriptions with negative cases, typed relationships + constraints, aliases) — the module 3 design notes are the spec
-- [ ] Design the hydration mapping (entity type → SQLite columns → entity properties, including categoricals) and the post-extraction hook contract
-- [ ] Lock the package version in `uv.lock` (ADR 002) and verify `extractor_type="llm"` on the locked release: ontology prompt rendering, relation ingest-validation, per-message latency and cost of one scripted scenario (ADR 001 follow-up)
-- [ ] Verify the Wikimedia enrichment flow against a live Aura instance (async timing, `enriched_description`/`wikipedia_url` node properties, ORGANIZATION allowlist behavior)
-- [ ] Verify NAMS ontology import for the module 5 seed script (server-side equivalent of the Acme Cloud ontology)
-- [ ] Finalize scenario scripts (must satisfy the design notes in each module; paced/serialized OpenAI calls)
-- [ ] Confirm NAMS distillation API surface against the live service at build time
-- [ ] Rehearse the Codespaces flow end-to-end: devcontainer builds, prebuild configuration green, badge opens a ready codespace, `make check`/`make dev` work from a fresh account
-- [ ] Draft the pre-work email: create + verify AuraDB, store `OPENAI_API_KEY` as a personal Codespaces secret scoped to the repo, note the 4-core/8 GB machine default and free-tier core-hours math
+Before delivery, open the participant checkout, verify the browser badge at each switch, inspect one saved replay and check the intended NAMS capability. Locate the checked-in procedure and a prior ablation run. Rehearse the minute-five fallback decision and the closing take-home or cleanup choice. [Detailed checklist and timing](docs/run-of-show.md).

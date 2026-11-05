@@ -13,10 +13,12 @@ from the illustrated default/custom diagram.
 
 Non-NAMS illustrations teach per-turn statelessness, Conversation/Message chains,
 local recent-plus-semantic context, ontology extraction, separate Customer SQL and
-Organization Wikimedia sources, aliases and controlled procedure retrieval. NEXT
-in the simplified chain diagram abbreviates the stored NEXT_MESSAGE relationship.
-Trace outcome/reply are ReasoningTrace properties; ReasoningSteps link to ToolCalls,
-source messages and explicitly touched entities.
+Organization Wikimedia sources, aliases and controlled procedure retrieval.
+In the message diagram, each member is linked to its conversation by `HAS_MESSAGE`.
+`NEXT_MESSAGE` links consecutive messages. The history query selects conversation
+members and sorts them by timestamp and ID. The trace diagram connects a captured
+step to the customer and plan selected for its case. Inspect the tool result and
+executed SQL to determine which operation changed state.
 
 That earlier non-NAMS replay did not validate the hosted workflows. The current
 NAMS illustrations were subsequently reviewed against module 5 code and public
@@ -30,7 +32,7 @@ the current delivery contract is docs/run-of-show.md and docs/workshop-fixes-202
 
 The 102-slide native deck uses the existing Neo4j template's Syne/Public Sans
 hierarchy, navy/teal base, connected-node motifs and memory-layer palette. All
-18 diagram compositions have complete scene definitions in
+19 diagram compositions have complete scene definitions in
 `slides/visual-design.json`; the SVGs mirror those vector primitives.
 
 Graph records are circles with separate centered text surfaces. Native Slides
@@ -56,3 +58,12 @@ graph now shows `Skill → HAS_VERSION → SkillVersion → HAS_STEP → SkillSt
 with `GROUNDED_IN` evidence links and `SUPERSEDES` between versions. Distillation
 is a derived capability built on the three memory types. Its process arrows are
 distinct from stored graph relationships.
+
+The refund evidence figure, `d20-refund-evidence.svg`, shows the three native
+nodes used on slide 58. Its white arrows follow the trace through `HAS_STEP` to
+the step and `TOUCHED` to the selected case customer or plan. In the anatomy,
+versioned-skill and connected-memory figures, a linear description identifies
+each source, relationship and target. The same traversal is available in the
+Google Slides figure descriptions and in the SVG `<desc>` elements. The
+governance figure assigns a separate observation to the SQL limit, hosted drift
+report and new skill version.

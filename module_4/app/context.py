@@ -61,7 +61,7 @@ def as_model_history(rows) -> list[ModelMessage]:
 
 
 async def search_messages(memory, query, embedding, namespace, *, exclude_id=None):
-    """Prior user statements in this namespace that are similar to `query`."""
+    """Earlier user messages in this namespace that are similar to `query`."""
     rows = await memory.query.cypher(
         """// workshop:semantic
         MATCH (c:Conversation)-[:HAS_MESSAGE]->(m:Message)
@@ -85,8 +85,8 @@ async def search_messages(memory, query, embedding, namespace, *, exclude_id=Non
     seen = set()
     for row in rows:
         key = row["content"].strip().casefold()
-        # Skip repeats, and earlier *questions* about memory: they look similar
-        # to a new recall question but contain no facts.
+        # Skip duplicates and common recall prompts. Other questions can still
+        # match, so check the cited message for the fact itself.
         if key in seen or key.startswith(
             ("do you remember", "what did we", "what is my", "who is", "how long")
         ):

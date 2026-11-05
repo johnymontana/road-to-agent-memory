@@ -55,7 +55,7 @@ async def test_seed_writes_completed_traces_and_records_the_conversation(monkeyp
     connect(monkeypatch, handle, tmp_path)
     await seed.main()
     paths = [path for path, _ in requests]
-    assert paths[:6] == ["/v1/entities"] * 4 + [
+    assert paths[:7] == ["/v1/entities"] * 5 + [
         "/v1/conversations",
         "/v1/conversations/conv-1/messages/bulk",
     ]
@@ -68,6 +68,16 @@ async def test_seed_writes_completed_traces_and_records_the_conversation(monkeyp
     assert len(completions) == len(seed.TRACES) and all(c["success"] for c in completions)
     state = json.loads(nams.seed_state_path(SimpleNamespace(data_dir=tmp_path)).read_text())
     assert state["conversationId"] == "conv-1"
+    scoped = [b["userId"] for p, b in requests if p in ("/v1/entities", "/v1/conversations")]
+    assert all(user_id == state["userId"] for user_id in scoped)
+    policy_id = state["policyEntityId"]
+    assert policy_id == "entity-5"
+    assert all(policy_id in c["relatedEntityIds"] for c in completions)
+    assert all(
+        b["touchedEntityIds"] == [policy_id]
+        for p, b in requests
+        if p.endswith("/tool-calls") and b["toolName"] == "fetch_policy"
+    )
 
 
 async def test_seed_stops_on_the_first_failed_write(monkeypatch, tmp_path):
@@ -88,7 +98,10 @@ def skill_zip(text):
     buffer = io.BytesIO()
     with zipfile.ZipFile(buffer, "w") as archive:
         archive.writestr("acme-refund-procedure/SKILL.md", text)
-        archive.writestr("acme-refund-procedure/provenance.json", '{"claims": [], "steps": []}')
+        archive.writestr(
+            "acme-refund-procedure/provenance.json",
+            '{"distillationRun": "run-1", "claims": [], "steps": []}',
+        )
         archive.writestr("acme-refund-procedure/references/procedures.md", "steps")
         archive.writestr("acme-refund-procedure/../escape.md", "outside")
     return buffer.getvalue()
@@ -119,6 +132,7 @@ async def test_distill_scopes_to_the_seed_versions_the_skill_and_unpacks(
         if path.endswith("/publish"):
             return httpx.Response(200, json={"status": "published"})
         if path.endswith("/download"):
+            assert request.url.params["version"] == "sv-2"
             return httpx.Response(200, content=skill_zip("# Updated refund procedure"))
         raise AssertionError(path)
 
@@ -132,6 +146,8 @@ async def test_distill_scopes_to_the_seed_versions_the_skill_and_unpacks(
     out.mkdir()
     (out / "SKILL.md").write_text("# Old procedure")
     (out / "skill.json").write_text('{"skillId": "skill-1"}')
+    (out / "references").mkdir()
+    (out / "references" / "obsolete.md").write_text("Previous version only")
 
     await distill.main(redistill=True)
 
@@ -150,9 +166,59 @@ async def test_distill_scopes_to_the_seed_versions_the_skill_and_unpacks(
     ]
     assert (out / "SKILL.md").read_text() == "# Updated refund procedure"
     assert (out / "references" / "procedures.md").exists()
+    assert not (out / "references" / "obsolete.md").exists()
     assert not (tmp_path / "escape.md").exists()
-    assert json.loads((out / "skill.json").read_text())["versionId"] == "sv-2"
+    receipt = json.loads((out / "skill.json").read_text())
+    assert receipt["versionId"] == "sv-2" and receipt["conversationId"] == "c1"
     assert "-# Old procedure" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("defect", ["skill", "provenance", "wrong_run", "malformed_step"])
+def test_invalid_download_keeps_the_previous_package(tmp_path, defect):
+    out = tmp_path / "distilled"
+    old_receipt = {"runId": "run-1", "versionId": "v1"}
+    distill.install_package(skill_zip("Old procedure"), out, old_receipt)
+    provenance = {
+        "distillationRun": "other-run" if defect == "wrong_run" else "run-2",
+        "claims": [],
+        "steps": [{}] if defect == "malformed_step" else [],
+    }
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w") as archive:
+        if defect != "skill":
+            archive.writestr("skill/SKILL.md", "New procedure")
+        if defect != "provenance":
+            archive.writestr("skill/provenance.json", json.dumps(provenance))
+    with pytest.raises((ValueError, FileNotFoundError)):
+        distill.install_package(buffer.getvalue(), out, {"runId": "run-2", "versionId": "v2"})
+    assert (out / "SKILL.md").read_text() == "Old procedure"
+    assert nams.read_json(out / "skill.json") == old_receipt
+    assert nams.read_json(out / "provenance.json")["distillationRun"] == "run-1"
+
+
+@pytest.mark.parametrize(
+    "receipt", [{}, {"skillId": "skill-1"}, {"skillId": "skill-1", "versionId": "v1"}]
+)
+def test_policy_change_uses_the_exact_downloaded_version(monkeypatch, tmp_path, capsys, receipt):
+    from scripts.change_policy import report_drift
+
+    monkeypatch.setattr(nams, "SKILL_DIR", tmp_path)
+    if receipt:
+        nams.write_json(tmp_path / "skill.json", receipt)
+    versions = []
+
+    def read_version(url, *, params, **kwargs):
+        versions.append(params["version"])
+        assert url == "https://nams.test/v1/skills/skill-1/drift"
+        return httpx.Response(200, json={"status": "drifted"}, request=httpx.Request("GET", url))
+
+    monkeypatch.setattr(httpx, "get", read_version)
+    report_drift(SimpleNamespace(nams_api_key="test", nams_base_url="https://nams.test"))
+    output = capsys.readouterr().out
+    if "versionId" in receipt:
+        assert versions == ["v1"] and "v1: drifted" in output
+    else:
+        assert versions == [] and "Hosted drift status unavailable" in output
 
 
 async def test_failed_distillation_does_not_publish(monkeypatch, tmp_path):
@@ -169,9 +235,54 @@ async def test_failed_distillation_does_not_publish(monkeypatch, tmp_path):
     connect(monkeypatch, handle, tmp_path)
     monkeypatch.setattr(distill, "OUT_DIR", tmp_path / "distilled")
     monkeypatch.setattr(distill, "POLL_S", 0)
+    nams.write_json(tmp_path / "nams-workspace.json", {"conversationId": "c1"})
     with pytest.raises(SystemExit):
         await distill.main(redistill=False)
+    assert "/v1/skills/generate" in calls
     assert not any("publish" in path for path in calls)
+
+
+async def test_distill_requires_seed_and_never_uses_workspace_scope(monkeypatch, tmp_path):
+    def unexpected(request):
+        pytest.fail(f"Unexpected NAMS request: {request.url.path}")
+
+    connect(monkeypatch, unexpected, tmp_path)
+    with pytest.raises(SystemExit, match="make nams-seed"):
+        await distill.main(redistill=False)
+
+
+def drift_receipts(monkeypatch, tmp_path):
+    skill_dir = tmp_path / "distilled"
+    monkeypatch.setattr(drift, "SKILL_DIR", skill_dir)
+    nams.write_json(
+        tmp_path / "nams-workspace.json",
+        {"conversationId": "c1", "userId": "seed-user", "policyEntityId": "policy"},
+    )
+    nams.write_json(
+        skill_dir / "skill.json",
+        {"skillId": "skill-1", "versionId": "v1", "conversationId": "c1", "runId": "r1"},
+    )
+    nams.write_json(
+        skill_dir / "provenance.json",
+        {
+            "distillationRun": "r1",
+            "claims": [
+                {
+                    "claimId": "c-1",
+                    "text": "Pro refunds need no approval",
+                    "groundedIn": ["extracted", "maya", "other-user-policy"],
+                }
+            ],
+            "steps": [
+                {
+                    "id": "step-1",
+                    "name": "Check the refund policy",
+                    "groundedIn": ["extracted", "step-node"],
+                }
+            ],
+        },
+    )
+    return skill_dir
 
 
 async def test_drift_deletes_the_policy_grounding_and_reports_stale_claims(
@@ -179,59 +290,85 @@ async def test_drift_deletes_the_policy_grounding_and_reports_stale_claims(
 ):
     calls = []
     entities = {
-        "maya": {"id": "maya", "name": "Maya Chen", "type": "Person"},
-        "policy": {"id": "policy", "name": "refund policy", "type": "Concept"},
+        "maya": {"id": "maya", "name": "Maya Chen", "type": "Person", "userId": "seed-user"},
+        "policy": {
+            "id": "policy",
+            "name": seed.POLICY_NAME,
+            "type": "custom",
+            "userId": "seed-user",
+        },
     }
+    entities["extracted"] = {**entities["policy"], "id": "extracted", "type": "Concept"}
+    entities["other"] = {**entities["policy"], "id": "other-user-policy", "userId": "another"}
 
     def handle(request):
         path = request.url.path
         calls.append((request.method, path))
-        if request.method == "GET" and path.startswith("/v1/entities/"):
-            entity = entities.get(path.rsplit("/", 1)[1])
-            return httpx.Response(200 if entity else 404, json=entity or {"error": "not found"})
+        if path == "/v1/skills/skill-1":
+            return httpx.Response(200, json={"skill": {"publishedVersionId": "v1"}})
+        if path == "/v1/conversations/c1":
+            return httpx.Response(200, json={"userId": "seed-user"})
+        if path == "/v1/entities":
+            assert request.url.params["userId"] == "seed-user"
+            return httpx.Response(200, json={"entities": list(entities.values())})
         if request.method == "DELETE":
             return httpx.Response(200, json={"status": "deleted"})
+        assert request.url.params["version"] == "v1"
         report = {
             "status": "drifted",
             "totalClaims": 1,
             "totalSteps": 1,
-            "staleClaims": [{"claimId": "c-1", "missingSources": ["policy"]}],
-            "staleSteps": [{"stepId": "step-1", "missingSources": ["policy"]}],
+            "staleClaims": [{"claimId": "c-1", "missingSources": ["extracted"]}],
+            "staleSteps": [{"stepId": "step-1", "missingSources": ["extracted"]}],
         }
         return httpx.Response(200, json=report)
 
-    skill_dir = tmp_path / "distilled"
-    monkeypatch.setattr(drift, "SKILL_DIR", skill_dir)
-    nams.write_json(skill_dir / "skill.json", {"skillId": "skill-1"})
-    nams.write_json(
-        skill_dir / "provenance.json",
-        {
-            "claims": [
-                {
-                    "claimId": "c-1",
-                    "text": "Pro refunds need no approval",
-                    "groundedIn": ["policy", "maya"],
-                }
-            ],
-            "steps": [
-                {
-                    "id": "step-1",
-                    "name": "Check the refund policy",
-                    "groundedIn": ["policy", "step-node"],
-                }
-            ],
-        },
-    )
+    drift_receipts(monkeypatch, tmp_path)
     connect(monkeypatch, handle, tmp_path)
     await drift.main()
-    # Only the policy entity is deleted, even though the customer also grounds a claim.
-    assert [c for c in calls if c[0] == "DELETE"] == [("DELETE", "/v1/entities/policy")]
+    assert [c for c in calls if c[0] == "DELETE"] == [("DELETE", "/v1/entities/extracted")]
     out = capsys.readouterr().out
     assert "status: drifted" in out
     assert "Pro refunds need no approval" in out and "Check the refund policy" in out
 
 
-def test_nams_check_reports_disabled_skills_without_claiming_lifecycle_success(monkeypatch, capsys):
+@pytest.mark.parametrize(
+    "mismatch", ["legacy", "conversation", "run", "uncited", "version", "owner", "foreign-policy"]
+)
+async def test_drift_refuses_to_delete_unverified_evidence(monkeypatch, tmp_path, mismatch):
+    skill_dir = drift_receipts(monkeypatch, tmp_path)
+    seed_path = tmp_path / "nams-workspace.json"
+    state = nams.read_json(seed_path)
+    if mismatch == "legacy":
+        del state["userId"]
+    if mismatch == "conversation":
+        state["conversationId"] = "different-conversation"
+    if mismatch == "run":
+        receipt = nams.read_json(skill_dir / "skill.json")
+        nams.write_json(skill_dir / "skill.json", {**receipt, "runId": "old-run"})
+    nams.write_json(seed_path, state)
+
+    def handle(request):
+        assert request.method == "GET"
+        if request.url.path == "/v1/skills/skill-1":
+            version = "new-v2" if mismatch == "version" else "v1"
+            return httpx.Response(200, json={"skill": {"publishedVersionId": version}})
+        if request.url.path == "/v1/conversations/c1":
+            return httpx.Response(
+                200, json={"userId": "other" if mismatch == "owner" else "seed-user"}
+            )
+        assert request.url.path == "/v1/entities" and mismatch in ("uncited", "foreign-policy")
+        owner = "other" if mismatch == "foreign-policy" else "seed-user"
+        entities = [{"id": "policy", "name": seed.POLICY_NAME, "userId": owner}]
+        return httpx.Response(200, json={"entities": entities})
+
+    connect(monkeypatch, handle, tmp_path)
+    with pytest.raises(SystemExit):
+        await drift.main()
+
+
+@pytest.mark.parametrize("failure", ["disabled", "missing", "network", "capability-timeout"])
+def test_nams_check_stops_hosted_route_and_prints_fallback(monkeypatch, capsys, failure):
     from lib import settings
     from module_5.workflows import check
 
@@ -244,13 +381,19 @@ def test_nams_check_reports_disabled_skills_without_claiming_lifecycle_success(m
 
     def handle(request):
         assert request.headers["Authorization"] == "Bearer test-key"
-        return httpx.Response(200 if request.url.path == "/v1/conversations" else 404, json={})
+        if failure == "network":
+            raise httpx.ConnectError("offline", request=request)
+        if request.url.path == "/v1/conversations":
+            return httpx.Response(200, json={})
+        if failure == "capability-timeout":
+            raise httpx.ReadTimeout("timeout", request=request)
+        return httpx.Response(404 if failure == "missing" else 200, json={"distillation": False})
 
     monkeypatch.setattr(
         httpx, "Client", lambda **kw: real_client(**kw, transport=httpx.MockTransport(handle))
     )
-    assert check.main() == 0
-    assert "may be disabled" in capsys.readouterr().out
+    assert check.main() == 1
+    assert "make s5-fresh-agent WITH_SKILL=fallback" in capsys.readouterr().out
 
 
 async def test_nams_graph_reads_object_rows_and_hides_large_documents(monkeypatch):

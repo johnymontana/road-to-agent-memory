@@ -10,6 +10,6 @@ echo "==> [2/3] Frontend dependencies (npm ci)"
 npm --prefix web ci
 
 echo "==> [3/3] Seeding the Acme Cloud system of record (SQLite)"
-uv run scripts/seed_sqlite.py
+uv run scripts/seed_sqlite.py --if-missing
 
 echo "==> on-create complete"

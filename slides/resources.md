@@ -2,17 +2,29 @@
 
 Verified 2026-11-04. The 102-slide native deck includes a 15-slide appendix with 49 resources. All 87 instructional native slides and all 72 instructional source sections have contextual references. Full mappings: [resources.json](resources.json).
 
+## Open the workshop
+
+[Open workshop in Codespaces](https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory) · [Workshop checkout and local setup](https://github.com/johnymontana/road-to-agent-memory/blob/main/README.md)
+
+[Module 1 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-1.md) · [Module 2 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-2.md) · [Module 3 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md) · [Module 4 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-4.md) · [Module 5 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md)
+
+**Capstone route** · At minute five without a package, compare off/fallback using the checked-in SKILL.md and continue to the wrap. Native slides 66 → 75 → 82. Repo slides 53 → 62 → 69.
+
+## Topic index
+
+[SDK setup](deck.html#75) · [PydanticAI](deck.html#76) · [Short-term](deck.html#77) · [Long-term](deck.html#78) · [Reasoning](deck.html#80) · [Hosted API](deck.html#82) · [Skills and governance](deck.html#83) · [GraphAcademy](deck.html#84) · [Articles](deck.html#86)
+
 ## Using the references
 
 Use the workshop’s pinned SDK 0.8.0 and module-local code for executable examples. Online guides, other frameworks and hosted contracts can differ. Skill distillation is a capability built on memory; it creates a procedure artifact, not a fourth memory type.
 
 ## Current module 5 hosted flow
 
-Module 5 now uses nameHint and an explicit scope.type. Normal generation uses the saved seeded conversation; without it the script warns and scopes to the workspace. Review approval is automatic before publication; the downloaded ZIP contains the procedure, references and provenance. No authenticated hosted service calls were performed during this slide refresh.
+The readiness check precedes any hosted writes. One seed and one generation produce a versioned ZIP; generation approves and publishes automatically. At minute five without a package, compare off with the checked-in skill and continue to the wrap. Hosted provenance and graph exercises require a hosted package and workspace.
 
 Read the [live service API](https://memory.neo4jlabs.com/docs) and [OpenAPI specification](https://memory.neo4jlabs.com/openapi.json). The script posts decision=approve before publish automatically; no interactive human approval pause is implemented. Fresh-agent consumption reads SKILL.md only. Review evidence and current-policy behavior separately.
 
-## Resources · Start here
+## Resources · Choose a destination
 
 Project and service entry points
 
@@ -288,7 +300,7 @@ Hosted contracts evolve independently of the SDK pin
 
 Check request fields, scope, capabilities and hosted lifecycle responses.
 
-Scope / version note: Current workflow sends nameHint and explicit conversations scope, adding skillId for a new version. Missing local seed state warns and falls back to workspace scope. Check the live deployment contract before delivery.
+Scope / version note: Current workflow sends nameHint and explicit conversations scope, adding skillId for a new version. Both generation commands require the saved conversation ID. With a missing receipt, use the checked-in skill or seed the designated workspace. Check the live deployment contract before delivery.
 
 Verification: Opened public docs on 2026-11-04. Skill Generation > POST /v1/skills/generate says scope.type is required; checked its listed request body and 400 response.
 
@@ -457,149 +469,76 @@ Verification: Opened official Neo4j article; confirmed H1, author William Lyon, 
 ## Reference coverage
 
 | Source section | Topic | Native slide IDs | References |
-
 | --- | --- | --- | --- |
-
-| 1 | Road to Agent Memory | ram_slide_001 | [SDK GitHub](https://github.com/neo4j-labs/agent-memory) · [Memory docs](https://neo4j.com/labs/agent-memory/) |
-
-| 2 | What you'll leave with (an honest promise) | ram_design_002, ram_slide_003 | [Memory docs](https://neo4j.com/labs/agent-memory/) · [GraphAcademy: memory](https://graphacademy.neo4j.com/courses/genai-context-graphs) · [Memory types](https://neo4j.com/labs/agent-memory/explanation/memory-types/) · [Graph model](https://neo4j.com/labs/agent-memory/explanation/graph-architecture/) |
-
-| 3 | Agenda · 150 min | ram_slide_004 | [GraphAcademy: Python](https://graphacademy.neo4j.com/courses/workshop-agent-memory) · [Memory docs](https://neo4j.com/labs/agent-memory/) |
-
+| 1 | Road to Agent Memory | ram_slide_001 | [SDK GitHub](https://github.com/neo4j-labs/agent-memory) · [Memory docs](https://neo4j.com/labs/agent-memory/) · [GitHub Codespaces](https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory) · [local setup](https://github.com/johnymontana/road-to-agent-memory/blob/main/README.md) · [Module 1 entry point](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_1/app/agent.py) |
+| 2 | What you’ll leave with | ram_design_002, ram_slide_003 | [Memory docs](https://neo4j.com/labs/agent-memory/) · [GraphAcademy: memory](https://graphacademy.neo4j.com/courses/genai-context-graphs) · [Memory types](https://neo4j.com/labs/agent-memory/explanation/memory-types/) · [Graph model](https://neo4j.com/labs/agent-memory/explanation/graph-architecture/) · [the baseline agent](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_1/app/agent.py) |
+| 3 | Agenda · 150 min | ram_slide_004 | [GraphAcademy: Python](https://graphacademy.neo4j.com/courses/workshop-agent-memory) · [Memory docs](https://neo4j.com/labs/agent-memory/) · [Facilitator timetable](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/run-of-show.md) |
 | 4 | Add memory, then build on it | ram_design_005, ram_slide_006 | [Memory types](https://neo4j.com/labs/agent-memory/explanation/memory-types/) · [Lenny’s Memory](https://neo4j.com/blog/developer/meet-lennys-memory-building-context-graphs-for-ai-agents/) · [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) |
-
-| 5 | Module 0 — Your environment | ram_design_007, ram_slide_008 | [Client API](https://neo4j.com/labs/agent-memory/reference/api/memory-client/) · [NAMS console](https://memory.neo4jlabs.com/) · [Backend capabilities](https://neo4j.com/labs/agent-memory/reference/backend-capabilities/) · [Connect to NAMS](https://neo4j.com/labs/agent-memory/how-to/use-nams/) |
-
+| 5 | Module 0 — Your environment | ram_design_007, ram_slide_008 | [Client API](https://neo4j.com/labs/agent-memory/reference/api/memory-client/) · [NAMS console](https://memory.neo4jlabs.com/) · [Backend capabilities](https://neo4j.com/labs/agent-memory/reference/backend-capabilities/) · [Connect to NAMS](https://neo4j.com/labs/agent-memory/how-to/use-nams/) · [Open the workshop in Codespaces](https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory) · [workshop checkout and local setup](https://github.com/johnymontana/road-to-agent-memory/blob/main/README.md) |
 | 6 | Module 0 — Credential checklist | ram_design_009 | [Configuration](https://neo4j.com/labs/agent-memory/reference/configuration-providers/) · [NAMS console](https://memory.neo4jlabs.com/) |
-
-| 7 | Module 0 — Smoke test, live | ram_design_010 | [Client API](https://neo4j.com/labs/agent-memory/reference/api/memory-client/) · [Configuration](https://neo4j.com/labs/agent-memory/reference/configuration-providers/) |
-
+| 7 | Module 0 — Smoke test, live | ram_design_010 | [Client API](https://neo4j.com/labs/agent-memory/reference/api/memory-client/) · [Configuration](https://neo4j.com/labs/agent-memory/reference/configuration-providers/) · [Workshop instructions](https://github.com/johnymontana/road-to-agent-memory/blob/main/README.md) · [Open Codespaces](https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory) |
 | 8 | Module 1 — Two stores, two jobs | ram_design_011, ram_slide_012 | [Graph model](https://neo4j.com/labs/agent-memory/explanation/graph-architecture/) · [Memory types](https://neo4j.com/labs/agent-memory/explanation/memory-types/) · [Backend capabilities](https://neo4j.com/labs/agent-memory/reference/backend-capabilities/) |
-
-| 9 | Module 1 — Meet the agent | ram_design_013 | [PydanticAI agents](https://pydantic.dev/docs/ai/core-concepts/agent/) · [Function tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/) |
-
-| 10 | The baseline: PydanticAI + business tools | ram_code_m1 | [PydanticAI agents](https://pydantic.dev/docs/ai/core-concepts/agent/) · [Dependencies](https://pydantic.dev/docs/ai/core-concepts/dependencies/) |
-
+| 9 | Module 1 — Meet the agent | ram_design_013 | [PydanticAI agents](https://pydantic.dev/docs/ai/core-concepts/agent/) · [Function tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/) · [Module 1 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-1.md) |
+| 10 | The baseline: PydanticAI + business tools | ram_code_m1 | [PydanticAI agents](https://pydantic.dev/docs/ai/core-concepts/agent/) · [Dependencies](https://pydantic.dev/docs/ai/core-concepts/dependencies/) · [module_1/app/agent.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_1/app/agent.py) |
 | 11 | Module 1 — The failure: statelessness | ram_design_014, ram_slide_015 | [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-history/) · [Memory types](https://neo4j.com/labs/agent-memory/explanation/memory-types/) · [PydanticAI agents](https://pydantic.dev/docs/ai/core-concepts/agent/) |
-
-| 12 | Module 1 — Live demo: the stateless baseline | ram_design_016 | [Function tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/) · [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-history/) |
-
-| 13 | Module 1 — The eval baseline | ram_design_017 | [GraphAcademy: memory](https://graphacademy.neo4j.com/courses/genai-context-graphs) · [Memory types](https://neo4j.com/labs/agent-memory/explanation/memory-types/) |
-
+| 12 | Module 1 — Live demo: the stateless baseline | ram_design_016 | [Function tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/) · [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-history/) · [Module 1 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-1.md) |
+| 13 | Module 1 — The eval baseline | ram_design_017 | [GraphAcademy: memory](https://graphacademy.neo4j.com/courses/genai-context-graphs) · [Memory types](https://neo4j.com/labs/agent-memory/explanation/memory-types/) · [Grader](https://github.com/johnymontana/road-to-agent-memory/blob/main/scripts/eval.py) · [Module 1 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-1.md) |
 | 14 | Meet neo4j-agent-memory | ram_mem_intro | [Memory types](https://neo4j.com/labs/agent-memory/explanation/memory-types/) · [SDK GitHub](https://github.com/neo4j-labs/agent-memory) |
-
 | 15 | Where memory meets PydanticAI | ram_mem_seam | [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-history/) · [Integration guide](https://neo4j.com/labs/agent-memory/how-to/integrations/pydantic-ai/) |
-
-| 16 | Configure and open one memory client | ram_code_client | [Client API](https://neo4j.com/labs/agent-memory/reference/api/memory-client/) · [Configuration](https://neo4j.com/labs/agent-memory/reference/configuration-providers/) |
-
+| 16 | Configure and open one memory client | ram_code_client | [Client API](https://neo4j.com/labs/agent-memory/reference/api/memory-client/) · [Configuration](https://neo4j.com/labs/agent-memory/reference/configuration-providers/) · [module_2/app/memory.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/memory.py) |
 | 17 | Module 2 — Concept: short-term memory | ram_design_018 | [Memory types](https://neo4j.com/labs/agent-memory/explanation/memory-types/) · [Message API](https://neo4j.com/labs/agent-memory/reference/api/short-term-messages/) · [Short-term API index](https://neo4j.com/labs/agent-memory/reference/api/short-term/) |
-
 | 18 | Module 2 — Message chains in the graph | ram_design_019, ram_slide_020 | [Message API](https://neo4j.com/labs/agent-memory/reference/api/short-term-messages/) · [Graph model](https://neo4j.com/labs/agent-memory/explanation/graph-architecture/) · [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-history/) |
-
-| 19 | Persist both sides of a conversation | ram_code_m2_write | [Message API](https://neo4j.com/labs/agent-memory/reference/api/short-term-messages/) · [Client API](https://neo4j.com/labs/agent-memory/reference/api/memory-client/) |
-
+| 19 | Persist both sides of a conversation | ram_code_m2_write | [Message API](https://neo4j.com/labs/agent-memory/reference/api/short-term-messages/) · [Client API](https://neo4j.com/labs/agent-memory/reference/api/memory-client/) · [module_2/app/agent.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/agent.py) |
 | 20 | Module 2 — Context assembly | ram_design_021, ram_slide_022 | [Search + scope](https://neo4j.com/labs/agent-memory/reference/api/short-term-search/) · [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-history/) |
-
-| 21 | Retrieve evidence, then call the agent | ram_code_m2_inject | [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-history/) · [Search + scope](https://neo4j.com/labs/agent-memory/reference/api/short-term-search/) |
-
-| 22 | Module 2 — Live demo: the returning customer | ram_design_023 | [Search + scope](https://neo4j.com/labs/agent-memory/reference/api/short-term-search/) · [Message API](https://neo4j.com/labs/agent-memory/reference/api/short-term-messages/) |
-
-| 23 | Module 2 — The restart beat | ram_design_024 | [Message API](https://neo4j.com/labs/agent-memory/reference/api/short-term-messages/) · [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-history/) |
-
-| 24 | Module 2 — Exploration brief | ram_design_025 | [Cypher course](https://graphacademy.neo4j.com/courses/cypher-fundamentals) · [Search + scope](https://neo4j.com/labs/agent-memory/reference/api/short-term-search/) |
-
+| 21 | Retrieve evidence, then call the agent | ram_code_m2_inject | [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-history/) · [Search + scope](https://neo4j.com/labs/agent-memory/reference/api/short-term-search/) · [module_2/app/agent.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/agent.py) · [module_2/app/context.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/context.py) |
+| 22 | Module 2 — Live demo: the returning customer | ram_design_023 | [Search + scope](https://neo4j.com/labs/agent-memory/reference/api/short-term-search/) · [Message API](https://neo4j.com/labs/agent-memory/reference/api/short-term-messages/) · [Module 2 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-2.md) |
+| 23 | Module 2 — The restart beat | ram_design_024 | [Message API](https://neo4j.com/labs/agent-memory/reference/api/short-term-messages/) · [Chat history](https://pydantic.dev/docs/ai/core-concepts/message-history/) · [Module 2 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-2.md) |
+| 24 | Module 2 — Exploration brief | ram_design_025 | [Cypher course](https://graphacademy.neo4j.com/courses/cypher-fundamentals) · [Search + scope](https://neo4j.com/labs/agent-memory/reference/api/short-term-search/) · [Module 2 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-2.md) |
 | 25 | Module 3 — Concept: long-term memory | ram_design_026 | [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-term-entities/) · [Preference API](https://neo4j.com/labs/agent-memory/reference/api/long-term-preferences/) |
-
 | 26 | Module 3 — Ontology-driven extraction | ram_design_027, ram_slide_028 | [Ontology guide](https://neo4j.com/labs/agent-memory/how-to/ontology-driven-extraction/) · [POLE+O](https://neo4j.com/labs/agent-memory/explanation/poleo-model/) · [Extraction](https://neo4j.com/labs/agent-memory/explanation/extraction-pipeline/) |
-
-| 27 | Turn on ontology-driven extraction | ram_code_m3_extract | [Ontology guide](https://neo4j.com/labs/agent-memory/how-to/ontology-driven-extraction/) · [Configuration](https://neo4j.com/labs/agent-memory/reference/configuration-providers/) |
-
-| 28 | Module 3 — Before / after: default vs. custom ontology | ram_design_029, ram_slide_030 | [POLE+O](https://neo4j.com/labs/agent-memory/explanation/poleo-model/) · [Ontology guide](https://neo4j.com/labs/agent-memory/how-to/ontology-driven-extraction/) · [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-term-entities/) |
-
+| 27 | Turn on ontology-driven extraction | ram_code_m3_extract | [Ontology guide](https://neo4j.com/labs/agent-memory/how-to/ontology-driven-extraction/) · [Configuration](https://neo4j.com/labs/agent-memory/reference/configuration-providers/) · [module_3/app/memory.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/memory.py) · [module_3/app/agent.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/agent.py) |
+| 28 | Module 3 — Before / after: default vs. custom ontology | ram_design_029, ram_slide_030 | [POLE+O](https://neo4j.com/labs/agent-memory/explanation/poleo-model/) · [Ontology guide](https://neo4j.com/labs/agent-memory/how-to/ontology-driven-extraction/) · [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-term-entities/) · [Module 3 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md) |
 | 29 | Module 3 — The hybrid pipeline (the design-principle slide) | ram_design_031, ram_slide_032 | [Extraction](https://neo4j.com/labs/agent-memory/explanation/extraction-pipeline/) · [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-term-entities/) |
-
-| 30 | Ground extracted entities in SQL facts | ram_code_m3_ground | [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-term-entities/) · [Client API](https://neo4j.com/labs/agent-memory/reference/api/memory-client/) |
-
+| 30 | Ground extracted entities in SQL facts | ram_code_m3_ground | [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-term-entities/) · [Client API](https://neo4j.com/labs/agent-memory/reference/api/memory-client/) · [module_3/app/hydrate.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/hydrate.py) |
 | 31 | Module 3 — Entity resolution & aliases | ram_design_033, ram_slide_034 | [Resolution](https://neo4j.com/labs/agent-memory/explanation/resolution-deduplication/) · [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-term-entities/) · [Graph model](https://neo4j.com/labs/agent-memory/explanation/graph-architecture/) |
-
-| 32 | Module 3 — Live demo: watch the graph bloom | ram_design_035 | [Ontology guide](https://neo4j.com/labs/agent-memory/how-to/ontology-driven-extraction/) · [Extraction](https://neo4j.com/labs/agent-memory/explanation/extraction-pipeline/) |
-
-| 33 | Module 3 — Under the hood: hydration & enrichment | ram_design_036 | [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-term-entities/) · [Configuration](https://neo4j.com/labs/agent-memory/reference/configuration-providers/) |
-
-| 34 | Expose memory tools to PydanticAI | ram_code_m3_tools | [Function tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/) · [Integration guide](https://neo4j.com/labs/agent-memory/how-to/integrations/pydantic-ai/) |
-
-| 35 | Save and recall one customer’s preferences | ram_code_m3_preferences | [Preference API](https://neo4j.com/labs/agent-memory/reference/api/long-term-preferences/) · [Dependencies](https://pydantic.dev/docs/ai/core-concepts/dependencies/) |
-
-| 36 | Module 3 — Exploration brief (40-min module, tiered) | ram_design_037 | [GraphAcademy: Python](https://graphacademy.neo4j.com/courses/workshop-agent-memory) · [Preference API](https://neo4j.com/labs/agent-memory/reference/api/long-term-preferences/) |
-
+| 32 | Module 3 — Live demo: watch the graph bloom | ram_design_035 | [Ontology guide](https://neo4j.com/labs/agent-memory/how-to/ontology-driven-extraction/) · [Extraction](https://neo4j.com/labs/agent-memory/explanation/extraction-pipeline/) · [Module 3 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md) |
+| 33 | Module 3 — Under the hood: hydration & enrichment | ram_design_036 | [Entity API](https://neo4j.com/labs/agent-memory/reference/api/long-term-entities/) · [Configuration](https://neo4j.com/labs/agent-memory/reference/configuration-providers/) · [Module 3 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md) |
+| 34 | Expose memory tools to PydanticAI | ram_code_m3_tools | [Function tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/) · [Integration guide](https://neo4j.com/labs/agent-memory/how-to/integrations/pydantic-ai/) · [module_3/app/agent.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/agent.py) · [module_3/app/memory_tools.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/memory_tools.py) |
+| 35 | Save and recall one customer’s preferences | ram_code_m3_preferences | [Preference API](https://neo4j.com/labs/agent-memory/reference/api/long-term-preferences/) · [Dependencies](https://pydantic.dev/docs/ai/core-concepts/dependencies/) · [module_3/app/memory_tools.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/memory_tools.py) · [module_3/app/context.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/context.py) |
+| 36 | Module 3 — Exploration brief (40-min module, tiered) | ram_design_037 | [GraphAcademy: Python](https://graphacademy.neo4j.com/courses/workshop-agent-memory) · [Preference API](https://neo4j.com/labs/agent-memory/reference/api/long-term-preferences/) · [Module 3 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md) |
 | 37 | Module 4 — Concept: reasoning memory | ram_design_038 | [Memory types](https://neo4j.com/labs/agent-memory/explanation/memory-types/) · [Trace API](https://neo4j.com/labs/agent-memory/reference/api/reasoning-traces/) · [Reasoning API index](https://neo4j.com/labs/agent-memory/reference/api/reasoning/) |
-
 | 38 | Module 4 — Anatomy of a trace | ram_design_039, ram_slide_040 | [Steps + tools](https://neo4j.com/labs/agent-memory/reference/api/reasoning-steps/) · [Outcome models](https://neo4j.com/labs/agent-memory/reference/api/reasoning-models/) · [Audit provenance](https://neo4j.com/labs/agent-memory/how-to/audit-reasoning/) |
-
-| 39 | Open the trace before execution | ram_code_m4_lifecycle | [Trace API](https://neo4j.com/labs/agent-memory/reference/api/reasoning-traces/) · [Record failures](https://neo4j.com/labs/agent-memory/how-to/reasoning-traces/) |
-
-| 40 | Attach observations and provenance | ram_code_m4_tools | [Steps + tools](https://neo4j.com/labs/agent-memory/reference/api/reasoning-steps/) · [Audit provenance](https://neo4j.com/labs/agent-memory/how-to/audit-reasoning/) |
-
-| 41 | Complete the trace with an outcome | ram_code_m4_outcome | [Outcome models](https://neo4j.com/labs/agent-memory/reference/api/reasoning-models/) · [Trace API](https://neo4j.com/labs/agent-memory/reference/api/reasoning-traces/) |
-
+| 39 | Open the trace before execution | ram_code_m4_lifecycle | [Trace API](https://neo4j.com/labs/agent-memory/reference/api/reasoning-traces/) · [Record failures](https://neo4j.com/labs/agent-memory/how-to/reasoning-traces/) · [module_4/app/agent.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/agent.py) · [module_4/app/reasoning.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py) |
+| 40 | Attach observations and provenance | ram_code_m4_tools | [Steps + tools](https://neo4j.com/labs/agent-memory/reference/api/reasoning-steps/) · [Audit provenance](https://neo4j.com/labs/agent-memory/how-to/audit-reasoning/) · [module_4/app/reasoning.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py) |
+| 41 | Complete the trace with an outcome | ram_code_m4_outcome | [Outcome models](https://neo4j.com/labs/agent-memory/reference/api/reasoning-models/) · [Trace API](https://neo4j.com/labs/agent-memory/reference/api/reasoning-traces/) · [module_4/app/reasoning.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py) |
 | 42 | Module 4 — Similar-task retrieval | ram_design_041, ram_slide_042 | [Trace search](https://neo4j.com/labs/agent-memory/reference/api/reasoning-search-stats/) · [Record failures](https://neo4j.com/labs/agent-memory/how-to/reasoning-traces/) · [Trace API](https://neo4j.com/labs/agent-memory/reference/api/reasoning-traces/) |
-
-| 43 | Recall completed executions | ram_code_m4_recall | [Trace search](https://neo4j.com/labs/agent-memory/reference/api/reasoning-search-stats/) · [Trace API](https://neo4j.com/labs/agent-memory/reference/api/reasoning-traces/) |
-
-| 44 | Module 4 — Live demo: record, decline, compare | ram_design_043 | [Record failures](https://neo4j.com/labs/agent-memory/how-to/reasoning-traces/) · [Audit provenance](https://neo4j.com/labs/agent-memory/how-to/audit-reasoning/) |
-
-| 45 | Module 4 — The provenance question | ram_design_044 | [Audit provenance](https://neo4j.com/labs/agent-memory/how-to/audit-reasoning/) · [Steps + tools](https://neo4j.com/labs/agent-memory/reference/api/reasoning-steps/) |
-
-| 46 | Module 4 — Exploration brief | ram_design_045 | [Audit provenance](https://neo4j.com/labs/agent-memory/how-to/audit-reasoning/) · [Cypher course](https://graphacademy.neo4j.com/courses/cypher-fundamentals) |
-
-| 47 | Module 5 — Build skills on top of agent memory | ram_design_046 | [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) |
-
+| 43 | Recall completed executions | ram_code_m4_recall | [Trace search](https://neo4j.com/labs/agent-memory/reference/api/reasoning-search-stats/) · [Trace API](https://neo4j.com/labs/agent-memory/reference/api/reasoning-traces/) · [module_4/app/reasoning.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py) · [module_4/app/agent.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/agent.py) |
+| 44 | Module 4 — Live demo: record, decline, compare | ram_design_043 | [Record failures](https://neo4j.com/labs/agent-memory/how-to/reasoning-traces/) · [Audit provenance](https://neo4j.com/labs/agent-memory/how-to/audit-reasoning/) · [Module 4 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-4.md) |
+| 45 | Module 4 — The provenance question | ram_design_044 | [Audit provenance](https://neo4j.com/labs/agent-memory/how-to/audit-reasoning/) · [Steps + tools](https://neo4j.com/labs/agent-memory/reference/api/reasoning-steps/) · [Module 4 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-4.md) |
+| 46 | Module 4 — Exploration brief | ram_design_045 | [Audit provenance](https://neo4j.com/labs/agent-memory/how-to/audit-reasoning/) · [Cypher course](https://graphacademy.neo4j.com/courses/cypher-fundamentals) · [November 1 comparison log](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/reviews/2026-11-01-workshop-fixes/command-09.log) · [Module 4 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-4.md) |
+| 47 | Module 5 — Build skills on top of agent memory | ram_design_046 | [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) · [Module 5 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md) |
 | 48 | Build procedures on top of agent memory | ram_m5_concepts | [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) |
-
 | 49 | Build reusable procedures on agent memory | ram_m5_pipeline | [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) |
-
 | 50 | Module 5 — The app, hosted workspace and consumer | ram_design_048 | [Backend capabilities](https://neo4j.com/labs/agent-memory/reference/backend-capabilities/) · [NAMS console](https://memory.neo4jlabs.com/) |
-
 | 51 | Open your NAMS workspace | ram_m5_signup | [NAMS sign in](https://memory.neo4jlabs.com/) · [Setup docs](https://memory.neo4jlabs.com/docs) |
-
 | 52 | Create a key for the workshop workspace | ram_m5_key | [API key dashboard](https://memory.neo4jlabs.com/dashboard/api-keys) · [Authentication docs](https://memory.neo4jlabs.com/docs) |
-
-| 53 | Connect the workshop and check capabilities | ram_m5_connect | [NAMS docs](https://memory.neo4jlabs.com/docs) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) |
-
-| 54 | Seed a small, inspectable memory corpus | ram_m5_seed | [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [Live NAMS API](https://memory.neo4jlabs.com/docs) |
-
-| 55 | Complete the traces before distilling them | ram_code_m5_seed_complete | [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [Live NAMS API](https://memory.neo4jlabs.com/docs) |
-
-| 56 | Distill one conversation into a versioned skill | ram_code_m5_distill | [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [Live NAMS API](https://memory.neo4jlabs.com/docs) |
-
-| 57 | Approve, publish and unpack the skill package | ram_code_m5_publish | [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [Live NAMS API](https://memory.neo4jlabs.com/docs) |
-
+| 53 | Connect the workshop and check capabilities | ram_m5_connect | [NAMS docs](https://memory.neo4jlabs.com/docs) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) · [Module 5 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md) |
+| 54 | Seed a small, inspectable memory corpus | ram_m5_seed | [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [Live NAMS API](https://memory.neo4jlabs.com/docs) · [Module 5 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md) |
+| 55 | Complete the traces before distilling them | ram_code_m5_seed_complete | [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [Live NAMS API](https://memory.neo4jlabs.com/docs) · [module_5/workflows/seed.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/seed.py) |
+| 56 | Distill one conversation into a versioned skill | ram_code_m5_distill | [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [Live NAMS API](https://memory.neo4jlabs.com/docs) · [module_5/workflows/distill.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/distill.py) |
+| 57 | Approve, publish and unpack the skill package | ram_code_m5_publish | [NAMS OpenAPI](https://memory.neo4jlabs.com/openapi.json) · [Live NAMS API](https://memory.neo4jlabs.com/docs) · [module_5/workflows/distill.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/distill.py) |
 | 58 | Inspect the downloaded skill package | ram_m5_package | [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) |
-
-| 59 | Inspect the versioned skill graph | ram_slide_047 | [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) |
-
+| 59 | Inspect the versioned skill graph | ram_slide_047 | [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) · [Module 5 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md) |
 | 60 | Quality signals support review | ram_m5_evaluate | [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) |
-
-| 61 | Give the skill to a fresh PydanticAI agent | ram_code_m5_agent | [PydanticAI agents](https://pydantic.dev/docs/ai/core-concepts/agent/) · [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) |
-
-| 62 | Compare the fresh agent with and without a skill | ram_design_049 | [Skills tutorial](https://neo4j.com/labs/agent-memory/tutorials/skills-quickstart/) · [NAMS console](https://memory.neo4jlabs.com/) |
-
+| 61 | Give the skill to a fresh PydanticAI agent | ram_code_m5_agent | [PydanticAI agents](https://pydantic.dev/docs/ai/core-concepts/agent/) · [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [module_5/app/fresh_agent.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/app/fresh_agent.py) |
+| 62 | Compare the fresh agent with and without a skill | ram_design_049 | [Skills tutorial](https://neo4j.com/labs/agent-memory/tutorials/skills-quickstart/) · [NAMS console](https://memory.neo4jlabs.com/) · [Module 5 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md) |
 | 63 | Governance follows the evidence | ram_design_050 | [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) |
-
-| 64 | Follow provenance to the memory a skill uses | ram_code_m5_drift | [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) |
-
+| 64 | Follow provenance to the memory a skill uses | ram_code_m5_drift | [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) · [module_5/workflows/drift.py](https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/drift.py) |
 | 65 | Govern the evidence behind a skill | ram_slide_051 | [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) |
-
-| 66 | Run the drift loop and restore the policy | ram_m5_governance_demo | [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) |
-
+| 66 | Run the drift loop and restore the policy | ram_m5_governance_demo | [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) · [Module 5 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md) |
 | 67 | Hosted capability, explicit boundaries | ram_design_052 | [Backend capabilities](https://neo4j.com/labs/agent-memory/reference/backend-capabilities/) · [Live NAMS API](https://memory.neo4jlabs.com/docs) |
-
-| 68 | Module 5 — Exploration brief | ram_design_053 | [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) |
-
+| 68 | Module 5 — Exploration brief | ram_design_053 | [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) · [Skills API](https://neo4j.com/labs/agent-memory/reference/skills-api/) · [Module 5 guide](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md) |
 | 69 | Wrap — The eval scoreboard, re-run | ram_design_054 | [GraphAcademy: memory](https://graphacademy.neo4j.com/courses/genai-context-graphs) · [Outcome models](https://neo4j.com/labs/agent-memory/reference/api/reasoning-models/) |
-
 | 70 | Wrap — Memory is the foundation; skills build on it | ram_design_055, ram_slide_056 | [Memory types](https://neo4j.com/labs/agent-memory/explanation/memory-types/) · [Graph model](https://neo4j.com/labs/agent-memory/explanation/graph-architecture/) · [Skill concepts](https://neo4j.com/labs/agent-memory/explanation/skills/) |
-
-| 71 | Wrap — Bolt memory and hosted skill workflows | ram_design_057, ram_slide_058 | [Backend capabilities](https://neo4j.com/labs/agent-memory/reference/backend-capabilities/) · [Connect to NAMS](https://neo4j.com/labs/agent-memory/how-to/use-nams/) · [NAMS console](https://memory.neo4jlabs.com/) |
-
-| 72 | Wrap — Your Monday morning path | ram_design_059 | [SDK GitHub](https://github.com/neo4j-labs/agent-memory) · [Memory docs](https://neo4j.com/labs/agent-memory/) · [GraphAcademy: memory](https://graphacademy.neo4j.com/courses/genai-context-graphs) |
+| 71 | Wrap — Which record answers the question? | ram_design_057, ram_slide_058 | [Backend capabilities](https://neo4j.com/labs/agent-memory/reference/backend-capabilities/) · [Connect to NAMS](https://neo4j.com/labs/agent-memory/how-to/use-nams/) · [NAMS console](https://memory.neo4jlabs.com/) |
+| 72 | Wrap — Your Monday morning path | ram_design_059 | [SDK GitHub](https://github.com/neo4j-labs/agent-memory) · [Memory docs](https://neo4j.com/labs/agent-memory/) · [GraphAcademy: memory](https://graphacademy.neo4j.com/courses/genai-context-graphs) · [teardown for keys, Codespaces and AuraDB](https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/teardown.md) · [Run the recipe](https://github.com/johnymontana/road-to-agent-memory/blob/main/scripts/monday_memory.py) |

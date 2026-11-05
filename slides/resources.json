@@ -1,35 +1,37 @@
 {
   "checked_at": "2026-11-04",
   "presentation_id": "1qBsciAQf7s3BUdQleJJ39-4RDKAoqqoVfodPDDg63z8",
-  "source_revision": "qG5M17j8fBPgPg",
+  "source_revision": "ljrRLR2cvxOB3w",
   "version_policy": "Workshop SDK 0.8.0 and local code govern executable examples. Current online guides and hosted contracts may target other releases. Focused topic URLs are verified; no guessed fragment anchors.",
   "resources": [
     {
       "id": "sdk_github",
-      "title": "Neo4j Agent Memory \u2014 GitHub",
+      "title": "Neo4j Agent Memory — GitHub",
       "url": "https://github.com/neo4j-labs/agent-memory",
       "description": "Python and TypeScript SDK source, examples, issue tracker and contribution entry point.",
       "verified_by": "GitHub repository opened; README explicitly documents Python 0.8.0. Web-verified 2026-11-04.",
       "anchor_checked": false,
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
+        "ram_slide_001",
         "ram_mem_intro",
-        "ram_design_059"
+        "ram_design_059",
+        "ram_resources_01"
       ],
       "version_caveat": "Default branch can advance beyond workshop 0.8.0.",
-      "display_title": "GitHub \u00b7 neo4j-labs/agent-memory",
+      "display_title": "GitHub · neo4j-labs/agent-memory",
       "annotation": "Browse SDK source, examples, issues and contributions. Compare the branch with your installed release."
     },
     {
       "id": "sdk_releases",
-      "title": "Neo4j Agent Memory \u2014 releases",
+      "title": "Neo4j Agent Memory — releases",
       "url": "https://github.com/neo4j-labs/agent-memory/releases",
       "description": "Published GitHub release notes and change history.",
       "verified_by": "GitHub releases page opened. Web-verified 2026-11-04.",
       "anchor_checked": false,
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
-        "ram_mem_intro"
+        "ram_resources_13"
       ],
       "version_caveat": "Page retrieved lists 0.7.0 as latest; do not label this as the 0.8.0 release.",
       "display_title": "SDK release notes",
@@ -37,19 +39,18 @@
     },
     {
       "id": "sdk_pypi_080",
-      "title": "Python SDK 0.8.0 \u2014 pinned release",
+      "title": "Python SDK 0.8.0 — pinned release",
       "url": "https://pypi.org/project/neo4j-agent-memory/0.8.0/",
       "description": "Exact workshop package release, downloadable source distribution and wheel.",
       "verified_by": "PyPI release files verified as 0.8.0, uploaded 2026-10-22. Web-verified 2026-11-04.",
       "anchor_checked": false,
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
-        "ram_code_client",
-        "ram_mem_intro"
+        "ram_resources_03"
       ],
       "version_caveat": "Package description still contains 0.7.0 examples; release files are explicitly 0.8.0.",
-      "display_title": "Pinned Python release \u00b7 0.8.0",
-      "annotation": "Find the exact workshop release files. Use the repository\u2019s uv.lock and Make recipes."
+      "display_title": "Pinned Python release · 0.8.0",
+      "annotation": "Find the exact workshop release files. Use the repository’s uv.lock and Make recipes."
     },
     {
       "id": "docs_home",
@@ -60,12 +61,15 @@
       "anchor_checked": false,
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
-        "ram_mem_intro",
-        "ram_design_059"
+        "ram_slide_001",
+        "ram_design_002",
+        "ram_slide_004",
+        "ram_design_059",
+        "ram_resources_01"
       ],
       "version_caveat": "Rolling documentation may differ from workshop SDK 0.8.0. Use the workshop repository and uv.lock for executable examples.",
       "display_title": "Official documentation",
-      "annotation": "Find concept guides, tutorials and focused API references. Check each example\u2019s version."
+      "annotation": "Find concept guides, tutorials and focused API references. Check each example’s version."
     },
     {
       "id": "memory_types",
@@ -77,10 +81,16 @@
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
         "ram_slide_003",
+        "ram_design_005",
+        "ram_slide_006",
+        "ram_design_011",
+        "ram_design_014",
+        "ram_design_017",
         "ram_mem_intro",
         "ram_design_018",
-        "ram_design_026",
-        "ram_design_055"
+        "ram_design_038",
+        "ram_design_055",
+        "ram_resources_02"
       ],
       "version_caveat": "Rolling documentation may differ from workshop SDK 0.8.0. Use the workshop repository and uv.lock for executable examples.",
       "display_title": "Three memory types",
@@ -96,8 +106,13 @@
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
         "ram_slide_003",
-        "ram_mem_intro",
-        "ram_slide_056"
+        "ram_design_011",
+        "ram_slide_012",
+        "ram_design_019",
+        "ram_slide_034",
+        "ram_design_055",
+        "ram_slide_056",
+        "ram_resources_02"
       ],
       "version_caveat": "Rolling documentation may differ from workshop SDK 0.8.0. Use the workshop repository and uv.lock for executable examples.",
       "display_title": "Why graph memory?",
@@ -113,9 +128,9 @@
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
         "ram_design_027",
-        "ram_slide_028",
         "ram_design_029",
-        "ram_slide_030"
+        "ram_slide_030",
+        "ram_resources_02"
       ],
       "version_caveat": "Rolling documentation may differ from workshop SDK 0.8.0. Use the workshop repository and uv.lock for executable examples.",
       "display_title": "POLE+O data model",
@@ -130,13 +145,15 @@
       "anchor_checked": false,
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
+        "ram_design_007",
+        "ram_design_010",
         "ram_code_client",
-        "ram_mem_intro",
-        "ram_mem_seam",
-        "ram_code_m3_ground"
+        "ram_code_m2_write",
+        "ram_code_m3_ground",
+        "ram_resources_03"
       ],
       "version_caveat": "Live examples use BoltSettings; workshop 0.8.0 uses explicit MemorySettings(backend='bolt'). Preserve workshop configuration.",
-      "display_title": "MemoryClient \u00b7 lifecycle and stores",
+      "display_title": "MemoryClient · lifecycle and stores",
       "annotation": "Check constructor settings, client lifetime, memory accessors and the read-only query surface."
     },
     {
@@ -148,9 +165,12 @@
       "anchor_checked": false,
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
+        "ram_design_009",
+        "ram_design_010",
         "ram_code_client",
         "ram_code_m3_extract",
-        "ram_design_029"
+        "ram_design_036",
+        "ram_resources_03"
       ],
       "version_caveat": "Rolling documentation may differ from workshop SDK 0.8.0. Use the workshop repository and uv.lock for executable examples.",
       "display_title": "Providers, extraction and schema settings",
@@ -165,10 +185,7 @@
       "anchor_checked": false,
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
-        "ram_design_018",
-        "ram_design_019",
-        "ram_slide_020",
-        "ram_code_m2_write"
+        "ram_resources_05"
       ],
       "version_caveat": "Rolling documentation may differ from workshop SDK 0.8.0. Use the workshop repository and uv.lock for executable examples."
     },
@@ -181,12 +198,13 @@
       "anchor_checked": false,
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
-        "ram_code_m2_write",
+        "ram_design_018",
         "ram_design_019",
         "ram_slide_020",
+        "ram_code_m2_write",
         "ram_design_023",
         "ram_design_024",
-        "ram_design_025"
+        "ram_resources_05"
       ],
       "version_caveat": "Rolling documentation may differ from workshop SDK 0.8.0. Use the workshop repository and uv.lock for executable examples.",
       "display_title": "Conversation and message API",
@@ -201,10 +219,12 @@
       "anchor_checked": false,
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
-        "ram_mem_seam",
-        "ram_code_m2_inject",
         "ram_design_021",
-        "ram_slide_022"
+        "ram_slide_022",
+        "ram_code_m2_inject",
+        "ram_design_023",
+        "ram_design_025",
+        "ram_resources_05"
       ],
       "version_caveat": "Official page notes Bolt session_id does not isolate semantic search and get_context can include global matches. Workshop local namespace-scoped retrieval is intentional.",
       "display_title": "Message search and context scope",
@@ -219,9 +239,14 @@
       "anchor_checked": false,
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
+        "ram_design_026",
+        "ram_slide_030",
+        "ram_design_031",
+        "ram_slide_032",
         "ram_code_m3_ground",
-        "ram_code_m3_tools",
-        "ram_design_031"
+        "ram_design_033",
+        "ram_design_036",
+        "ram_resources_06"
       ],
       "version_caveat": "Workshop PropertyWriter is repository code; do not imply it is a neo4j-agent-memory API.",
       "display_title": "Entity and relationship API",
@@ -236,8 +261,10 @@
       "anchor_checked": false,
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
+        "ram_design_026",
         "ram_code_m3_preferences",
-        "ram_code_m3_tools"
+        "ram_design_037",
+        "ram_resources_07"
       ],
       "version_caveat": "Preference category and semantic search are not customer authorization boundaries; workshop uses explicit user_identifier.",
       "display_title": "Preference and fact API",
@@ -252,11 +279,12 @@
       "anchor_checked": false,
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
-        "ram_code_m3_extract",
         "ram_design_027",
         "ram_slide_028",
+        "ram_code_m3_extract",
         "ram_design_029",
-        "ram_slide_030"
+        "ram_design_035",
+        "ram_resources_06"
       ],
       "version_caveat": "Guide pins 0.7.0 and demonstrates GLiNER 2.5 as well as LLM configuration. Workshop uses an LLM extractor with its checked-in ontologies.",
       "display_title": "Ontology-driven extraction",
@@ -271,10 +299,11 @@
       "anchor_checked": false,
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
-        "ram_code_m3_extract",
-        "ram_design_027",
+        "ram_slide_028",
+        "ram_design_031",
+        "ram_slide_032",
         "ram_design_035",
-        "ram_design_036"
+        "ram_resources_07"
       ],
       "version_caveat": "The general multi-stage pipeline is broader than the workshop's configured LLM-only extraction.",
       "display_title": "How extraction works",
@@ -291,7 +320,7 @@
       "slide_ids": [
         "ram_design_033",
         "ram_slide_034",
-        "ram_design_037"
+        "ram_resources_06"
       ],
       "version_caveat": "Rolling documentation may differ from workshop SDK 0.8.0. Use the workshop repository and uv.lock for executable examples.",
       "display_title": "Entity resolution and deduplication",
@@ -308,52 +337,57 @@
       "slide_ids": [
         "ram_mem_seam",
         "ram_code_m3_tools",
-        "ram_design_059"
+        "ram_resources_07"
       ],
       "version_caveat": "Recipe explicitly targets SDK 0.6.0 and shipped MemoryDependency/create_memory_tools. Workshop 0.8.0 deliberately uses local ToolDeps, scoped helpers and typed message_history.",
       "display_title": "Neo4j + PydanticAI integration guide",
-      "annotation": "Compare the SDK integration with this workshop\u2019s explicit history, tools and local retrieval helpers."
+      "annotation": "Compare the SDK integration with this workshop’s explicit history, tools and local retrieval helpers."
     },
     {
       "id": "pydantic_history",
-      "title": "PydanticAI \u2014 messages and chat history",
+      "title": "PydanticAI — messages and chat history",
       "url": "https://pydantic.dev/docs/ai/core-concepts/message-history/",
       "description": "Pass typed message history to later agent runs; inspect messages returned by an execution.",
       "verified_by": "Opened ai.pydantic.dev/message-history, followed official redirect and checked message_history examples. Web-verified 2026-11-04.",
       "anchor_checked": false,
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
-        "ram_code_m1",
+        "ram_design_014",
+        "ram_slide_015",
+        "ram_design_016",
         "ram_mem_seam",
-        "ram_code_m2_inject",
+        "ram_slide_020",
         "ram_design_021",
         "ram_slide_022",
-        "ram_design_059"
+        "ram_code_m2_inject",
+        "ram_design_024",
+        "ram_resources_05"
       ],
       "version_caveat": "Rolling PydanticAI docs; workshop pins pydantic-ai-slim 2.62.0.",
-      "display_title": "PydanticAI \u00b7 messages and history",
+      "display_title": "PydanticAI · messages and history",
       "annotation": "Pass typed prior turns through message_history; keep additional retrieved evidence in instructions."
     },
     {
       "id": "pydantic_tools",
-      "title": "PydanticAI \u2014 function tools",
+      "title": "PydanticAI — function tools",
       "url": "https://pydantic.dev/docs/ai/tools-toolsets/tools/",
       "description": "Register functions as agent tools and use RunContext for typed dependencies.",
       "verified_by": "Opened ai.pydantic.dev/tools, followed official redirect and checked registration methods. Web-verified 2026-11-04.",
       "anchor_checked": false,
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
-        "ram_code_m1",
         "ram_design_013",
-        "ram_code_m3_tools"
+        "ram_design_016",
+        "ram_code_m3_tools",
+        "ram_resources_04"
       ],
       "version_caveat": "Rolling PydanticAI docs; workshop pins pydantic-ai-slim 2.62.0.",
-      "display_title": "PydanticAI \u00b7 function tools",
+      "display_title": "PydanticAI · function tools",
       "annotation": "Register functions as tools and understand the RunContext dependency boundary."
     },
     {
       "id": "pydantic_deps",
-      "title": "PydanticAI \u2014 dependencies",
+      "title": "PydanticAI — dependencies",
       "url": "https://pydantic.dev/docs/ai/core-concepts/dependencies/",
       "description": "Pass runtime services and selected customer data into tools through typed dependencies.",
       "verified_by": "Opened ai.pydantic.dev/dependencies, followed official redirect and checked deps_type/deps/RunContext. Web-verified 2026-11-04.",
@@ -361,11 +395,11 @@
       "anchor_note": "No fragment used: links directly to a focused official topic/API page; no guessed anchors.",
       "slide_ids": [
         "ram_code_m1",
-        "ram_code_m3_tools",
-        "ram_code_m3_preferences"
+        "ram_code_m3_preferences",
+        "ram_resources_04"
       ],
       "version_caveat": "Rolling PydanticAI docs; workshop pins pydantic-ai-slim 2.62.0.",
-      "display_title": "PydanticAI \u00b7 typed dependencies",
+      "display_title": "PydanticAI · typed dependencies",
       "annotation": "Follow how runtime services and the selected customer reach tools through ToolDeps."
     },
     {
@@ -379,7 +413,9 @@
         "ram_design_038",
         "ram_code_m4_lifecycle",
         "ram_code_m4_outcome",
-        "ram_code_m4_recall"
+        "ram_slide_042",
+        "ram_code_m4_recall",
+        "ram_resources_08"
       ],
       "version_caveat": "Workshop pins SDK 0.8.0. Module 4 uses explicit application recording around its guards and SQL operations; hosted trace behavior is different. The resource is a focused page, not an unverified fragment.",
       "display_title": "Trace lifecycle API",
@@ -396,12 +432,12 @@
         "ram_design_039",
         "ram_slide_040",
         "ram_code_m4_tools",
-        "ram_design_045",
-        "ram_slide_056"
+        "ram_design_044",
+        "ram_resources_08"
       ],
       "version_caveat": "Bolt behavior matches the graph concept used in the workshop; do not assume NAMS preserves these optional links or arguments.",
       "display_title": "Steps, tool calls and provenance",
-      "annotation": "Inspect add_step, record_tool_call, message links and Step \u2192 TOUCHED \u2192 Entity semantics."
+      "annotation": "Inspect add_step, record_tool_call, message links and Step → TOUCHED → Entity semantics."
     },
     {
       "id": "reasoning-search",
@@ -414,9 +450,7 @@
         "ram_design_041",
         "ram_slide_042",
         "ram_code_m4_recall",
-        "ram_design_044",
-        "ram_design_048",
-        "ram_design_057"
+        "ram_resources_09"
       ],
       "version_caveat": "Workshop similar_executions is local, namespace-scoped Cypher over completed traces followed by SDK get_trace_with_steps. It does not call the SDK get_similar_traces API described here.",
       "display_title": "Trace search and backend differences",
@@ -430,10 +464,10 @@
       "verified_by": "Opened official Models and structured outcomes page on 2026-11-04.",
       "anchor_checked": false,
       "slide_ids": [
-        "ram_slide_040",
-        "ram_code_m4_tools",
+        "ram_design_039",
         "ram_code_m4_outcome",
-        "ram_design_043"
+        "ram_design_054",
+        "ram_resources_08"
       ],
       "version_caveat": "Use the workshop's pinned SDK for executable code. The models describe recorded application events and results, not hidden model reasoning.",
       "display_title": "TraceOutcome and reasoning models",
@@ -448,9 +482,9 @@
       "anchor_checked": false,
       "slide_ids": [
         "ram_code_m4_lifecycle",
-        "ram_code_m4_tools",
-        "ram_code_m4_outcome",
-        "ram_design_043"
+        "ram_design_041",
+        "ram_design_043",
+        "ram_resources_09"
       ],
       "version_caveat": "Online recipe explicitly installs SDK 0.7.0 while the workshop pins 0.8.0. Follow the repo's uv/Make commands for the workshop, not this separate tutorial's environment setup.",
       "display_title": "Record a failed tool call",
@@ -464,10 +498,12 @@
       "verified_by": "Opened official guide on 2026-11-04; inspected its explicit Step-to-Entity TOUCHED relationship and message linkage discussion.",
       "anchor_checked": false,
       "slide_ids": [
-        "ram_design_039",
+        "ram_slide_040",
         "ram_code_m4_tools",
+        "ram_design_043",
+        "ram_design_044",
         "ram_design_045",
-        "ram_slide_056"
+        "ram_resources_09"
       ],
       "version_caveat": "Guide targets Bolt and SDK 0.7.0. It explicitly warns that Python NAMS drops touched_entities; a callable method is not proof of equivalent hosted persistence.",
       "display_title": "Audit execution with TOUCHED",
@@ -481,15 +517,16 @@
       "verified_by": "Opened the public NAMS homepage on 2026-11-04 and followed its Docs link. No authenticated workflow or service write was attempted.",
       "anchor_checked": false,
       "slide_ids": [
-        "ram_design_046",
+        "ram_design_007",
+        "ram_design_009",
         "ram_design_048",
+        "ram_m5_signup",
         "ram_design_049",
-        "ram_design_052",
-        "ram_design_057",
-        "ram_slide_058"
+        "ram_slide_058",
+        "ram_resources_01"
       ],
       "version_caveat": "Verified public entry only. Service behavior, availability, workspace scopes and preview features must be checked in the selected workspace. Module 5's SupportBot still uses Bolt; its separate skill workflow uses hosted REST.",
-      "display_title": "NAMS \u00b7 hosted memory service",
+      "display_title": "NAMS · hosted memory service",
       "annotation": "Open the hosted workspace dashboard and service documentation. Module 5 uses a separate REST workflow."
     },
     {
@@ -500,15 +537,18 @@
       "verified_by": "Opened public docs on 2026-11-04. Skill Generation > POST /v1/skills/generate says scope.type is required; checked its listed request body and 400 response.",
       "anchor_checked": false,
       "slide_ids": [
+        "ram_m5_signup",
+        "ram_m5_key",
+        "ram_m5_connect",
+        "ram_m5_seed",
+        "ram_code_m5_seed_complete",
         "ram_code_m5_distill",
-        "ram_design_048",
-        "ram_design_050",
-        "ram_slide_051",
+        "ram_code_m5_publish",
         "ram_design_052",
-        "ram_design_057"
+        "ram_resources_10"
       ],
-      "version_caveat": "Current workflow sends nameHint and explicit conversations scope, adding skillId for a new version. Missing local seed state warns and falls back to workspace scope. Check the live deployment contract before delivery.",
-      "display_title": "NAMS \u00b7 live endpoint documentation",
+      "version_caveat": "Current workflow sends nameHint and explicit conversations scope, adding skillId for a new version. Both generation commands require the saved conversation ID. With a missing receipt, use the checked-in skill or seed the designated workspace. Check the live deployment contract before delivery.",
+      "display_title": "NAMS · live endpoint documentation",
       "annotation": "Check request fields, scope, capabilities and hosted lifecycle responses."
     },
     {
@@ -519,10 +559,9 @@
       "verified_by": "Opened official guide on 2026-11-04; checked its hosted key and service-issued conversation-ID requirements.",
       "anchor_checked": false,
       "slide_ids": [
-        "ram_design_048",
-        "ram_design_052",
+        "ram_slide_008",
         "ram_design_057",
-        "ram_slide_058"
+        "ram_resources_10"
       ],
       "version_caveat": "Separate SDK memory connection route. The workshop uses direct HTTPX for hosted skill workflows and authored fixtures, while its support app retains Bolt/AuraDB.",
       "display_title": "Connect Python to NAMS",
@@ -536,14 +575,16 @@
       "verified_by": "Opened official reference on 2026-11-04; checked its SDK version statement and messages/entities/preferences/reasoning/extraction capability rows.",
       "anchor_checked": false,
       "slide_ids": [
+        "ram_slide_008",
+        "ram_slide_012",
         "ram_design_048",
         "ram_design_052",
         "ram_design_057",
         "ram_slide_058",
-        "ram_code_m4_recall"
+        "ram_resources_10"
       ],
       "version_caveat": "Reference explicitly describes Python 0.7.0 and TypeScript 0.5.0; workshop pins Python 0.8.0. NAMS is continuously shipped and /v1 is not an SDK version. Treat this as a capability checklist and check the installed version.",
-      "display_title": "Bolt vs. NAMS \u00b7 capability matrix",
+      "display_title": "Bolt vs. NAMS · capability matrix",
       "annotation": "Compare supported operations, identifiers and data scope. Similar method names do not imply parity."
     },
     {
@@ -554,16 +595,24 @@
       "verified_by": "Opened official Agent Skills (Preview) page on 2026-11-04; inspected creation/review/use, GROUNDED_IN, relation to memory and execution limits.",
       "anchor_checked": false,
       "slide_ids": [
+        "ram_slide_006",
         "ram_design_046",
+        "ram_m5_concepts",
+        "ram_m5_pipeline",
+        "ram_m5_package",
         "ram_slide_047",
+        "ram_m5_evaluate",
         "ram_code_m5_agent",
         "ram_design_050",
+        "ram_code_m5_drift",
         "ram_slide_051",
-        "ram_design_052",
-        "ram_design_053"
+        "ram_m5_governance_demo",
+        "ram_design_053",
+        "ram_slide_056",
+        "ram_resources_11"
       ],
       "version_caveat": "Preview REST/MCP feature, with no SDK skill accessor or Bolt skill API. A skill is derived from memory, not a fourth memory layer. Receiving application executes it; documented service execution is gated dry-run planning.",
-      "display_title": "Agent Skills \u00b7 concepts and provenance",
+      "display_title": "Agent Skills · concepts and provenance",
       "annotation": "Separate distillation, review and consumption. Grounding supports inspection; it does not prove correctness."
     },
     {
@@ -574,15 +623,22 @@
       "verified_by": "Opened official Skills API (Preview) reference on 2026-11-04 and checked REST endpoints, lifecycle/run outcomes, attestation and gate descriptions.",
       "anchor_checked": false,
       "slide_ids": [
-        "ram_code_m5_distill",
-        "ram_design_049",
+        "ram_design_046",
+        "ram_m5_concepts",
+        "ram_m5_pipeline",
+        "ram_m5_connect",
+        "ram_m5_package",
+        "ram_slide_047",
+        "ram_m5_evaluate",
         "ram_design_050",
+        "ram_code_m5_drift",
         "ram_slide_051",
-        "ram_design_052",
-        "ram_design_053"
+        "ram_m5_governance_demo",
+        "ram_design_053",
+        "ram_resources_11"
       ],
       "version_caveat": "Current workflow polls succeeded runs, automatically submits decision=approve, publishes and downloads a ZIP. This is not an interactive human review checkpoint. Skills may have deployment-specific gates and attestation.",
-      "display_title": "Skills API \u00b7 generate, publish and drift",
+      "display_title": "Skills API · generate, publish and drift",
       "annotation": "Inspect required scopes, run outcomes, review, publication and per-skill drift endpoints."
     },
     {
@@ -593,11 +649,8 @@
       "verified_by": "Followed the official Skills API quickstart link and opened it on 2026-11-04; checked its declared scope, fixture, preview limits and verification outcome.",
       "anchor_checked": false,
       "slide_ids": [
-        "ram_slide_047",
-        "ram_code_m5_distill",
         "ram_design_049",
-        "ram_code_m5_agent",
-        "ram_design_053"
+        "ram_resources_11"
       ],
       "version_caveat": "Separate SDK 0.7.0 tutorial with a dedicated empty workspace and different request flow. It stops after package verification; it does not demonstrate execution in a receiving agent. Workshop's fresh_agent.py supplies that separate application example.",
       "display_title": "Distill and download a procedure",
@@ -611,9 +664,7 @@
       "verified_by": "Opened official ReasoningMemory API reference on 2026-11-04 and followed its focused subpage links.",
       "anchor_checked": false,
       "slide_ids": [
-        "ram_design_038",
-        "ram_design_039",
-        "ram_design_041"
+        "ram_resources_08"
       ],
       "version_caveat": "Main signatures target Bolt. NAMS implements a different conversation-level reasoning lifecycle. Persisted observable events should not be described as a model's private chain of thought."
     },
@@ -626,10 +677,17 @@
       "date": null,
       "checked_at": "2026-11-04",
       "category": "course",
-      "relevance": "Core follow-up for modules 2\u20134; strongest conceptual and API-oriented continuation of this Python workshop.",
+      "relevance": "Core follow-up for modules 2–4; strongest conceptual and API-oriented continuation of this Python workshop.",
       "caveat": "Course duration differs between page header and body; omit duration. Use the repo pin and package documentation for version-specific code.",
       "display_title": "Context Graphs: Agent Memory with Neo4j",
-      "annotation": "Continue with Python memory concepts, POLE+O extraction and queries across the context graph."
+      "annotation": "Continue with Python memory concepts, POLE+O extraction and queries across the context graph.",
+      "slide_ids": [
+        "ram_design_002",
+        "ram_design_017",
+        "ram_design_054",
+        "ram_design_059",
+        "ram_resources_12"
+      ]
     },
     {
       "id": "course-python-workshop",
@@ -640,10 +698,15 @@
       "date": null,
       "checked_at": "2026-11-04",
       "category": "course",
-      "relevance": "Core hands-on follow-up for Python/PydanticAI participants after modules 2\u20134.",
+      "relevance": "Core hands-on follow-up for Python/PydanticAI participants after modules 2–4.",
       "caveat": "This is a separate coding workshop and repository, not Road to Agent Memory. Lesson totals and duration are inconsistent on the page; omit both.",
       "display_title": "Neo4j Agent Memory Workshop",
-      "annotation": "Build a PydanticAI learning assistant and implement a custom memory tool."
+      "annotation": "Build a PydanticAI learning assistant and implement a custom memory tool.",
+      "slide_ids": [
+        "ram_slide_004",
+        "ram_design_037",
+        "ram_resources_12"
+      ]
     },
     {
       "id": "course-memory-90",
@@ -657,7 +720,10 @@
       "relevance": "Adjacent practical path for MCP-enabled coding agents and portable skills.",
       "caveat": "AIP skill distillation is an alternative workflow; do not describe this course as the repo's module 5 NAMS REST flow.",
       "display_title": "Agent Memory in 90 Minutes",
-      "annotation": "Adjacent path: Copilot, MCP and AIP skill distillation; a different workflow from module 5."
+      "annotation": "Adjacent path: Copilot, MCP and AIP skill distillation; a different workflow from module 5.",
+      "slide_ids": [
+        "ram_resources_13"
+      ]
     },
     {
       "id": "course-typescript",
@@ -671,7 +737,10 @@
       "relevance": "Adjacent TypeScript/Mastra path; useful for translating workshop concepts to another language and framework.",
       "caveat": "Not the PydanticAI implementation used in this repository. Page duration is inconsistent; omit it.",
       "display_title": "Agent Memory Workshop with TypeScript",
-      "annotation": "Adjacent path: a Mastra assistant, graph retrieval, context traces and code-enforced guardrails."
+      "annotation": "Adjacent path: a Mastra assistant, graph retrieval, context traces and code-enforced guardrails.",
+      "slide_ids": [
+        "ram_resources_13"
+      ]
     },
     {
       "id": "course-cypher-fundamentals",
@@ -682,13 +751,18 @@
       "date": null,
       "checked_at": "2026-11-04",
       "category": "course",
-      "relevance": "Supporting prerequisite for inspecting module 2\u20134 memory graphs and understanding the repository's namespace-scoped Cypher.",
+      "relevance": "Supporting prerequisite for inspecting module 2–4 memory graphs and understanding the repository's namespace-scoped Cypher.",
       "display_title": "Cypher Fundamentals",
-      "annotation": "Practice graph patterns and filtering before adapting the workshop\u2019s scoped retrieval queries."
+      "annotation": "Practice graph patterns and filtering before adapting the workshop’s scoped retrieval queries.",
+      "slide_ids": [
+        "ram_design_025",
+        "ram_design_045",
+        "ram_resources_12"
+      ]
     },
     {
       "id": "blog-lennys-memory",
-      "title": "Meet Lenny\u2019s Memory: Building context graphs for AI agents",
+      "title": "Meet Lenny’s Memory: Building context graphs for AI agents",
       "url": "https://neo4j.com/blog/developer/meet-lennys-memory-building-context-graphs-for-ai-agents/",
       "description": "Package introduction and PydanticAI demo connecting conversations, entities and reasoning traces into one context graph.",
       "verified_by": "Opened official Neo4j article; confirmed H1, author William Lyon, publication date and three-memory-type introduction.",
@@ -697,8 +771,12 @@
       "category": "blog",
       "relevance": "Best introductory reading after module 1 and the neo4j-agent-memory concepts section.",
       "caveat": "Historical launch article. Use versioned package docs and the workshop repository for current executable API examples.",
-      "display_title": "Lenny\u2019s Memory \u00b7 context graphs",
-      "annotation": "A package introduction and PydanticAI example linking conversations, entities and reasoning traces."
+      "display_title": "Lenny’s Memory · context graphs",
+      "annotation": "A package introduction and PydanticAI example linking conversations, entities and reasoning traces.",
+      "slide_ids": [
+        "ram_design_005",
+        "ram_resources_14"
+      ]
     },
     {
       "id": "blog-modeling-memory",
@@ -712,7 +790,10 @@
       "relevance": "Optional conceptual background for memory modeling and extraction design.",
       "caveat": "Predates neo4j-agent-memory and uses a different memory taxonomy. Its general description of short-term memory as ephemeral does not describe this workshop's persisted conversations.",
       "display_title": "Modeling agent memory",
-      "annotation": "Background on memory models and write strategies. Its older taxonomy differs from this workshop."
+      "annotation": "Background on memory models and write strategies. Its older taxonomy differs from this workshop.",
+      "slide_ids": [
+        "ram_resources_14"
+      ]
     },
     {
       "id": "blog-microsoft-agent-framework",
@@ -726,7 +807,10 @@
       "relevance": "Adjacent framework example for extending the same memory concepts beyond PydanticAI.",
       "caveat": "Framework-specific code is illustrative, not a substitute for this repository's pinned API usage.",
       "display_title": "Microsoft Agent Framework + Neo4j",
-      "annotation": "Explore conversation, preference, entity and trace memory in another agent framework."
+      "annotation": "Explore conversation, preference, entity and trace memory in another agent framework.",
+      "slide_ids": [
+        "ram_resources_15"
+      ]
     },
     {
       "id": "blog-multi-agent-memory",
@@ -740,7 +824,10 @@
       "relevance": "Advanced reading after module 4 about memory shared between cooperating agents.",
       "caveat": "This workshop uses a single SupportBot and namespace-scoped retrieval; multi-agent sharing is an extension, not its current architecture.",
       "display_title": "When agents share a brain",
-      "annotation": "Explore a Strands example that shares graph-backed memory across multiple agents."
+      "annotation": "Explore a Strands example that shares graph-backed memory across multiple agents.",
+      "slide_ids": [
+        "ram_resources_14"
+      ]
     },
     {
       "id": "blog-nams-tour",
@@ -754,7 +841,10 @@
       "relevance": "Direct companion to module 5's hosted-service introduction and workspace exploration.",
       "caveat": "Article explicitly identifies NAMS as an experimental, community-supported Neo4j Labs project. It is not evidence that a particular workspace or endpoint has been tested.",
       "display_title": "A tour of NAMS",
-      "annotation": "See the hosted console and managed memory pipeline accessed through REST or MCP."
+      "annotation": "See the hosted console and managed memory pipeline accessed through REST or MCP.",
+      "slide_ids": [
+        "ram_resources_15"
+      ]
     },
     {
       "id": "blog-portable-skills",
@@ -768,17 +858,27 @@
       "relevance": "Strongest module 5 companion for understanding the transition from recorded experience to a portable skill.",
       "caveat": "Use current NAMS documentation and this repository's workflow code for exact request fields and operations.",
       "display_title": "From Agent Memory to Portable Skills",
-      "annotation": "Read about scoped distillation, SKILL.md reuse and governance as the source memory changes."
+      "annotation": "Read about scoped distillation, SKILL.md reuse and governance as the source memory changes.",
+      "slide_ids": [
+        "ram_resources_15"
+      ]
     },
     {
       "id": "pydantic_agent",
-      "title": "PydanticAI \u2014 Agents",
+      "title": "PydanticAI — Agents",
       "url": "https://pydantic.dev/docs/ai/core-concepts/agent/",
       "description": "Construct an agent and provide instructions, tools and per-run context.",
       "verified_by": "Opened official Agents link from current PydanticAI navigation (2026-11-04).",
       "version_caveat": "Rolling documentation; workshop uses locked PydanticAI 2.62.0.",
-      "display_title": "PydanticAI \u00b7 agents and instructions",
-      "annotation": "Understand agent construction and the per-run instructions used alongside the base prompt."
+      "display_title": "PydanticAI · agents and instructions",
+      "annotation": "Understand agent construction and the per-run instructions used alongside the base prompt.",
+      "slide_ids": [
+        "ram_design_013",
+        "ram_code_m1",
+        "ram_slide_015",
+        "ram_code_m5_agent",
+        "ram_resources_04"
+      ]
     },
     {
       "id": "nams-openapi",
@@ -788,7 +888,14 @@
       "description": "Machine-readable hosted endpoint contracts and request/response fields.",
       "annotation": "Inspect the exact hosted schemas used by the workshop HTTP workflows.",
       "version_caveat": "The service ships independently of the pinned Python SDK. Use the current deployment contract.",
-      "verified_by": "Official public OpenAPI document checked on 2026-11-04."
+      "verified_by": "Official public OpenAPI document checked on 2026-11-04.",
+      "slide_ids": [
+        "ram_m5_seed",
+        "ram_code_m5_seed_complete",
+        "ram_code_m5_distill",
+        "ram_code_m5_publish",
+        "ram_resources_10"
+      ]
     },
     {
       "id": "nams-api-keys",
@@ -798,14 +905,18 @@
       "description": "Authenticated console destination for workspace data keys.",
       "annotation": "After signing in, create a workspace-bound data key and keep it in private configuration.",
       "version_caveat": "Exact link is exposed by public docs. Authenticated creation controls were not inspected; avoid invented button labels.",
-      "verified_by": "Verified as the API Keys destination linked by official NAMS docs on 2026-11-04."
+      "verified_by": "Verified as the API Keys destination linked by official NAMS docs on 2026-11-04.",
+      "slide_ids": [
+        "ram_m5_key",
+        "ram_resources_10"
+      ]
     }
   ],
   "appendix": [
     {
       "id": "ram_resources_01",
-      "title": "Resources \u00b7 Start here",
-      "subtitle": "Project and service entry points",
+      "title": "Resources · Choose a destination",
+      "subtitle": "Workshop, implementation, and further study",
       "resources": [
         "sdk_github",
         "docs_home",
@@ -814,12 +925,126 @@
       "exemplar": "ram_design_025",
       "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
       "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
-      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile."
+      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.",
+      "topic_navigation": [
+        {
+          "label": "SDK setup",
+          "native_slide": 90,
+          "source_slide": 75
+        },
+        {
+          "label": "PydanticAI",
+          "native_slide": 91,
+          "source_slide": 76
+        },
+        {
+          "label": "Short-term",
+          "native_slide": 92,
+          "source_slide": 77
+        },
+        {
+          "label": "Long-term",
+          "native_slide": 93,
+          "source_slide": 78
+        },
+        {
+          "label": "Reasoning",
+          "native_slide": 95,
+          "source_slide": 80
+        },
+        {
+          "label": "Hosted API",
+          "native_slide": 97,
+          "source_slide": 82
+        },
+        {
+          "label": "Skills and governance",
+          "native_slide": 98,
+          "source_slide": 83
+        },
+        {
+          "label": "GraphAcademy",
+          "native_slide": 99,
+          "source_slide": 84
+        },
+        {
+          "label": "Articles",
+          "native_slide": 101,
+          "source_slide": 86
+        }
+      ],
+      "workshop_links": [
+        {
+          "label": "Workshop repository",
+          "url": "https://github.com/johnymontana/road-to-agent-memory"
+        },
+        {
+          "label": "Codespaces",
+          "url": "https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "SDK setup",
+          "slide_id": "ram_resources_03",
+          "slide_number": 90
+        },
+        {
+          "label": "PydanticAI",
+          "slide_id": "ram_resources_04",
+          "slide_number": 91
+        },
+        {
+          "label": "Short-term",
+          "slide_id": "ram_resources_05",
+          "slide_number": 92
+        },
+        {
+          "label": "Long-term",
+          "slide_id": "ram_resources_06",
+          "slide_number": 93
+        },
+        {
+          "label": "Reasoning",
+          "slide_id": "ram_resources_08",
+          "slide_number": 95
+        },
+        {
+          "label": "Hosted API",
+          "slide_id": "ram_resources_10",
+          "slide_number": 97
+        },
+        {
+          "label": "Skills and governance",
+          "slide_id": "ram_resources_11",
+          "slide_number": 98
+        },
+        {
+          "label": "GraphAcademy",
+          "slide_id": "ram_resources_12",
+          "slide_number": 99
+        },
+        {
+          "label": "Articles",
+          "slide_id": "ram_resources_14",
+          "slide_number": 101
+        },
+        {
+          "label": "Index",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        },
+        {
+          "label": "Next",
+          "slide_id": "ram_resources_02",
+          "slide_number": 89
+        }
+      ]
     },
     {
       "id": "ram_resources_02",
-      "title": "Resources \u00b7 Memory concepts",
-      "subtitle": "The model behind modules 1\u20134",
+      "title": "Resources · Memory concepts",
+      "subtitle": "The model behind modules 1–4",
       "resources": [
         "memory_types",
         "graph_architecture",
@@ -828,11 +1053,29 @@
       "exemplar": "ram_design_025",
       "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
       "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
-      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile."
+      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.",
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "Index",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        },
+        {
+          "label": "Previous",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        },
+        {
+          "label": "Next",
+          "slide_id": "ram_resources_03",
+          "slide_number": 90
+        }
+      ]
     },
     {
       "id": "ram_resources_03",
-      "title": "Resources \u00b7 SDK setup and configuration",
+      "title": "Resources · SDK setup and configuration",
       "subtitle": "Pin first; compare versions before copying examples",
       "resources": [
         "sdk_pypi_080",
@@ -842,11 +1085,29 @@
       "exemplar": "ram_design_025",
       "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
       "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
-      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile."
+      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.",
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "Index",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        },
+        {
+          "label": "Previous",
+          "slide_id": "ram_resources_02",
+          "slide_number": 89
+        },
+        {
+          "label": "Next",
+          "slide_id": "ram_resources_04",
+          "slide_number": 91
+        }
+      ]
     },
     {
       "id": "ram_resources_04",
-      "title": "Resources \u00b7 PydanticAI foundations",
+      "title": "Resources · PydanticAI foundations",
       "subtitle": "Agent construction, tools and dependencies",
       "resources": [
         "pydantic_agent",
@@ -856,11 +1117,29 @@
       "exemplar": "ram_design_025",
       "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
       "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
-      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile."
+      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.",
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "Index",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        },
+        {
+          "label": "Previous",
+          "slide_id": "ram_resources_03",
+          "slide_number": 90
+        },
+        {
+          "label": "Next",
+          "slide_id": "ram_resources_05",
+          "slide_number": 92
+        }
+      ]
     },
     {
       "id": "ram_resources_05",
-      "title": "Resources \u00b7 Short-term memory",
+      "title": "Resources · Short-term memory",
       "subtitle": "Persistence, retrieval scope and typed history",
       "resources": [
         "messages_api",
@@ -870,7 +1149,7 @@
       "exemplar": "ram_design_025",
       "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
       "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
-      "footer": "Short-term memory API overview \u00b7 Workshop SDK 0.8.0; compare docs with local code.",
+      "footer": "Short-term memory API overview · Workshop SDK 0.8.0; compare docs with local code.",
       "extra_resources": [
         "short_term_api"
       ],
@@ -880,11 +1159,29 @@
           "label": "Short-term memory API overview",
           "url": "https://neo4j.com/labs/agent-memory/reference/api/short-term/"
         }
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "Index",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        },
+        {
+          "label": "Previous",
+          "slide_id": "ram_resources_04",
+          "slide_number": 91
+        },
+        {
+          "label": "Next",
+          "slide_id": "ram_resources_06",
+          "slide_number": 93
+        }
       ]
     },
     {
       "id": "ram_resources_06",
-      "title": "Resources \u00b7 Entities and ontologies",
+      "title": "Resources · Entities and ontologies",
       "subtitle": "Structure, identity and SQL grounding boundaries",
       "resources": [
         "entity_api",
@@ -894,11 +1191,29 @@
       "exemplar": "ram_design_025",
       "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
       "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
-      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile."
+      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.",
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "Index",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        },
+        {
+          "label": "Previous",
+          "slide_id": "ram_resources_05",
+          "slide_number": 92
+        },
+        {
+          "label": "Next",
+          "slide_id": "ram_resources_07",
+          "slide_number": 94
+        }
+      ]
     },
     {
       "id": "ram_resources_07",
-      "title": "Resources \u00b7 Preferences and integration",
+      "title": "Resources · Preferences and integration",
       "subtitle": "Customer scope and application-owned memory policy",
       "resources": [
         "preference_api",
@@ -908,11 +1223,29 @@
       "exemplar": "ram_design_025",
       "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
       "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
-      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile."
+      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.",
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "Index",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        },
+        {
+          "label": "Previous",
+          "slide_id": "ram_resources_06",
+          "slide_number": 93
+        },
+        {
+          "label": "Next",
+          "slide_id": "ram_resources_08",
+          "slide_number": 95
+        }
+      ]
     },
     {
       "id": "ram_resources_08",
-      "title": "Resources \u00b7 Record an execution",
+      "title": "Resources · Record an execution",
       "subtitle": "Trace lifecycle, observations and outcomes",
       "resources": [
         "reasoning-traces",
@@ -922,7 +1255,7 @@
       "exemplar": "ram_design_025",
       "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
       "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
-      "footer": "Reasoning API overview \u00b7 Workshop SDK 0.8.0; compare docs with local code.",
+      "footer": "Reasoning API overview · Workshop SDK 0.8.0; compare docs with local code.",
       "extra_resources": [
         "reasoning-overview"
       ],
@@ -932,11 +1265,29 @@
           "label": "Reasoning API overview",
           "url": "https://neo4j.com/labs/agent-memory/reference/api/reasoning/"
         }
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "Index",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        },
+        {
+          "label": "Previous",
+          "slide_id": "ram_resources_07",
+          "slide_number": 94
+        },
+        {
+          "label": "Next",
+          "slide_id": "ram_resources_09",
+          "slide_number": 96
+        }
       ]
     },
     {
       "id": "ram_resources_09",
-      "title": "Resources \u00b7 Retrieve and audit traces",
+      "title": "Resources · Retrieve and audit traces",
       "subtitle": "Failures can be useful examples; inspect actual receipts",
       "resources": [
         "reasoning-search",
@@ -946,11 +1297,29 @@
       "exemplar": "ram_design_025",
       "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
       "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
-      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile."
+      "footer": "Workshop: SDK 0.8.0. Online examples may target other versions; use the local lockfile.",
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "Index",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        },
+        {
+          "label": "Previous",
+          "slide_id": "ram_resources_08",
+          "slide_number": 95
+        },
+        {
+          "label": "Next",
+          "slide_id": "ram_resources_10",
+          "slide_number": 97
+        }
+      ]
     },
     {
       "id": "ram_resources_10",
-      "title": "Resources \u00b7 NAMS: service and scope",
+      "title": "Resources · NAMS: service and scope",
       "subtitle": "Hosted contracts evolve independently of the SDK pin",
       "resources": [
         "nams-service-api",
@@ -960,7 +1329,7 @@
       "exemplar": "ram_design_025",
       "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
       "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
-      "footer": "NAMS OpenAPI \u00b7 API key dashboard \u00b7 Workshop generation uses explicit conversation scope.",
+      "footer": "NAMS OpenAPI · API key dashboard · Workshop generation uses explicit conversation scope.",
       "extra_resources": [
         "nams-openapi",
         "nams-api-keys"
@@ -974,11 +1343,29 @@
           "label": "API key dashboard",
           "url": "https://memory.neo4jlabs.com/dashboard/api-keys"
         }
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "Index",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        },
+        {
+          "label": "Previous",
+          "slide_id": "ram_resources_09",
+          "slide_number": 96
+        },
+        {
+          "label": "Next",
+          "slide_id": "ram_resources_11",
+          "slide_number": 98
+        }
       ]
     },
     {
       "id": "ram_resources_11",
-      "title": "Resources \u00b7 Skills and governance",
+      "title": "Resources · Skills and governance",
       "subtitle": "Generation, publication, drift and portable artifacts",
       "resources": [
         "skills-concepts",
@@ -988,12 +1375,30 @@
       "exemplar": "ram_design_025",
       "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
       "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
-      "footer": "Hosted preview: inspect the current contract and returned evidence before trusting a generated skill."
+      "footer": "Hosted preview: inspect the current contract and returned evidence before trusting a generated skill.",
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "Index",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        },
+        {
+          "label": "Previous",
+          "slide_id": "ram_resources_10",
+          "slide_number": 97
+        },
+        {
+          "label": "Next",
+          "slide_id": "ram_resources_12",
+          "slide_number": 99
+        }
+      ]
     },
     {
       "id": "ram_resources_12",
-      "title": "Resources \u00b7 GraphAcademy: Python path",
-      "subtitle": "Courses that continue the workshop\u2019s core concepts",
+      "title": "Resources · GraphAcademy: Python path",
+      "subtitle": "Courses that continue the workshop’s core concepts",
       "resources": [
         "course-context-graphs",
         "course-python-workshop",
@@ -1002,11 +1407,29 @@
       "exemplar": "ram_design_025",
       "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
       "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
-      "footer": "Free GraphAcademy learning paths. Course exercises use their own repositories and environments."
+      "footer": "Free GraphAcademy learning paths. Course exercises use their own repositories and environments.",
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "Index",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        },
+        {
+          "label": "Previous",
+          "slide_id": "ram_resources_11",
+          "slide_number": 98
+        },
+        {
+          "label": "Next",
+          "slide_id": "ram_resources_13",
+          "slide_number": 100
+        }
+      ]
     },
     {
       "id": "ram_resources_13",
-      "title": "Resources \u00b7 Other stacks and releases",
+      "title": "Resources · Other stacks and releases",
       "subtitle": "Alternative learning paths; verify the selected stack",
       "resources": [
         "course-memory-90",
@@ -1016,11 +1439,29 @@
       "exemplar": "ram_design_025",
       "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
       "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
-      "footer": "Copilot/AIP and TypeScript/Mastra are adjacent paths, not the Python SupportBot implementation."
+      "footer": "Copilot/AIP and TypeScript/Mastra are adjacent paths, not the Python SupportBot implementation.",
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "Index",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        },
+        {
+          "label": "Previous",
+          "slide_id": "ram_resources_12",
+          "slide_number": 99
+        },
+        {
+          "label": "Next",
+          "slide_id": "ram_resources_14",
+          "slide_number": 101
+        }
+      ]
     },
     {
       "id": "ram_resources_14",
-      "title": "Resources \u00b7 Read: context graphs",
+      "title": "Resources · Read: context graphs",
       "subtitle": "Official Neo4j articles for broader design context",
       "resources": [
         "blog-lennys-memory",
@@ -1030,11 +1471,29 @@
       "exemplar": "ram_design_025",
       "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
       "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
-      "footer": "Articles explain concepts and examples; use current API references and the workshop pin for code."
+      "footer": "Articles explain concepts and examples; use current API references and the workshop pin for code.",
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "Index",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        },
+        {
+          "label": "Previous",
+          "slide_id": "ram_resources_13",
+          "slide_number": 100
+        },
+        {
+          "label": "Next",
+          "slide_id": "ram_resources_15",
+          "slide_number": 102
+        }
+      ]
     },
     {
       "id": "ram_resources_15",
-      "title": "Resources \u00b7 Read: integrations and skills",
+      "title": "Resources · Read: integrations and skills",
       "subtitle": "Framework integration, hosted memory and distillation",
       "resources": [
         "blog-microsoft-agent-framework",
@@ -1044,7 +1503,20 @@
       "exemplar": "ram_design_025",
       "method": "Duplicate inspected three-row native template in place; keep inherited graph motifs, logo, row cards and numbering. Replace row text with title, annotation and linked domain.",
       "media_mapping": "No slide-local images or videos. Native graph motifs are retained as section markers.",
-      "footer": "Articles explain concepts and examples; use current API references and the workshop pin for code."
+      "footer": "Articles explain concepts and examples; use current API references and the workshop pin for code.",
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "Index",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        },
+        {
+          "label": "Previous",
+          "slide_id": "ram_resources_14",
+          "slide_number": 101
+        }
+      ]
     }
   ],
   "inline": [
@@ -1058,6 +1530,19 @@
       "labels": [
         "SDK GitHub",
         "Memory docs"
+      ],
+      "workshop_links": [
+        {
+          "label": "Workshop repo",
+          "url": "https://github.com/johnymontana/road-to-agent-memory"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1070,6 +1555,19 @@
       "labels": [
         "Memory docs",
         "GraphAcademy: memory"
+      ],
+      "workshop_links": [
+        {
+          "label": "Agent source",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_1/app/agent.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1082,6 +1580,14 @@
       "labels": [
         "Memory types",
         "Graph model"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1094,6 +1600,19 @@
       "labels": [
         "GraphAcademy: Python",
         "Memory docs"
+      ],
+      "workshop_links": [
+        {
+          "label": "Timed routes",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/run-of-show.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1105,7 +1624,15 @@
       ],
       "labels": [
         "Memory types",
-        "Lenny\u2019s Memory"
+        "Lenny’s Memory"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1118,6 +1645,14 @@
       "labels": [
         "Memory types",
         "Skill concepts"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1130,6 +1665,23 @@
       "labels": [
         "Client API",
         "NAMS console"
+      ],
+      "workshop_links": [
+        {
+          "label": "Open the workshop in Codespaces",
+          "url": "https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory"
+        },
+        {
+          "label": "workshop repository",
+          "url": "https://github.com/johnymontana/road-to-agent-memory"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1142,6 +1694,14 @@
       "labels": [
         "Backend capabilities",
         "Connect to NAMS"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1154,6 +1714,14 @@
       "labels": [
         "Configuration",
         "NAMS console"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1166,6 +1734,19 @@
       "labels": [
         "Client API",
         "Configuration"
+      ],
+      "workshop_links": [
+        {
+          "label": "Workshop setup",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/README.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1178,6 +1759,14 @@
       "labels": [
         "Graph model",
         "Memory types"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1190,6 +1779,14 @@
       "labels": [
         "Graph model",
         "Backend capabilities"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1202,6 +1799,14 @@
       "labels": [
         "PydanticAI agents",
         "Function tools"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1214,6 +1819,19 @@
       "labels": [
         "PydanticAI agents",
         "Dependencies"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_1/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_1/app/agent.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1226,6 +1844,14 @@
       "labels": [
         "Chat history",
         "Memory types"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1238,6 +1864,14 @@
       "labels": [
         "Chat history",
         "PydanticAI agents"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1250,6 +1884,19 @@
       "labels": [
         "Function tools",
         "Chat history"
+      ],
+      "workshop_links": [
+        {
+          "label": "Lab guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-1.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1262,6 +1909,23 @@
       "labels": [
         "GraphAcademy: memory",
         "Memory types"
+      ],
+      "workshop_links": [
+        {
+          "label": "expected fields",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/scripts/eval.py"
+        },
+        {
+          "label": "Run eval",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-1.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1274,6 +1938,14 @@
       "labels": [
         "Memory types",
         "SDK GitHub"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1286,6 +1958,14 @@
       "labels": [
         "Chat history",
         "Integration guide"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1298,6 +1978,19 @@
       "labels": [
         "Client API",
         "Configuration"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_2/app/memory.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/memory.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1310,6 +2003,14 @@
       "labels": [
         "Memory types",
         "Message API"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1322,6 +2023,14 @@
       "labels": [
         "Message API",
         "Graph model"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1334,6 +2043,14 @@
       "labels": [
         "Message API",
         "Chat history"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1346,6 +2063,19 @@
       "labels": [
         "Message API",
         "Client API"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_2/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/agent.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1358,6 +2088,14 @@
       "labels": [
         "Search + scope",
         "Chat history"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1370,6 +2108,14 @@
       "labels": [
         "Chat history",
         "Search + scope"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1382,6 +2128,23 @@
       "labels": [
         "Chat history",
         "Search + scope"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_2/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/agent.py"
+        },
+        {
+          "label": "module_2/app/context.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/context.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1394,6 +2157,19 @@
       "labels": [
         "Search + scope",
         "Message API"
+      ],
+      "workshop_links": [
+        {
+          "label": "Lab guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-2.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1406,6 +2182,19 @@
       "labels": [
         "Message API",
         "Chat history"
+      ],
+      "workshop_links": [
+        {
+          "label": "Lab guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-2.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1418,6 +2207,19 @@
       "labels": [
         "Cypher course",
         "Search + scope"
+      ],
+      "workshop_links": [
+        {
+          "label": "Lab guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-2.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1430,6 +2232,14 @@
       "labels": [
         "Entity API",
         "Preference API"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1442,6 +2252,14 @@
       "labels": [
         "Ontology guide",
         "POLE+O"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1454,6 +2272,14 @@
       "labels": [
         "Ontology guide",
         "Extraction"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1466,6 +2292,23 @@
       "labels": [
         "Ontology guide",
         "Configuration"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_3/app/memory.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/memory.py"
+        },
+        {
+          "label": "module_3/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/agent.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1478,6 +2321,24 @@
       "labels": [
         "POLE+O",
         "Ontology guide"
+      ],
+      "workshop_links": [
+        {
+          "label": "Lab guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "Run on slide 43",
+          "slide_id": "ram_design_035",
+          "slide_number": 43
+        },
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1490,6 +2351,14 @@
       "labels": [
         "POLE+O",
         "Entity API"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1502,6 +2371,14 @@
       "labels": [
         "Extraction",
         "Entity API"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1514,6 +2391,14 @@
       "labels": [
         "Entity API",
         "Extraction"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1526,6 +2411,19 @@
       "labels": [
         "Entity API",
         "Client API"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_3/app/hydrate.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/hydrate.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1538,6 +2436,14 @@
       "labels": [
         "Resolution",
         "Entity API"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1550,6 +2456,14 @@
       "labels": [
         "Resolution",
         "Graph model"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1562,6 +2476,19 @@
       "labels": [
         "Ontology guide",
         "Extraction"
+      ],
+      "workshop_links": [
+        {
+          "label": "Lab guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1574,6 +2501,14 @@
       "labels": [
         "Entity API",
         "Configuration"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1586,6 +2521,23 @@
       "labels": [
         "Function tools",
         "Integration guide"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_3/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/agent.py"
+        },
+        {
+          "label": "module_3/app/memory_tools.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/memory_tools.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1598,6 +2550,23 @@
       "labels": [
         "Preference API",
         "Dependencies"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_3/app/memory_tools.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/memory_tools.py"
+        },
+        {
+          "label": "module_3/app/context.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/context.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1610,6 +2579,19 @@
       "labels": [
         "GraphAcademy: Python",
         "Preference API"
+      ],
+      "workshop_links": [
+        {
+          "label": "Lab guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1622,6 +2604,14 @@
       "labels": [
         "Memory types",
         "Trace API"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1634,6 +2624,14 @@
       "labels": [
         "Steps + tools",
         "Outcome models"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1646,6 +2644,14 @@
       "labels": [
         "Steps + tools",
         "Audit provenance"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1658,6 +2664,23 @@
       "labels": [
         "Trace API",
         "Record failures"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_4/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/agent.py"
+        },
+        {
+          "label": "module_4/app/reasoning.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1670,6 +2693,19 @@
       "labels": [
         "Steps + tools",
         "Audit provenance"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_4/app/reasoning.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1682,6 +2718,19 @@
       "labels": [
         "Outcome models",
         "Trace API"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_4/app/reasoning.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1694,6 +2743,14 @@
       "labels": [
         "Trace search",
         "Record failures"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1706,6 +2763,14 @@
       "labels": [
         "Trace search",
         "Trace API"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1718,6 +2783,23 @@
       "labels": [
         "Trace search",
         "Trace API"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_4/app/reasoning.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py"
+        },
+        {
+          "label": "module_4/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/agent.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1730,6 +2812,19 @@
       "labels": [
         "Record failures",
         "Audit provenance"
+      ],
+      "workshop_links": [
+        {
+          "label": "Lab guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-4.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1742,6 +2837,14 @@
       "labels": [
         "Audit provenance",
         "Steps + tools"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1754,6 +2857,23 @@
       "labels": [
         "Audit provenance",
         "Cypher course"
+      ],
+      "workshop_links": [
+        {
+          "label": "Archived refund ticket",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/reviews/2026-11-01-workshop-fixes/command-09.log"
+        },
+        {
+          "label": "Lab guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-4.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -1766,7 +2886,35 @@
         "Skill concepts",
         "Skills API"
       ],
-      "slide_number": 60
+      "slide_number": 60,
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "Bolt and NAMS",
+          "slide_id": "ram_design_048",
+          "slide_number": 63
+        },
+        {
+          "label": "compare off with on or fallback",
+          "slide_id": "ram_design_049",
+          "slide_number": 75
+        },
+        {
+          "label": "Hosted provenance",
+          "slide_id": "ram_design_050",
+          "slide_number": 76
+        },
+        {
+          "label": "Start live route",
+          "slide_id": "ram_m5_pipeline",
+          "slide_number": 62
+        },
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_m5_concepts",
@@ -1778,7 +2926,15 @@
         "Skill concepts",
         "Skills API"
       ],
-      "slide_number": 61
+      "slide_number": 61,
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_m5_pipeline",
@@ -1790,7 +2946,15 @@
         "Skill concepts",
         "Skills API"
       ],
-      "slide_number": 62
+      "slide_number": 62,
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_design_048",
@@ -1802,7 +2966,25 @@
         "Backend capabilities",
         "NAMS console"
       ],
-      "slide_number": 63
+      "slide_number": 63,
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "Open it directly",
+          "slide_id": "ram_m5_package",
+          "slide_number": 71
+        },
+        {
+          "label": "Check readiness",
+          "slide_id": "ram_m5_connect",
+          "slide_number": 66
+        },
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_m5_signup",
@@ -1814,7 +2996,15 @@
         "NAMS sign in",
         "Setup docs"
       ],
-      "slide_number": 64
+      "slide_number": 64,
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_m5_key",
@@ -1826,7 +3016,15 @@
         "API key dashboard",
         "Authentication docs"
       ],
-      "slide_number": 65
+      "slide_number": 65,
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_m5_connect",
@@ -1838,7 +3036,30 @@
         "NAMS docs",
         "Skills API"
       ],
-      "slide_number": 66
+      "slide_number": 66,
+      "workshop_links": [
+        {
+          "label": "Lab guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "slide 75 (comparison)",
+          "slide_id": "ram_design_049",
+          "slide_number": 75
+        },
+        {
+          "label": "open slide 82 (wrap)",
+          "slide_id": "ram_design_054",
+          "slide_number": 82
+        },
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_m5_seed",
@@ -1850,7 +3071,20 @@
         "NAMS OpenAPI",
         "Live NAMS API"
       ],
-      "slide_number": 67
+      "slide_number": 67,
+      "workshop_links": [
+        {
+          "label": "Lab guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_code_m5_seed_complete",
@@ -1862,7 +3096,20 @@
         "NAMS OpenAPI",
         "Live NAMS API"
       ],
-      "slide_number": 68
+      "slide_number": 68,
+      "workshop_links": [
+        {
+          "label": "module_5/workflows/seed.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/seed.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_code_m5_distill",
@@ -1874,7 +3121,20 @@
         "NAMS OpenAPI",
         "Live NAMS API"
       ],
-      "slide_number": 69
+      "slide_number": 69,
+      "workshop_links": [
+        {
+          "label": "module_5/workflows/distill.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/distill.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_code_m5_publish",
@@ -1886,7 +3146,20 @@
         "NAMS OpenAPI",
         "Live NAMS API"
       ],
-      "slide_number": 70
+      "slide_number": 70,
+      "workshop_links": [
+        {
+          "label": "module_5/workflows/distill.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/distill.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_m5_package",
@@ -1898,7 +3171,25 @@
         "Skill concepts",
         "Skills API"
       ],
-      "slide_number": 71
+      "slide_number": 71,
+      "workshop_links": [
+        {
+          "label": "Lab guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "Compare the fresh agent",
+          "slide_id": "ram_design_049",
+          "slide_number": 75
+        },
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_slide_047",
@@ -1910,7 +3201,15 @@
         "Skill concepts",
         "Skills API"
       ],
-      "slide_number": 72
+      "slide_number": 72,
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_m5_evaluate",
@@ -1922,7 +3221,15 @@
         "Skill concepts",
         "Skills API"
       ],
-      "slide_number": 73
+      "slide_number": 73,
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_code_m5_agent",
@@ -1934,7 +3241,20 @@
         "PydanticAI agents",
         "Skill concepts"
       ],
-      "slide_number": 74
+      "slide_number": 74,
+      "workshop_links": [
+        {
+          "label": "module_5/app/fresh_agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/app/fresh_agent.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_design_049",
@@ -1946,7 +3266,25 @@
         "Skills tutorial",
         "NAMS console"
       ],
-      "slide_number": 75
+      "slide_number": 75,
+      "workshop_links": [
+        {
+          "label": "Lab guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "Fallback complete → slide 82 (wrap)",
+          "slide_id": "ram_design_054",
+          "slide_number": 82
+        },
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_design_050",
@@ -1958,7 +3296,15 @@
         "Skill concepts",
         "Skills API"
       ],
-      "slide_number": 76
+      "slide_number": 76,
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_code_m5_drift",
@@ -1970,7 +3316,20 @@
         "Skill concepts",
         "Skills API"
       ],
-      "slide_number": 77
+      "slide_number": 77,
+      "workshop_links": [
+        {
+          "label": "module_5/workflows/drift.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/drift.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_slide_051",
@@ -1982,7 +3341,15 @@
         "Skill concepts",
         "Skills API"
       ],
-      "slide_number": 78
+      "slide_number": 78,
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_m5_governance_demo",
@@ -1994,7 +3361,20 @@
         "Skill concepts",
         "Skills API"
       ],
-      "slide_number": 79
+      "slide_number": 79,
+      "workshop_links": [
+        {
+          "label": "Lab guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_design_052",
@@ -2006,7 +3386,20 @@
         "Backend capabilities",
         "Live NAMS API"
       ],
-      "slide_number": 80
+      "slide_number": 80,
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "the wrap",
+          "slide_id": "ram_design_054",
+          "slide_number": 82
+        },
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_id": "ram_design_053",
@@ -2018,7 +3411,25 @@
         "Skill concepts",
         "Skills API"
       ],
-      "slide_number": 81
+      "slide_number": 81,
+      "workshop_links": [
+        {
+          "label": "Lab guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "existing package",
+          "slide_id": "ram_m5_package",
+          "slide_number": 71
+        },
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
+      ]
     },
     {
       "slide_number": 82,
@@ -2030,6 +3441,14 @@
       "labels": [
         "GraphAcademy: memory",
         "Outcome models"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -2042,6 +3461,14 @@
       "labels": [
         "Memory types",
         "Graph model"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -2054,6 +3481,14 @@
       "labels": [
         "Graph model",
         "Skill concepts"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -2066,6 +3501,14 @@
       "labels": [
         "Backend capabilities",
         "Connect to NAMS"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -2078,6 +3521,14 @@
       "labels": [
         "Backend capabilities",
         "NAMS console"
+      ],
+      "workshop_links": [],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     },
     {
@@ -2092,6 +3543,23 @@
         "SDK GitHub",
         "Memory docs",
         "GraphAcademy: memory"
+      ],
+      "workshop_links": [
+        {
+          "label": "teardown guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/teardown.md"
+        },
+        {
+          "label": "scripts/monday_memory.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/scripts/monday_memory.py"
+        }
+      ],
+      "internal_links": [
+        {
+          "label": "All resources",
+          "slide_id": "ram_resources_01",
+          "slide_number": 88
+        }
       ]
     }
   ],
@@ -2109,11 +3577,25 @@
       "labels": [
         "SDK GitHub",
         "Memory docs"
+      ],
+      "workshop_links": [
+        {
+          "label": "GitHub Codespaces",
+          "url": "https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory"
+        },
+        {
+          "label": "local setup",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/README.md"
+        },
+        {
+          "label": "Module 1 entry point",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_1/app/agent.py"
+        }
       ]
     },
     {
       "section_number": 2,
-      "title": "What you'll leave with (an honest promise)",
+      "title": "What you’ll leave with",
       "native_slide_ids": [
         "ram_design_002",
         "ram_slide_003"
@@ -2129,11 +3611,17 @@
         "GraphAcademy: memory",
         "Memory types",
         "Graph model"
+      ],
+      "workshop_links": [
+        {
+          "label": "the baseline agent",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_1/app/agent.py"
+        }
       ]
     },
     {
       "section_number": 3,
-      "title": "Agenda \u00b7 150 min",
+      "title": "Agenda · 150 min",
       "native_slide_ids": [
         "ram_slide_004"
       ],
@@ -2144,6 +3632,12 @@
       "labels": [
         "GraphAcademy: Python",
         "Memory docs"
+      ],
+      "workshop_links": [
+        {
+          "label": "Facilitator timetable",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/run-of-show.md"
+        }
       ]
     },
     {
@@ -2160,13 +3654,14 @@
       ],
       "labels": [
         "Memory types",
-        "Lenny\u2019s Memory",
+        "Lenny’s Memory",
         "Skill concepts"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 5,
-      "title": "Module 0 \u2014 Your environment",
+      "title": "Module 0 — Your environment",
       "native_slide_ids": [
         "ram_design_007",
         "ram_slide_008"
@@ -2182,11 +3677,21 @@
         "NAMS console",
         "Backend capabilities",
         "Connect to NAMS"
+      ],
+      "workshop_links": [
+        {
+          "label": "Open the workshop in Codespaces",
+          "url": "https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory"
+        },
+        {
+          "label": "workshop checkout and local setup",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/README.md"
+        }
       ]
     },
     {
       "section_number": 6,
-      "title": "Module 0 \u2014 Credential checklist",
+      "title": "Module 0 — Credential checklist",
       "native_slide_ids": [
         "ram_design_009"
       ],
@@ -2197,11 +3702,12 @@
       "labels": [
         "Configuration",
         "NAMS console"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 7,
-      "title": "Module 0 \u2014 Smoke test, live",
+      "title": "Module 0 — Smoke test, live",
       "native_slide_ids": [
         "ram_design_010"
       ],
@@ -2212,11 +3718,21 @@
       "labels": [
         "Client API",
         "Configuration"
+      ],
+      "workshop_links": [
+        {
+          "label": "Workshop instructions",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/README.md"
+        },
+        {
+          "label": "Open Codespaces",
+          "url": "https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory"
+        }
       ]
     },
     {
       "section_number": 8,
-      "title": "Module 1 \u2014 Two stores, two jobs",
+      "title": "Module 1 — Two stores, two jobs",
       "native_slide_ids": [
         "ram_design_011",
         "ram_slide_012"
@@ -2230,11 +3746,12 @@
         "Graph model",
         "Memory types",
         "Backend capabilities"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 9,
-      "title": "Module 1 \u2014 Meet the agent",
+      "title": "Module 1 — Meet the agent",
       "native_slide_ids": [
         "ram_design_013"
       ],
@@ -2245,6 +3762,12 @@
       "labels": [
         "PydanticAI agents",
         "Function tools"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 1 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-1.md"
+        }
       ]
     },
     {
@@ -2260,11 +3783,17 @@
       "labels": [
         "PydanticAI agents",
         "Dependencies"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_1/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_1/app/agent.py"
+        }
       ]
     },
     {
       "section_number": 11,
-      "title": "Module 1 \u2014 The failure: statelessness",
+      "title": "Module 1 — The failure: statelessness",
       "native_slide_ids": [
         "ram_design_014",
         "ram_slide_015"
@@ -2278,11 +3807,12 @@
         "Chat history",
         "Memory types",
         "PydanticAI agents"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 12,
-      "title": "Module 1 \u2014 Live demo: the stateless baseline",
+      "title": "Module 1 — Live demo: the stateless baseline",
       "native_slide_ids": [
         "ram_design_016"
       ],
@@ -2293,11 +3823,17 @@
       "labels": [
         "Function tools",
         "Chat history"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 1 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-1.md"
+        }
       ]
     },
     {
       "section_number": 13,
-      "title": "Module 1 \u2014 The eval baseline",
+      "title": "Module 1 — The eval baseline",
       "native_slide_ids": [
         "ram_design_017"
       ],
@@ -2308,6 +3844,16 @@
       "labels": [
         "GraphAcademy: memory",
         "Memory types"
+      ],
+      "workshop_links": [
+        {
+          "label": "Grader",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/scripts/eval.py"
+        },
+        {
+          "label": "Module 1 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-1.md"
+        }
       ]
     },
     {
@@ -2323,7 +3869,8 @@
       "labels": [
         "Memory types",
         "SDK GitHub"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 15,
@@ -2338,7 +3885,8 @@
       "labels": [
         "Chat history",
         "Integration guide"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 16,
@@ -2353,11 +3901,17 @@
       "labels": [
         "Client API",
         "Configuration"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_2/app/memory.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/memory.py"
+        }
       ]
     },
     {
       "section_number": 17,
-      "title": "Module 2 \u2014 Concept: short-term memory",
+      "title": "Module 2 — Concept: short-term memory",
       "native_slide_ids": [
         "ram_design_018"
       ],
@@ -2370,11 +3924,12 @@
         "Memory types",
         "Message API",
         "Short-term API index"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 18,
-      "title": "Module 2 \u2014 Message chains in the graph",
+      "title": "Module 2 — Message chains in the graph",
       "native_slide_ids": [
         "ram_design_019",
         "ram_slide_020"
@@ -2388,7 +3943,8 @@
         "Message API",
         "Graph model",
         "Chat history"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 19,
@@ -2403,11 +3959,17 @@
       "labels": [
         "Message API",
         "Client API"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_2/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/agent.py"
+        }
       ]
     },
     {
       "section_number": 20,
-      "title": "Module 2 \u2014 Context assembly",
+      "title": "Module 2 — Context assembly",
       "native_slide_ids": [
         "ram_design_021",
         "ram_slide_022"
@@ -2419,7 +3981,8 @@
       "labels": [
         "Search + scope",
         "Chat history"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 21,
@@ -2434,11 +3997,21 @@
       "labels": [
         "Chat history",
         "Search + scope"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_2/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/agent.py"
+        },
+        {
+          "label": "module_2/app/context.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/context.py"
+        }
       ]
     },
     {
       "section_number": 22,
-      "title": "Module 2 \u2014 Live demo: the returning customer",
+      "title": "Module 2 — Live demo: the returning customer",
       "native_slide_ids": [
         "ram_design_023"
       ],
@@ -2449,11 +4022,17 @@
       "labels": [
         "Search + scope",
         "Message API"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 2 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-2.md"
+        }
       ]
     },
     {
       "section_number": 23,
-      "title": "Module 2 \u2014 The restart beat",
+      "title": "Module 2 — The restart beat",
       "native_slide_ids": [
         "ram_design_024"
       ],
@@ -2464,11 +4043,17 @@
       "labels": [
         "Message API",
         "Chat history"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 2 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-2.md"
+        }
       ]
     },
     {
       "section_number": 24,
-      "title": "Module 2 \u2014 Exploration brief",
+      "title": "Module 2 — Exploration brief",
       "native_slide_ids": [
         "ram_design_025"
       ],
@@ -2479,11 +4064,17 @@
       "labels": [
         "Cypher course",
         "Search + scope"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 2 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-2.md"
+        }
       ]
     },
     {
       "section_number": 25,
-      "title": "Module 3 \u2014 Concept: long-term memory",
+      "title": "Module 3 — Concept: long-term memory",
       "native_slide_ids": [
         "ram_design_026"
       ],
@@ -2494,11 +4085,12 @@
       "labels": [
         "Entity API",
         "Preference API"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 26,
-      "title": "Module 3 \u2014 Ontology-driven extraction",
+      "title": "Module 3 — Ontology-driven extraction",
       "native_slide_ids": [
         "ram_design_027",
         "ram_slide_028"
@@ -2512,7 +4104,8 @@
         "Ontology guide",
         "POLE+O",
         "Extraction"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 27,
@@ -2527,11 +4120,21 @@
       "labels": [
         "Ontology guide",
         "Configuration"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_3/app/memory.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/memory.py"
+        },
+        {
+          "label": "module_3/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/agent.py"
+        }
       ]
     },
     {
       "section_number": 28,
-      "title": "Module 3 \u2014 Before / after: default vs. custom ontology",
+      "title": "Module 3 — Before / after: default vs. custom ontology",
       "native_slide_ids": [
         "ram_design_029",
         "ram_slide_030"
@@ -2545,11 +4148,17 @@
         "POLE+O",
         "Ontology guide",
         "Entity API"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 3 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md"
+        }
       ]
     },
     {
       "section_number": 29,
-      "title": "Module 3 \u2014 The hybrid pipeline (the design-principle slide)",
+      "title": "Module 3 — The hybrid pipeline (the design-principle slide)",
       "native_slide_ids": [
         "ram_design_031",
         "ram_slide_032"
@@ -2561,7 +4170,8 @@
       "labels": [
         "Extraction",
         "Entity API"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 30,
@@ -2576,11 +4186,17 @@
       "labels": [
         "Entity API",
         "Client API"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_3/app/hydrate.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/hydrate.py"
+        }
       ]
     },
     {
       "section_number": 31,
-      "title": "Module 3 \u2014 Entity resolution & aliases",
+      "title": "Module 3 — Entity resolution & aliases",
       "native_slide_ids": [
         "ram_design_033",
         "ram_slide_034"
@@ -2594,11 +4210,12 @@
         "Resolution",
         "Entity API",
         "Graph model"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 32,
-      "title": "Module 3 \u2014 Live demo: watch the graph bloom",
+      "title": "Module 3 — Live demo: watch the graph bloom",
       "native_slide_ids": [
         "ram_design_035"
       ],
@@ -2609,11 +4226,17 @@
       "labels": [
         "Ontology guide",
         "Extraction"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 3 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md"
+        }
       ]
     },
     {
       "section_number": 33,
-      "title": "Module 3 \u2014 Under the hood: hydration & enrichment",
+      "title": "Module 3 — Under the hood: hydration & enrichment",
       "native_slide_ids": [
         "ram_design_036"
       ],
@@ -2624,6 +4247,12 @@
       "labels": [
         "Entity API",
         "Configuration"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 3 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md"
+        }
       ]
     },
     {
@@ -2639,11 +4268,21 @@
       "labels": [
         "Function tools",
         "Integration guide"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_3/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/agent.py"
+        },
+        {
+          "label": "module_3/app/memory_tools.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/memory_tools.py"
+        }
       ]
     },
     {
       "section_number": 35,
-      "title": "Save and recall one customer\u2019s preferences",
+      "title": "Save and recall one customer’s preferences",
       "native_slide_ids": [
         "ram_code_m3_preferences"
       ],
@@ -2654,11 +4293,21 @@
       "labels": [
         "Preference API",
         "Dependencies"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_3/app/memory_tools.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/memory_tools.py"
+        },
+        {
+          "label": "module_3/app/context.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/context.py"
+        }
       ]
     },
     {
       "section_number": 36,
-      "title": "Module 3 \u2014 Exploration brief (40-min module, tiered)",
+      "title": "Module 3 — Exploration brief (40-min module, tiered)",
       "native_slide_ids": [
         "ram_design_037"
       ],
@@ -2669,11 +4318,17 @@
       "labels": [
         "GraphAcademy: Python",
         "Preference API"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 3 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md"
+        }
       ]
     },
     {
       "section_number": 37,
-      "title": "Module 4 \u2014 Concept: reasoning memory",
+      "title": "Module 4 — Concept: reasoning memory",
       "native_slide_ids": [
         "ram_design_038"
       ],
@@ -2686,11 +4341,12 @@
         "Memory types",
         "Trace API",
         "Reasoning API index"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 38,
-      "title": "Module 4 \u2014 Anatomy of a trace",
+      "title": "Module 4 — Anatomy of a trace",
       "native_slide_ids": [
         "ram_design_039",
         "ram_slide_040"
@@ -2704,7 +4360,8 @@
         "Steps + tools",
         "Outcome models",
         "Audit provenance"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 39,
@@ -2719,6 +4376,16 @@
       "labels": [
         "Trace API",
         "Record failures"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_4/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/agent.py"
+        },
+        {
+          "label": "module_4/app/reasoning.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py"
+        }
       ]
     },
     {
@@ -2734,6 +4401,12 @@
       "labels": [
         "Steps + tools",
         "Audit provenance"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_4/app/reasoning.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py"
+        }
       ]
     },
     {
@@ -2749,11 +4422,17 @@
       "labels": [
         "Outcome models",
         "Trace API"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_4/app/reasoning.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py"
+        }
       ]
     },
     {
       "section_number": 42,
-      "title": "Module 4 \u2014 Similar-task retrieval",
+      "title": "Module 4 — Similar-task retrieval",
       "native_slide_ids": [
         "ram_design_041",
         "ram_slide_042"
@@ -2767,7 +4446,8 @@
         "Trace search",
         "Record failures",
         "Trace API"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 43,
@@ -2782,11 +4462,21 @@
       "labels": [
         "Trace search",
         "Trace API"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_4/app/reasoning.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py"
+        },
+        {
+          "label": "module_4/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/agent.py"
+        }
       ]
     },
     {
       "section_number": 44,
-      "title": "Module 4 \u2014 Live demo: record, decline, compare",
+      "title": "Module 4 — Live demo: record, decline, compare",
       "native_slide_ids": [
         "ram_design_043"
       ],
@@ -2797,11 +4487,17 @@
       "labels": [
         "Record failures",
         "Audit provenance"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 4 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-4.md"
+        }
       ]
     },
     {
       "section_number": 45,
-      "title": "Module 4 \u2014 The provenance question",
+      "title": "Module 4 — The provenance question",
       "native_slide_ids": [
         "ram_design_044"
       ],
@@ -2812,11 +4508,17 @@
       "labels": [
         "Audit provenance",
         "Steps + tools"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 4 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-4.md"
+        }
       ]
     },
     {
       "section_number": 46,
-      "title": "Module 4 \u2014 Exploration brief",
+      "title": "Module 4 — Exploration brief",
       "native_slide_ids": [
         "ram_design_045"
       ],
@@ -2827,10 +4529,20 @@
       "labels": [
         "Audit provenance",
         "Cypher course"
+      ],
+      "workshop_links": [
+        {
+          "label": "November 1 comparison log",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/reviews/2026-11-01-workshop-fixes/command-09.log"
+        },
+        {
+          "label": "Module 4 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-4.md"
+        }
       ]
     },
     {
-      "title": "Module 5 \u2014 Build skills on top of agent memory",
+      "title": "Module 5 — Build skills on top of agent memory",
       "native_slide_ids": [
         "ram_design_046"
       ],
@@ -2842,6 +4554,12 @@
       "labels": [
         "Skill concepts",
         "Skills API"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 5 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md"
+        }
       ]
     },
     {
@@ -2857,7 +4575,8 @@
       "labels": [
         "Skill concepts",
         "Skills API"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "title": "Build reusable procedures on agent memory",
@@ -2872,10 +4591,11 @@
       "labels": [
         "Skill concepts",
         "Skills API"
-      ]
+      ],
+      "workshop_links": []
     },
     {
-      "title": "Module 5 \u2014 The app, hosted workspace and consumer",
+      "title": "Module 5 — The app, hosted workspace and consumer",
       "native_slide_ids": [
         "ram_design_048"
       ],
@@ -2887,7 +4607,8 @@
       "labels": [
         "Backend capabilities",
         "NAMS console"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "title": "Open your NAMS workspace",
@@ -2902,7 +4623,8 @@
       "labels": [
         "NAMS sign in",
         "Setup docs"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "title": "Create a key for the workshop workspace",
@@ -2917,7 +4639,8 @@
       "labels": [
         "API key dashboard",
         "Authentication docs"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "title": "Connect the workshop and check capabilities",
@@ -2932,6 +4655,12 @@
       "labels": [
         "NAMS docs",
         "Skills API"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 5 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md"
+        }
       ]
     },
     {
@@ -2947,6 +4676,12 @@
       "labels": [
         "NAMS OpenAPI",
         "Live NAMS API"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 5 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md"
+        }
       ]
     },
     {
@@ -2962,6 +4697,12 @@
       "labels": [
         "NAMS OpenAPI",
         "Live NAMS API"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_5/workflows/seed.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/seed.py"
+        }
       ]
     },
     {
@@ -2977,6 +4718,12 @@
       "labels": [
         "NAMS OpenAPI",
         "Live NAMS API"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_5/workflows/distill.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/distill.py"
+        }
       ]
     },
     {
@@ -2992,6 +4739,12 @@
       "labels": [
         "NAMS OpenAPI",
         "Live NAMS API"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_5/workflows/distill.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/distill.py"
+        }
       ]
     },
     {
@@ -3007,7 +4760,8 @@
       "labels": [
         "Skill concepts",
         "Skills API"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "title": "Inspect the versioned skill graph",
@@ -3022,6 +4776,12 @@
       "labels": [
         "Skill concepts",
         "Skills API"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 5 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md"
+        }
       ]
     },
     {
@@ -3037,7 +4797,8 @@
       "labels": [
         "Skill concepts",
         "Skills API"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "title": "Give the skill to a fresh PydanticAI agent",
@@ -3052,6 +4813,12 @@
       "labels": [
         "PydanticAI agents",
         "Skill concepts"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_5/app/fresh_agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/app/fresh_agent.py"
+        }
       ]
     },
     {
@@ -3067,6 +4834,12 @@
       "labels": [
         "Skills tutorial",
         "NAMS console"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 5 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md"
+        }
       ]
     },
     {
@@ -3082,7 +4855,8 @@
       "labels": [
         "Skill concepts",
         "Skills API"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "title": "Follow provenance to the memory a skill uses",
@@ -3097,6 +4871,12 @@
       "labels": [
         "Skill concepts",
         "Skills API"
+      ],
+      "workshop_links": [
+        {
+          "label": "module_5/workflows/drift.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/drift.py"
+        }
       ]
     },
     {
@@ -3112,7 +4892,8 @@
       "labels": [
         "Skill concepts",
         "Skills API"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "title": "Run the drift loop and restore the policy",
@@ -3127,6 +4908,12 @@
       "labels": [
         "Skill concepts",
         "Skills API"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 5 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md"
+        }
       ]
     },
     {
@@ -3142,10 +4929,11 @@
       "labels": [
         "Backend capabilities",
         "Live NAMS API"
-      ]
+      ],
+      "workshop_links": []
     },
     {
-      "title": "Module 5 \u2014 Exploration brief",
+      "title": "Module 5 — Exploration brief",
       "native_slide_ids": [
         "ram_design_053"
       ],
@@ -3157,11 +4945,17 @@
       "labels": [
         "Skill concepts",
         "Skills API"
+      ],
+      "workshop_links": [
+        {
+          "label": "Module 5 guide",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md"
+        }
       ]
     },
     {
       "section_number": 69,
-      "title": "Wrap \u2014 The eval scoreboard, re-run",
+      "title": "Wrap — The eval scoreboard, re-run",
       "native_slide_ids": [
         "ram_design_054"
       ],
@@ -3172,11 +4966,12 @@
       "labels": [
         "GraphAcademy: memory",
         "Outcome models"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 70,
-      "title": "Wrap \u2014 Memory is the foundation; skills build on it",
+      "title": "Wrap — Memory is the foundation; skills build on it",
       "native_slide_ids": [
         "ram_design_055",
         "ram_slide_056"
@@ -3190,11 +4985,12 @@
         "Memory types",
         "Graph model",
         "Skill concepts"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 71,
-      "title": "Wrap \u2014 Bolt memory and hosted skill workflows",
+      "title": "Wrap — Which record answers the question?",
       "native_slide_ids": [
         "ram_design_057",
         "ram_slide_058"
@@ -3208,11 +5004,12 @@
         "Backend capabilities",
         "Connect to NAMS",
         "NAMS console"
-      ]
+      ],
+      "workshop_links": []
     },
     {
       "section_number": 72,
-      "title": "Wrap \u2014 Your Monday morning path",
+      "title": "Wrap — Your Monday morning path",
       "native_slide_ids": [
         "ram_design_059"
       ],
@@ -3225,6 +5022,16 @@
         "SDK GitHub",
         "Memory docs",
         "GraphAcademy: memory"
+      ],
+      "workshop_links": [
+        {
+          "label": "teardown for keys, Codespaces and AuraDB",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/teardown.md"
+        },
+        {
+          "label": "Run the recipe",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/scripts/monday_memory.py"
+        }
       ]
     }
   ],
@@ -3232,8 +5039,207 @@
   "source_content_sections": 72,
   "source_appendix_sections": 15,
   "source_total_sections": 87,
-  "hosted_contract_note": "Module 5 now uses nameHint and an explicit scope.type. Normal generation uses the saved seeded conversation; without it the script warns and scopes to the workspace. Review approval is automatic before publication; the downloaded ZIP contains the procedure, references and provenance. No authenticated hosted service calls were performed during this slide refresh.",
+  "hosted_contract_note": "The readiness check precedes any hosted writes. One seed and one generation produce a versioned ZIP; generation approves and publishes automatically. At minute five without a package, compare off with the checked-in skill and continue to the wrap. Hosted provenance and graph exercises require a hosted package and workspace.",
   "native_slide_count": 102,
-  "delivered_revision": "MFho-EresCn7HA",
-  "module5_review_record": "docs/deck-module5-2026-11-04.md"
+  "delivered_revision": "htjzHi3Jv4yZgg",
+  "module5_review_record": "docs/deck-module5-2026-11-04.md",
+  "workshop_navigation": {
+    "repository": "https://github.com/johnymontana/road-to-agent-memory",
+    "codespaces": "https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory",
+    "local_setup": "https://github.com/johnymontana/road-to-agent-memory/blob/main/README.md",
+    "participant_guides": {
+      "1": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-1.md",
+      "2": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-2.md",
+      "3": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-3.md",
+      "4": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-4.md",
+      "5": "https://github.com/johnymontana/road-to-agent-memory/blob/main/docs/modules/module-5.md"
+    },
+    "code_sources": {
+      "ram_code_m1": [
+        {
+          "path": "module_1/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_1/app/agent.py"
+        }
+      ],
+      "ram_code_client": [
+        {
+          "path": "module_2/app/memory.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/memory.py"
+        }
+      ],
+      "ram_code_m2_write": [
+        {
+          "path": "module_2/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/agent.py"
+        }
+      ],
+      "ram_code_m2_inject": [
+        {
+          "path": "module_2/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/agent.py"
+        },
+        {
+          "path": "module_2/app/context.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_2/app/context.py"
+        }
+      ],
+      "ram_code_m3_extract": [
+        {
+          "path": "module_3/app/memory.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/memory.py"
+        },
+        {
+          "path": "module_3/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/agent.py"
+        }
+      ],
+      "ram_code_m3_ground": [
+        {
+          "path": "module_3/app/hydrate.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/hydrate.py"
+        }
+      ],
+      "ram_code_m3_tools": [
+        {
+          "path": "module_3/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/agent.py"
+        },
+        {
+          "path": "module_3/app/memory_tools.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/memory_tools.py"
+        }
+      ],
+      "ram_code_m3_preferences": [
+        {
+          "path": "module_3/app/memory_tools.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/memory_tools.py"
+        },
+        {
+          "path": "module_3/app/context.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_3/app/context.py"
+        }
+      ],
+      "ram_code_m4_lifecycle": [
+        {
+          "path": "module_4/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/agent.py"
+        },
+        {
+          "path": "module_4/app/reasoning.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py"
+        }
+      ],
+      "ram_code_m4_tools": [
+        {
+          "path": "module_4/app/reasoning.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py"
+        }
+      ],
+      "ram_code_m4_outcome": [
+        {
+          "path": "module_4/app/reasoning.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py"
+        }
+      ],
+      "ram_code_m4_recall": [
+        {
+          "path": "module_4/app/reasoning.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/reasoning.py"
+        },
+        {
+          "path": "module_4/app/agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_4/app/agent.py"
+        }
+      ],
+      "ram_code_m5_seed_complete": [
+        {
+          "path": "module_5/workflows/seed.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/seed.py"
+        }
+      ],
+      "ram_code_m5_distill": [
+        {
+          "path": "module_5/workflows/distill.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/distill.py"
+        }
+      ],
+      "ram_code_m5_publish": [
+        {
+          "path": "module_5/workflows/distill.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/distill.py"
+        }
+      ],
+      "ram_code_m5_agent": [
+        {
+          "path": "module_5/app/fresh_agent.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/app/fresh_agent.py"
+        }
+      ],
+      "ram_code_m5_drift": [
+        {
+          "path": "module_5/workflows/drift.py",
+          "url": "https://github.com/johnymontana/road-to-agent-memory/blob/main/module_5/workflows/drift.py"
+        }
+      ]
+    },
+    "native_fallback_route": [
+      66,
+      75,
+      82
+    ],
+    "source_fallback_route": [
+      53,
+      62,
+      69
+    ],
+    "decision_at_workshop_minute": 130,
+    "appendix_topics": [
+      {
+        "label": "SDK setup",
+        "native_slide": 90,
+        "source_slide": 75
+      },
+      {
+        "label": "PydanticAI",
+        "native_slide": 91,
+        "source_slide": 76
+      },
+      {
+        "label": "Short-term",
+        "native_slide": 92,
+        "source_slide": 77
+      },
+      {
+        "label": "Long-term",
+        "native_slide": 93,
+        "source_slide": 78
+      },
+      {
+        "label": "Reasoning",
+        "native_slide": 95,
+        "source_slide": 80
+      },
+      {
+        "label": "Hosted API",
+        "native_slide": 97,
+        "source_slide": 82
+      },
+      {
+        "label": "Skills and governance",
+        "native_slide": 98,
+        "source_slide": 83
+      },
+      {
+        "label": "GraphAcademy",
+        "native_slide": 99,
+        "source_slide": 84
+      },
+      {
+        "label": "Articles",
+        "native_slide": 101,
+        "source_slide": 86
+      }
+    ]
+  },
+  "review_source_revision": "ljrRLR2cvxOB3w"
 }

@@ -1,43 +1,35 @@
-# Run of show — verified non-NAMS workshop
+# Road to Agent Memory · 150-minute run of show
 
-Allocate 130 minutes plus 20 minutes of optional inspection/troubleshooting in a
-150-minute slot. Model and database startup vary. Capture current timings before
-delivery; stored replay screenshots are a fallback, never live-service evidence.
+Open the [workshop checkout](https://github.com/johnymontana/road-to-agent-memory) or [start the workshop Codespace](https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory). Send the [readiness steps](prework-email.md) in advance. Have a module 4 saved replay and the [checked-in procedure](../artifacts/pre-distilled-skill/SKILL.md) open before participants arrive. Label any example from a previous run with its date and source.
 
-| Minutes | Activity | Exact command / observation |
-| --- | --- | --- |
-| 0–15 | Readiness and two stores | `make check`; `make dev MODULE=1`; wait for Ready and module badge. SQL is authoritative; Neo4j is memory. |
-| 15–30 | Stateless control | `make s1-baseline`; choose its Saved replay. Self-contained SQL lookup, then intentional per-turn forgetting. `make eval MODULE=1`. |
-| 30–50 | Persistent messages | Stop old server; `make dev MODULE=2`. `make s2-return`, `make s2-restart`. Inspect saved process IDs and source messages. `make eval MODULE=2`. |
-| 50–65 | Fixed extraction pair | Stop old server; `make dev MODULE=3`. `make s3-default`, `make s3-ontology`. Refresh Saved replay list and compare transcript hashes and outputs. Allow startup, extraction and inspection time. |
-| 65–80 | SQL grounding and preferences | In browser chat introduce Maya; inspect MENTIONS and hydrated email/plan/date before the answer. Select Customer for preference save/recall. |
-| 80–90 | Guided variations | `uv run scripts/instructor.py strict`; `uv run scripts/instructor.py plan`. Both are reversible, local recipes. Optional `make s3-enrich`: show provider status, skip on unavailable. |
-| 90–95 | Buffer | Questions and troubleshooting. Optional `make eval MODULE=3` can run while discussing evidence. |
-| 95–110 | Action and declined-case records | Stop server; `make dev MODULE=4`. `make s4-refund`, `make s4-fail`. Select Saved replay for exact SQL/receipts; select Live memory for native trace links. |
-| 110–125 | Controlled retrieval | `make s4-refund-repeat`. Same initial SQL hashes; frozen corpus; separate branches. Inspect actual evidence/tools/tokens/timing. `make eval MODULE=4` if time allows. |
-| 125–130 | Wrap | What persisted, what was retrieved, which source supplied each fact, what action actually occurred? Run `uv run scripts/monday_memory.py` as the take-home recipe. |
+## Both routes use the same first 125 minutes
 
-Every CLI eval must name MODULE. Browser chat evidence and CLI Saved replay are
-separate views. Saved replay projects recorded output; Live memory queries that
-replay's actual Neo4j conversation for MENTIONS/TOUCHED/INITIATED_BY walks. For browser actions select the account and case and authorize that
-message. Never resolve ambiguity using the previous speaker's account. Rejection
-is a valid policy-compliant business result; it differs from an execution exception.
+All times below are minutes from the start. On every module change, stop the old app with Ctrl+C in terminal 1, start the specified module, reload the website and **confirm its module badge**. Terminal 2 runs scenarios independently. After each CLI run, select **Refresh graph → Saved replay** for recorded output. Use **Live memory** for the graph that run wrote, and **Current conversation** for browser chat.
 
-Catch-up targets replay selected beats; they do not restore checkpoints. Do not
-clear shared graph data to catch up. If a dependency fails, inspect warnings and the
-operation receipt before retrying. For screenshots, run the real backend first and
-use `uv run scripts/capture_screenshots.py --module N`; the command rejects a badge
-mismatch. Helpers handle credentials/ports while the facilitator continues with a
-stored replay. Optional Wikimedia errors do not block the core lesson.
+| Time | Say | Show and inspect | If blocked or short of time |
+|---|---|---|---|
+| 0–15 · Setup | The app acts on SQLite and stores memory in Neo4j. | Run `make check`, then `make dev MODULE=1` in terminal 1. Inspect the median Bolt query time, model/embedding check, Ready state and Module 1 badge on port 5173. Open `module_1/app/agent.py`. | A helper checks the failing capability. Use an instructor app for the UI tour. |
+| 15–30 · Module 1 | A chat bubble stays visible even when the next model call receives only its new message. | In terminal 2 run `make s1-baseline`. Choose its Saved replay. Compare the account lookup and the next-turn forgetting control. Run `make eval MODULE=1` and inspect one failed fact/source check. | Use the saved exchange to identify the missing input. |
+| 30–50 · Module 2 | Session history supplies prior turns and semantic retrieval can supply earlier user messages across conversations in a workshop namespace. | Switch to `make dev MODULE=2`. Run `make s2-return` and `make s2-restart`. Inspect the same phrase in each input, then the restart replay’s two process IDs. Run `make eval MODULE=2` if time permits. | Show one recorded pair. Accept both retrieval paths if both contain the fact. |
+| 50–90 · Module 3 | A type assigned by extraction and a current SQL fact have different sources. | Switch to `make dev MODULE=3`. Compare `make s3-default` and `make s3-ontology` in Saved replay. Verify the transcript hashes. In browser chat introduce Maya Chen from Northwind Robotics. Follow a current-message MENTIONS edge and inspect a hydrated field. Select a customer for a preference. | First trim optional Wikimedia and the separate instructor validator/plan exercises. If extraction varies, inspect the actual output and use a labeled example. |
+| 90–95 · Buffer | Collect questions and reconcile the browser badge with the intended module. | Reopen a named replay as needed. | Preserve the 95-minute restart. |
+| 95–125 · Module 4 | A captured operation tells us what happened. Compare matched runs before attributing a benefit to retrieval. | Switch to `make dev MODULE=4`. Run `make s4-refund`, `make s4-fail` and `make s4-refund-repeat`. Inspect actual tool status and SQL in Saved replay, then the case-context links in Live memory. Compare both branches’ action, call order, tokens and timing. | Use the [November 1 comparison](reviews/2026-11-01-workshop-fixes/command-09.log). On its first ticket both modes issued one refund. Control used 2,712 input tokens and 31.470 s. Treatment used 3,456 and 33.589 s. Present those as one observation. |
 
-## Optional NAMS extension — unchanged, not included in this rehearsal
+## Pick the Module 5 route at minute 125
 
-## Module 5 — Skill Distillation on NAMS (2:05–2:25)
+The 20-minute capstone starts at workshop minute 125. Use the concept and two environments (slides 62–63), package (71), consumer comparison (75) and wrap (82 onward) as the projected Google Slides route. Setup (64–66) is pre-work. If projecting the repo deck, use [the comparison](../slides/deck.html#62) and [the wrap](../slides/deck.html#69) for the fallback handoff. The five code panels are detailed references. Use the [Module 5 guide](modules/module-5.md) for all commands and the graph reading exercise.
 
-| Time | Segment | Instructor does | Attendees do | Make targets | Trim |
-|---|---|---|---|---|---|
-| 2:05–2:08 | The seam + distillation concept | **Seam narration slide (D2):** "Your Bolt memory lives in *your* AuraDB. NAMS is a fresh, managed workspace — the seed loads the canonical history into it." Then D-14 distillation pipeline | Listen | — | Never cut the seam narration — it's what stops confusion about where the data went |
-| 2:08–2:11 | Check + seed | `make nams-check`, then `make nams-seed` (~1 min — see waiting choreography) | Run both | `make nams-check`, `make nams-seed` | — |
-| 2:11–2:15 | Distill + inspect | `make nams-distill`; poll while narrating; inspect SKILL.md + the skill subgraph (`GROUNDED_IN` edges, grounding/coverage scores — core Q1–2) | Run `make nams-distill`; open SKILL.md | `make nams-distill` | — |
-| 2:15–2:19 | The payoff | `make s5-fresh-agent` — a fresh agent, no history, loads the skill and resolves the refund cold. Let the room feel it | Run `make s5-fresh-agent` | `make s5-fresh-agent` | Protect the payoff; cut the drift beat to narration if needed |
-| 2:19–2:25 | Drift & governance | D-15 governance loop. Instructor-led: `make policy-change` → "nothing flagged — it watches the memory graph, not your database"; then `make nams-drift` → drift fires; `make nams-redistill` closes the loop | Follow along | `make policy-change`, `make nams-drift`, `make nams-redistill` | If tight: run `policy-change` + `nams-drift` only; narrate redistillation. Labs/early-access disclosure here |
+| Time | With hosted distillation | With fallback |
+|---|---|---|
+| 125–130 · Capstone minutes 0–5 | Switch terminal 1 to `make dev MODULE=5` and check the badge. Read both capability results from `make nams-check`. Use an existing downloaded package when available. For a new run, seed once in the designated workshop workspace, then launch distillation once. Show the separate Bolt and hosted environments while it runs. | If access or distillation is unavailable, go directly to slide 75. Open the checked-in SKILL.md. Prepare the off/fallback comparison. |
+| 130–138 · Minutes 5–13 | **At minute five, continue hosted only if the downloaded package is ready.** Inspect one step and evidence ID in the package and versioned skill graph. Compare `WITH_SKILL=off` and `WITH_SKILL=on`. | With no package at the cutoff, move to a spare terminal if a generation is still polling. Run `make s5-fresh-agent WITH_SKILL=off` and `make s5-fresh-agent WITH_SKILL=fallback`. A generation already submitted can still complete. Defer its inspection. |
+| 138–145 · Minutes 13–20 | Record the printed tool names, optional returned status, and reply for Ravi’s $49 ticket. If already prepared, show one labeled provenance/drift example. Reserve a live deletion and second generation for the instructor extension in a disposable workspace. | Record the same fields. Explain the procedure came from the checked-in file. Go directly from slide 75 to slide 82. Discuss which evidence a hosted comparison would require. |
+| 145–150 · Wrap | Ask the closing decision questions below, then offer the take-home or cleanup. | Same five-minute wrap. |
+
+**Facilitator cues.** Say which procedure each run loaded. Show the exact terminal output. If OpenAI or SQL is also unavailable, use a clearly labeled previously captured consumer exchange when available, or read the checked-in procedure and identify the inputs the consumer needs. A code inspection and an executed comparison are different observations. Keep elapsed waits bounded. The workflow’s 600-second polling timeout applies to each generation.
+
+**Instructor extension.** Participants observe. Use a disposable workspace and a current seed, published version and provenance from the same run. Compare cited IDs with the exact-name policy records in this seed user’s scope. The workflow verifies the explicit seed policy, then deletes only cited matches (including extracted representations) or explains why it skipped deletion. Use the reported status and stale claims/steps from that skill. Read the printed SQL policy transition and restore conditionally to $250. Local policy restoration affects SQLite. Deletion affects the hosted workspace. Read the [governance instructions](modules/module-5.md#instructor-extension--provenance-and-drift) before running the extension.
+
+**Closing decision.** Ask where the current refund limit, earlier user statement, receipt of an executed refund, and portable instructions came from. Ask participants to point to the SQL plan row, a message ID, the recorded tool result, and SKILL.md respectively. A $49 case sits below both $150 and $250. A different, authorized case between the limits would test the changed threshold.
+
+**Take-home.** The instructor’s [Monday recipe](../scripts/monday_memory.py) writes a fresh phrase and reads it in the same scoped conversation. The next adaptation is to map the returned roles into PydanticAI history and run an agent. Let attendees keep their environment for this step or proceed to [cleanup](teardown.md).

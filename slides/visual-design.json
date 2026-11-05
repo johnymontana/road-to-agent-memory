@@ -7,7 +7,7 @@
   },
   "native_slide_count": 102,
   "brand": {
-    "source": "Existing Neo4j Standard Template \u2014 Editable; inherited logos and motifs retained in the native deck.",
+    "source": "Existing Neo4j Standard Template — Editable; inherited logos and motifs retained in the native deck.",
     "fonts": {
       "title": "Syne",
       "body": "Public Sans",
@@ -32,7 +32,8 @@
     "relationships": "Full stored names, direction, arrowheads and source endpoint are meaningful.",
     "density": "Keep code, schemas, field names, source paths, scope and outcome semantics visible; no guaranteed result claims.",
     "typography": "Preserve existing font roles. Graph node labels are 12pt; relationships/properties are template-style captions.",
-    "source_scope": "This JSON describes diagram scenes and all-slide design decisions, not the complete native deck state. The Google Slides deck is the authoritative editable presentation."
+    "source_scope": "This JSON describes diagram scenes and all-slide design decisions, not the complete native deck state. The Google Slides deck is the authoritative editable presentation.",
+    "reading_order": "Graph descriptions identify each source, relationship and target. Large diagrams include a visible linear path and native alternative descriptions."
   },
   "slide_plan": [
     {
@@ -60,7 +61,7 @@
       "exemplar": "g3529e535adc_0_185",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "Circular graph records with explicit edges; denser source/API panels."
+      "changes": "Label the initiating message edge next to the arrow; match the owner-edited message property position."
     },
     {
       "slide_number": 4,
@@ -159,7 +160,8 @@
       "exemplar": "g3529e535adc_0_765",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "native code + API boundary panel"
+      "changes": "native code + API boundary panel",
+      "code_focus": "scope_turn(deps, policy_plan)"
     },
     {
       "slide_number": 15,
@@ -222,7 +224,8 @@
       "exemplar": "g3529e535adc_0_765",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "native code + API boundary panel"
+      "changes": "native code + API boundary panel",
+      "code_focus": "async with MemoryClient(config)"
     },
     {
       "slide_number": 22,
@@ -249,7 +252,7 @@
       "exemplar": "g3529e535adc_0_185",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "Circular graph records with explicit edges; denser source/API panels."
+      "changes": "Show four conversation-membership edges and three chronological message edges. State the history lookup order."
     },
     {
       "slide_number": 25,
@@ -258,7 +261,8 @@
       "exemplar": "g3529e535adc_0_765",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "native code + API boundary panel"
+      "changes": "native code + API boundary panel",
+      "code_focus": "short_term.add_message"
     },
     {
       "slide_number": 26,
@@ -267,7 +271,7 @@
       "exemplar": "g3529e535adc_0_743",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "three technical evidence columns"
+      "changes": "Shorten the three cards and reserve a separate footer lane."
     },
     {
       "slide_number": 27,
@@ -285,7 +289,8 @@
       "exemplar": "g3529e535adc_0_765",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "native code + API boundary panel"
+      "changes": "native code + API boundary panel",
+      "code_focus": "message_history=context.history"
     },
     {
       "slide_number": 29,
@@ -348,7 +353,8 @@
       "exemplar": "g3529e535adc_0_765",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "native code + API boundary panel"
+      "changes": "native code + API boundary panel",
+      "code_focus": "extract_entities=True"
     },
     {
       "slide_number": 36,
@@ -375,7 +381,7 @@
       "exemplar": "g3529e535adc_0_743",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "three technical evidence columns"
+      "changes": "Shorten the three cards and reserve a separate footer lane."
     },
     {
       "slide_number": 39,
@@ -393,7 +399,8 @@
       "exemplar": "g3529e535adc_0_765",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "native code + API boundary panel"
+      "changes": "native code + API boundary panel",
+      "code_focus": "writer.set_properties"
     },
     {
       "slide_number": 41,
@@ -438,7 +445,8 @@
       "exemplar": "g3529e535adc_0_765",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "native code + API boundary panel"
+      "changes": "native code + API boundary panel",
+      "code_focus": "create_memory_tools(memory)"
     },
     {
       "slide_number": 46,
@@ -447,7 +455,8 @@
       "exemplar": "g3529e535adc_0_765",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "native code + API boundary panel"
+      "changes": "native code + API boundary panel",
+      "code_focus": "get_preferences_for"
     },
     {
       "slide_number": 47,
@@ -456,7 +465,7 @@
       "exemplar": "g3529e535adc_0_743",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "three technical evidence columns"
+      "changes": "Shorten the three cards and reserve a separate footer lane."
     },
     {
       "slide_number": 48,
@@ -483,7 +492,7 @@
       "exemplar": "g3529e535adc_0_185",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "Circular graph records with explicit edges; denser source/API panels."
+      "changes": "Linear path, selected-case semantics and separate operation results, with figure and edge descriptions."
     },
     {
       "slide_number": 51,
@@ -492,7 +501,8 @@
       "exemplar": "g3529e535adc_0_765",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "native code + API boundary panel"
+      "changes": "native code + API boundary panel",
+      "code_focus": "start_trace"
     },
     {
       "slide_number": 52,
@@ -501,7 +511,8 @@
       "exemplar": "g3529e535adc_0_765",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "native code + API boundary panel"
+      "changes": "native code + API boundary panel",
+      "code_focus": "touched_entities=refs"
     },
     {
       "slide_number": 53,
@@ -510,7 +521,8 @@
       "exemplar": "g3529e535adc_0_765",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "native code + API boundary panel"
+      "changes": "native code + API boundary panel",
+      "code_focus": "complete_trace"
     },
     {
       "slide_number": 54,
@@ -537,7 +549,8 @@
       "exemplar": "g3529e535adc_0_765",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "native code + API boundary panel"
+      "changes": "native code + API boundary panel",
+      "code_focus": "get_trace_with_steps"
     },
     {
       "slide_number": 57,
@@ -555,7 +568,7 @@
       "exemplar": "g3529e535adc_0_584",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "audit question + native circular provenance graph"
+      "changes": "High-contrast trace → step → selected-case entity path and separate operation checks."
     },
     {
       "slide_number": 59,
@@ -645,7 +658,8 @@
       "method": "Duplicate inspected native exemplar; populate existing objects and preserve text roles.",
       "protected": "Retain all native Neo4j template motifs, logo, section label and numbering. No local images or videos. Replace lesson text and links; root replaces process diagram objects where specified.",
       "changes": "Current Module5 content and focused resource links.",
-      "slide_number": 68
+      "slide_number": 68,
+      "code_focus": "\"success\": True"
     },
     {
       "slide_number": 69,
@@ -654,7 +668,8 @@
       "exemplar": "g3529e535adc_0_765",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "native code + API boundary panel"
+      "changes": "native code + API boundary panel",
+      "code_focus": "request[\"skillId\"]"
     },
     {
       "slide_id": "ram_code_m5_publish",
@@ -663,7 +678,8 @@
       "method": "Duplicate inspected native exemplar; populate existing objects and preserve text roles.",
       "protected": "Retain all native Neo4j template motifs, logo, section label and numbering. No local images or videos. Replace lesson text and links; root replaces process diagram objects where specified.",
       "changes": "Current Module5 content and focused resource links.",
-      "slide_number": 70
+      "slide_number": 70,
+      "code_focus": "\"decision\": \"approve\""
     },
     {
       "slide_id": "ram_m5_package",
@@ -681,7 +697,7 @@
       "exemplar": "g3529e535adc_0_185",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "Circular graph records with explicit edges; denser source/API panels."
+      "changes": "Speakable graph traversal, source provenance and descriptions on each evidence edge."
     },
     {
       "slide_id": "ram_m5_evaluate",
@@ -699,7 +715,8 @@
       "exemplar": "g3529e535adc_0_765",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "native code + API boundary panel"
+      "changes": "native code + API boundary panel",
+      "code_focus": "load_skill(\"on\")"
     },
     {
       "slide_number": 75,
@@ -726,7 +743,8 @@
       "method": "Duplicate inspected native exemplar; populate existing objects and preserve text roles.",
       "protected": "Retain all native Neo4j template motifs, logo, section label and numbering. No local images or videos. Replace lesson text and links; root replaces process diagram objects where specified.",
       "changes": "Current Module5 content and focused resource links.",
-      "slide_number": 77
+      "slide_number": 77,
+      "code_focus": "/drift"
     },
     {
       "slide_number": 78,
@@ -735,7 +753,7 @@
       "exemplar": "g3529e535adc_0_185",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "Circular graph records with explicit edges; denser source/API panels."
+      "changes": "Separate SQLite observations, hosted evidence drift, version comparison and conditional SQL restoration."
     },
     {
       "slide_id": "ram_m5_governance_demo",
@@ -789,7 +807,7 @@
       "exemplar": "g3529e535adc_0_185",
       "method": "Edit inspected native exemplar in place; graph diagrams replace diagram-local objects with editable circles/edges and property panels.",
       "protected": "Retain native title/section, logo, inherited Neo4j template motifs and slide number. No local photos/video exist.",
-      "changes": "Circular graph records with explicit edges; denser source/API panels."
+      "changes": "Separate edge labels from diagonal shafts and describe both stores in linear order."
     },
     {
       "slide_number": 85,
@@ -1014,14 +1032,14 @@
         {
           "kind": "TEXT_BOX",
           "key": "message_prop",
-          "x": 253,
-          "y": 217,
+          "x": 314.467,
+          "y": 209.935,
           "w": 114,
           "h": 22,
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "role \u00b7 content",
+          "text": "role · content",
           "font": "Courier New",
           "fontSize": 10.5,
           "textColor": "0a6190",
@@ -1055,7 +1073,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "type \u00b7 aliases",
+          "text": "type · aliases",
           "font": "Courier New",
           "fontSize": 10.5,
           "textColor": "0a6190",
@@ -1154,9 +1172,9 @@
         {
           "kind": "TEXT_BOX",
           "key": "initiated_label",
-          "x": 175.6,
-          "y": 226.0,
-          "w": 94.80000000000001,
+          "x": 209,
+          "y": 216,
+          "w": 96,
           "h": 22,
           "fill": "faf8f5",
           "stroke": null,
@@ -1382,7 +1400,8 @@
           "align": "CENTER",
           "transparent": true
         }
-      ]
+      ],
+      "description": "Conversation has Message. Message mentions Entity. A ReasoningTrace is initiated by that Message. The client exposes short-term, long-term and reasoning memory."
     },
     {
       "slide_id": "ram_slide_006",
@@ -1411,7 +1430,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "01 \u00b7 STATELESS",
+          "text": "01 · STATELESS",
           "font": "Public Sans",
           "fontSize": 14,
           "textColor": "123c50",
@@ -1470,7 +1489,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "02 \u00b7 SHORT TERM",
+          "text": "02 · SHORT TERM",
           "font": "Public Sans",
           "fontSize": 14,
           "textColor": "123c50",
@@ -1529,7 +1548,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "03 \u00b7 LONG TERM",
+          "text": "03 · LONG TERM",
           "font": "Public Sans",
           "fontSize": 14,
           "textColor": "123c50",
@@ -1588,7 +1607,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "04 \u00b7 REASONING",
+          "text": "04 · REASONING",
           "font": "Public Sans",
           "fontSize": 14,
           "textColor": "123c50",
@@ -1647,7 +1666,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "05 \u00b7 DERIVE SKILL",
+          "text": "05 · DERIVE SKILL",
           "font": "Public Sans",
           "fontSize": 14,
           "textColor": "123c50",
@@ -1862,7 +1881,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Bolt \u00b7 participant memory",
+          "text": "Bolt · participant memory",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "123c50",
@@ -1939,7 +1958,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Chat \u00b7 embeddings \u00b7 extraction",
+          "text": "Chat · embeddings · extraction",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "123c50",
@@ -1998,7 +2017,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "NAMS \u00b7 optional",
+          "text": "NAMS · optional",
           "font": "Public Sans",
           "fontSize": 14,
           "textColor": "123c50",
@@ -2016,7 +2035,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Hosted REST \u00b7 separate fixtures",
+          "text": "Hosted REST · separate fixtures",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "123c50",
@@ -2178,7 +2197,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "SQLite \u00b7 authority",
+          "text": "SQLite · authority",
           "font": "Public Sans",
           "fontSize": 14,
           "textColor": "123c50",
@@ -2196,7 +2215,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Accounts \u00b7 catalog\nPolicy \u00b7 refund writes",
+          "text": "Accounts · catalog\nPolicy · refund writes",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "123c50",
@@ -2272,7 +2291,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Neo4j \u00b7 evidence",
+          "text": "Neo4j · evidence",
           "font": "Public Sans",
           "fontSize": 14,
           "textColor": "123c50",
@@ -2290,7 +2309,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Modules 2\u20135\nMessages \u00b7 entities \u00b7 traces",
+          "text": "Modules 2–5\nMessages · entities · traces",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "123c50",
@@ -2575,7 +2594,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Turn 1 \u00b7 self-contained",
+          "text": "Turn 1 · self-contained",
           "font": "Public Sans",
           "fontSize": 14,
           "textColor": "123c50",
@@ -2622,7 +2641,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Turn 2 \u00b7 forgetting control",
+          "text": "Turn 2 · forgetting control",
           "font": "Public Sans",
           "fontSize": 14,
           "textColor": "123c50",
@@ -2640,7 +2659,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "\u201cWhat email did I give you?\u201d\nNo message_history is supplied.",
+          "text": "“What email did I give you?”\nNo message_history is supplied.",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "123c50",
@@ -2710,7 +2729,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "VISIBLE CHAT \u2260 MODEL CONTEXT",
+          "text": "VISIBLE CHAT ≠ MODEL CONTEXT",
           "font": "Public Sans",
           "fontSize": 11.5,
           "textColor": "0a6190",
@@ -2822,10 +2841,46 @@
       "section": "Module 2",
       "elements": [
         {
+          "kind": "line",
+          "key": "has_m3",
+          "x1": 400.56,
+          "y1": 151.06,
+          "x2": 596.89,
+          "y2": 233.65,
+          "color": "0a6190",
+          "arrow": true,
+          "dash": false,
+          "width": 1.5
+        },
+        {
+          "kind": "line",
+          "key": "has_m2",
+          "x1": 387.08,
+          "y1": 168.68,
+          "x2": 426.23,
+          "y2": 218.84,
+          "color": "0a6190",
+          "arrow": true,
+          "dash": false,
+          "width": 1.5
+        },
+        {
+          "kind": "line",
+          "key": "has_m1",
+          "x1": 332.19,
+          "y1": 168.09,
+          "x2": 290.39,
+          "y2": 219.33,
+          "color": "0a6190",
+          "arrow": true,
+          "dash": false,
+          "width": 1.5
+        },
+        {
           "kind": "ELLIPSE",
           "key": "conv",
-          "x": 43,
-          "y": 113,
+          "x": 318,
+          "y": 92,
           "w": 84,
           "h": 84,
           "fill": "4e9ca6",
@@ -2840,9 +2895,9 @@
         {
           "kind": "TEXT_BOX",
           "key": "conv_prop",
-          "x": 25,
-          "y": 202,
-          "w": 120,
+          "x": 406,
+          "y": 99,
+          "w": 115,
           "h": 22,
           "fill": "faf8f5",
           "stroke": null,
@@ -2858,8 +2913,8 @@
         {
           "kind": "ELLIPSE",
           "key": "m0",
-          "x": 268,
-          "y": 121,
+          "x": 51,
+          "y": 214,
           "w": 68,
           "h": 68,
           "fill": "8dcc55",
@@ -2874,8 +2929,8 @@
         {
           "kind": "ELLIPSE",
           "key": "m1",
-          "x": 527,
-          "y": 121,
+          "x": 233,
+          "y": 214,
           "w": 68,
           "h": 68,
           "fill": "8dcc55",
@@ -2890,8 +2945,8 @@
         {
           "kind": "ELLIPSE",
           "key": "m2",
-          "x": 268,
-          "y": 221,
+          "x": 415,
+          "y": 214,
           "w": 68,
           "h": 68,
           "fill": "8dcc55",
@@ -2906,8 +2961,8 @@
         {
           "kind": "ELLIPSE",
           "key": "m3",
-          "x": 527,
-          "y": 221,
+          "x": 597,
+          "y": 214,
           "w": 68,
           "h": 68,
           "fill": "8dcc55",
@@ -2922,10 +2977,10 @@
         {
           "kind": "line",
           "key": "has",
-          "x1": 129.0,
-          "y1": 155.0,
-          "x2": 265.0,
-          "y2": 155.0,
+          "x1": 319.35,
+          "y1": 150.85,
+          "x2": 119.18,
+          "y2": 233.83,
           "color": "0a6190",
           "arrow": true,
           "dash": false,
@@ -2934,28 +2989,28 @@
         {
           "kind": "TEXT_BOX",
           "key": "has_label",
-          "x": 148.0,
-          "y": 112,
-          "w": 90,
-          "h": 22,
+          "x": 91,
+          "y": 111,
+          "w": 176,
+          "h": 24,
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "HAS_MESSAGE",
+          "text": "4 × HAS_MESSAGE",
           "font": "Courier New",
           "fontSize": 10.5,
           "textColor": "0a6190",
           "bold": true,
           "align": "CENTER",
-          "transparent": false
+          "transparent": true
         },
         {
           "kind": "line",
           "key": "next0",
-          "x1": 338.0,
-          "y1": 155.0,
-          "x2": 524.0,
-          "y2": 155.0,
+          "x1": 121,
+          "y1": 248,
+          "x2": 230,
+          "y2": 248,
           "color": "0a6190",
           "arrow": true,
           "dash": false,
@@ -2964,10 +3019,10 @@
         {
           "kind": "TEXT_BOX",
           "key": "next0_label",
-          "x": 383.6,
-          "y": 112,
-          "w": 94.80000000000001,
-          "h": 22,
+          "x": 123.0,
+          "y": 257,
+          "w": 106,
+          "h": 20,
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
@@ -2982,10 +3037,10 @@
         {
           "kind": "line",
           "key": "next1",
-          "x1": 527.4162959043549,
-          "y1": 167.9666811180097,
-          "x2": 336.51658476496857,
-          "y2": 241.67313329537893,
+          "x1": 303,
+          "y1": 248,
+          "x2": 412,
+          "y2": 248,
           "color": "0a6190",
           "arrow": true,
           "dash": false,
@@ -2994,10 +3049,10 @@
         {
           "kind": "TEXT_BOX",
           "key": "next1_label",
-          "x": 383.6,
-          "y": 194,
-          "w": 94.80000000000001,
-          "h": 22,
+          "x": 305.0,
+          "y": 257,
+          "w": 106,
+          "h": 20,
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
@@ -3012,10 +3067,10 @@
         {
           "kind": "line",
           "key": "next2",
-          "x1": 338.0,
-          "y1": 255.0,
-          "x2": 524.0,
-          "y2": 255.0,
+          "x1": 485,
+          "y1": 248,
+          "x2": 594,
+          "y2": 248,
           "color": "0a6190",
           "arrow": true,
           "dash": false,
@@ -3024,10 +3079,10 @@
         {
           "kind": "TEXT_BOX",
           "key": "next2_label",
-          "x": 383.6,
-          "y": 232,
-          "w": 94.80000000000001,
-          "h": 22,
+          "x": 487.0,
+          "y": 257,
+          "w": 106,
+          "h": 20,
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
@@ -3089,7 +3144,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "id \u00b7 role \u00b7 content \u00b7 timestamp \u00b7 embedding*",
+          "text": "id · role · content · timestamp · embedding (hidden in UI)",
           "font": "Courier New",
           "fontSize": 11,
           "textColor": "0a6190",
@@ -3118,7 +3173,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Stable session_id survives restart. *Vectors stay out of the browser graph response.",
+          "text": "Resume by session_id. Read members through HAS_MESSAGE and sort by timestamp, then id.",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "ffffff",
@@ -3195,8 +3250,8 @@
         {
           "kind": "TEXT_BOX",
           "key": "conv_text",
-          "x": 33,
-          "y": 113,
+          "x": 308,
+          "y": 92,
           "w": 104,
           "h": 84,
           "text": "Conversation",
@@ -3210,8 +3265,8 @@
         {
           "kind": "TEXT_BOX",
           "key": "m0_text",
-          "x": 258,
-          "y": 121,
+          "x": 41,
+          "y": 214,
           "w": 88,
           "h": 68,
           "text": "Message 1\nuser",
@@ -3225,8 +3280,8 @@
         {
           "kind": "TEXT_BOX",
           "key": "m1_text",
-          "x": 517,
-          "y": 121,
+          "x": 223,
+          "y": 214,
           "w": 88,
           "h": 68,
           "text": "Message 2\nassistant",
@@ -3240,8 +3295,8 @@
         {
           "kind": "TEXT_BOX",
           "key": "m2_text",
-          "x": 258,
-          "y": 221,
+          "x": 405,
+          "y": 214,
           "w": 88,
           "h": 68,
           "text": "Message 3\nuser",
@@ -3255,8 +3310,8 @@
         {
           "kind": "TEXT_BOX",
           "key": "m3_text",
-          "x": 517,
-          "y": 221,
+          "x": 587,
+          "y": 214,
           "w": 88,
           "h": 68,
           "text": "Message 4\nassistant",
@@ -3267,7 +3322,8 @@
           "align": "CENTER",
           "transparent": true
         }
-      ]
+      ],
+      "description": "One conversation has four HAS_MESSAGE edges, one to each message. Three NEXT_MESSAGE edges link consecutive messages. History retrieval selects all conversation members, orders by timestamp and id, and supplies the latest turns in chronological order."
     },
     {
       "slide_id": "ram_slide_022",
@@ -3432,7 +3488,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "typed messages \u2192\nmessage_history",
+          "text": "typed messages →\nmessage_history",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "123c50",
@@ -3579,7 +3635,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Context.history \u2192 message_history; Context.prompt \u2192 instructions; Context.evidence \u2192 UI.",
+          "text": "Context.history → message_history; Context.prompt → instructions; Context.evidence → UI.",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "ffffff",
@@ -3692,7 +3748,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "scoped statements \u2192\ninstructions",
+          "text": "scoped statements →\ninstructions",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "123c50",
@@ -3771,7 +3827,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Types \u00b7 aliases\nRelation patterns",
+          "text": "Types · aliases\nRelation patterns",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "123c50",
@@ -3916,7 +3972,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Acme Cloud\u2026",
+          "text": "Acme Cloud…",
           "font": "Courier New",
           "fontSize": 10.5,
           "textColor": "0a6190",
@@ -4131,7 +4187,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "DEFAULT \u00b7 POLE+O",
+          "text": "DEFAULT · POLE+O",
           "font": "Public Sans",
           "fontSize": 13,
           "textColor": "0a6190",
@@ -4149,7 +4205,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "DOMAIN \u00b7 ACME CLOUD",
+          "text": "DOMAIN · ACME CLOUD",
           "font": "Public Sans",
           "fontSize": 13,
           "textColor": "0a6190",
@@ -4630,7 +4686,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Types \u00b7 relationships",
+          "text": "Types · relationships",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "123c50",
@@ -4706,7 +4762,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Wikimedia \u00b7 optional lab",
+          "text": "Wikimedia · optional lab",
           "font": "Public Sans",
           "fontSize": 14,
           "textColor": "123c50",
@@ -4850,7 +4906,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "email \u00b7 plan\nsignup_date\nhydrated_from",
+          "text": "email · plan\nsignup_date\nhydrated_from",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "123c50",
@@ -4908,7 +4964,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "description \u00b7 URL\nprovider status\nNo live graph write",
+          "text": "description · URL\nprovider status\nNo live graph write",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "123c50",
@@ -4937,7 +4993,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Live app: extract \u2192 hydrate \u2192 retrieve. Optional Wikimedia lab writes only cache + replay.",
+          "text": "Live app: extract → hydrate → retrieve. Optional Wikimedia lab writes only cache + replay.",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "ffffff",
@@ -5075,7 +5131,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "\u201cAcme Cloud\u201d",
+          "text": "“Acme Cloud”",
           "font": "Courier New",
           "fontSize": 10.5,
           "textColor": "0a6190",
@@ -5109,7 +5165,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "\u201cAcmeCloud\u201d",
+          "text": "“AcmeCloud”",
           "font": "Courier New",
           "fontSize": 10.5,
           "textColor": "0a6190",
@@ -5618,9 +5674,9 @@
         {
           "kind": "TEXT_BOX",
           "key": "init_label",
-          "x": 123.6,
-          "y": 218.0,
-          "w": 94.80000000000001,
+          "x": 97,
+          "y": 218,
+          "w": 105,
           "h": 22,
           "fill": "faf8f5",
           "stroke": null,
@@ -5648,8 +5704,8 @@
         {
           "kind": "TEXT_BOX",
           "key": "touch_label",
-          "x": 295.0,
-          "y": 223.0,
+          "x": 276,
+          "y": 218,
           "w": 90,
           "h": 22,
           "fill": "faf8f5",
@@ -5695,7 +5751,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "RECORDED RECEIPTS",
+          "text": "CHECK THE OPERATION",
           "font": "Public Sans",
           "fontSize": 11.5,
           "textColor": "0a6190",
@@ -5707,13 +5763,13 @@
           "kind": "TEXT_BOX",
           "key": "receipts_body",
           "x": 403,
-          "y": 275,
+          "y": 271,
           "w": 277,
-          "h": 45,
+          "h": 53,
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Trace: reply + outcome JSON\nToolCall: arguments + result + executed SQL",
+          "text": "The tool call carries arguments, result and executed SQL. The trace stores reply and outcome.",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "123c50",
@@ -5742,7 +5798,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Execution records, not hidden model thoughts. Policy decline and execution failure are distinct.",
+          "text": "Trace → step → tool call → tool. TOUCHED associates each captured step with its selected case.",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "ffffff",
@@ -5906,7 +5962,8 @@
           "align": "CENTER",
           "transparent": true
         }
-      ]
+      ],
+      "description": "A reasoning trace has a reasoning step. The step uses a tool call, which is an instance of a tool. A message initiated the trace. TOUCHED connects a step to the selected case customer and plan. The arguments, result and recorded SQL describe the operation."
     },
     {
       "slide_id": "ram_slide_042",
@@ -6134,7 +6191,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "cosine similarity \u2265 0.45\nup to 3 scoped matches",
+          "text": "cosine similarity ≥ 0.45\nup to 3 scoped matches",
           "font": "Public Sans",
           "fontSize": 11,
           "textColor": "0a6190",
@@ -6410,9 +6467,9 @@
         {
           "kind": "TEXT_BOX",
           "key": "ground2_label",
-          "x": 472,
-          "y": 204,
-          "w": 114,
+          "x": 476,
+          "y": 162,
+          "w": 110,
           "h": 20,
           "text": "GROUNDED_IN",
           "font": "Courier New",
@@ -6440,9 +6497,9 @@
         {
           "kind": "TEXT_BOX",
           "key": "ground3_label",
-          "x": 465,
-          "y": 276,
-          "w": 114,
+          "x": 456,
+          "y": 286,
+          "w": 110,
           "h": 20,
           "text": "GROUNDED_IN",
           "font": "Courier New",
@@ -6661,11 +6718,11 @@
         {
           "kind": "TEXT_BOX",
           "key": "stable_id",
-          "x": 38,
-          "y": 250,
-          "w": 156,
-          "h": 77,
-          "text": "Stable skillId\nNew versionId\nExplicit evidence links",
+          "x": 31,
+          "y": 241,
+          "w": 176,
+          "h": 91,
+          "text": "Same skillId\nNew versionId\nClaims in provenance.json",
           "font": "Public Sans",
           "fontSize": 12,
           "bold": false,
@@ -6697,7 +6754,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "A derived procedure with versioned steps and evidence. Grounding supports review; it does not prove correctness.",
+          "text": "A skill has versions. A version has steps. Each grounded step links to its source evidence.",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "ffffff",
@@ -6772,7 +6829,7 @@
           "strokeWidth": 1
         }
       ],
-      "notes": "Exact served pattern from lib/graph.py: Skill \u2192 HAS_VERSION \u2192 SkillVersion \u2192 HAS_STEP \u2192 SkillStep \u2192 GROUNDED_IN \u2192 evidence; newer version \u2192 SUPERSEDES \u2192 prior. Evidence nodes are returned with actual labels; \u201cAgent step\u201d names an evidence category, not a guessed label. The workshop query does not require SkillClaim nodes; claim records are in provenance.json. Tick NAMS in the UI.",
+      "notes": "Exact served pattern from lib/graph.py: Skill → HAS_VERSION → SkillVersion → HAS_STEP → SkillStep → GROUNDED_IN → evidence; newer version → SUPERSEDES → prior. Evidence nodes are returned with actual labels; “Agent step” names an evidence category, not a guessed label. The workshop query does not require SkillClaim nodes; claim records are in provenance.json. Tick NAMS in the UI.",
       "element_mapping": {
         "keep_or_update": [
           "call",
@@ -6822,7 +6879,8 @@
           "version_text"
         ],
         "rationale": "Delete obsolete conceptual claim circle and file-artifact panel; replace with actual Skill/SkillVersion/SkillStep hierarchy. Reuse entity/trace/call evidence circles and grounding relationship keys, keeping all graph records round."
-      }
+      },
+      "description": "Skill has a SkillVersion. A new version supersedes the previous version. Each SkillVersion has SkillSteps. A SkillStep can be grounded in entity, execution-step, or tool-call evidence. The package lists claim evidence separately in provenance.json."
     },
     {
       "slide_id": "ram_slide_051",
@@ -6837,7 +6895,7 @@
           "y": 103,
           "w": 662,
           "h": 29,
-          "text": "Start with provenance.json: groundedIn IDs from this skill\u2019s claims and steps.",
+          "text": "Instructor uses a disposable workspace. Inspect the skill ID and cited entity IDs first.",
           "font": "Public Sans",
           "fontSize": 13,
           "bold": true,
@@ -6866,7 +6924,7 @@
           "y": 159,
           "w": 139,
           "h": 31,
-          "text": "1 \u00b7 READ + DELETE",
+          "text": "1 · SQL POLICY",
           "font": "Public Sans",
           "fontSize": 12,
           "bold": true,
@@ -6884,7 +6942,7 @@
           "y": 195,
           "w": 137,
           "h": 115,
-          "text": "Cited entity IDs\nPrefer policy names\nElse: most-cited entity",
+          "text": "Read Pro limit\nToggle SQLite\nRead before → after",
           "font": "Public Sans",
           "fontSize": 12.5,
           "bold": false,
@@ -6913,7 +6971,7 @@
           "y": 159,
           "w": 139,
           "h": 31,
-          "text": "2 \u00b7 INSPECT",
+          "text": "2 · HOSTED DRIFT",
           "font": "Public Sans",
           "fontSize": 12,
           "bold": true,
@@ -6931,7 +6989,7 @@
           "y": 195,
           "w": 137,
           "h": 115,
-          "text": "One skillId\nRead drift status\nstaleClaims + staleSteps",
+          "text": "Delete cited entities\nRead status, staleClaims and staleSteps",
           "font": "Public Sans",
           "fontSize": 12.5,
           "bold": false,
@@ -6960,7 +7018,7 @@
           "y": 159,
           "w": 139,
           "h": 31,
-          "text": "3 \u00b7 RE-DISTILL",
+          "text": "3 · NEW VERSION",
           "font": "Public Sans",
           "fontSize": 12,
           "bold": true,
@@ -6978,7 +7036,7 @@
           "y": 195,
           "w": 137,
           "h": 115,
-          "text": "Same skillId\nNew SkillVersion\nInspect file + provenance",
+          "text": "Same skillId\nNew versionId\nDiff text and source IDs",
           "font": "Public Sans",
           "fontSize": 12.5,
           "bold": false,
@@ -7007,7 +7065,7 @@
           "y": 159,
           "w": 139,
           "h": 31,
-          "text": "4 \u00b7 VERIFY",
+          "text": "4 · RESTORE",
           "font": "Public Sans",
           "fontSize": 12,
           "bold": true,
@@ -7025,7 +7083,7 @@
           "y": 195,
           "w": 137,
           "h": 115,
-          "text": "Fresh-agent off / on\nCheck current SQL policy\nRestore the Pro limit",
+          "text": "Read SQL limit\nAt $150, toggle once\nAt $250, stop",
           "font": "Public Sans",
           "fontSize": 12.5,
           "bold": false,
@@ -7093,7 +7151,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "SQLite policy edits do not update NAMS memory. Check actual drift results; re-distillation is not policy synchronization.",
+          "text": "The $49 ticket fits both limits. A case between $150 and $250 would test the policy change.",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "ffffff",
@@ -7168,7 +7226,7 @@
           "strokeWidth": 1
         }
       ],
-      "notes": "Read skill.json/provenance.json; count groundedIn IDs; resolve entity IDs; delete policy-named cited entities, otherwise most-cited. Ask only the downloaded skillId for its drift report. staleClaims/staleSteps identify lost sources. Re-distillation generates a version of the same skill from current scoped memory, not current SQLite state. make policy-change toggles $250\u2194$150 and asks drift without synchronizing memory; final invocation restores default. Destructive entity deletion is instructor-led.",
+      "notes": "Check the starting SQL limit and record the before and after values. Hosted drift is measured separately by status, staleClaims and staleSteps after an instructor deletes cited hosted evidence. Inspect the new version and its source IDs. Restore SQL to 250 dollars only when needed. Re-distillation reads the selected hosted memory. The workshop consumer always runs a 49-dollar ticket.",
       "element_mapping": {
         "keep_or_update": [
           "contract",
@@ -7200,7 +7258,8 @@
           "provenance_scope"
         ],
         "rationale": "Reuse four process panels and connectors; replace Pro-search and all-skills drift claims with exact provenance-driven targeting and single-skill report."
-      }
+      },
+      "description": "Check the starting SQL limit and record the before and after values. Hosted drift is measured separately by status, staleClaims and staleSteps after an instructor deletes cited hosted evidence. Inspect the new version and its source IDs. Restore SQL to 250 dollars only when needed."
     },
     {
       "slide_id": "ram_slide_056",
@@ -7258,7 +7317,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "HOSTED \u00b7 DERIVED SKILLS",
+          "text": "HOSTED · DERIVED SKILLS",
           "font": "Public Sans",
           "fontSize": 10.5,
           "textColor": "0a6190",
@@ -7405,10 +7464,10 @@
         {
           "kind": "TEXT_BOX",
           "key": "init_label",
-          "x": 100.6,
-          "y": 228.0,
-          "w": 94.80000000000001,
-          "h": 22,
+          "x": 33,
+          "y": 225,
+          "w": 94.8,
+          "h": 20,
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
@@ -7435,10 +7494,10 @@
         {
           "kind": "TEXT_BOX",
           "key": "touched_label",
-          "x": 247.0,
-          "y": 249.0,
-          "w": 90,
-          "h": 22,
+          "x": 252,
+          "y": 294,
+          "w": 81,
+          "h": 20,
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
@@ -7471,7 +7530,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Three memory types form the foundation. Skills are derived applications; the workshop keeps these stores separate.",
+          "text": "Bolt links messages, entities and traces. Hosted skill versions link steps to their source evidence.",
           "font": "Public Sans",
           "fontSize": 12,
           "textColor": "ffffff",
@@ -7703,9 +7762,9 @@
         {
           "kind": "TEXT_BOX",
           "key": "ground_label",
-          "x": 575,
-          "y": 229,
-          "w": 107,
+          "x": 481,
+          "y": 224,
+          "w": 105,
           "h": 20,
           "text": "GROUNDED_IN",
           "font": "Courier New",
@@ -7806,7 +7865,7 @@
           "strokeWidth": 1
         }
       ],
-      "notes": "Bolt side is unchanged: conversations/messages/entities/recorded execution. Hosted side now shows the actual SkillVersion \u2192 SkillStep \u2192 evidence path; the complete Skill/HAS_VERSION chain is on the module5 graph slide. No cross-store graph edges or automatic migration are implied. Skill distillation derives a reusable artifact from selected memory.",
+      "notes": "Bolt side is unchanged: conversations/messages/entities/recorded execution. Hosted side now shows the actual SkillVersion → SkillStep → evidence path; the complete Skill/HAS_VERSION chain is on the module5 graph slide. No cross-store graph edges or automatic migration are implied. Skill distillation derives a reusable artifact from selected memory.",
       "element_mapping": {
         "keep_or_update": [
           "boltlabel",
@@ -7855,8 +7914,9 @@
           "host_step",
           "host_step_text"
         ],
-        "rationale": "Keep all Bolt-side objects and separate-store frames; replace conceptual claim\u2192evidence shortcut with version\u2192step\u2192evidence hierarchy, retaining the old claim key as SkillVersion for native identity reuse."
-      }
+        "rationale": "Keep all Bolt-side objects and separate-store frames; replace conceptual claim→evidence shortcut with version→step→evidence hierarchy, retaining the old claim key as SkillVersion for native identity reuse."
+      },
+      "description": "In the participant Bolt graph, a conversation has a message. The message mentions an entity. A trace is initiated by the message, has a step, and that step touches the selected case entity. In the hosted workspace, a skill version has a step grounded in source evidence."
     },
     {
       "slide_id": "ram_slide_058",
@@ -7896,7 +7956,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "BOLT \u00b7 DATABASE YOU CONTROL",
+          "text": "BOLT · DATABASE YOU CONTROL",
           "font": "Public Sans",
           "fontSize": 11.5,
           "textColor": "0a6190",
@@ -7914,7 +7974,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "AuraDB + client-side extraction\nPublic MemoryClient interfaces\nLocal Cypher retrieval helpers\n\nMemory-enabled apps: modules 2\u20135",
+          "text": "AuraDB + client-side extraction\nPublic MemoryClient interfaces\nLocal Cypher retrieval helpers\n\nMemory-enabled apps: modules 2–5",
           "font": "Public Sans",
           "fontSize": 14,
           "textColor": "123c50",
@@ -7954,7 +8014,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "HOSTED \u00b7 EARLY-ACCESS WORKFLOW",
+          "text": "HOSTED · EARLY-ACCESS WORKFLOW",
           "font": "Public Sans",
           "fontSize": 11.5,
           "textColor": "0a6190",
@@ -7972,7 +8032,7 @@
           "fill": "faf8f5",
           "stroke": null,
           "strokeWidth": 1,
-          "text": "Separate seeded workspace\nGenerate \u2192 poll \u2192 approve \u2192 publish\nZIP: SKILL.md + references + provenance\n\nFresh agent: file + business tools",
+          "text": "Separate seeded workspace\nGenerate → poll → approve → publish\nZIP: SKILL.md + references + provenance\n\nFresh agent: file + business tools",
           "font": "Public Sans",
           "fontSize": 14,
           "textColor": "123c50",
@@ -8076,7 +8136,7 @@
           "strokeWidth": 1
         }
       ],
-      "notes": "Support apps2\u20135 retain Bolt MemoryClient. Module5 workflows use REST for hosted seeding, generation, automated review and publication, ZIP download and provenance-driven drift. Fresh agent loads only SKILL.md into instructions; references/provenance support human inspection but are not automatically loaded. Current SQL tool checks remain authoritative.",
+      "notes": "Support apps2–5 retain Bolt MemoryClient. Module5 workflows use REST for hosted seeding, generation, automated review and publication, ZIP download and provenance-driven drift. Fresh agent loads only SKILL.md into instructions; references/provenance support human inspection but are not automatically loaded. Current SQL tool checks remain authoritative.",
       "element_mapping": {
         "keep_or_update": [
           "bolt_bg",
@@ -8138,7 +8198,7 @@
           "y": 94,
           "w": 320,
           "h": 22,
-          "text": "AGENT MEMORY \u00b7 persisted evidence",
+          "text": "AGENT MEMORY · persisted evidence",
           "font": "Public Sans",
           "fontSize": 11.5,
           "bold": true,
@@ -8349,7 +8409,7 @@
           "y": 273,
           "w": 126,
           "h": 53,
-          "text": "Observed patterns\n\u2192 procedure",
+          "text": "Observed patterns\n→ procedure",
           "font": "Public Sans",
           "fontSize": 12,
           "bold": false,
@@ -8627,6 +8687,169 @@
         ],
         "rationale": "Duplicate process-flow exemplar ram_slide_051; reuse mutate/report/distill/verify process panels and connectors with new conceptual roles. Add circular foundation record nodes and a linking conceptual arrow. Keep title/footer/progress and native Neo4j theme."
       }
+    },
+    {
+      "slide_id": "ram_design_044",
+      "file": "d20-refund-evidence.svg",
+      "title": "“Why did you issue\nthat refund?”",
+      "section": "Module 4",
+      "view_box": [
+        25,
+        249,
+        670,
+        93
+      ],
+      "background": "0a6190",
+      "elements": [
+        {
+          "key": "initiated",
+          "kind": "line",
+          "x1": 143,
+          "x2": 308,
+          "y1": 295,
+          "y2": 295,
+          "color": "ffffff",
+          "arrow": true,
+          "dash": false,
+          "width": 2.2
+        },
+        {
+          "key": "mentions",
+          "kind": "line",
+          "x1": 376,
+          "x2": 571,
+          "y1": 295,
+          "y2": 295,
+          "color": "ffffff",
+          "arrow": true,
+          "dash": false,
+          "width": 2.2
+        },
+        {
+          "kind": "ELLIPSE",
+          "key": "trace",
+          "x": 78,
+          "y": 264,
+          "w": 62,
+          "h": 62,
+          "fill": "657eff",
+          "stroke": "004063",
+          "strokeWidth": 1.2
+        },
+        {
+          "kind": "ELLIPSE",
+          "key": "message",
+          "x": 311,
+          "y": 264,
+          "w": 62,
+          "h": 62,
+          "fill": "657eff",
+          "stroke": "004063",
+          "strokeWidth": 1.2
+        },
+        {
+          "kind": "ELLIPSE",
+          "key": "entity",
+          "x": 574,
+          "y": 260,
+          "w": 70,
+          "h": 70,
+          "fill": "ffce47",
+          "stroke": "004063",
+          "strokeWidth": 1.2
+        },
+        {
+          "kind": "TEXT_BOX",
+          "key": "trace_text",
+          "x": 68,
+          "y": 264,
+          "w": 82,
+          "h": 62,
+          "font": "Public Sans",
+          "fontSize": 12,
+          "bold": true,
+          "textColor": "123c50",
+          "text": "Trace",
+          "align": "CENTER",
+          "fill": "0a6190",
+          "transparent": true,
+          "stroke": null,
+          "strokeWidth": 1
+        },
+        {
+          "kind": "TEXT_BOX",
+          "key": "message_text",
+          "x": 301,
+          "y": 264,
+          "w": 82,
+          "h": 62,
+          "font": "Public Sans",
+          "fontSize": 12,
+          "bold": true,
+          "textColor": "123c50",
+          "text": "Step",
+          "align": "CENTER",
+          "fill": "0a6190",
+          "transparent": true,
+          "stroke": null,
+          "strokeWidth": 1
+        },
+        {
+          "kind": "TEXT_BOX",
+          "key": "entity_text",
+          "x": 564,
+          "y": 260,
+          "w": 90,
+          "h": 70,
+          "font": "Public Sans",
+          "fontSize": 12,
+          "bold": true,
+          "textColor": "123c50",
+          "text": "Customer\nor Plan",
+          "align": "CENTER",
+          "fill": "0a6190",
+          "transparent": true,
+          "stroke": null,
+          "strokeWidth": 1
+        },
+        {
+          "kind": "TEXT_BOX",
+          "key": "initiated_label",
+          "x": 173,
+          "y": 263,
+          "w": 106,
+          "h": 24,
+          "font": "Courier New",
+          "fontSize": 11,
+          "bold": true,
+          "textColor": "ffffff",
+          "text": "HAS_STEP",
+          "align": "CENTER",
+          "fill": "004063",
+          "transparent": false,
+          "stroke": null,
+          "strokeWidth": 1
+        },
+        {
+          "kind": "TEXT_BOX",
+          "key": "mentions_label",
+          "x": 425,
+          "y": 263,
+          "w": 106,
+          "h": 24,
+          "font": "Courier New",
+          "fontSize": 11,
+          "bold": true,
+          "textColor": "ffffff",
+          "text": "TOUCHED",
+          "align": "CENTER",
+          "fill": "004063",
+          "transparent": false,
+          "stroke": null,
+          "strokeWidth": 1
+        }
+      ],
+      "description": "A trace has a step. The step touches the selected case customer or plan. This path identifies case context. Use the tool result, executed SQL and refund receipt to verify the action."
     }
   ],
   "content_review": "Current working-tree code synchronization; diagrams distinguish typed history, scoped evidence and lab snapshots.",
@@ -8646,5 +8869,11 @@
     "revision_id": "MFho-EresCn7HA",
     "module5_slide_count": 22,
     "verification": "slides/module5-verification.json"
+  },
+  "review_update": {
+    "record": "docs/deck-adversarial-review-2026-11-04.md",
+    "base_revision": "ljrRLR2cvxOB3w",
+    "focus": "Message membership, case-context provenance, visible graph lines, ordered diagram text and code emphasis.",
+    "delivered_revision": "htjzHi3Jv4yZgg"
   }
 }
