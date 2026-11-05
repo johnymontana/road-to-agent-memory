@@ -62,7 +62,7 @@ Module 5 can use a hosted NAMS workspace or the workshop’s checked-in procedur
 1. [Open this workshop in Codespaces](https://github.com/codespaces/new?repo=johnymontana/road-to-agent-memory), or use the local setup in the [workshop README](../README.md). Wait for setup to complete.
 2. Set `NEO4J_URI`, `NEO4J_USERNAME` and `NEO4J_PASSWORD` in your private `.env` if your personal secrets do not already supply them.
 3. Run `make check` from the repo root. It measures the median of five Bolt queries and checks required services. Record the failing check name if you need help. Share only redacted diagnostics.
-4. For the hosted route run `make nams-check`. Read both **workspace reachable** and **distillation enabled**. An unavailable or unconfirmed capability stops the check and prints the fallback command. A successful check reports the hosted publish thresholds.
+4. For the hosted route run `make nams-check`. Read both **workspace reachable** and **distillation enabled**. An unavailable or unconfirmed capability stops the check and prints the fallback command. A successful check reports the hosted publish thresholds, the workspace's active ontology and whether it accepts the workshop seed. If the workspace already carries a custom ontology from another project, create a separate workshop workspace and key.
 5. Stop here. Save hosted seeding, generation and publication for class. With a disabled capability or no key, plan to use the supplied procedure for the fresh-agent comparison. When finished, stop the codespace until the workshop.
 
 ## What will this cost me?

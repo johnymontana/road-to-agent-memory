@@ -8,7 +8,7 @@ The support app continues to use your Bolt/AuraDB memory. A separate hosted NAMS
 
 Sign in to the [NAMS console](https://memory.neo4jlabs.com/) and select Sign up if you need a Neo4j account. In the [API Keys dashboard](https://memory.neo4jlabs.com/dashboard/api-keys), choose the workshop workspace and create a workspace-bound data key. Keep the value private in a personal Codespaces secret or your local `.env`. The service origin is `https://memory.neo4jlabs.com`. The [pre-work guide](../prework-email.md) distinguishes private configuration from terminal commands.
 
-Run `make nams-check`. It reads workspace reachability and then checks whether distillation is enabled. It exits successfully only with confirmed distillation and prints the publish thresholds. If the check fails, follow its fallback command. Stop pre-work here. Seeding, generating and publishing are workshop actions.
+Run `make nams-check`. It reads workspace reachability and then checks whether distillation is enabled. It exits successfully only with confirmed distillation and prints the publish thresholds. It then reads the workspace's active ontology, because a custom ontology from another project can reject the workshop seed with HTTP 422, and reports whether a package already in `artifacts/distilled/` belongs to this workspace. If the check fails, follow its fallback command or switch to a workshop workspace without a custom ontology. Stop pre-work here. Seeding, generating and publishing are workshop actions.
 
 ## Choose your route
 

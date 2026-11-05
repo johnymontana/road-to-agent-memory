@@ -424,3 +424,117 @@ async def test_nams_graph_reads_object_rows_and_hides_large_documents(monkeypatc
     assert [n["id"] for n in result["nodes"]] == ["s", "v"]
     assert "skillMd" not in result["nodes"][1]["properties"]
     assert [r["id"] for r in result["relationships"]] == ["r"]
+
+
+async def test_seed_explains_an_ontology_rejection(monkeypatch, tmp_path):
+    """A workspace whose active ontology requires extra properties rejects the plain seed."""
+    paths = []
+
+    def handle(request):
+        paths.append(request.url.path)
+        assert request.url.path == "/v1/entities"
+        rejection = {
+            "active_ontology": {"id": "ont_7433bcbb406b", "revision": 1},
+            "error": "schema_violation",
+            "message": 'Type "person" is missing required properties: customer_id',
+            "missing_properties": ["customer_id"],
+        }
+        return httpx.Response(422, json=rejection)
+
+    connect(monkeypatch, handle, tmp_path)
+    with pytest.raises(SystemExit) as stop:
+        await seed.main()
+    message = str(stop.value)
+    assert "Maya Chen" in message and "ont_7433bcbb406b" in message
+    assert "make nams-check" in message and "WITH_SKILL=fallback" in message
+    assert paths == ["/v1/entities"]
+    assert not nams.seed_state_path(SimpleNamespace(data_dir=tmp_path)).exists()
+
+
+RIDGELINE = {
+    "ontology": {
+        "domain": {"name": "ridgeline-hardware-context"},
+        "entity_types": [
+            {
+                "label": "person",
+                "properties": [{"name": "customer_id", "required": True}, {"name": "email"}],
+            },
+            {"label": "project", "properties": [{"name": "status", "required": True}]},
+        ],
+    },
+    "version": {"ontology_id": "ont_7433bcbb406b", "validation_mode": "review"},
+}
+AGENT_MEMORY = {
+    "ontology": {
+        "domain": {"name": "agent-memory"},
+        "entity_types": [{"label": "person", "properties": [{"name": "email"}]}],
+    },
+    "version": {"validation_mode": "review"},
+}
+
+
+@pytest.mark.parametrize(
+    "workspace", ["default", "compatible", "conflict", "strict-undeclared", "foreign-package"]
+)
+def test_nams_check_reads_ontology_and_package(monkeypatch, tmp_path, capsys, workspace):
+    from lib import settings
+    from module_5.workflows import check
+
+    monkeypatch.setattr(
+        settings,
+        "get_settings",
+        lambda: SimpleNamespace(nams_api_key="test-key", nams_base_url="https://nams.test"),
+    )
+    monkeypatch.setattr(check, "SKILL_DIR", tmp_path)
+    if workspace == "foreign-package":
+        nams.write_json(tmp_path / "skill.json", {"skillId": "sk-other", "versionId": "sv-9"})
+    real_client = httpx.Client
+
+    def handle(request):
+        path = request.url.path
+        if path == "/v1/conversations":
+            return httpx.Response(200, json={"conversations": []})
+        if path == "/v1/skills/capabilities":
+            gates = {"distillation": True, "groundingThreshold": 0.9, "coverageThreshold": 0.6}
+            return httpx.Response(200, json=gates)
+        if path == "/v1/ontologies/active":
+            if workspace == "default":
+                return httpx.Response(404, json={"error": "no active ontology"})
+            if workspace == "conflict":
+                return httpx.Response(200, json=RIDGELINE)
+            if workspace == "strict-undeclared":
+                strict = {**AGENT_MEMORY, "version": {"validation_mode": "strict"}}
+                return httpx.Response(200, json=strict)
+            return httpx.Response(200, json=AGENT_MEMORY)
+        if path == "/v1/skills":
+            skills = [{"id": "sk-1", "name": "acme-refund-procedure", "status": "published"}]
+            return httpx.Response(200, json={"skills": skills if workspace != "default" else []})
+        if path == "/v1/skills/sk-other":
+            return httpx.Response(404, json={"error": "skill not found"})
+        raise AssertionError(path)
+
+    monkeypatch.setattr(
+        httpx, "Client", lambda **kw: real_client(**kw, transport=httpx.MockTransport(handle))
+    )
+    code = check.main()
+    out = capsys.readouterr().out
+    if workspace in ("conflict", "strict-undeclared"):
+        assert code == 1
+        assert "would reject make nams-seed" in out
+        assert "WITH_SKILL=fallback" in out
+        if workspace == "conflict":
+            assert "person requires customer_id" in out and "project" not in out
+        else:
+            assert "organization is not declared" in out
+        return
+    assert code == 0, out
+    assert "distillation enabled" in out
+    if workspace == "default":
+        assert "Default ontology" in out and "No acme-refund-procedure skill" in out
+    else:
+        assert "agent-memory" in out and "accepts the seed" in out
+        assert "acme-refund-procedure: published" in out
+    if workspace == "foreign-package":
+        assert "not in this workspace" in out and "HTTP 404" in out
+    else:
+        assert "not in this workspace" not in out

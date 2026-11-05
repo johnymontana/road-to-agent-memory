@@ -99,7 +99,7 @@ billing case, tick **Authorize**, request the refund, then ask again.
 
 | Command | What it does |
 |---|---|
-| `make nams-check` | Checks the key and that distillation is enabled |
+| `make nams-check` | Checks the key, that distillation is enabled and that the workspace accepts the seed |
 | `make nams-seed` | Writes refund history and traces to your NAMS workspace (run once) |
 | `make nams-distill` | Distills, approves and publishes a skill (~1–2 min); downloads `artifacts/distilled/` |
 | `make s5-fresh-agent WITH_SKILL=off` | A fresh agent with no memory and no skill |
@@ -149,7 +149,7 @@ RUN_BEHAVIORAL=1 uv run pytest tests/test_behavioral.py -v  # live Neo4j + OpenA
 ```
 
 Instructor timing: [run of show](docs/run-of-show.md). Latest live run:
-[rehearsal notes](docs/workshop-rehearsal-2026-11-04.md). Contributor guidance:
+[final run-through notes](docs/workshop-rehearsal-2026-11-05.md). Contributor guidance:
 [AGENTS.md](AGENTS.md).
 
 Workshop materials for a Neo4j Labs project: experimental, community-supported,

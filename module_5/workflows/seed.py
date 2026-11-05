@@ -17,6 +17,8 @@ import sys
 from pathlib import Path
 from uuid import uuid4
 
+import httpx
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 POLICY_NAME = "Acme Cloud Refund Policy"
@@ -149,6 +151,23 @@ TRACES = [
 ]
 
 
+def schema_rejection(entity: dict, response: httpx.Response) -> str:
+    """Explain an HTTP 422: the workspace's active ontology does not accept a plain seed entity."""
+    try:
+        detail = response.json()
+    except ValueError:
+        detail = {}
+    ontology = (detail.get("active_ontology") or {}).get("id", "custom")
+    reason = detail.get("message") or response.text[:200]
+    return (
+        f"NAMS rejected the seed entity {entity['name']!r} ({entity['type']}): {reason}\n"
+        f"This workspace's active ontology ({ontology}) requires more than the workshop seed "
+        "provides. Point NAMS_API_KEY at a workshop workspace without a custom ontology "
+        "(make nams-check reports it), then run make nams-seed again.\n"
+        "Fallback: make s5-fresh-agent WITH_SKILL=fallback"
+    )
+
+
 async def main() -> None:
     from lib.settings import get_settings
     from module_5.workflows.nams import call, client, seed_state_path, write_json
@@ -159,7 +178,12 @@ async def main() -> None:
         print("Seeding entities…")
         entity_ids: dict[str, str] = {}
         for entity in ENTITIES:
-            body = await call(http, "POST", "/v1/entities", {**entity, "userId": user_id})
+            try:
+                body = await call(http, "POST", "/v1/entities", {**entity, "userId": user_id})
+            except httpx.HTTPStatusError as error:
+                if error.response.status_code != 422:
+                    raise
+                sys.exit(schema_rejection(entity, error.response))
             # 201 creates it; 200 means it resolved onto an existing entity.
             entity_ids[entity["name"]] = body.get("id") or body.get("merged_into")
 
